@@ -5,8 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Roboto } from "next/font/google";
 import Providers from "@/app/providers";
-import Header from "@/shared/ui/Header";
-import NavBar from "@/shared/ui/NavBar";
+import TopBar from "@/shared/ui/TopBar";
 import Footer from "@/shared/ui/Footer";
 
 import "./globals.css";
@@ -54,10 +53,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <main className="flex-1">
-              <header className="h-11.5">
-                <Header />
-              </header>
-              <NavBar />
+              <TopBar />
               {children}
               <Footer />
             </main>

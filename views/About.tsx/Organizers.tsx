@@ -9,16 +9,16 @@ function Organizers() {
   const t = useTranslations("Organizers");
 
   return (
-    <div className="py-15 lg:py-20">
+    <div className="mt-15 lg:mt-18">
       <SectionHeading title={t("title")} />
 
-      <ul className="mt-8 flex flex-wrap justify-between gap-5">
+      <ul className="mt-8 grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 justify-items-center gap-5">
         {logos.map((n) => (
           <li
             key={n}
-            className="sponsorShadow flex h-[170px] w-[220px] items-center justify-center rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm"
+            className="sponsorShadow flex h-28 w-33 lg:h-42 lg:w-54  rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm"
           >
-            <div className="relative h-full w-full">
+            <div className="relative h-full w-full ">
               <Image
                 src={`/logos/${n}.svg`}
                 alt={`Organizer logo ${n}`}

@@ -32,19 +32,19 @@ function NewsCard({
         />
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-3">
+      <div className="flex flex-1 flex-col gap-1 lg:gap-2 p-3">
         <span className="text-sm text-brand-blue-dark/60">{tag}</span>
 
-        <h3 className="line-clamp-2 text-xl font-roboto">{title}</h3>
+        <h3 className="line-clamp-2 text-lg lg:text-xl font-roboto">{title}</h3>
 
-        <div className="mt-auto flex flex-col pt-2">
+        <div className="mt-auto flex flex-col lg:pt-2">
           <span className="text-sm text-brand-gray text-left">{date}</span>
 
           <Link
             href={href}
-            className="group flex items-center justify-end gap-2 text-brand-blue transition hover:text-brand-blue/80"
+            className="group flex items-center justify-end gap-2 text-brand-blue transition hover:text-brand-blue/80 font-bold"
           >
-            <span className="leading-none text-base uppercase">{more}</span>
+            <span className="leading-none text-base uppercase ">{more}</span>
             <GoArrowUpRight className="size-4 shrink-0 mb-0.5 self-center transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
         </div>

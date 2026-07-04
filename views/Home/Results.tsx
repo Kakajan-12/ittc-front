@@ -24,19 +24,21 @@ function Results() {
       <div className="container mx-auto px-4 lg:px-10 relative py-15 lg:py-20 z-0">
         <SectionHeading title={t("title")} />
 
-        <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
+        <dl className="mt-8 grid grid-cols-2 gap-x-3 lg:gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
           {stats.map(({ key, value }) => (
             <div key={key} className="relative">
               <span
                 aria-hidden
-                className="pointer-events-none absolute -top-3 left-0 select-none font-capitana text-7xl font-bold leading-none text-white/15 sm:text-7xl"
+                className="pointer-events-none absolute -top-3 left-0 select-none font-capitana text-6xl font-bold leading-none text-white/15 sm:text-7xl"
               >
                 {value}
               </span>
               <dd className="relative font-capitana text-4xl leading-none sm:text-5xl">
                 {value}
               </dd>
-              <dt className="relative mt-3 text-base text-results">{t(key)}</dt>
+              <dt className="relative mt-3 text-base font-capitana text-results">
+                {t(key)}
+              </dt>
             </div>
           ))}
         </dl>

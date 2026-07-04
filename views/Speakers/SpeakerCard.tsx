@@ -10,15 +10,17 @@ function SpeakerCard({
   return (
     <article
       id={id}
-      className="flex flex-col overflow-hidden rounded bg-white sponsorShadow"
+      className="flex flex-col overflow-hidden rounded bg-white sponsorShadow h-full"
     >
-      <div className="aspect-4/3 w-full bg-[#D9D9D9]" />
+      <div className="aspect-square w-full bg-[#D9D9D9]" />
 
-      <div className="flex flex-col gap-2 p-4">
-        <h3 className="text-lg font-roboto font-semibold text-brand-blue-dark">
+      <div className="flex flex-col lg:gap-2 p-3 lg:p-4">
+        <h3 className="text-base lg:text-lg font-roboto font-semibold text-brand-blue-dark">
           {name}
         </h3>
-        <p className="text-base leading-6 text-brand-gray">{description}</p>
+        <p className="text-sm lg:text-base text-brand-gray line-clamp-4">
+          {description}
+        </p>
       </div>
     </article>
   );

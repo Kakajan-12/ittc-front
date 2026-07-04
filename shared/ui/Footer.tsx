@@ -103,7 +103,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 lg:px-10 pt-15 md:pt-20 relative z-30">
         <div className="mainContent flex flex-col  md:flex-row justify-between gap-10 pb-10">
           <div className="flex flex-col justify-between gap-9">
-            <div className="flex flex-col items-start justify-between h-full gap-9">
+            <div className="flex flex-col items-start justify-between h-full gap-7 lg:gap-9">
               <Image src="/logo.svg" alt="Oguz Forum" width={248} height={60} />
 
               <ul className="flex items-center gap-4">
@@ -183,7 +183,7 @@ export default function Footer() {
           <span className="text-white text-xs font-normal">
             © {new Date().getFullYear()}, {t("copyright")}
           </span>
-          <div className="flex gap-3.5 text-xs font-normal text-white">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3.5 text-xs font-normal text-white">
             <Link
               href="/terms"
               className="transition-colors hover:text-white/70"

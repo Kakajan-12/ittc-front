@@ -14,10 +14,10 @@ function News() {
       <div className="container mx-auto px-4 lg:px-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <SectionHeading title={t("title")} />
-          <Button text={t("more")} href="/news" className="hidden lg:block" />
+          <Button text={t("more")} href="/news" className="hidden lg:flex" />
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="lg:mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {news.map((_, i) => (
             <NewsCard
               key={i}
@@ -30,7 +30,7 @@ function News() {
             />
           ))}
         </div>
-        <Button text={t("more")} href="/news" className="block lg:hidden" />
+        <Button text={t("more")} href="/news" className="flex lg:hidden" />
       </div>
     </section>
   );

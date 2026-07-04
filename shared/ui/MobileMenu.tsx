@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
@@ -36,7 +36,7 @@ export default function MobileMenu({
       <div
         role="dialog"
         aria-modal="true"
-        className={`fixed inset-y-0 right-0 z-80 flex w-4/5 max-w-sm flex-col overflow-y-auto bg-white px-6 py-6 shadow-2xl transition-transform duration-300 ${
+        className={`fixed inset-y-0 right-0 z-80 flex w-4/5 max-w-sm flex-col overflow-y-auto bg-white px-6 py-10 shadow-2xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -49,26 +49,26 @@ export default function MobileMenu({
           <IoClose className="size-7 text-brand-blue" />
         </button>
 
-        <nav className="mt-6 flex flex-col gap-7">
+        <nav className="mt-10 flex flex-col gap-7">
           <Link
             href="/"
             onClick={onClose}
-            className="text-lg font-bold text-black transition hover:text-brand-blue"
+            className="text-base font-roboto transition hover:text-brand-blue"
           >
             {homeLabel}
           </Link>
 
           {items.map((item) =>
             item.children ? (
-              <div key={item.key} className="flex flex-col gap-4">
+              <div key={item.key} className="flex flex-col gap-5">
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="text-lg font-bold text-black transition hover:text-brand-blue"
+                  className="text-base font-roboto transition hover:text-brand-blue"
                 >
                   {item.label}
                 </Link>
-                <ul className="flex flex-col gap-4 pl-1">
+                <ul className="flex flex-col gap-6 pl-2.5 text-brand-gray">
                   {item.children.map((child) => {
                     const active = pathname === child.href;
                     return (

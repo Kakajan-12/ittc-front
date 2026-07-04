@@ -14,56 +14,15 @@ export type NavItem = {
   children?: { label: string; href: string }[];
 };
 
-// function NavDropdown({ item }: { item: NavItem }) {
-//   const [open, setOpen] = useState(false);
-//   const ref = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const onDoc = (e: MouseEvent) => {
-//       if (ref.current && !ref.current.contains(e.target as Node)) {
-//         setOpen(false);
-//       }
-//     };
-//     document.addEventListener("click", onDoc);
-//     return () => document.removeEventListener("click", onDoc);
-//   }, []);
-
-//   return (
-//     <div className="relative" ref={ref}>
-//       <button
-//         type="button"
-//         onClick={() => setOpen((v) => !v)}
-//         aria-expanded={open}
-//         className="flex items-center gap-1.5 py-2 text-base text-white/90 transition hover:text-white"
-//       >
-//         {item.label}
-//         <FaChevronDown
-//           className={`size-3 transition ${open ? "rotate-180" : ""}`}
-//           aria-hidden
-//         />
-//       </button>
-//       {open ? (
-//         <div className="absolute left-0 top-full z-50 mt-2 min-w-52 rounded-md border border-white/10 bg-brand-blue-dark py-2 shadow-xl">
-//           {item.children?.map((child) => (
-//             <Link
-//               key={child.href}
-//               href={child.href}
-//               onClick={() => setOpen(false)}
-//               className="block px-4 py-2 text-sm text-white/80 transition hover:bg-white/10 hover:text-white"
-//             >
-//               {child.label}
-//             </Link>
-//           ))}
-//         </div>
-//       ) : null}
-//     </div>
-//   );
-// }
-
-export default function NavBar() {
+export default function NavBar({
+  menuOpen,
+  setMenuOpen,
+}: {
+  menuOpen: boolean;
+  setMenuOpen: (open: boolean) => void;
+}) {
   const t = useTranslations("Navbar");
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -148,9 +107,9 @@ export default function NavBar() {
           onClick={() => setMenuOpen(true)}
           aria-label={t("openMenu")}
           aria-expanded={menuOpen}
-          className="flex items-center justify-center rounded-md bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 md:hidden"
+          className=" flex items-center justify-center rounded bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 md:hidden"
         >
-          <FiMenu className="size-6" />
+          <FiMenu className="size-5" />
         </button>
       </div>
 

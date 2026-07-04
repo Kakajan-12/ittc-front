@@ -6,9 +6,13 @@ import { FiPhone } from "react-icons/fi";
 import LangSwitcher from "../LangSwither";
 import { Link } from "@/i18n/navigation";
 
-function Header() {
+function Header({ menuOpen = false }: { menuOpen?: boolean }) {
   return (
-    <div className="bg-brand-blue-dark fixed top-0 left-0 right-0 z-60 h-11.5">
+    <div
+      className={`bg-brand-blue-dark fixed top-0 left-0 right-0 h-11.5 ${
+        menuOpen ? "z-70" : "z-80"
+      }`}
+    >
       <div className="container mx-auto px-4 lg:px-10 py-1 header-content flex justify-between items-center text-white">
         <Link href="/" className="header-logo">
           <Image src="/logoOguz.svg" alt="ITTC" width={100} height={100} />
@@ -33,7 +37,7 @@ function Header() {
                 <span>info@oguzforum.com</span>
               </a>
             </li>
-            <li className="flex items-center gap-2">
+            <li className=" flex items-center gap-2">
               <LangSwitcher isOpen={true} />
             </li>
           </ul>
