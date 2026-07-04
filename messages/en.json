@@ -1,0 +1,173 @@
+{
+  "Meta": {
+    "title": "ITTC",
+    "description": "International Transport & Transit Corridors Conference"
+  },
+  "Header": {
+    "ru": "RU",
+    "tk": "TK",
+    "en": "EN"
+  },
+  "Navbar": {
+    "logoAlt": "ITTC 2026 — International Conference & Expo",
+    "home": "Home",
+    "openMenu": "Open menu",
+    "about": "About The Event",
+    "agenda": "Agenda",
+    "speakers": "Speakers",
+    "sponsors": "Sponsors",
+    "support": "Official Support",
+    "faq": "FAQ",
+    "travel": "Travel & Accommodation Guide",
+    "visa": "Apply for Visa",
+    "flight": "Book a Flight",
+    "hotel": "Book a Hotel",
+    "news": "News",
+    "register": "Register"
+  },
+  "Hero": {
+    "title": "International Transport & Transit Corridors Conference 2026",
+    "date": "24 - 26 November 2026",
+    "location": "Ashgabat, Turkmenistan",
+    "agenda": "Agenda",
+    "organizers": "Organizers",
+    "sponsors": "Sponsors",
+    "brochure": "Brochure",
+    "faq": "FAQ"
+  },
+  "About": {
+    "title": "About the event",
+    "text": "The International Transport & Transit Corridors Conference brings together policymakers, industry leaders, and experts to shape the future of regional connectivity. Over three days in Ashgabat, participants will explore new trade routes, logistics innovations, and partnership opportunities across Central Asia and beyond.",
+    "more": "More about event",
+    "playAlt": "Play the event video"
+  },
+
+  "Results": {
+    "title": "ITTC 2025 Results",
+    "speakers": "Speakers",
+    "delegates": "Delegates",
+    "countries": "Countries",
+    "sponsors": "Sponsors",
+    "sessions": "Main Sessions"
+  },
+  "Organizers": {
+    "title": "Organizers & Official Supporters"
+  },
+  "Sponsorship": {
+    "title": "Sponsorship opportunities",
+    "text": "Partner with ITTC 2026 to position your brand at the center of innovation and collaboration. Our sponsorship packages are designed to maximize visibility, generate meaningful business connections, and create lasting engagement with industry professionals. \n From brand recognition across conference channels to exclusive networking and exhibition opportunities, every package delivers measurable value while allowing you to choose the level of participation that best fits your goals.",
+    "more": "View Sponsorship Prospectus"
+  },
+  "Sponsors": {
+    "title": "Sponsors"
+  },
+  "Speakers": {
+    "title": "Speakers",
+    "more": "View all speakers"
+  },
+  "News": {
+    "title": "News",
+    "more": "View all news",
+    "tag": "#Official news",
+    "details": "More details",
+    "sampleTitle": "Turkmenistan's Capital Day is celebrated with festive events and an international exhibition",
+    "sampleDate": "10 June, 2026"
+  },
+  "Footer": {
+    "title": "Through connections",
+    "ru": "RU",
+    "tk": "TK",
+    "en": "EN",
+    "agenda": "Agenda",
+    "speakers": "Speakers",
+    "sponsors": "Sponsors",
+    "brochure": "Brochure",
+    "news": "News",
+    "support": "Official Support",
+    "register": "Register",
+    "faq": "FAQ",
+    "info": "Information",
+    "links": "Useful Links",
+    "contact": "Contact",
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "cookie": "Cookie terms",
+    "copyright": "All rights Reserved"
+  },
+  "Cookie": {
+    "title": "Cookies Policy",
+    "description": "Optimizing your experience through responsible cookie usage.",
+    "text": "We use cookies to improve your experience on our website and to analyze site traffic. By continuing to use the website, you agree to our Cookies Policy."
+  },
+  "Privacy": {
+    "title": "Privacy Policy",
+    "description": "Protecting your data with transparency, security, and care.",
+    "sections": [
+      {
+        "title": "1. General Provisions",
+        "body": "This Privacy Policy defines the procedure for processing and protecting personal data of users of the website oguzforum.com (hereinafter referred to as the \"Website\") and applies to all information that the Website Administration may obtain about the user while using the Website."
+      },
+      {
+        "title": "2. Data Collection",
+        "body": "We may collect the following data:",
+        "items": [
+          "Personal data provided by the user (name, email address, phone number, etc.);",
+          "Website usage data (IP address, browser type, device information, etc.)."
+        ]
+      },
+      {
+        "title": "3. Data Usage",
+        "body": "Collected data is used to:",
+        "items": [
+          "Improve website performance and user experience;",
+          "Communicate with users and respond to inquiries."
+        ]
+      },
+      {
+        "title": "4. Data Sharing with Third Parties",
+        "body": "We do not share users' personal data with third parties without their consent, except when required by law or necessary to provide our services."
+      },
+      {
+        "title": "5. Data Security",
+        "body": "The Website Administration takes all reasonable organizational and technical measures to protect users' personal data from unauthorized access, modification, disclosure, or destruction."
+      },
+      {
+        "title": "6. Data Retention",
+        "body": "Your data is stored only as long as necessary to provide our services or meet legal requirements."
+      },
+      {
+        "title": "7. User Rights",
+        "body": "You have the right to:",
+        "items": [
+          "Request access to your data.",
+          "Correct or delete your data.",
+          "Withdraw consent for data processing at any time."
+        ]
+      },
+      {
+        "title": "8. Policy Updates",
+        "body": "We may update this policy. All changes will be posted on the website with the effective date."
+      },
+      {
+        "title": "9. Contact",
+        "body": "If you have any questions regarding this privacy policy, please contact us at:",
+        "items": ["+99361480080", "info@oguzforum.com"]
+      }
+    ]
+  },
+  "Terms": {
+    "title": "Terms of Use",
+    "description": "Clear terms guiding the fair and lawful use of our website.",
+    "paragraphs": [
+      "Welcome to Oguz forum | expo. By accessing and using this website, you agree to comply with these Terms of Use. If you do not agree with any part of these terms, please discontinue use of the website.",
+      "The content provided on this website is intended for general informational purposes only. While we make reasonable efforts to ensure that all information is accurate and up to date, we make no representations or warranties regarding the completeness, accuracy, reliability, or availability of any content on the website.",
+      "All materials published on this website, including text, graphics, images, logos, documents, and other content, are the property of Oguz forum | expo or are used with appropriate permission and are protected by applicable intellectual property laws. No part of this website may be copied, reproduced, distributed, or used for commercial purposes without prior written consent.",
+      "You agree to use this website only for lawful purposes and in a manner that does not interfere with its operation, security, or accessibility. Any attempt to gain unauthorized access to the website, its systems, or related services is strictly prohibited.",
+      "This website may contain links to third-party websites. Such links are provided for convenience only, and we are not responsible for the content, policies, or practices of any external websites.",
+      "To the fullest extent permitted by applicable law, Oguz forum | expo shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from the use of, or inability to use, this website or any information contained within it.",
+      "We reserve the right to update or modify these Terms of Use at any time without prior notice. Continued use of the website following any changes constitutes acceptance of the revised terms."
+    ],
+    "contact": "If you have any questions regarding these Terms of Use, please contact us at",
+    "email": "info@oguzforum.com"
+  }
+}

@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "BF";
+  src: url("/fonts/BF_TEXT/BF_TEXT_REGULAR.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Capitana";
+  src: url("/fonts/Fontspring-DEMO-capitana-medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ProximaNova";
+  src: url("/fonts/ProximaNova-Regular.ttf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+/* @font-face {
+  font-family: "BF";
+  src: url("/fonts/BF_TEXT/BF_SUB_HEADLINE_BOLD.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+} */
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --brand-blue: #009fe3;
+  --brand-blue-dark: #00008b;
+  --brand-gray: #52585b;
+  --results: #c3d1d9;
+  --font-bf: "BF", sans-serif;
+  --font-capitana: "Capitana", sans-serif;
+  --font-proxima-nova: "ProximaNova", sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-blue-dark: var(--brand-blue-dark);
+  --color-brand-gray: var(--brand-gray);
+  --color-results: var(--results);
+  --font-bf: var(--font-bf);
+  --font-roboto: var(--font-roboto);
+  --font-capitana: var(--font-capitana);
+  --font-proxima-nova: var(--font-proxima-nova);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  max-width: 1420px;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-bf);
+  font-weight: 500;
+}
+a,
+button,
+article {
+  cursor: pointer;
+}
+.sponsorShadow {
+  box-shadow: 0px 0px 4px 0px #00000040;
+
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  }
+}
+
+.footer-collapse .ant-collapse-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+.footer-collapse .ant-collapse-header {
+  align-items: center !important;
+  padding: 12px 0 !important;
+}
+.footer-collapse .ant-collapse-expand-icon,
+.footer-collapse .ant-collapse-expand-icon svg {
+  color: #fff;
+}
+.footer-collapse a {
+  color: #fff !important;
+}
+.footer-collapse a:hover {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

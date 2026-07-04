@@ -1,0 +1,172 @@
+{
+  "Meta": {
+    "title": "OGUZ FORUM",
+    "description": "Forum ýagdaýlaryny ýaýyň we projektlaryny düşündirmek üçin."
+  },
+  "Header": {
+    "ru": "RU",
+    "tk": "TK",
+    "en": "EN"
+  },
+  "Navbar": {
+    "logoAlt": "ITTC 2026 — Halkara maslahat we sergi",
+    "home": "Baş sahypa",
+    "openMenu": "Menýuny aç",
+    "about": "Çäre barada",
+    "agenda": "Meýilnama",
+    "speakers": "Çykyş edýänler",
+    "sponsors": "Hemaýatkärler",
+    "support": "Resmi goldaw",
+    "faq": "FAQ",
+    "travel": "Syýahat we ýaşaýyş jaý gollanmasy",
+    "visa": "Wiza almak üçin ýüz tutmak",
+    "flight": "Uçar biletini bron etmek",
+    "hotel": "Myhmanhana bron etmek",
+    "news": "Habarlar",
+    "register": "Hasaba durmak"
+  },
+  "Hero": {
+    "title": "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
+    "date": "2026-njy ýylyň 24-26-njy noýabry",
+    "location": "Aşgabat, Türkmenistan",
+    "agenda": "Maksatnama",
+    "organizers": "Guramaçylar",
+    "sponsors": "Hemaýatkärler",
+    "brochure": "Broşýura",
+    "faq": "Sowallar"
+  },
+  "About": {
+    "title": "Çäre barada",
+    "text": "Halkara ulag we üstaşyr geçelgeleri maslahaty sebitleýin arabaglanyşygyň geljegini kesgitlemek üçin döwlet wekillerini, pudak ýolbaşçylaryny we hünärmenleri bir ýere jemleýär. Aşgabatdaky üç günüň dowamynda gatnaşyjylar täze söwda ýollaryny, logistika täzeliklerini we Merkezi Aziýada hem-de onuň çäginden daşarda hyzmatdaşlyk mümkinçiliklerini ara alyp maslahatlaşarlar.",
+    "more": "Çäre barada giňişleýin",
+    "playAlt": "Çäre baradaky wideony görmek"
+  },
+  "Results": {
+    "title": "ITTC 2025 netijeleri",
+    "speakers": "Çykyş edýänler",
+    "delegates": "Wekiller",
+    "countries": "Ýurtlar",
+    "sponsors": "Hemaýatkärler",
+    "sessions": "Esasy mejlisler"
+  },
+  "Organizers": {
+    "title": "Guramaçylar we resmi hemaýatkärler"
+  },
+  "Sponsorship": {
+    "title": "Hemaýatkärlik mümkinçilikleri",
+    "text": "Brendiňizi innowasiýalaryň we hyzmatdaşlygyň merkezinde ýerleşdirmek üçin ITTC 2026-nyň hyzmatdaşy boluň. Biziň hemaýatkärlik paketlerimiz brendiňiziň tanyşlygyny maksimal derejede artdyrmak, ähmiýetli işewürlik gatnaşyklaryny ýola goýmak we pudagyň hünärmenleri bilen dowamly hyzmatdaşlygy döretmek üçin niýetlenendir. \n Maslahatyň ähli ugurlarynda brendiňiziň ykrar edilmeginden başlap, aýratyn aragatnaşyk (networing) we sergi mümkinçiliklerine çenli her bir paket netijeli gymmatlyk hödürleýär we size maksatlaryňyza iň laýyk gelýän gatnaşyk derejesini saýlamaga mümkinçilik berýär.",
+    "more": "Hemaýatkärlik bukletini görkez"
+  },
+  "Sponsors": {
+    "title": "Hemaýatkärler"
+  },
+  "Speakers": {
+    "title": "Çykyş edýänler",
+    "more": "Ähli çykyş edýänleri görkez"
+  },
+  "News": {
+    "title": "Habarlar",
+    "more": "Ähli habarlar",
+    "tag": "#Resmi habarlar",
+    "details": "Giňişleýin",
+    "sampleTitle": "Türkmenistanyň paýtagt güni baýramçylyk çäreleri we halkara sergisi bilen bellenilýär",
+    "sampleDate": "10 iýun, 2026"
+  },
+  "Footer": {
+    "title": "Teswirler arasynda",
+    "ru": "RU",
+    "tk": "ТК",
+    "en": "EN",
+    "agenda": "Meýilnama",
+    "speakers": "Çykyş edýänler",
+    "sponsors": "Hemaýatkärler",
+    "brochure": "Broşýura",
+    "news": "Habarlar",
+    "support": "Resmi goldaw",
+    "register": "Hasaba durmak",
+    "faq": "FAQ",
+    "info": "Mazmuny",
+    "links": "Peýdaly ssylkalar",
+    "contact": "Kontaktlar",
+    "terms": "Wep sahypasy ulanýan sözleri",
+    "privacy": "Mazmunyň sözleri",
+    "cookie": "Kuki syasatýy",
+    "copyright": "Bütün huşú"
+  },
+  "Cookie": {
+    "title": "Cookie syasaty",
+    "description": "Cookie faýllaryny jogapkärli ulanmak arkaly tejribenizi kämilleşdirmek.",
+    "text": "Biz web sahypamyzdaky tejribenizi gowulandurmak we sahypanyň trafigini seljermek üçin kuki faýllaryny ulanýarys. Web sahypany ulanmagy dowam etdirmek bilen, siz biziň Kuki syasatymyz bilen ylalaşýarsyňyz."
+  },
+  "Privacy": {
+    "title": "Gizlinlik syasaty",
+    "description": "Maglumatlaryňyzy aç-açanlyk, howpsuzlyk we üns bilen goramak.",
+    "sections": [
+      {
+        "title": "1. Umumy düzgünler",
+        "body": "Bu Gizlinlik syasaty oguzforum.com web sahypasynyň (mundan beýläk — \"Sahypa\") ulanyjylarynyň şahsy maglumatlaryny işlemegiň we goramagyň tertibini kesgitleýär we Sahypany ulanmak wagtynda Sahypanyň dolandyryşy tarapyndan ulanyjy hakda alnyp bilinjek ähli maglumatlara degişlidir."
+      },
+      {
+        "title": "2. Maglumatlary ýygnamak",
+        "body": "Biz aşakdaky maglumatlary ýygnap bileris:",
+        "items": [
+          "Ulanyjy tarapyndan berlen şahsy maglumatlar (ady, e-poçta salgysy, telefon belgisi we ş.m.);",
+          "Sahypany ulanmak maglumatlary (IP salgy, brauzeriň görnüşi, enjam barada maglumat we ş.m.)."
+        ]
+      },
+      {
+        "title": "3. Maglumatlary ulanmak",
+        "body": "Ýygnalýan maglumatlar şular üçin ulanylýar:",
+        "items": [
+          "Sahypanyň işini we ulanyjy tejribesini gowulandyrmak;",
+          "Ulanyjylar bilen aragatnaşyk saklamak we soraglara jogap bermek."
+        ]
+      },
+      {
+        "title": "4. Üçünji taraplar bilen paýlaşmak",
+        "body": "Biz ulanyjylaryň şahsy maglumatlaryny olaryň razylygy bolmazdan üçünji taraplara geçirmeýäris, kanun tarapyndan talap edilýän ýa-da hyzmatlary üpjün etmek üçin zerur bolan ýagdaýlardan başga."
+      },
+      {
+        "title": "5. Maglumatlaryň howpsuzlygy",
+        "body": "Sahypanyň dolandyryşy ulanyjylaryň şahsy maglumatlaryny rugsatsyz giriş, üýtgetmek, açmak ýa-da ýok etmekden goramak üçin ähli makul guramaçylyk we tehniki çäreleri görýär."
+      },
+      {
+        "title": "6. Maglumatlary saklamak",
+        "body": "Maglumatlaryňyz diňe hyzmatlarymyzy üpjün etmek ýa-da kanuny talaplary ýerine ýetirmek üçin zerur bolan möhletde saklanýar."
+      },
+      {
+        "title": "7. Ulanyjynyň hukuklary",
+        "body": "Siziň şu hukuklaryňyz bar:",
+        "items": [
+          "Öz maglumatlaryňyza girmegi soramak.",
+          "Öz maglumatlaryňyzy düzetmek ýa-da pozmak.",
+          "Maglumatlary işlemäge razylygy islendik wagt yzyna almak."
+        ]
+      },
+      {
+        "title": "8. Syýasatyň täzelenmeleri",
+        "body": "Biz bu syýasaty täzeläp bileris. Ähli üýtgeşmeler güýje girýän senesi bilen web sahypasynda çap ediler."
+      },
+      {
+        "title": "9. Habarlaşmak",
+        "body": "Bu gizlinlik syýasaty barada soraglaryňyz bolsa, biziň bilen habarlaşyň:",
+        "items": ["+99361480080", "info@oguzforum.com"]
+      }
+    ]
+  },
+  "Terms": {
+    "title": "Ulanyş şertleri",
+    "description": "Web sahypamyzy adalatly we kanuny ulanmak üçin düşnükli şertler.",
+    "paragraphs": [
+      "Oguz forum | expo sahypasyna hoş geldiňiz. Bu web sahypa girip we ony ulanyp, siz şu Ulanyş şertlerini berjaý etmäge razy bolýarsyňyz. Eger şu şertleriň islendik bölegi bilen razy bolmasaňyz, web sahypany ulanmagy bes ediň.",
+      "Bu web sahypada berlen mazmun diňe umumy maglumat maksatlary üçin niýetlenendir. Ähli maglumatlaryň takyk we täzelenen bolmagyny üpjün etmek üçin makul tagallalary etsek-de, biz web sahypadaky islendik mazmunyň dolulygy, takyklygy, ygtybarlylygy ýa-da elýeterliligi barada hiç hili kepillik bermeýäris.",
+      "Bu web sahypada çap edilen ähli materiallar, şol sanda tekstler, grafika, suratlar, logotipler, resminamalar we beýleki mazmun, Oguz forum | expo-nyň eýeçiligidir ýa-da degişli rugsat bilen ulanylýar we degişli intellektual eýeçilik kanunlary bilen goralýar. Bu web sahypanyň hiç bir bölegi öňünden ýazmaça razylyk bolmazdan göçürilip, köpeldilip, paýlanylyp ýa-da täjirçilik maksatlary üçin ulanylyp bilinmez.",
+      "Siz bu web sahypany diňe kanuny maksatlar üçin we onuň işine, howpsuzlygyna ýa-da elýeterliligine päsgel bermeýän görnüşde ulanmaga razy bolýarsyňyz. Web sahypa, onuň ulgamlaryna ýa-da degişli hyzmatlaryna rugsatsyz girmäge synanyşmak doly gadagandyr.",
+      "Bu web sahypa üçünji tarap web sahypalaryna baglanyşyklary öz içine alyp biler. Beýle baglanyşyklar diňe amatlylyk üçin berilýär we biz islendik daşarky web sahypalaryň mazmuny, syýasaty ýa-da tejribesi üçin jogapkär däldiris.",
+      "Degişli kanun tarapyndan rugsat berlen iň ýokary derejede, Oguz forum | expo bu web sahypany ýa-da onda saklanýan islendik maglumaty ulanmakdan ýa-da ulanyp bilmezlikden ýüze çykýan islendik göni, gytaklaýyn, tötänleýin, netijeli ýa-da ýörite zyýan üçin jogapkär bolmaz.",
+      "Biz şu Ulanyş şertlerini islendik wagt öňünden duýdurmazdan täzelemäge ýa-da üýtgetmäge hukugy özümizde saklaýarys. Islendik üýtgeşmeden soň web sahypany ulanmagy dowam etdirmek üýtgedilen şertleriň kabul edilýändigini aňladýar."
+    ],
+    "contact": "Şu Ulanyş şertleri barada soraglaryňyz bolsa, biziň bilen şu salgy boýunça habarlaşyň:",
+    "email": "info@oguzforum.com"
+  }
+}
