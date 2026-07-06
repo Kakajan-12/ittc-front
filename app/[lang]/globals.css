@@ -126,9 +126,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@utility {
-}
-
 body {
   font-family: var(--font-bf);
   font-weight: 500;
