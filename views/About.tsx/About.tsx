@@ -11,7 +11,7 @@ function About() {
 
   return (
     <section className="py-15 lg:py-20">
-      <div className="container mx-auto px-4 lg:px-10">
+      <div className="px-4 lg:px-10">
         <SectionHeading title={t("title")} className="block lg:hidden" />
 
         <div className="grid items-start gap-3 lg:grid-cols-2 lg:gap-20">
@@ -25,7 +25,7 @@ function About() {
 
           <div className="relative aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
             <Image
-              src="/event.jpg"
+              src="/about.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"

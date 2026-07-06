@@ -9,13 +9,13 @@ import Sponsorship from "../Sponsorships/Sponsorship";
 import Sponsors from "@/views/Sponsors/Sponsors";
 import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
+import Partners from "../Partners/Partners";
 
 function Home() {
   const t = useTranslations("Hero");
 
   const actions = [
     { key: "agenda", href: "/agenda" },
-    { key: "sponsors", href: "/sponsors" },
     { key: "brochure", href: "/brochure" },
     { key: "faq", href: "/faq" },
     { key: "organizers", href: "/organizers" },
@@ -34,8 +34,8 @@ function Home() {
         />
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
-        <div className="container mx-auto px-4 lg:px-10 py-24 lg:py-30">
-          <div className="max-w-2xl">
+        <div className="px-4 lg:px-10 py-24 lg:py-30">
+          <div className="max-w-2xl lg:max-w-3xl 2xl:max-w-4xl">
             <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
               {t("title")}
             </h1>
@@ -68,6 +68,7 @@ function Home() {
       <Sponsors />
       <Speakers />
       <News />
+      <Partners />
     </>
   );
 }

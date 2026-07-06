@@ -1,13 +1,15 @@
-import React from "react";
+"use client";
+
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
+import CountUp from "@/components/CountUp";
 
 const stats = [
-  { key: "speakers", value: "40" },
-  { key: "delegates", value: "500" },
-  { key: "countries", value: "50" },
-  { key: "sponsors", value: "10" },
-  { key: "sessions", value: "5" },
+  { key: "speakers", value: 40 },
+  { key: "delegates", value: 500 },
+  { key: "countries", value: 50 },
+  { key: "sponsors", value: 10 },
+  { key: "sessions", value: 5 },
 ] as const;
 
 function Results() {
@@ -21,7 +23,7 @@ function Results() {
         className="pointer-events-none absolute inset-0 -z-20 bg-[url('/pattern.svg')] bg-repeat opacity-30"
       />
 
-      <div className="container mx-auto px-4 lg:px-10 relative py-15 lg:py-20 z-0">
+      <div className="px-4 lg:px-10 relative py-15 lg:py-20 z-0">
         <SectionHeading title={t("title")} />
 
         <dl className="mt-8 grid grid-cols-2 gap-x-3 lg:gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
@@ -33,9 +35,15 @@ function Results() {
               >
                 {value}
               </span>
-              <dd className="relative font-capitana text-4xl leading-none sm:text-5xl">
-                {value}
-              </dd>
+              <CountUp
+                from={0}
+                to={value}
+                separator=","
+                direction="up"
+                duration={1}
+                delay={0}
+                className="relative font-capitana text-4xl leading-none sm:text-5xl"
+              />
               <dt className="relative mt-3 text-base font-capitana text-results">
                 {t(key)}
               </dt>

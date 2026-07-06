@@ -1,31 +1,75 @@
 "use client";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Carousel } from "antd";
-import type { CarouselRef } from "antd/es/carousel";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import SpeakerCard from "./SpeakerCard";
+import speaker1 from "@/public/speakers/1.png";
+import speaker2 from "@/public/speakers/2.png";
+import speaker3 from "@/public/speakers/3.png";
+import speaker4 from "@/public/speakers/4.png";
+import speaker5 from "@/public/speakers/5.png";
+import speaker6 from "@/public/speakers/6.png";
+import speaker7 from "@/public/speakers/7.webp";
+import speaker8 from "@/public/speakers/8.png";
 
-const speakers = Array.from({ length: 8 });
-
-const description =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
-const SLIDES_TO_SHOW = 2;
+const speakers = [
+  {
+    id: 1,
+    image: speaker1,
+  },
+  {
+    id: 2,
+    image: speaker2,
+  },
+  {
+    id: 3,
+    image: speaker3,
+  },
+  {
+    id: 4,
+    image: speaker4,
+  },
+  {
+    id: 5,
+    image: speaker5,
+  },
+  {
+    id: 6,
+    image: speaker6,
+  },
+  {
+    id: 7,
+    image: speaker7,
+  },
+  {
+    id: 8,
+    image: speaker8,
+  },
+];
 const SLIDES_TO_SCROLL = 2;
 const PAGE_COUNT = Math.ceil(speakers.length / SLIDES_TO_SCROLL);
 
 function Speakers() {
   const t = useTranslations("Speakers");
-  const carouselRef = useRef<CarouselRef>(null);
-  const [current, setCurrent] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activePage, setActivePage] = useState(0);
 
-  const activePage = Math.floor(current / SLIDES_TO_SCROLL);
+  const goToPage = (page: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollTo({ left: page * track.clientWidth, behavior: "smooth" });
+  };
+
+  const handleScroll = () => {
+    const track = trackRef.current;
+    if (!track) return;
+    setActivePage(Math.round(track.scrollLeft / track.clientWidth));
+  };
 
   return (
     <section className="pt-15 lg:pt-20">
-      <div className="container mx-auto px-4 lg:px-10">
+      <div className="px-4 lg:px-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <SectionHeading title={t("title")} />
           <Button
@@ -37,38 +81,40 @@ function Speakers() {
 
         {/* desktop / tablet grid */}
         <div className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
-          {speakers.map((_, i) => (
+          {speakers.map((speaker, i) => (
             <SpeakerCard
               key={i}
-              id={`speaker-${i}`}
-              name="Full Name"
-              description={description}
+              id={`speaker-${speaker.id}`}
+              name={t(`speakers.${speaker.id}.name`)}
+              description={t(`speakers.${speaker.id}.description`)}
+              image={speaker.image}
             />
           ))}
         </div>
 
         {/* mobile carousel */}
-        <div className="mt-5 md:hidden">
-          <Carousel
-            ref={carouselRef}
-            dots={false}
-            slidesToShow={SLIDES_TO_SHOW}
-            slidesToScroll={SLIDES_TO_SCROLL}
-            infinite={false}
-            afterChange={setCurrent}
+        <div className="lg:mt-5 md:hidden">
+          <div
+            ref={trackRef}
+            onScroll={handleScroll}
+            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden"
           >
-            {speakers.map((_, i) => (
-              <div key={i} className="p-2">
+            {speakers.map((speaker, i) => (
+              <div
+                key={i}
+                className="w-1/2 shrink-0 snap-start pl-0.5 pr-2 py-1 "
+              >
                 <SpeakerCard
-                  id={`speaker-${i}`}
-                  name="Full Name"
-                  description={description}
+                  id={`speaker-${speaker.id}`}
+                  name={t(`speakers.${speaker.id}.name`)}
+                  description={t(`speakers.${speaker.id}.description`)}
+                  image={speaker.image}
                 />
               </div>
             ))}
-          </Carousel>
+          </div>
 
-          {/* custom dots, outside the carousel */}
+          {/* custom dots */}
           <div className="mt-6 flex justify-center gap-2">
             {Array.from({ length: PAGE_COUNT }).map((_, i) => (
               <button
@@ -76,9 +122,7 @@ function Speakers() {
                 type="button"
                 aria-label={`Go to slide ${i + 1}`}
                 aria-current={i === activePage}
-                onClick={() =>
-                  carouselRef.current?.goTo(i * SLIDES_TO_SCROLL)
-                }
+                onClick={() => goToPage(i)}
                 className={`h-1.5 rounded-full transition-all ${
                   i === activePage
                     ? "w-6 bg-brand-blue-dark"

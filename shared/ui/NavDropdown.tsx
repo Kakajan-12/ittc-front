@@ -11,7 +11,18 @@ export default function NavDropdown({
   scrolled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  // true on devices with a real pointer (desktop) → open on hover;
+  // false on touch devices (phones) → open on tap/click.
+  const [canHover, setCanHover] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setCanHover(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -27,14 +38,14 @@ export default function NavDropdown({
     <div
       className="relative"
       ref={ref}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={canHover ? () => setOpen(true) : undefined}
+      onMouseLeave={canHover ? () => setOpen(false) : undefined}
     >
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={canHover ? undefined : () => setOpen((v) => !v)}
         aria-expanded={open}
-        className={`flex items-center gap-1.5 py-2 text-base transition-colors ${
+        className={`flex items-center gap-1.5 py-1 lg:py-2 text-sm lg:text-base  transition-colors ${
           scrolled
             ? "text-brand-blue-dark hover:text-brand-blue"
             : "text-white hover:text-white/80"

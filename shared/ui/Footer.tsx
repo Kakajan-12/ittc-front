@@ -30,7 +30,6 @@ const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
     links: [
       { labelKey: "agenda", href: "/agenda" },
       { labelKey: "speakers", href: "/speakers" },
-      { labelKey: "sponsors", href: "/sponsors" },
       { labelKey: "brochure", href: "/brochure" },
       { labelKey: "news", href: "/news" },
     ],
@@ -100,7 +99,7 @@ export default function Footer() {
         aria-hidden
         className="pointer-events-none absolute inset-0 z-10 bg-[url('/pattern.svg')] bg-repeat bg-size-[680px] opacity-20"
       />
-      <div className="container mx-auto px-4 lg:px-10 pt-15 md:pt-20 relative z-30">
+      <div className=" px-4 lg:px-10 pt-15 md:pt-20 relative z-30">
         <div className="mainContent flex flex-col  md:flex-row justify-between gap-10 pb-10">
           <div className="flex flex-col justify-between gap-9">
             <div className="flex flex-col items-start justify-between h-full gap-7 lg:gap-9">

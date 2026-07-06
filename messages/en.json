@@ -41,7 +41,6 @@
     "more": "More about event",
     "playAlt": "Play the event video"
   },
-
   "Results": {
     "title": "ITTC 2025 Results",
     "speakers": "Speakers",
@@ -51,7 +50,14 @@
     "sessions": "Main Sessions"
   },
   "Organizers": {
-    "title": "Organizers & Official Supporters"
+    "title": "Organizers & Official Supporters",
+    "logo1": "Ministry of Motor Transport Turkmenistan",
+    "logo2": "Ministry of Railway Transport Turkmenistan",
+    "logo3": "State Service «Turkmenhowayollary» (Turkmen Airlines)",
+    "logo4": "State Service Maritime & River Transport Turkmenistan",
+    "logo5": "Transport and Logistics Center of Turkmenistan",
+    "logo6": "Chamber of Commerce Turkmenistan",
+    "logo7": "Oguz Forum and Expo"
   },
   "Sponsorship": {
     "title": "Sponsorship opportunities",
@@ -63,7 +69,44 @@
   },
   "Speakers": {
     "title": "Speakers",
-    "more": "View all speakers"
+    "more": "View all speakers",
+    "placeholder": "Search speaker",
+    "noResults": "No speakers found for \"{query}\".",
+    "clear": "Clear search",
+    "speakers": {
+      "1": {
+        "name": "Annaev Batyr <br/> Amangeldiyewich",
+        "description": "Deputy Chairman of the Cabinet of Ministers of Turkmenistan for Transport and Communications"
+      },
+      "2": {
+        "name": "Akmammedov Mamet <br/> Welmammedowich",
+        "description": "Minister of Railway Transport of Turkmenistan"
+      },
+      "3": {
+        "name": "Annadurdyev Begench <br/> Meretgeldiyevich",
+        "description": "Minister of Motor Transport of Turkmenistan"
+      },
+      "4": {
+        "name": "Saburov Dovran <br/> Reyimbaeyevich",
+        "description": "Chairman of the State Service \"Turkmenhowayollary\" (Turkmenistan Airlines)"
+      },
+      "5": {
+        "name": "Shanazarov Azat <br/> Halliyevich",
+        "description": "Chairman of the State Service for Maritime and River Transport of Turkmenistan"
+      },
+      "6": {
+        "name": "Hanayev Rahym <br/>",
+        "description": "Deputy General Director for Commercial Affairs, \"Transport and Logistics Center of Turkmenistan\" OJSC"
+      },
+      "7": {
+        "name": "Nepesov Begmyrat <br/> Halmyradovich",
+        "description": "Deputy Chairman, \"Turkmen Logistics Association\""
+      },
+      "8": {
+        "name": "Tayjikov Kakajan <br/> Atashovich",
+        "description": "General Director, \"Hebent Tehnologiya\" Closed Joint-Stock Company"
+      }
+    }
   },
   "News": {
     "title": "News",
@@ -72,6 +115,13 @@
     "details": "More details",
     "sampleTitle": "Turkmenistan's Capital Day is celebrated with festive events and an international exhibition",
     "sampleDate": "10 June, 2026"
+  },
+  "Partner": {
+    "title": "Partners",
+    "categories": {
+      "media": "Media Partner",
+      "knowledge": "Knowledge Partner"
+    }
   },
   "Footer": {
     "title": "Through connections",
@@ -151,7 +201,10 @@
       {
         "title": "9. Contact",
         "body": "If you have any questions regarding this privacy policy, please contact us at:",
-        "items": ["+99361480080", "info@oguzforum.com"]
+        "items": [
+          "+99361480080",
+          "info@oguzforum.com"
+        ]
       }
     ]
   },

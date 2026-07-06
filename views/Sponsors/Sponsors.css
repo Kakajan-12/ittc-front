@@ -1,0 +1,29 @@
+.marquee-track {
+  --marquee-copies: 2;
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+  backface-visibility: hidden;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100% / var(--marquee-copies)), 0, 0);
+  }
+}
+.shadow-partner {
+  box-shadow: 0px 0px 4px 0px #00000040;
+}

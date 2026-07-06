@@ -50,7 +50,14 @@
     "sessions": "Esasy mejlisler"
   },
   "Organizers": {
-    "title": "Guramaçylar we resmi hemaýatkärler"
+    "title": "Guramaçylar we resmi hemaýatkärler",
+    "logo1": "Türkmenistanyň Awtomobil ulaglary ministrligi",
+    "logo2": "Türkmenistanyň Demir ýol ulaglary ministrligi",
+    "logo3": "«Türkmenhowaýollary» Döwlet gullugy",
+    "logo4": "Türkmenistanyň Deňiz we derýa ulaglary döwlet gullugy",
+    "logo5": "Türkmenistanyň Ulag-logistika merkezi",
+    "logo6": "Türkmenistanyň Söwda-senagat edarasy",
+    "logo7": "Oguz Forum we Expo"
   },
   "Sponsorship": {
     "title": "Hemaýatkärlik mümkinçilikleri",
@@ -62,7 +69,44 @@
   },
   "Speakers": {
     "title": "Çykyş edýänler",
-    "more": "Ähli çykyş edýänleri görkez"
+    "more": "Ähli çykyş edýänleri görkez",
+    "placeholder": "Çykyş edýäniň gözlegi",
+    "noResults": "\"{query}\" boýunça çykyş edýän tapylmady.",
+    "clear": "Gözlegi arassala",
+    "speakers": {
+      "1": {
+        "name": "Annaýew Batyr <br/> Amangeldiýewiç",
+        "description": "Türkmenistanyň Ministrler Kabinetiniň Başlygynyň ulag we aragatnaşyk toplumy boýunça orunbasary"
+      },
+      "2": {
+        "name": "Akmämmedow Mämmet <br/> Welmämmedowiç",
+        "description": "Türkmenistanyň demir ýol ulaglary ministri"
+      },
+      "3": {
+        "name": "Annadurdyýew Begenç <br/> Meretgeldiýewiç",
+        "description": "Türkmenistanyň awtomobil ulaglary ministri"
+      },
+      "4": {
+        "name": "Saburow Döwran <br/> Reýimbaýewiç",
+        "description": "“Türkmenhowaýollary” döwlet gullugynyň başlygy"
+      },
+      "5": {
+        "name": "Şanazarow Azat <br/> Hallyýewiç",
+        "description": "Türkmenistanyň Deňiz we derýa ulaglary döwlet gullugynyň başlygy"
+      },
+      "6": {
+        "name": "⁠Rahym Hanaýew <br/>",
+        "description": "Baş direktoryň täjirçilik boýunça orunbasary “Türkmenistanyň Ulag-logistika merkezi” AGPJ"
+      },
+      "7": {
+        "name": "Nepesow Begmyrat <br/> Halmyradowiç",
+        "description": "Başlygyň orunbasary “Türkmen Logistika Assosiýasiýasy"
+      },
+      "8": {
+        "name": "Taýjikow Kakajan <br/> Ataşowiç",
+        "description": "Baş Direktor “Hebent Tehnologiýa” Ýapyk görnüşli paýdarlar jemgyýeti"
+      }
+    }
   },
   "News": {
     "title": "Habarlar",
@@ -71,6 +115,13 @@
     "details": "Giňişleýin",
     "sampleTitle": "Türkmenistanyň paýtagt güni baýramçylyk çäreleri we halkara sergisi bilen bellenilýär",
     "sampleDate": "10 iýun, 2026"
+  },
+  "Partner": {
+    "title": "Hemaýatkärler",
+    "categories": {
+      "media": "Media hyzmatdaş",
+      "knowledge": "Bilim hyzmatdaşy"
+    }
   },
   "Footer": {
     "title": "Teswirler arasynda",
@@ -91,7 +142,7 @@
     "terms": "Wep sahypasy ulanýan sözleri",
     "privacy": "Mazmunyň sözleri",
     "cookie": "Kuki syasatýy",
-    "copyright": "Bütün huşú"
+    "copyright": "Ähli hukuklar goralan"
   },
   "Cookie": {
     "title": "Cookie syasaty",

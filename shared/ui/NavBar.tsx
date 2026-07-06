@@ -39,9 +39,7 @@ export default function NavBar({
       children: [
         { label: t("agenda"), href: "/agenda" },
         { label: t("speakers"), href: "/speakers" },
-        { label: t("sponsors"), href: "/sponsors" },
         { label: t("support"), href: "/support" },
-        { label: t("register"), href: "/register" },
         { label: t("faq"), href: "/faq" },
       ],
     },
@@ -64,7 +62,7 @@ export default function NavBar({
         scrolled ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 lg:px-10 flex items-center justify-between py-3 ">
+      <div className="px-4 lg:px-10 flex items-center justify-between py-3 ">
         <Link href="/" className="shrink-0">
           <Image
             src="/logo.svg"
@@ -75,7 +73,7 @@ export default function NavBar({
           />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex">
           {items.map((item) =>
             item.children ? (
               <NavDropdown key={item.key} item={item} scrolled={scrolled} />
@@ -83,7 +81,7 @@ export default function NavBar({
               <Link
                 key={item.key}
                 href={item.href}
-                className={`py-2 text-base transition-colors ${
+                className={`py-1 lg:py-2 text-sm lg:text-base transition-colors ${
                   scrolled
                     ? "text-brand-blue-dark hover:text-brand-blue"
                     : "text-white hover:text-white/80"
@@ -96,7 +94,7 @@ export default function NavBar({
 
           <Link
             href="/register"
-            className="rounded bg-brand-blue px-5 py-2.5 text-base font-bold text-white transition hover:bg-brand-blue/85"
+            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-bold text-white transition hover:bg-brand-blue/85"
           >
             {t("register")}
           </Link>

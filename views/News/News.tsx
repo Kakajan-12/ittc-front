@@ -11,7 +11,7 @@ function News() {
 
   return (
     <section className="py-15 lg:py-20">
-      <div className="container mx-auto px-4 lg:px-10">
+      <div className="px-4 lg:px-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <SectionHeading title={t("title")} />
           <Button text={t("more")} href="/news" className="hidden lg:flex" />
