@@ -53,7 +53,7 @@
     "title": "Organizers & Official Supporters",
     "logo1": "Ministry of Motor Transport Turkmenistan",
     "logo2": "Ministry of Railway Transport Turkmenistan",
-    "logo3": "State Service «Turkmenhowayollary» (Turkmen Airlines)",
+    "logo3": "State Service «Turkmenhowayollary» Turkmen Airlines",
     "logo4": "State Service Maritime & River Transport Turkmenistan",
     "logo5": "Transport and Logistics Center of Turkmenistan",
     "logo6": "Chamber of Commerce Turkmenistan",
@@ -201,10 +201,7 @@
       {
         "title": "9. Contact",
         "body": "If you have any questions regarding this privacy policy, please contact us at:",
-        "items": [
-          "+99361480080",
-          "info@oguzforum.com"
-        ]
+        "items": ["+99361480080", "info@oguzforum.com"]
       }
     ]
   },
