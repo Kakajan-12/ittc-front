@@ -18,7 +18,6 @@ function Home() {
     { key: "agenda", href: "/agenda" },
     { key: "brochure", href: "/brochure" },
     { key: "faq", href: "/faq" },
-    { key: "organizers", href: "/organizers" },
   ] as const;
 
   return (

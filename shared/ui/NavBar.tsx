@@ -37,9 +37,10 @@ export default function NavBar({
       label: t("about"),
       href: "/about",
       children: [
+        { label: t("about"), href: "/about" },
         { label: t("agenda"), href: "/agenda" },
         { label: t("speakers"), href: "/speakers" },
-        { label: t("support"), href: "/support" },
+        { label: t("support"), href: "/officialsupport" },
         { label: t("faq"), href: "/faq" },
       ],
     },

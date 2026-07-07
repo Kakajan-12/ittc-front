@@ -5,26 +5,7 @@ import { useMemo, useState } from "react";
 import PageHeading from "@/shared/ui/PageHeading";
 import SpeakerCard from "@/views/Speakers/SpeakerCard";
 import { FiSearch, FiX } from "react-icons/fi";
-
-type Speaker = { id: string; name: string; description: string };
-
-const DESCRIPTION =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
-const SPEAKERS: Speaker[] = [
-  "Aylar Myradowa",
-  "John Anderson",
-  "Maria Garcia",
-  "Chen Wei",
-  "Ahmed Hassan",
-  "Sophie Martin",
-  "David Johnson",
-  "Elena Petrova",
-  "Rustam Nazarov",
-  "Yuki Tanaka",
-  "Fatima Al-Sayed",
-  "Michael Brown",
-].map((name, i) => ({ id: `speaker-${i}`, name, description: DESCRIPTION }));
+import { speakersData } from "@/views/Speakers/speakersData";
 
 const PAGE_SIZE = 8;
 
@@ -35,19 +16,17 @@ function Speakers() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return SPEAKERS;
-    return SPEAKERS.filter(
-      (s) =>
-        s.name.toLowerCase().includes(q) ||
-        s.description.toLowerCase().includes(q)
+    if (!q) return speakersData;
+    return speakersData.filter((s) =>
+      t(`speakers.${s.id}.name`).toLowerCase().includes(q),
     );
-  }, [query]);
+  }, [query, t]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
   const visible = filtered.slice(
     (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE
+    currentPage * PAGE_SIZE,
   );
 
   return (
@@ -60,7 +39,7 @@ function Speakers() {
       <div className="px-4 lg:px-10 py-15 lg:py-20">
         <label
           htmlFor="search"
-          className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#ABB7C2] px-3 shadow-sm md:w-102 cursor-text"
+          className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
         >
           <input
             id="search"
@@ -71,7 +50,7 @@ function Speakers() {
               setQuery(e.target.value);
               setPage(1);
             }}
-            className="h-full min-h-0 min-w-0 items-center flex-1 bg-transparent py-0 outline-none transition-all placeholder:text-[#ABB7C2] focus:border-slate-400 [&::-webkit-search-cancel-button]:appearance-none"
+            className="h-full min-h-0 min-w-0 flex-1 bg-transparent py-0 outline-none placeholder:text-[#ABB7C2] [&::-webkit-search-cancel-button]:appearance-none"
           />
           {query.trim() ? (
             <button
@@ -87,7 +66,7 @@ function Speakers() {
             </button>
           ) : (
             <span className="flex shrink-0 items-center">
-              <FiSearch className="size-5 text-[#ABB7C2]" aria-hidden />
+              <FiSearch className="size-5 text-[#797979]" aria-hidden />
             </span>
           )}
         </label>
@@ -97,9 +76,10 @@ function Speakers() {
             {visible.map((s) => (
               <SpeakerCard
                 key={s.id}
-                id={s.id}
-                name={s.name}
-                description={s.description}
+                id={`speaker-${s.id}`}
+                name={t(`speakers.${s.id}.name`)}
+                description={t(`speakers.${s.id}.description`)}
+                image={s.image}
               />
             ))}
           </div>

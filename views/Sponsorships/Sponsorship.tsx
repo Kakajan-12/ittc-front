@@ -13,7 +13,7 @@ function Sponsorship() {
         <SectionHeading title={t("title")} className="block lg:hidden" />
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_1.5fr] justify-start items-start gap-3 lg:gap-20">
-          <div className="flex flex-col gap-10 h-full order-2 lg:order-1">
+          <div className="flex flex-col lg:gap-10 h-full order-2 lg:order-1">
             <div className="flex flex-col gap-6">
               <SectionHeading title={t("title")} className="hidden lg:flex" />
 

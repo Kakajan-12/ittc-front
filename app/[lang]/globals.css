@@ -148,7 +148,9 @@ article {
     box-shadow: none;
   }
 } */
-
+.shadow-faq {
+  box-shadow: 0px 0px 4px 0px #00000040;
+}
 @keyframes marquee {
   from {
     transform: translateX(0);

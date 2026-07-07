@@ -37,9 +37,48 @@
   },
   "About": {
     "title": "Çäre barada",
-    "text": "Halkara ulag we üstaşyr geçelgeleri maslahaty sebitleýin arabaglanyşygyň geljegini kesgitlemek üçin döwlet wekillerini, pudak ýolbaşçylaryny we hünärmenleri bir ýere jemleýär. Aşgabatdaky üç günüň dowamynda gatnaşyjylar täze söwda ýollaryny, logistika täzeliklerini we Merkezi Aziýada hem-de onuň çäginden daşarda hyzmatdaşlyk mümkinçiliklerini ara alyp maslahatlaşarlar.",
-    "more": "Çäre barada giňişleýin",
-    "playAlt": "Çäre baradaky wideony görmek"
+    "subtitle": "ITTC 2026 «Halkara ulag we üstaşyr geçelgeleri» halkara maslahaty we sergisi barada",
+    "text": "«Baglanyşyk we ösüş – 2026» (ITTC 2026) — bu ulag geçelgeleriniň, logistikanyň, sanly infrastrukturanyň we halkara hyzmatdaşlygyň ösdürilmegine bagyşlanan halkara forum we sergidir. Bu çäre ähliumumy ulag baglanyşygyny ösdürmegiň häzirki zaman meýillerini we geljegi uly ugurlaryny ara alyp maslahatlaşmak canceled üçin döwlet edaralarynyň, halkara guramalaryň, maliýe institutlarynyň, ulag-logistika kompaniýalarynyň wekillerini, maýadarlary we pudaklaýyn bilermenleri bir ýere jemleýär. Forum hünär derejesindäki gepleşikler, tejribe alyşmak hem-de ulag ugurlarynyň netijeliligini ýokarlandyrmaga, logistika amallaryny kämilleşdirmäge we halkara hyzmatdaşlygy berkitmäge gönükdirilen iş ýüzündäki çözgütleri işläp taýýarlamak üçün platforma bolup hyzmat edýär.",
+    "section": {
+      "title": "Serginiň bölümleri",
+      "1": {
+        "title": "Ulag infrastrukturasy we logistika",
+        "text": "Demir ýol ulgamlary, awtomobil ulag ulgamlary, multimodal terminallary, logistika merkezleri we ulag geçelgelerini ösdürmek boýunça taslamalar."
+      },
+      "2": {
+        "title": "Deňiz we port infrastrukturasy",
+        "text": "Portlary ösdürmek tehnologiýalary, Hazar deňziniň logistikasy, gämi gatnawy hyzmatlary, konteýnerleri işläp taýýarlamak ulgamlary we deňiz baglanyşygy üçin çözgütler."
+      },
+      "3": {
+        "title": "Awiasiýa we ýük howa ulagy",
+        "text": "Howa ulag hyzmatlary, ýük awiakompaniýalary, aeroport infrastrukturasy, awiasiýa logistika merkezleri we howa ulag tehnologiýalary."
+      },
+      "4": {
+        "title": "Sanly logistika we intellektual çözgütler",
+        "text": "Süni akyla esaslanýan logistika ulgamlary, sanly ýük platformalary, blokçeýn çözgütleri, «akylly gümrük», IoT we üpjünçilik zynjyraryny sanlylaşdyrmak."
+      },
+      "5": {
+        "title": "Ulag tehnologiýalary we innowasiýalar",
+        "text": "Akylly ykjamlyk ulgamlary, awtonom ulag çözgütleri, yzarlama tehnologiýalary we intellektual ulag ulgamlary (ITS)."
+      },
+      "6": {
+        "title": "Maýa goýumlary we infrastrukturany ösdürmek",
+        "text": "Döwlet-hususy hyzmatdaşlygy (DHH), maliýe institutlary, infrastruktura maýa goýum taslamalary we halkara ösüş maksatnamalary."
+      },
+      "7": {
+        "title": "Durnukly ulag we ýaşyl çözgütler",
+        "text": "Ekologiýa taýdan arassa logistika, pes uglerodly ulag tehnologiýalary, energiýa tygşytlaýjy ulgamlar we ESG ugurly çözgütler."
+      },
+      "8": {
+        "title": "Söwda we senagat hyzmatlary",
+        "text": "Ýük ugratmak (ekspeditorlyk) hyzmatlary, söwda logistikasy, ulag pudagy üçin senagat enjamlary we degişli hyzmatlar."
+      }
+    },
+    "more": "Çäre barada jikme-jik",
+    "playAlt": "Çäräniň wideosyny görkez"
+  },
+  "Support": {
+    "title": "Resmi goldaw"
   },
   "Results": {
     "title": "ITTC 2025 netijeleri",
@@ -65,7 +104,17 @@
     "more": "Hemaýatkärlik bukletini görkez"
   },
   "Sponsors": {
-    "title": "Hemaýatkärler"
+    "title": "Hemaýatkärler",
+    "sponsors": {
+      "name1": "Bürünç derejeli hemaýatkär",
+      "name2": "Göwher derejeli hemaýatkär",
+      "name3": "Bürünç derejeli hemaýatkär",
+      "name4": "Platina derejeli hemaýatkär",
+      "name5": "Platina derejeli hemaýatkär",
+      "name6": "Bürünç derejeli hemaýatkär",
+      "name7": "Göwher derejeli hemaýatkär",
+      "name8": "Bürünç derejeli hemaýatkär"
+    }
   },
   "Speakers": {
     "title": "Çykyş edýänler",
@@ -108,6 +157,46 @@
       }
     }
   },
+  "Faq": {
+    "title": "Sowallar",
+    "placeholder": "Sowallary gözle",
+    "noResults": "\"{query}\" boýunça sowal tapylmady.",
+    "clear": "Gözlegi arassala",
+    "items": {
+      "1": {
+        "question": "ITTC 2026-a nädip hasaba durmaly?",
+        "answer": "ITTC 2026 maslahatyna hasaba durmak üçin resmi web-saýtymyz arkaly hasaba alyş tapgyryny tamamlaň. Arzaňyz kabul edilenden soň, size wekil ylalaşygy iberiler. Kömek üçin ýüz tutuň: info@ittc.tm"
+      },
+      "2": {
+        "question": "ITTC 2026 haçan we nirede geçiriler?",
+        "answer": "ITTC 2026 Türkmenistanyň Aşgabat şäherinde geçiriler. Takyk seneler we geçirilýän ýeri resmi web-saýtda yglan ediler we ähli hasaba alnan wekillere iberiler."
+      },
+      "3": {
+        "question": "Maslahata kim gatnaşyp biler?",
+        "answer": "Maslahat döwlet edaralarynyň wekilleri, pudak hünärmenleri, maýadarlar hem-de ulag, üstaşyr we logistika ulgamynda işleýän kompaniýalar üçin açykdyr. Köpçülikleýin habar beriş serişdeleriniň wekilleri öňünden akkreditasiýa bilen gatnaşyp bilerler."
+      },
+      "4": {
+        "question": "Gatnaşmak üçin töleg barmy?",
+        "answer": "Gatnaşmagyň şertleri, şol sanda mümkin bolan tölegler, hasaba alnandan soň berilýän wekil ylalaşygynda görkezilýär. Jikme-jiklikler üçin ylalaşygyňyza serediň ýa-da guramaçylar bilen habarlaşyň."
+      },
+      "5": {
+        "question": "Wiza goldawyny berýärsiňizmi?",
+        "answer": "Hawa. Türkmenistana giriş wizasy gerek bolan hasaba alnan wekillere resmi çakylyk haty we wiza resmileşdirmek boýunça görkezmeler berler."
+      },
+      "6": {
+        "question": "Gatnaşyjylar üçin ýaşaýyş jaýy guralarmy?",
+        "answer": "Guramaçylar maslahat berilýän myhmanhanalaryň sanawyny we hyzmatdaş nyrhlaryny berer. Ylalaşykda başgaça görkezilmedik bolsa, wekiller ýaşaýyş jaýyny özbaşdak bron edýärler."
+      },
+      "7": {
+        "question": "Maslahatyň maksatnamasyny nireden tapyp bilerin?",
+        "answer": "Mejlisleri, çykyş edýänleri we ugurdaş çäreleri öz içine alýan doly maksatnama resmi web-saýtda çap ediler we çäreden öň yzygiderli täzelenip durlar."
+      },
+      "8": {
+        "question": "Goşmaça maglumat üçin kime ýüz tutmaly?",
+        "answer": "Islendik goşmaça sorag üçin guramaçy topara info@ittc.tm e-poçtasy arkaly ýüz tutuň. Toparymyz size kömek etmäge şat bolar."
+      }
+    }
+  },
   "News": {
     "title": "Habarlar",
     "more": "Ähli habarlar",
@@ -117,10 +206,10 @@
     "sampleDate": "10 iýun, 2026"
   },
   "Partner": {
-    "title": "Hemaýatkärler",
+    "title": "Hyzmatdaşlar",
     "categories": {
-      "media": "Media hyzmatdaş",
-      "knowledge": "Bilim hyzmatdaşy"
+      "media": "Media <br/> hyzmatdaş",
+      "knowledge": "Bilim <br/> hyzmatdaşy"
     }
   },
   "Footer": {

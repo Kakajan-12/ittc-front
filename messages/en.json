@@ -37,9 +37,48 @@
   },
   "About": {
     "title": "About the event",
-    "text": "The International Transport & Transit Corridors Conference brings together policymakers, industry leaders, and experts to shape the future of regional connectivity. Over three days in Ashgabat, participants will explore new trade routes, logistics innovations, and partnership opportunities across Central Asia and beyond.",
+    "subtitle": "About the ITTC 2026  “International Transport and Transit Corridors",
+    "text": "Connectivity and Development – 2026” (ITTC 2026) is an international forum and exhibition dedicated to the development of transport corridors, logistics, digital infrastructure, and international cooperation. The event brings together representatives of government authorities, international organizations, financial institutions, transport and logistics companies, investors, and industry experts to discuss current trends and prospects for the development of global transport connectivity. The Forum serves as a platform for professional dialogue, exchange of experience, and the development of practical solutions aimed at improving efficient transport routes, enhancing logistics processes, and strengthening international cooperation.",
+    "section": {
+      "title": "Exhibition Section",
+      "1": {
+        "title": "Transport Infrastructure and Logistics",
+        "text": "Railway systems, road transport networks, multi-modal terminals, logistics hubs, and transport corridor development projects."
+      },
+      "2": {
+        "title": "Maritime and Port Infrastructure",
+        "text": "Port development technologies, Caspian Sea logistics, shipping services, container handling systems, and solutions for maritime connectivity."
+      },
+      "3": {
+        "title": "Aviation and Air Cargo Transport",
+        "text": "Air transport services, cargo airlines, airport infrastructure, aviation logistics hubs, and air transport technologies."
+      },
+      "4": {
+        "title": "Digital Logistics and Intelligent Solutions",
+        "text": "AI-based logistics systems, digital freight platforms, blockchain solutions, \"smart customs,\" IoT, and supply chain digitalization."
+      },
+      "5": {
+        "title": "Transport Technologies and Innovations",
+        "text": "Smart mobility systems, autonomous transport solutions, tracking technologies, and intelligent transport systems (ITS)."
+      },
+      "6": {
+        "title": "Investment and Infrastructure Development",
+        "text": "Public-private partnerships (PPP), financial institutions, infrastructure investment projects, and international development programs."
+      },
+      "7": {
+        "title": "Sustainable Transport and Green Solutions",
+        "text": "Eco-friendly logistics, low-carbon transport technologies, energy-efficient systems, and ESG-oriented solutions."
+      },
+      "8": {
+        "title": "Trade and Industrial Services",
+        "text": "Freight forwarding services, trade logistics, industrial equipment for the transport sector, and related services."
+      }
+    },
     "more": "More about event",
     "playAlt": "Play the event video"
+  },
+  "Support": {
+    "title": "Official Support"
   },
   "Results": {
     "title": "ITTC 2025 Results",
@@ -65,7 +104,17 @@
     "more": "View Sponsorship Prospectus"
   },
   "Sponsors": {
-    "title": "Sponsors"
+    "title": "Sponsors",
+    "sponsors": {
+      "name1": "Bronze sponsor",
+      "name2": "Diamond sponsor",
+      "name3": "Bronze sponsor",
+      "name4": "Platinum sponsor",
+      "name5": "Platinum sponsor",
+      "name6": "Bronze sponsor",
+      "name7": "Diamond sponsor",
+      "name8": "Bronze sponsor"
+    }
   },
   "Speakers": {
     "title": "Speakers",
@@ -75,11 +124,11 @@
     "clear": "Clear search",
     "speakers": {
       "1": {
-        "name": "Annaev Batyr <br/> Amangeldiyewich",
+        "name": "Annaev Batyr <br/> Amangeldiyevich",
         "description": "Deputy Chairman of the Cabinet of Ministers of Turkmenistan for Transport and Communications"
       },
       "2": {
-        "name": "Akmammedov Mamet <br/> Welmammedowich",
+        "name": "Akmammedov Mammet <br/> Welmammedovich",
         "description": "Minister of Railway Transport of Turkmenistan"
       },
       "3": {
@@ -87,7 +136,7 @@
         "description": "Minister of Motor Transport of Turkmenistan"
       },
       "4": {
-        "name": "Saburov Dovran <br/> Reyimbaeyevich",
+        "name": "Saburov Dovran <br/> Reyimbayevich",
         "description": "Chairman of the State Service \"Turkmenhowayollary\" (Turkmenistan Airlines)"
       },
       "5": {
@@ -108,6 +157,46 @@
       }
     }
   },
+  "Faq": {
+    "title": "FAQ",
+    "placeholder": "Search questions",
+    "noResults": "No questions found for \"{query}\".",
+    "clear": "Clear search",
+    "items": {
+      "1": {
+        "question": "How do I register for ITTC 2026?",
+        "answer": "To register for the ITTC 2026 Conference, please complete the registration process via our official website. Once your application has been received, a delegate agreement will be sent to you. For assistance, contact: info@ittc.tm"
+      },
+      "2": {
+        "question": "When and where will ITTC 2026 take place?",
+        "answer": "ITTC 2026 will be held in Ashgabat, Turkmenistan. The exact dates and venue will be announced on the official website and shared with all registered delegates."
+      },
+      "3": {
+        "question": "Who can attend the conference?",
+        "answer": "The conference is open to government representatives, industry professionals, investors and companies working in the transport, transit and logistics sectors. Media representatives may attend with prior accreditation."
+      },
+      "4": {
+        "question": "Is there a participation fee?",
+        "answer": "Participation terms, including any applicable fees, are outlined in the delegate agreement provided after registration. Please refer to your agreement or contact the organizers for details."
+      },
+      "5": {
+        "question": "Do you provide visa support?",
+        "answer": "Yes. Registered delegates who require an entry visa to Turkmenistan will receive an official invitation letter and guidance on the visa application process."
+      },
+      "6": {
+        "question": "Will accommodation be arranged for participants?",
+        "answer": "The organizers will provide a list of recommended hotels and partner rates. Delegates are responsible for booking their own accommodation unless otherwise stated in their agreement."
+      },
+      "7": {
+        "question": "Where can I find the conference agenda?",
+        "answer": "The full agenda, including sessions, speakers and side events, will be published on the official website and updated regularly before the event."
+      },
+      "8": {
+        "question": "Who can I contact for more information?",
+        "answer": "For any additional questions, please reach out to the organizing team by email at info@ittc.tm. Our team will be glad to assist you."
+      }
+    }
+  },
   "News": {
     "title": "News",
     "more": "View all news",
@@ -119,8 +208,8 @@
   "Partner": {
     "title": "Partners",
     "categories": {
-      "media": "Media Partner",
-      "knowledge": "Knowledge Partner"
+      "media": "Media <br/> Partner",
+      "knowledge": "Knowledge <br/> Partner"
     }
   },
   "Footer": {

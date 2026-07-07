@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Image from "next/image";
@@ -22,6 +22,13 @@ const partnerData = [
   { id: 6, name: "Partner 6", logo: partner6, category: "media" },
   { id: 7, name: "Partner 7", logo: partner7, category: "knowledge" },
 ];
+
+function formatCategoryLabel(label: string) {
+  return label
+    .split(/<br\s*\/?>/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 function Partners() {
   const t = useTranslations("Partner");
@@ -70,27 +77,38 @@ function Partners() {
               className="marquee-group"
               aria-hidden={copyIndex > 0 || undefined}
             >
-              {partnerData.map((partner) => (
-                <div
-                  key={`${copyIndex}-${partner.id}`}
-                  className="w-[calc((100vw-3rem)/2)] shrink-0 pr-4 sm:w-[calc((100vw-4rem)/3)] lg:w-[calc((100vw-9rem)/5)]"
-                >
-                  <div className="flex flex-col overflow-hidden rounded bg-white shadow-partner">
-                    <div className="relative aspect-4/3 w-full">
-                      <Image
-                        src={partner.logo}
-                        alt={copyIndex === 0 ? partner.name : ""}
-                        fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        className="object-contain py-2"
-                      />
-                    </div>
-                    <div className=" border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg text-brand-gray">
-                      {t(`categories.${partner.category}`)}
+              {partnerData.map((partner) => {
+                const categoryParts = formatCategoryLabel(
+                  t(`categories.${partner.category}`),
+                );
+
+                return (
+                  <div
+                    key={`${copyIndex}-${partner.id}`}
+                    className="w-52 shrink-0 pr-4 sm:w-48 lg:w-56"
+                  >
+                    <div className="flex flex-col overflow-hidden rounded bg-white shadow-partner">
+                      <div className="relative aspect-4/3 w-full">
+                        <Image
+                          src={partner.logo}
+                          alt={copyIndex === 0 ? partner.name : ""}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                          className="object-contain py-2"
+                        />
+                      </div>
+                      <div className="border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
+                        {categoryParts.map((part, index) => (
+                          <Fragment key={index}>
+                            {index > 0 && <br />}
+                            {part}
+                          </Fragment>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>

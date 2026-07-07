@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Image from "next/image";
@@ -15,15 +15,22 @@ import sponsor7 from "@/public/sponsors/7.jpeg";
 import sponsor8 from "@/public/sponsors/8.jpg";
 
 const sponsorData = [
-  { id: 1, name: "Sponsor 1", logo: sponsor1 },
-  { id: 2, name: "Sponsor 2", logo: sponsor2 },
-  { id: 3, name: "Sponsor 3", logo: sponsor3 },
-  { id: 4, name: "Sponsor 4", logo: sponsor4 },
-  { id: 5, name: "Sponsor 5", logo: sponsor5 },
-  { id: 6, name: "Sponsor 6", logo: sponsor6 },
-  { id: 7, name: "Sponsor 7", logo: sponsor7 },
-  { id: 8, name: "Sponsor 8", logo: sponsor8 },
+  { id: 1, name: "sponsors.name1", logo: sponsor1 },
+  { id: 2, name: "sponsors.name2", logo: sponsor2 },
+  { id: 3, name: "sponsors.name3", logo: sponsor3 },
+  { id: 4, name: "sponsors.name4", logo: sponsor4 },
+  { id: 5, name: "sponsors.name5", logo: sponsor5 },
+  { id: 6, name: "sponsors.name6", logo: sponsor6 },
+  { id: 7, name: "sponsors.name7", logo: sponsor7 },
+  { id: 8, name: "sponsors.name8", logo: sponsor8 },
 ];
+
+function formatSponsorName(name: string) {
+  return name
+    .split(/<br\s*\/?>/i)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
 
 function Sponsors() {
   const t = useTranslations("Sponsors");
@@ -72,25 +79,39 @@ function Sponsors() {
             <div
               key={copyIndex}
               ref={copyIndex === 0 ? groupRef : undefined}
-              className="marquee-group"
+              className="marquee-group py-2"
               aria-hidden={copyIndex > 0 || undefined}
             >
-              {sponsorData.map((sponsor) => (
+              {sponsorData.map((sponsor) => {
+                const nameParts = formatSponsorName(t(sponsor.name));
+
+                return (
                 <div
                   key={`${copyIndex}-${sponsor.id}`}
-                  className="relative mx-3 flex h-36 w-44 shrink-0 items-center justify-center transition duration-300 hover:grayscale-0"
+                  className="mx-3 h-52 w-52 shrink-0"
                 >
-                  <div className="aspect-4/3 w-full rounded bg-white">
-                    <Image
-                      src={sponsor.logo}
-                      alt={copyIndex === 0 ? sponsor.name : ""}
-                      fill
-                      sizes="176px"
-                      className="object-contain"
-                    />
+                  <div className="flex h-full flex-col overflow-hidden  rounded bg-white shadow-partner transition duration-300 hover:grayscale-0">
+                    <div className="relative min-h-0 flex-1">
+                      <Image
+                        src={sponsor.logo}
+                        alt={copyIndex === 0 ? nameParts.join(" ") : ""}
+                        fill
+                        sizes="176px"
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="shrink-0 border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
+                      {nameParts.map((part, index) => (
+                        <Fragment key={index}>
+                          {index > 0 && <br />}
+                          {part}
+                        </Fragment>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           ))}
         </div>
