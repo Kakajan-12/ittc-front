@@ -308,5 +308,8 @@
     ],
     "contact": "If you have any questions regarding these Terms of Use, please contact us at",
     "email": "info@oguzforum.com"
+  },
+  "test": {
+    "title": "test"
   }
 }
