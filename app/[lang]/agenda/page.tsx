@@ -2,8 +2,8 @@ import React from "react";
 import PageHeading from "@/shared/ui/PageHeading";
 import { useTranslations } from "next-intl";
 
-export default function CookiePage() {
-  const t = useTranslations("Cookie");
+export default function AgendaPage() {
+  const t = useTranslations("Agenda");
   return (
     <main>
       <PageHeading

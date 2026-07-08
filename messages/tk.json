@@ -77,6 +77,21 @@
     "more": "Çäre barada jikme-jik",
     "playAlt": "Çäräniň wideosyny görkez"
   },
+  "Agenda": {
+    "title": "Meýilnama"
+  },
+  "Brochure": {
+    "title": "Broşýura"
+  },
+  "Visa": {
+    "title": "Wiza almak üçin ýüz tutmak"
+  },
+  "Flight": {
+    "title": "Uçar biletini bron etmek"
+  },
+  "Hotel": {
+    "title": "Myhmanhana bron etmek"
+  },
   "Support": {
     "title": "Resmi goldaw"
   },

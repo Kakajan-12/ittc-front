@@ -20,10 +20,10 @@ function Organizers() {
     <div className="mt-15 lg:mt-18">
       <SectionHeading title={t("title")} />
 
-      <ul className="mt-8 grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 justify-items-center gap-3 lg:gap-5">
+      <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 justify-items-center gap-3 lg:gap-5">
         {logos.map(({ key, name }) => (
-          <li key={key} className="flex flex-col items-center gap-2">
-            <div className="sponsorShadow group relative flex flex-col h-42 lg:w-54 rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm">
+          <li key={key} className="flex flex-col items-center gap-2 ">
+            <div className="sponsorShadow group relative flex flex-col h-42 w-40 lg:w-54 rounded  bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm">
               <div className="relative h-full w-full">
                 <Image
                   src={`/logos/${key}.svg`}

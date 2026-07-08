@@ -2,8 +2,8 @@ import React from "react";
 import PageHeading from "@/shared/ui/PageHeading";
 import { useTranslations } from "next-intl";
 
-export default function CookiePage() {
-  const t = useTranslations("Cookie");
+export default function NewsIdPage() {
+  const t = useTranslations("News");
   return (
     <main>
       <PageHeading
@@ -12,7 +12,7 @@ export default function CookiePage() {
         crumbs={[{ label: t("title") }]}
       />
       <div className="mt-8 flex items-center justify-center min-h-[400px]">
-        <div className="text-2xl font-bold">Coming soon!</div>
+        <div className="text-2xl font-bold">Coming soon news id page!</div>
       </div>
     </main>
   );

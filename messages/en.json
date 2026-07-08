@@ -77,6 +77,12 @@
     "more": "More about event",
     "playAlt": "Play the event video"
   },
+  "Agenda": {
+    "title": "Agenda"
+  },
+  "Brochure": {
+    "title": "Brochure"
+  },
   "Support": {
     "title": "Official Support"
   },
@@ -196,6 +202,15 @@
         "answer": "For any additional questions, please reach out to the organizing team by email at info@ittc.tm. Our team will be glad to assist you."
       }
     }
+  },
+  "Visa": {
+    "title": "Apply for Visa"
+  },
+  "Flight": {
+    "title": "Book a Flight"
+  },
+  "Hotel": {
+    "title": "Book a Hotel"
   },
   "News": {
     "title": "News",

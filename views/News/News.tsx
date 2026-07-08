@@ -25,7 +25,7 @@ function News() {
               tag={t("tag")}
               title={t("sampleTitle")}
               date={t("sampleDate")}
-              href="/news"
+              href={`/news/${i}`}
               more={t("details")}
             />
           ))}
