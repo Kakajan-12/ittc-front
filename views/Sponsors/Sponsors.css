@@ -2,7 +2,7 @@
   --marquee-copies: 2;
   display: flex;
   width: max-content;
-  animation: marquee 20s linear infinite;
+  animation: marquee 40s linear infinite;
   backface-visibility: hidden;
 }
 

@@ -20,7 +20,7 @@ const partnerData = [
   { id: 4, name: "Partner 4", logo: partner4, category: "media" },
   { id: 5, name: "Partner 5", logo: partner5, category: "media" },
   { id: 6, name: "Partner 6", logo: partner6, category: "media" },
-  { id: 7, name: "Partner 7", logo: partner7, category: "knowledge" },
+  { id: 7, name: "Partner 7", logo: partner7, category: "media" },
 ];
 
 function formatCategoryLabel(label: string) {

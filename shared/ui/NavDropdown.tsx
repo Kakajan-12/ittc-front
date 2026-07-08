@@ -45,9 +45,9 @@ export default function NavDropdown({
         type="button"
         onClick={canHover ? undefined : () => setOpen((v) => !v)}
         aria-expanded={open}
-        className={`flex items-center gap-1.5 py-1 lg:py-2 text-sm lg:text-base  transition-colors ${
+        className={`flex items-center gap-1.5 py-1 lg:py-2 text-sm lg:text-lg  transition-colors ${
           scrolled
-            ? "text-brand-blue-dark hover:text-brand-blue"
+            ? "text-brand-gray hover:text-brand-blue"
             : "text-white hover:text-white/80"
         }`}
       >

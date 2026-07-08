@@ -94,7 +94,7 @@ export default function Footer() {
   const t = useTranslations("Footer");
   return (
     <footer className="bg-gradient-footer relative bg-brand-blue-dark font-proxima-nova">
-      <div className="absolute inset-0 bg-black/30 z-0" />
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-brand-blue-dark/60 to-brand-blue-dark z-20" />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-10 bg-[url('/pattern.svg')] bg-repeat bg-size-[680px] opacity-20"

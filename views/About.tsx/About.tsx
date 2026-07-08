@@ -14,7 +14,7 @@ function About() {
       <div className="px-4 lg:px-10">
         <SectionHeading title={t("title")} className="block lg:hidden" />
 
-        <div className="grid items-start gap-3 lg:grid-cols-2 lg:gap-20">
+        <div className="grid items-center gap-3 lg:grid-cols-2 lg:gap-20">
           <div className="flex flex-col lg:gap-6 order-2 lg:order-1">
             <SectionHeading title={t("title")} className="hidden lg:block" />
 

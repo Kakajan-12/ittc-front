@@ -82,9 +82,9 @@ export default function NavBar({
               <Link
                 key={item.key}
                 href={item.href}
-                className={`py-1 lg:py-2 text-sm lg:text-base transition-colors ${
+                className={`py-1 lg:py-2 text-sm lg:text-lg transition-colors ${
                   scrolled
-                    ? "text-brand-blue-dark hover:text-brand-blue"
+                    ? "text-brand-gray hover:text-brand-blue"
                     : "text-white hover:text-white/80"
                 }`}
               >
@@ -95,7 +95,7 @@ export default function NavBar({
 
           <Link
             href="/register"
-            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-bold text-white transition hover:bg-brand-blue/85"
+            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-lg font-bold text-white transition hover:bg-brand-blue/85"
           >
             {t("register")}
           </Link>

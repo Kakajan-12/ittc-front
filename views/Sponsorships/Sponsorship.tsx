@@ -12,12 +12,12 @@ function Sponsorship() {
       <div className="px-4 lg:px-10">
         <SectionHeading title={t("title")} className="block lg:hidden" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1.5fr] justify-start items-start gap-3 lg:gap-20">
-          <div className="flex flex-col lg:gap-10 h-full order-2 lg:order-1">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_1.5fr] justify-start items-center gap-3 lg:gap-20">
+          <div className="flex flex-col justify-center lg:gap-10 h-full order-2 lg:order-1">
             <div className="flex flex-col gap-6">
               <SectionHeading title={t("title")} className="hidden lg:flex" />
 
-              <p className="text-base whitespace-pre-line text-brand-gray">
+              <p className="text-base xl:text-lg whitespace-pre-line text-brand-gray">
                 {t("text")}
               </p>
             </div>

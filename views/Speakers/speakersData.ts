@@ -5,7 +5,7 @@ import speaker3 from "@/public/speakers/3.png";
 import speaker4 from "@/public/speakers/4.png";
 import speaker5 from "@/public/speakers/5.png";
 import speaker6 from "@/public/speakers/6.png";
-import speaker7 from "@/public/speakers/7.webp";
+import speaker7 from "@/public/speakers/7.jpeg";
 import speaker8 from "@/public/speakers/8.png";
 
 export type SpeakerItem = {
