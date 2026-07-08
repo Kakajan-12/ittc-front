@@ -3,7 +3,7 @@
 import PageHeading from "@/shared/ui/PageHeading";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import supportImage from "@/public/support.jpg";
+import supportImage from "@/public/support.png";
 
 function OfficialSupportPage() {
   const t = useTranslations("Support");
