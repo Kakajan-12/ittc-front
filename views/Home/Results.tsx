@@ -28,15 +28,16 @@ function Results({ className }: { className?: string }) {
               >
                 {value}
               </span>
-              <CountUp
-                from={0}
-                to={value}
-                separator=","
-                direction="up"
-                duration={1}
-                delay={0}
-                className="relative font-capitana text-4xl leading-none sm:text-5xl"
-              />
+              <span className="relative font-capitana text-4xl leading-none sm:text-5xl">
+                +<CountUp
+                  from={0}
+                  to={value}
+                  separator=","
+                  direction="up"
+                  duration={1}
+                  delay={0}
+                />
+              </span>
               <dt className="relative mt-3 text-base font-capitana text-results">
                 {t(key)}
               </dt>

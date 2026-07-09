@@ -28,7 +28,9 @@ export default function PageHeading({
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-linear-to-r from-black/66 via-black/30 to-transparent" />
+      {/* <div className="absolute inset-0 bg-linear-to-r from-black/66 via-black/30 to-transparent" /> */}
+      <div className="absolute inset-0 bg-black/50" />
+
       <div className="relative px-4 pb-10 lg:px-10 lg:pb-36">
         <h2 className="text-4xl font-bold text-white font-roboto lg:text-5xl">
           {title}
