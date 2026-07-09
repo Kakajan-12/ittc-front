@@ -26,10 +26,11 @@ function Results({ className }: { className?: string }) {
                 aria-hidden
                 className="pointer-events-none absolute -top-3 left-0 select-none font-capitana text-6xl font-bold leading-none text-white/15 sm:text-7xl"
               >
-                {value}
+                +{value}
               </span>
               <span className="relative font-capitana text-4xl leading-none sm:text-5xl">
-                +<CountUp
+                +
+                <CountUp
                   from={0}
                   to={value}
                   separator=","
