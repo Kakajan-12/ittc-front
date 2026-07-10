@@ -94,7 +94,7 @@ export default function NavBar({
           )}
 
           <Link
-            href="/register"
+            href="../register"
             className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-lg font-bold text-white transition hover:bg-brand-blue/85"
           >
             {t("register")}

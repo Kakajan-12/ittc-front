@@ -8,5 +8,6 @@ export const config = {
   // - API routes
   // - Next.js internals (/_next, /_vercel)
   // - files with an extension (e.g. favicon.svg)
-  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
+  // - the standalone (non-localized) /register route
+  matcher: "/((?!api|_next|_vercel|register|.*\\..*).*)",
 };

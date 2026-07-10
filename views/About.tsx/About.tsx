@@ -14,7 +14,7 @@ function About() {
       <div className="px-4 lg:px-10">
         <SectionHeading title={t("title")} className="block lg:hidden" />
 
-        <div className="grid items-center gap-3 lg:grid-cols-2 lg:gap-20">
+        <div className="grid items-center gap-3 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_500px] 2xl:grid-cols-[1fr_700px] lg:gap-16 xl:gap-20">
           <div className="flex flex-col lg:gap-6 order-2 lg:order-1">
             <SectionHeading title={t("title")} className="hidden lg:block" />
 
@@ -23,7 +23,7 @@ function About() {
             <Button text={t("more")} href="/about" className="mt-2" />
           </div>
 
-          <div className="relative aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
+          <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
             <Image
               src="/about.jpg"
               alt=""
