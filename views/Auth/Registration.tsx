@@ -59,7 +59,7 @@ export default function Registration() {
   const [showPromo, setShowPromo] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
-  const [accepted, setAccepted] = useState(true);
+  const [accepted, setAccepted] = useState(false);
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const codeInputsRef = useRef<Array<HTMLInputElement | null>>([]);
   const [formData, setFormData] = useState({
