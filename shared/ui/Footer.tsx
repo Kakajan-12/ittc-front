@@ -10,10 +10,26 @@ import { useTranslations } from "next-intl";
 import FooterAccordion from "@/shared/ui/FooterAccordion";
 
 const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
-  { label: "Telegram", href: "#", icon: <PiTelegramLogo /> },
-  { label: "WhatsApp", href: "#", icon: <FaWhatsapp /> },
-  { label: "Instagram", href: "#", icon: <FaInstagram /> },
-  { label: "LinkedIn", href: "#", icon: <SlSocialLinkedin /> },
+  {
+    label: "Telegram",
+    href: "https://t.me/Oguz_forum_expo",
+    icon: <PiTelegramLogo />,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/99361480080",
+    icon: <FaWhatsapp />,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/oguzforumexpo?igsh=eWhxMDR1c3JmanVz",
+    icon: <FaInstagram />,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://tm.linkedin.com/company/hi-tech-turkmenistan",
+    icon: <SlSocialLinkedin />,
+  },
 ];
 
 type FooterLinkItem = { label: string; href: string; icon?: React.ReactNode };
@@ -38,7 +54,7 @@ const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
     titleKey: "links",
     links: [
       { labelKey: "support", href: "/support" },
-      { labelKey: "register", href: "/register" },
+      { labelKey: "register", href: "../register" },
       { labelKey: "faq", href: "/faq" },
     ],
   },
@@ -108,7 +124,7 @@ export default function Footer() {
               <ul className="flex items-center gap-4">
                 {SOCIALS.map(({ label, href, icon }) => (
                   <li key={label}>
-                    <Link
+                    <a
                       href={href}
                       aria-label={label}
                       target="_blank"
@@ -116,7 +132,7 @@ export default function Footer() {
                       className="grid size-10 place-items-center rounded-full bg-white text-2xl text-brand-blue-dark transition hover:bg-white/80"
                     >
                       {icon}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>

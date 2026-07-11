@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { Link } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
+import { IoLockClosedOutline } from "react-icons/io5";
 
 export default function NavDropdown({
   item,
@@ -61,12 +62,17 @@ export default function NavDropdown({
         <div className="absolute left-0 top-full z-50 w-full rounded bg-white/95 py-2 shadow-xl">
           {item.children?.map((child) => (
             <Link
-              key={child.href}
+              key={`${child.label}-${child.href}`}
               href={child.href}
               onClick={() => setOpen(false)}
-              className="block px-4 py-2 text-sm hover:text-brand-blue transition-colors hover:translate-x-1"
+              className=" px-4 py-2 text-sm flex items-center justify-between gap-2 transition-colors hover:translate-x-1"
             >
-              {child.label}
+              <span className="text-black hover:text-brand-blue">
+                {child.label}
+              </span>
+              {child.href === "#" ? (
+                <IoLockClosedOutline size={16} className="text-[#849299]" />
+              ) : null}
             </Link>
           ))}
         </div>

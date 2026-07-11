@@ -42,34 +42,42 @@
     "section": {
       "title": "Exhibition Section",
       "1": {
+        "category": "Infrastructure",
         "title": "Transport Infrastructure and Logistics",
         "text": "Railway systems, road transport networks, multi-modal terminals, logistics hubs, and transport corridor development projects."
       },
       "2": {
+        "category": "Maritime",
         "title": "Maritime and Port Infrastructure",
         "text": "Port development technologies, Caspian Sea logistics, shipping services, container handling systems, and solutions for maritime connectivity."
       },
       "3": {
+        "category": "Aviation",
         "title": "Aviation and Air Cargo Transport",
         "text": "Air transport services, cargo airlines, airport infrastructure, aviation logistics hubs, and air transport technologies."
       },
       "4": {
-        "title": "Digital Logistics and Intelligent Solutions",
-        "text": "AI-based logistics systems, digital freight platforms, blockchain solutions, \"smart customs,\" IoT, and supply chain digitalization."
-      },
-      "5": {
+        "category": "Technologies",
         "title": "Transport Technologies and Innovations",
         "text": "Smart mobility systems, autonomous transport solutions, tracking technologies, and intelligent transport systems (ITS)."
       },
+      "5": {
+        "category": "Digital",
+        "title": "Digital Logistics and Intelligent Solutions",
+        "text": "AI-based logistics systems, digital freight platforms, blockchain solutions, \"smart customs,\" IoT, and supply chain digitalization."
+      },
       "6": {
+        "category": "Investment",
         "title": "Investment and Infrastructure Development",
         "text": "Public-private partnerships (PPP), financial institutions, infrastructure investment projects, and international development programs."
       },
       "7": {
+        "category": "Sustainability",
         "title": "Sustainable Transport and Green Solutions",
         "text": "Eco-friendly logistics, low-carbon transport technologies, energy-efficient systems, and ESG-oriented solutions."
       },
       "8": {
+        "category": "Services",
         "title": "Trade and Industrial Services",
         "text": "Freight forwarding services, trade logistics, industrial equipment for the transport sector, and related services."
       }

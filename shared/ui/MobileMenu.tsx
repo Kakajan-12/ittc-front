@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
+import { IoLockClosedOutline } from "react-icons/io5";
 
 export default function MobileMenu({
   open,
@@ -69,19 +70,28 @@ export default function MobileMenu({
                   {item.label}
                 </Link>
                 <ul className="flex flex-col gap-6 pl-2.5 text-brand-gray">
-                  {item.children.map((child) => {
+                  {item.children.map((child, index) => {
                     const active = pathname === child.href;
                     return (
-                      <li key={child.href} className="flex items-center gap-3">
+                      <li
+                        key={`${child.href}-${index}`}
+                        className="flex items-center gap-3"
+                      >
                         <span className="size-2 shrink-0 rounded-full bg-brand-blue" />
                         <Link
                           href={child.href}
                           onClick={onClose}
-                          className={`text-base transition hover:text-brand-blue ${
+                          className={`text-base transition w-full flex items-center justify-between hover:text-brand-blue ${
                             active ? "text-brand-blue" : "text-brand-gray"
                           }`}
                         >
-                          {child.label}
+                          <span className="text-black">{child.label}</span>
+                          {child.href === "#" ? (
+                            <IoLockClosedOutline
+                              size={16}
+                              className="text-[#849299]"
+                            />
+                          ) : null}
                         </Link>
                       </li>
                     );

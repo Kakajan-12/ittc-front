@@ -19,7 +19,7 @@ export default function PageHeading({
   const trail: Crumb[] = [{ label: homeLabel, href: "/" }, ...crumbs];
 
   return (
-    <section className="relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px]">
+    <section className="relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px]">
       <Image
         src={image}
         alt=""

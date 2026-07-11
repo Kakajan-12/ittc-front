@@ -20,6 +20,8 @@ function Header({ menuOpen = false }: { menuOpen?: boolean }) {
             width={97}
             height={36}
             className="h-9 w-auto"
+            style={{ width: "auto", height: "auto" }}
+            priority
           />
         </a>
         <div className="header-menu">

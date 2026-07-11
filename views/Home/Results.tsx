@@ -22,13 +22,7 @@ function Results({ className }: { className?: string }) {
         <dl className="mt-8 grid grid-cols-2 gap-x-3 lg:gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
           {resultsData.map(({ key, value }) => (
             <div key={key} className="relative">
-              <span
-                aria-hidden
-                className="pointer-events-none absolute -top-3 left-0 select-none font-capitana text-6xl font-bold leading-none text-white/15 sm:text-7xl"
-              >
-                +{value}
-              </span>
-              <span className="relative font-capitana text-4xl leading-none sm:text-5xl">
+              <span className="relative font-capitana text-4xl leading-none sm:text-5xl lg:text-6xl">
                 +
                 <CountUp
                   from={0}

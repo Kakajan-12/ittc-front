@@ -21,6 +21,7 @@ type PhoneInputProps = {
   onChange: (phone: string) => void;
   onCountryChange?: (country: Country) => void;
   className?: string;
+  required?: boolean;
 };
 
 export default function PhoneInput({
@@ -33,6 +34,7 @@ export default function PhoneInput({
   onChange,
   onCountryChange,
   className,
+  required = true,
 }: PhoneInputProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -112,6 +114,7 @@ export default function PhoneInput({
           onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
           autoComplete="tel-national"
           className="min-w-0 flex-1 px-3 text-sm text-[#424A4E] outline-none placeholder:text-[#aab4bd]"
+          required={required}
         />
       </div>
 

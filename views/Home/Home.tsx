@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "@/i18n/navigation";
-import About from "@/views/About.tsx/About";
+import About from "@/views/About/About";
 import Results from "@/views/Home/Results";
 import Sponsorship from "../Sponsorships/Sponsorship";
 import Sponsors from "@/views/Sponsors/Sponsors";

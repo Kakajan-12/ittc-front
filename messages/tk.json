@@ -42,39 +42,48 @@
     "section": {
       "title": "Serginiň bölümleri",
       "1": {
+        "category": "Infrastrukturasy",
         "title": "Ulag infrastrukturasy we logistika",
         "text": "Demir ýol ulgamlary, awtomobil ulag ulgamlary, multimodal terminallary, logistika merkezleri we ulag geçelgelerini ösdürmek boýunça taslamalar."
       },
       "2": {
+        "category": "Deňiz",
         "title": "Deňiz we port infrastrukturasy",
         "text": "Portlary ösdürmek tehnologiýalary, Hazar deňziniň logistikasy, gämi gatnawy hyzmatlary, konteýnerleri işläp taýýarlamak ulgamlary we deňiz baglanyşygy üçin çözgütler."
       },
       "3": {
+        "category": "Awiasiýa",
         "title": "Awiasiýa we ýük howa ulagy",
         "text": "Howa ulag hyzmatlary, ýük awiakompaniýalary, aeroport infrastrukturasy, awiasiýa logistika merkezleri we howa ulag tehnologiýalary."
       },
       "4": {
-        "title": "Sanly logistika we intellektual çözgütler",
-        "text": "Süni akyla esaslanýan logistika ulgamlary, sanly ýük platformalary, blokçeýn çözgütleri, «akylly gümrük», IoT we üpjünçilik zynjyraryny sanlylaşdyrmak."
-      },
-      "5": {
+        "category": "Tehnologiýalar",
         "title": "Ulag tehnologiýalary we innowasiýalar",
         "text": "Akylly ykjamlyk ulgamlary, awtonom ulag çözgütleri, yzarlama tehnologiýalary we intellektual ulag ulgamlary (ITS)."
       },
+      "5": {
+        "category": "Sanly logistika",
+        "title": "Sanly logistika we intellektual çözgütler",
+        "text": "Süni akyla esaslanýan logistika ulgamlary, sanly ýük platformalary, blokçeýn çözgütleri, «akylly gümrük», IoT we üpjünçilik zynjyraryny sanlylaşdyrmak."
+      },
+
       "6": {
+        "category": "Maýa goýumlar",
         "title": "Maýa goýumlary we infrastrukturany ösdürmek",
         "text": "Döwlet-hususy hyzmatdaşlygy (DHH), maliýe institutlary, infrastruktura maýa goýum taslamalary we halkara ösüş maksatnamalary."
       },
       "7": {
+        "category": "Durnukly ulag",
         "title": "Durnukly ulag we ýaşyl çözgütler",
         "text": "Ekologiýa taýdan arassa logistika, pes uglerodly ulag tehnologiýalary, energiýa tygşytlaýjy ulgamlar we ESG ugurly çözgütler."
       },
       "8": {
+        "category": "Hyzmatlar",
         "title": "Söwda we senagat hyzmatlary",
         "text": "Ýük ugratmak (ekspeditorlyk) hyzmatlary, söwda logistikasy, ulag pudagy üçin senagat enjamlary we degişli hyzmatlar."
       }
     },
-    "more": "Çäre barada jikme-jik",
+    "more": "Çäre barada giňişleýin maglumat",
     "playAlt": "Çäräniň wideosyny görkez"
   },
   "Agenda": {
@@ -116,7 +125,7 @@
   "Sponsorship": {
     "title": "Hemaýatkärlik mümkinçilikleri",
     "text": "Brendiňizi innowasiýalaryň we hyzmatdaşlygyň merkezinde ýerleşdirmek üçin ITTC 2026-nyň hyzmatdaşy boluň. Biziň hemaýatkärlik paketlerimiz brendiňiziň tanyşlygyny maksimal derejede artdyrmak, ähmiýetli işewürlik gatnaşyklaryny ýola goýmak we pudagyň hünärmenleri bilen dowamly hyzmatdaşlygy döretmek üçin niýetlenendir. \n Maslahatyň ähli ugurlarynda brendiňiziň ykrar edilmeginden başlap, aýratyn aragatnaşyk (networing) we sergi mümkinçiliklerine çenli her bir paket netijeli gymmatlyk hödürleýär we size maksatlaryňyza iň laýyk gelýän gatnaşyk derejesini saýlamaga mümkinçilik berýär.",
-    "more": "Hemaýatkärlik bukletini görkez"
+    "more": "Hemaýatkärlik mümkinçilikler barada giňişleýin maglumat"
   },
   "Sponsors": {
     "title": "Hemaýatkärler",
@@ -133,7 +142,7 @@
   },
   "Speakers": {
     "title": "Çykyş edýänler",
-    "more": "Ähli çykyş edýänleri görkez",
+    "more": "Ähli çykyş edýänleriň barada giňişleýin maglumat",
     "placeholder": "Çykyş edýäniň gözlegi",
     "noResults": "\"{query}\" boýunça çykyş edýän tapylmady.",
     "clear": "Gözlegi arassala",

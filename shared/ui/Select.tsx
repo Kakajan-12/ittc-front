@@ -73,12 +73,14 @@ export default function Select({
         aria-haspopup="listbox"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "input-style flex w-full items-center justify-between text-left",
+          "input-style flex w-full items-center justify-between text-left border border-[#849299]/80 rounded",
           !selectedOption && "text-[#aab4bd]",
-          selectedOption && "text-[#849299]",
+          selectedOption && "text-[#849299] border-brand-blue-dark",
         )}
       >
-        <span className="truncate">{selectedOption?.label ?? placeholder}</span>
+        <span className="truncate text-black">
+          {selectedOption?.label ?? placeholder}
+        </span>
         <FaChevronDown
           className={cn(
             "ml-2 size-3 shrink-0 text-brand-gray transition-transform",
