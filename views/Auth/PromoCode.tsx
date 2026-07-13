@@ -77,8 +77,8 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
         {error ? (
           <p className="mt-3 font-nexa text-sm text-red-500">{error}</p>
         ) : accepted ? (
-          <p className="mt-3 flex items-center gap-2 font-nexa text-sm text-[#6CD278]">
-            <IoCheckmarkOutline size={16} className="text-[#6CD278]" />
+          <p className="mt-3 flex items-center gap-2 font-nexa text-sm text-green-400">
+            <IoCheckmarkOutline size={16} className="text-green-400" />
             <span>Promo code accepted</span>
           </p>
         ) : (

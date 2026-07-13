@@ -197,10 +197,10 @@ export default function Registration() {
         </div>
 
         {/* Right form */}
-        <div className="relative z-30 flex w-full lg:w-1/2 bg-white m-6 rounded items-center h-full">
+        <div className="relative z-30 flex w-full lg:w-1/2 bg-white m-6 rounded items-center">
           <Link
             href="/"
-            className="absolute top-3 left-1/2 -translate-x-1/2 lg:top-10 lg:right-26 lg:left-auto lg:translate-x-0"
+            className="absolute top-3 left-1/2 -translate-x-1/2 lg:top-10 lg:right-13 lg:left-auto lg:translate-x-0"
           >
             <Image
               src="/logo.svg"
