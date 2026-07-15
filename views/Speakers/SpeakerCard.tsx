@@ -1,6 +1,7 @@
-import Image, { StaticImageData } from "next/image";
+import { type StaticImageData } from "next/image";
 import { Fragment } from "react";
 import { cn } from "@/lib/utils";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 
 function formatSpeakerName(name: string) {
   return name
@@ -35,7 +36,7 @@ function SpeakerCard({
     >
       <div className="relative aspect-square w-full bg-linear-to-b from-[#C0C0C000] to-[#333333]">
         {image && (
-          <Image
+          <SkeletonImage
             src={image}
             alt={nameAlt}
             fill

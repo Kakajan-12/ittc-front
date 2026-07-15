@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 
 const logos = [
   { key: 1, name: "logo1" },
@@ -25,7 +25,7 @@ function Organizers() {
           <li key={key} className="flex flex-col items-center gap-2 ">
             <div className="sponsorShadow group relative flex flex-col h-42 w-40 lg:w-54 xl:w-48 2xl:w-50 rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm">
               <div className="relative h-full w-full">
-                <Image
+                <SkeletonImage
                   src={`/logos/${key}.svg`}
                   alt={t(name)}
                   fill

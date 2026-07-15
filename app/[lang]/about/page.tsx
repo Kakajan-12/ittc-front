@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl";
 import PageHeading from "@/shared/ui/PageHeading";
 import Results from "@/views/Home/Results";
 import SectionHeading from "@/shared/ui/SectionHeading";
-import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import card1 from "@/public/about/1.svg";
 import card2 from "@/public/about/2.svg";
 import card3 from "@/public/about/3.svg";
@@ -41,7 +41,7 @@ function AboutPage() {
             </p>
           </div>
           <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
-            <Image
+            <SkeletonImage
               src="/about/video.jpg"
               alt=""
               fill

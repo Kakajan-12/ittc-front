@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "@/i18n/navigation";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 
 function NewsCard({
   id,
@@ -24,7 +24,7 @@ function NewsCard({
       className="flex flex-col overflow-hidden rounded bg-white sponsorShadow"
     >
       <div className="relative aspect-video w-full bg-[#D9D9D9]">
-        <Image
+        <SkeletonImage
           src="/news.png"
           alt=""
           fill
@@ -41,13 +41,10 @@ function NewsCard({
         <div className="mt-auto flex flex-col lg:pt-2">
           <span className="text-sm text-brand-gray text-left">{date}</span>
 
-          <Link
-            href={href}
-            className="group flex items-center justify-end gap-2 text-brand-blue transition hover:text-brand-blue/80 font-bold"
-          >
+          <div className="group flex items-center justify-end gap-2 text-brand-blue transition hover:text-brand-blue/80 font-bold">
             <span className="leading-none text-base uppercase ">{more}</span>
             <GoArrowUpRight className="size-4 shrink-0 mb-0.5 self-center transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          </div>
         </div>
       </div>
     </Link>

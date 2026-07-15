@@ -3,8 +3,7 @@ import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import NewsCard from "./NewsCard";
-
-const news = Array.from({ length: 3 });
+import { newsData, NewsItem } from "./newsData";
 
 function News() {
   const t = useTranslations("News");
@@ -18,14 +17,14 @@ function News() {
         </div>
 
         <div className="lg:mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {news.map((_, i) => (
+          {newsData.slice(0, 3).map((news: NewsItem) => (
             <NewsCard
-              key={i}
-              id={`news-${i}`}
-              tag={t("tag")}
-              title={t("sampleTitle")}
-              date={t("sampleDate")}
-              href={`/news/${i}`}
+              key={news.id}
+              id={`news-${news.id}`}
+              tag={news.tag}
+              title={news.title}
+              date={news.date}
+              href={`/news/${news.id}`}
               more={t("details")}
             />
           ))}

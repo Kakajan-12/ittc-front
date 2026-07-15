@@ -3,7 +3,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
-import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import "./Sponsors.css";
 import sponsor1 from "@/public/sponsors/1.jpg";
 import sponsor2 from "@/public/sponsors/2.jpg";
@@ -92,7 +92,7 @@ function Sponsors() {
                 >
                   <div className="flex h-full flex-col overflow-hidden  rounded bg-white shadow-partner transition duration-300 hover:grayscale-0">
                     <div className="relative min-h-0 flex-1">
-                      <Image
+                      <SkeletonImage
                         src={sponsor.logo}
                         alt={copyIndex === 0 ? nameParts.join(" ") : ""}
                         fill

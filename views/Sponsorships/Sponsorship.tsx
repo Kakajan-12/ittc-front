@@ -1,8 +1,8 @@
 import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 
 function Sponsorship() {
   const t = useTranslations("Sponsorship");
@@ -25,7 +25,7 @@ function Sponsorship() {
             <Button text={t("more")} href="/sponsorship" />
           </div>
           <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-4/3 w-full overflow-hidden rounded order-1 lg:order-2">
-            <Image
+            <SkeletonImage
               src="/event.jpg"
               alt=""
               fill

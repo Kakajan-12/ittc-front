@@ -1,7 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { FaPlay } from "react-icons/fa6";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import Organizers from "./Organizers";
@@ -24,7 +24,7 @@ function About() {
           </div>
 
           <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
-            <Image
+            <SkeletonImage
               src="/about/video.jpg"
               alt=""
               fill

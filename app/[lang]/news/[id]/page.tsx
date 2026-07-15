@@ -45,15 +45,17 @@ export default function NewsDetailPage() {
       </Link>
 
       <div className="mt-4 grid grid-cols-1 gap-5 lg:mt-10 lg:grid-cols-[1fr_1.5fr] lg:gap-12">
-        <div className="relative lg:sticky lg:top-30 top-0 aspect-video w-full overflow-hidden rounded">
-          <SkeletonImage
-            src={article.image}
-            alt={article.title}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-            priority
-          />
+        <div className="lg:sticky lg:top-30 top-0 self-start">
+          <div className="relative aspect-video w-full overflow-hidden rounded">
+            <SkeletonImage
+              src={article.image}
+              alt={article.title}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-4">

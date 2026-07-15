@@ -3,7 +3,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
-import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import "../Sponsors/Sponsors.css";
 import partner1 from "@/public/partners/1.png";
 import partner2 from "@/public/partners/2.png";
@@ -89,7 +89,7 @@ function Partners() {
                   >
                     <div className="flex flex-col overflow-hidden rounded bg-white shadow-partner">
                       <div className="relative aspect-4/3 w-full">
-                        <Image
+                        <SkeletonImage
                           src={partner.logo}
                           alt={copyIndex === 0 ? partner.name : ""}
                           fill

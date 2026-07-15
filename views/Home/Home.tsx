@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "@/i18n/navigation";
 import About from "@/views/About/About";
@@ -23,13 +23,14 @@ function Home() {
   return (
     <>
       <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
-        <Image
+        <SkeletonImage
           src="/main.jpg"
           alt=""
           fill
           priority
           sizes="100vw"
           className="-z-10 object-cover object-center"
+          skeletonClassName="-z-10"
         />
         <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 

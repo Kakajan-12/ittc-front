@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { IoChevronBack } from "react-icons/io5";
 import Image from "next/image";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 import TabActive1 from "@/public/tab1active.svg";
 import TabFull1 from "@/public/tab1full.svg";
 import TabGray2 from "@/public/tab2gray.svg";
@@ -168,7 +169,7 @@ export default function Registration() {
       <div className=" flex w-full overflow-hidden justify-end">
         {/* Left visual */}
         <div className="absolute inset-0 hidden w-full lg:block z-0">
-          <Image
+          <SkeletonImage
             src="/register.webp"
             alt=""
             fill

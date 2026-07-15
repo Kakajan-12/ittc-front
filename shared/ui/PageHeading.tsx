@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
+import { SkeletonImage } from "@/components/ui/Skeleton";
 
 type Crumb = { label: string; href?: string };
 
@@ -26,7 +26,7 @@ export default function PageHeading({
     <section
       className={`relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px] ${сlassName}`}
     >
-      <Image
+      <SkeletonImage
         src={image}
         alt=""
         fill
