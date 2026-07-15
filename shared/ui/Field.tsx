@@ -8,9 +8,7 @@ type FieldProps = {
   placeholder?: string;
   required?: boolean;
   value?: string;
-  onChange?: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
 export default function Field({
@@ -45,7 +43,7 @@ export default function Field({
         value={value}
         onChange={onChange}
         required={required}
-        className={`input-style border ${value ? "border-brand-blue-dark" : "border-[#849299]/80"}`}
+        className={`input-style border ${value ? "border-brand-blue-dark" : "border-gray-400"}`}
       />
     </div>
   );

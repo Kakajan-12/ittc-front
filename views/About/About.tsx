@@ -25,7 +25,7 @@ function About() {
 
           <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-video w-full overflow-hidden rounded order-1 lg:order-2">
             <Image
-              src="/about.jpg"
+              src="/about/video.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"

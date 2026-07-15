@@ -73,9 +73,9 @@ export default function Select({
         aria-haspopup="listbox"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "input-style flex w-full items-center justify-between text-left border border-[#849299]/80 rounded",
+          "input-style flex w-full items-center justify-between text-left border border-gray-400 rounded",
           !selectedOption && "text-[#aab4bd]",
-          selectedOption && "text-[#849299] border-brand-blue-dark",
+          selectedOption && "text-gray-400 border-brand-blue-dark",
         )}
       >
         <span className="truncate text-black">
@@ -94,7 +94,7 @@ export default function Select({
         <ul
           role="listbox"
           aria-labelledby={id}
-          className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded border border-[#849299] bg-white py-1 shadow-lg"
+          className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded border border-gray-400 bg-white py-1 shadow-lg"
         >
           {options.map((option) => (
             <li

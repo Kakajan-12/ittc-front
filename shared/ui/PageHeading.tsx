@@ -9,24 +9,30 @@ export default function PageHeading({
   crumbs = [],
   image = "/heading.webp",
   homeLabel = "Home",
+  сlassName = "",
+  objectPosition = "center",
 }: {
   title: string;
   /** Trail after "Home". The last item is rendered as the current page. */
   crumbs?: Crumb[];
   image?: string;
   homeLabel?: string;
+  сlassName?: string;
+  objectPosition?: string;
 }) {
   const trail: Crumb[] = [{ label: homeLabel, href: "/" }, ...crumbs];
 
   return (
-    <section className="relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px]">
+    <section
+      className={`relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px] ${сlassName}`}
+    >
       <Image
         src={image}
         alt=""
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className={`object-cover object-${objectPosition}`}
       />
       {/* <div className="absolute inset-0 bg-linear-to-r from-black/66 via-black/30 to-transparent" /> */}
       <div className="absolute inset-0 bg-black/50" />

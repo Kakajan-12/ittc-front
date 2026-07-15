@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { FiMenu } from "react-icons/fi";
-import { Link } from "@/i18n/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
 import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
 
@@ -22,7 +22,13 @@ export default function NavBar({
   setMenuOpen: (open: boolean) => void;
 }) {
   const t = useTranslations("Navbar");
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+
+  // На странице конкретной новости (/news/[id]) фон светлый,
+  // поэтому текст навбара должен быть тёмным даже наверху страницы.
+  const isNewsDetail = /^\/news\/[^/]+$/.test(pathname);
+  const darkText = scrolled || isNewsDetail;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -60,7 +66,7 @@ export default function NavBar({
   return (
     <nav
       className={`fixed top-11 left-0 right-0 z-70 transition-colors duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
+        scrolled ? "bg-white shadow-header" : "bg-transparent"
       }`}
     >
       <div className="px-4 lg:px-10 flex items-center justify-between py-3 ">
@@ -77,13 +83,13 @@ export default function NavBar({
         <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex">
           {items.map((item) =>
             item.children ? (
-              <NavDropdown key={item.key} item={item} scrolled={scrolled} />
+              <NavDropdown key={item.key} item={item} scrolled={darkText} />
             ) : (
               <Link
                 key={item.key}
                 href={item.href}
                 className={`py-1 lg:py-2 text-sm lg:text-lg transition-colors ${
-                  scrolled
+                  darkText
                     ? "text-brand-gray hover:text-brand-blue"
                     : "text-white hover:text-white/80"
                 }`}
@@ -95,7 +101,7 @@ export default function NavBar({
 
           <Link
             href="../register"
-            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-lg font-bold text-white transition hover:bg-brand-blue/85"
+            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-normal text-white transition hover:bg-brand-blue/85"
           >
             {t("register")}
           </Link>

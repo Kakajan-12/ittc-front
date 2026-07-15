@@ -18,7 +18,8 @@ function NewsCard({
   more: string;
 }) {
   return (
-    <article
+    <Link
+      href={href}
       id={id}
       className="flex flex-col overflow-hidden rounded bg-white sponsorShadow"
     >
@@ -49,7 +50,7 @@ function NewsCard({
           </Link>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 

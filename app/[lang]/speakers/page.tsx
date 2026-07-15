@@ -35,6 +35,8 @@ function Speakers() {
         title={t("title")}
         homeLabel="Home"
         crumbs={[{ label: t("title") }]}
+        image="/speakers.jpg"
+        objectPosition="top"
       />
       <div className="px-4 lg:px-10 py-15 lg:py-20">
         <label
@@ -72,7 +74,7 @@ function Speakers() {
         </label>
 
         {visible.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mt-10">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-10">
             {visible.map((s) => (
               <SpeakerCard
                 key={s.id}

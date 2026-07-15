@@ -34,7 +34,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
             >
               Terms of Use and Privacy Policy
             </h2>
-            <p className="font-nexa text-xs lg:text-sm text-[#849299]">
+            <p className="font-nexa text-xs lg:text-sm text-gray-400">
               Please read the following terms and policies carefully to
               understand how your data is used and your rights.
             </p>
@@ -50,7 +50,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               Terms of Use
             </h3>
           </div>
-          <p className="font-nexa text-xs lg:text-sm leading-relaxed text-[#849299]">
+          <p className="font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
             By registering for ITTC 2026, you agree to provide accurate and
             complete information. Your registration is personal and
             non-transferable. We reserve the right to refuse or cancel any
@@ -67,13 +67,13 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               Privacy Policy
             </h3>
           </div>
-          <p className="font-nexa text-xs lg:text-sm leading-relaxed text-[#849299]">
+          <p className="font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
             We are committed to protecting your privacy. The personal
             information you provide will be used solely for event registration
             and related communications. We do not share your data with third
             parties without your consent.
           </p>
-          <p className="mt-4 font-nexa text-xs lg:text-sm leading-relaxed text-[#849299]">
+          <p className="mt-4 font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
             For more details, please visit our full Privacy Policy on the
             website.
           </p>

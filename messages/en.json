@@ -86,7 +86,26 @@
     "playAlt": "Play the event video"
   },
   "Agenda": {
-    "title": "Agenda"
+    "title": "Agenda",
+    "daysCount": "{count} Days",
+    "day": "Day {number}",
+    "sponsoredBy": "Sponsored by:",
+    "sessionHost": "Session host:",
+    "view": "View details",
+    "hide": "Hide",
+    "keynote": "Keynote",
+    "moderator": "Moderator",
+    "speakers": "Speakers",
+    "phases": {
+      "before": "Before The Conference",
+      "conference": "Conference Days",
+      "after": "After The Conference"
+    },
+    "columns": {
+      "time": "Time",
+      "session": "Session",
+      "sponsors": "Sponsors"
+    }
   },
   "Brochure": {
     "title": "Brochure"
@@ -218,7 +237,13 @@
     "tag": "#Official news",
     "details": "More details",
     "sampleTitle": "Turkmenistan's Capital Day is celebrated with festive events and an international exhibition",
-    "sampleDate": "10 June, 2026"
+    "sampleDate": "10 June, 2026",
+    "placeholder": "Search news",
+    "clear": "Clear search",
+    "back": "Back to News",
+    "notResults": "News not found.",
+    "others": "Other news",
+    "readMore": "Read more"
   },
   "Partner": {
     "title": "Partners",

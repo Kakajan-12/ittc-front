@@ -14,6 +14,8 @@ function OfficialSupportPage() {
         title={t("title")}
         homeLabel="Home"
         crumbs={[{ label: t("title") }]}
+        image="/support.jpg"
+        objectPosition="top"
       />
       <section className="px-4 py-15 lg:px-10 lg:py-20">
         <div className="mx-auto flex justify-center">

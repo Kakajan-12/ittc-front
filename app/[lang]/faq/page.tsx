@@ -31,6 +31,8 @@ export default function FaqPage() {
         title={t("title")}
         homeLabel="Home"
         crumbs={[{ label: t("title") }]}
+        image="/faq.jpg"
+        objectPosition="top"
       />
 
       <section className="text-brand-gray flex flex-col items-center justify-center">

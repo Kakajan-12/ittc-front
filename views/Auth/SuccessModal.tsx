@@ -33,7 +33,7 @@ export default function SuccessModal({ open, onClose }: SuccessModalProps) {
           Application Submitted
         </h2>
 
-        <p className="mb-8 font-nexa text-xs lg:text-base text-[#849299]">
+        <p className="mb-8 font-nexa text-xs lg:text-base text-gray-400">
           Thank you for registering.
           <br />
           We have received your application successfully.

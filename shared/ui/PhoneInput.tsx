@@ -80,7 +80,7 @@ export default function PhoneInput({
         </label>
       ) : null}
 
-      <div className="flex h-12 items-stretch overflow-hidden rounded border border-[#849299] transition-colors focus-within:border-brand-blue">
+      <div className="flex h-12 items-stretch overflow-hidden rounded border border-gray-400 transition-colors focus-within:border-brand-blue">
         <button
           type="button"
           aria-expanded={open}
@@ -119,7 +119,7 @@ export default function PhoneInput({
       </div>
 
       {open ? (
-        <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded border border-[#849299] bg-white shadow-lg">
+        <div className="absolute left-0 top-full z-50 mt-1 w-full overflow-hidden rounded border border-gray-400 bg-white shadow-lg">
           <div className="border-b border-[#e8ecef] p-2">
             <input
               type="text"

@@ -71,7 +71,7 @@ export default function NavDropdown({
                 {child.label}
               </span>
               {child.href === "#" ? (
-                <IoLockClosedOutline size={16} className="text-[#849299]" />
+                <IoLockClosedOutline size={16} className="text-gray-400" />
               ) : null}
             </Link>
           ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import PageHeading from "@/shared/ui/PageHeading";
 import { useTranslations } from "next-intl";
+import Agenda from "@/views/Agenda/Agenda";
 
 export default function AgendaPage() {
   const t = useTranslations("Agenda");
@@ -10,10 +11,10 @@ export default function AgendaPage() {
         title={t("title")}
         homeLabel="Home"
         crumbs={[{ label: t("title") }]}
+        image="/agenda.webp"
+        objectPosition="top"
       />
-      <div className="mt-8 flex items-center justify-center min-h-[400px]">
-        <div className="text-2xl font-bold">Coming soon!</div>
-      </div>
+      <Agenda />
     </main>
   );
 }

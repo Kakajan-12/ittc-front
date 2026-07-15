@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export default function SectionHeading({
   title,
   className,
@@ -7,10 +9,13 @@ export default function SectionHeading({
 }) {
   return (
     <h2
-      className={`text-3xl font-roboto lg:text-4xl xl:text-5xl mb-7 lg:mb-0 flex flex-col gap-3 w-fit ${className}`}
+      className={cn(
+        "mb-7 flex w-fit flex-col gap-3 font-roboto text-3xl lg:mb-0 lg:text-4xl xl:text-5xl",
+        className,
+      )}
     >
       <span>{title}</span>
-      <span className="bg-linear-to-r from-brand-blue to-[#B9E7FF] h-0.5 w-full" />
+      <span className="h-0.5 w-full bg-linear-to-r from-brand-blue to-[#B9E7FF]" />
     </h2>
   );
 }

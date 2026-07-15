@@ -89,7 +89,7 @@ export default function MobileMenu({
                           {child.href === "#" ? (
                             <IoLockClosedOutline
                               size={16}
-                              className="text-[#849299]"
+                              className="text-gray-400"
                             />
                           ) : null}
                         </Link>

@@ -631,7 +631,7 @@ function Field({
         value={value}
         onChange={onChange}
         required={required}
-        className={`input-style border ${value ? "border-brand-blue-dark" : "border-[#849299]/80"}`}
+        className={`input-style border ${value ? "border-brand-blue-dark" : "border-gray-400"}`}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import { Fragment } from "react";
+import { cn } from "@/lib/utils";
 
 function formatSpeakerName(name: string) {
   return name
@@ -13,11 +14,13 @@ function SpeakerCard({
   name,
   description,
   image,
+  className,
 }: {
   id: string;
   name: string;
   description: string;
   image?: string | StaticImageData;
+  className?: string;
 }) {
   const nameParts = formatSpeakerName(name);
   const nameAlt = nameParts.join(" ");
@@ -25,7 +28,10 @@ function SpeakerCard({
   return (
     <article
       id={id}
-      className="flex flex-col overflow-hidden rounded bg-white sponsorShadow h-full"
+      className={cn(
+        "flex flex-col overflow-hidden rounded bg-white sponsorShadow h-full",
+        className,
+      )}
     >
       <div className="relative aspect-square w-full bg-linear-to-b from-[#C0C0C000] to-[#333333]">
         {image && (

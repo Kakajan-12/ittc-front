@@ -50,7 +50,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
           Promo Code
         </h2>
 
-        <p className="mb-11 max-w-xs font-nexa text-sm text-[#849299]">
+        <p className="mb-11 max-w-xs font-nexa text-sm text-gray-400">
           If you have a promo code from the organizers — enter it to get access
         </p>
         <input
@@ -70,7 +70,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
               ? "border-red-500"
               : input
                 ? "border-brand-blue-dark"
-                : "border-[#849299]"
+                : "border-gray-400"
           }`}
         />
 

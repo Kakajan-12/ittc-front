@@ -66,7 +66,6 @@
         "title": "Sanly logistika we intellektual çözgütler",
         "text": "Süni akyla esaslanýan logistika ulgamlary, sanly ýük platformalary, blokçeýn çözgütleri, «akylly gümrük», IoT we üpjünçilik zynjyraryny sanlylaşdyrmak."
       },
-
       "6": {
         "category": "Maýa goýumlar",
         "title": "Maýa goýumlary we infrastrukturany ösdürmek",
@@ -87,7 +86,26 @@
     "playAlt": "Çäräniň wideosyny görkez"
   },
   "Agenda": {
-    "title": "Meýilnama"
+    "title": "Meýilnama",
+    "daysCount": "{count} gün",
+    "day": "{number}-nji gün",
+    "sponsoredBy": "Hemaýatkär:",
+    "sessionHost": "Sessiýanyň guramaçysy:",
+    "view": "Jikme-jik",
+    "hide": "Gizle",
+    "keynote": "Esasy çykyş",
+    "moderator": "Moderator",
+    "speakers": "Çykyş edýänler",
+    "phases": {
+      "before": "Maslahatdan öň",
+      "conference": "Maslahat günleri",
+      "after": "Maslahatdan soň"
+    },
+    "columns": {
+      "time": "Wagt",
+      "session": "Sessiýa",
+      "sponsors": "Hemaýatkärler"
+    }
   },
   "Brochure": {
     "title": "Broşýura"
@@ -211,7 +229,8 @@
         "question": "Goşmaça maglumat üçin kime ýüz tutmaly?",
         "answer": "Islendik goşmaça sorag üçin guramaçy topara info@ittc.tm e-poçtasy arkaly ýüz tutuň. Toparymyz size kömek etmäge şat bolar."
       }
-    }
+    },
+    "view": "Giňişleýin"
   },
   "News": {
     "title": "Habarlar",
@@ -219,7 +238,14 @@
     "tag": "#Resmi habarlar",
     "details": "Giňişleýin",
     "sampleTitle": "Türkmenistanyň paýtagt güni baýramçylyk çäreleri we halkara sergisi bilen bellenilýär",
-    "sampleDate": "10 iýun, 2026"
+    "sampleDate": "10 iýun, 2026",
+    "placeholder": "Habarlary gözle",
+    "noResults": "\"{query}\" boýunça habar tapylmady.",
+    "clear": "Gözlegi arassala",
+    "back": "Habarlara ",
+    "notResults": "Habar tapylmady.",
+    "others": "Digel habarlar",
+    "readMore": "Giňişleýin"
   },
   "Partner": {
     "title": "Hyzmatdaşlar",
