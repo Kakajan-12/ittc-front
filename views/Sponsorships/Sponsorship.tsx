@@ -26,7 +26,7 @@ function Sponsorship() {
           </div>
           <div className="relative h-60 lg:h-68 xl:h-84 2xl:h-96 aspect-4/3 w-full overflow-hidden rounded order-1 lg:order-2">
             <SkeletonImage
-              src="/event.jpg"
+              src="/agenda.webp"
               alt=""
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
