@@ -35,9 +35,9 @@ export default function PageHeading({
         className={`object-cover object-${objectPosition}`}
       />
       {/* <div className="absolute inset-0 bg-linear-to-r from-black/66 via-black/30 to-transparent" /> */}
-      <div className="absolute inset-0 bg-black/50" />
+      <div className="absolute inset-0 z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
-      <div className="relative px-4 pb-10 lg:px-10 lg:pb-36">
+      <div className="relative z-20 px-4 pb-10 lg:px-10 lg:pb-36">
         <h2 className="text-4xl font-bold text-white font-roboto lg:text-5xl">
           {title}
         </h2>
