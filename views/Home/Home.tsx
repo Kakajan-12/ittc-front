@@ -10,6 +10,7 @@ import Sponsors from "@/views/Sponsors/Sponsors";
 import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
+import Timer from "./Timer";
 
 function Home() {
   const t = useTranslations("Hero");
@@ -22,7 +23,8 @@ function Home() {
 
   return (
     <>
-      <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
+      <div className="relative">
+        <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
         <SkeletonImage
           src="/main.jpg"
           alt=""
@@ -60,8 +62,9 @@ function Home() {
             </div>
           </div>
         </div>
-      </section>
-
+        </section>
+        <Timer />
+      </div>
       <About />
       <Results />
       <Sponsorship />

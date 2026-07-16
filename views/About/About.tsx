@@ -10,13 +10,13 @@ function About() {
   const t = useTranslations("About");
 
   return (
-    <section className="py-15 lg:py-20">
+    <section className="py-15 lg:py-20 mt-10">
       <div className="px-4 lg:px-10">
-        <SectionHeading title={t("title")} className="block lg:hidden" />
+        <SectionHeading title={t("title")} className="lg:hidden" />
 
         <div className="grid items-center gap-3 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_500px] 2xl:grid-cols-[1fr_700px] lg:gap-16 xl:gap-20">
           <div className="flex flex-col lg:gap-6 order-2 lg:order-1">
-            <SectionHeading title={t("title")} className="hidden lg:block" />
+            <SectionHeading title={t("title")} className="hidden lg:flex" />
 
             <p className="text-base text-brand-gray">{t("text")}</p>
 

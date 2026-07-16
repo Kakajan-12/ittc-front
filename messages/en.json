@@ -35,6 +35,12 @@
     "brochure": "Brochure",
     "faq": "FAQ"
   },
+  "Timer": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
+  },
   "About": {
     "title": "About the event",
     "subtitle": "About the ITTC 2026  “International Transport and Transit Corridors",

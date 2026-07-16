@@ -35,6 +35,12 @@
     "brochure": "Broşýura",
     "faq": "Sowallar"
   },
+  "Timer": {
+    "days": "Gün",
+    "hours": "Sagat",
+    "minutes": "Minut",
+    "seconds": "Sekunt"
+  },
   "About": {
     "title": "Çäre barada",
     "subtitle": "ITTC 2026 «Halkara ulag we üstaşyr geçelgeleri» halkara maslahaty we sergisi barada",
