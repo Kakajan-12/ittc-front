@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
-const TARGET = Date.UTC(2026, 10, 24, 3, 0, 0);
+const TARGET = Date.UTC(2026, 10, 24, 4, 0, 0);
 
 function subscribe(onChange: () => void) {
   const id = setInterval(onChange, 1000);
@@ -13,8 +13,6 @@ function subscribe(onChange: () => void) {
 // Seconds left is stable within a tick, so it is a valid store snapshot.
 const getSecondsLeft = () =>
   Math.max(0, Math.floor((TARGET - Date.now()) / 1000));
-
-// Rendered on the server and during hydration, before the clock is known.
 const getServerSnapshot = () => null;
 
 function Timer() {
@@ -45,8 +43,9 @@ function Timer() {
   ] as const;
 
   return (
-    <div className="absolute -bottom-15 left-0 right-0 rounded-3xl mx-auto w-fit overflow-hidden">
-      <div className="absolute inset-0 bg-brand-blue-dark z-10" />
+    <div className="absolute -bottom-15 left-0 right-0 rounded-3xl bg-brand-blue-dark z-10 mx-auto w-fit overflow-hidden">
+      <div className="absolute inset-0 bg-black/30 -z-10" />
+
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-20 bg-[url('/pattern.svg')] bg-repeat bg-size-[680px] opacity-20"
