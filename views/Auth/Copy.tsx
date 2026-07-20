@@ -195,12 +195,12 @@ export default function Registration() {
                 type="button"
                 onClick={goPrev}
                 aria-label="Back"
-                className="absolute top-6 left-6 flex items-center h-10 w-10 justify-center text-[#424A4E] rounded bg-[#E9E9E9] backdrop-blur-lg transition-colors hover:text-brand-blue hover:bg-gray-200/90"
+                className="absolute top-6 left-6 flex items-center h-10 w-10 justify-center text-brand-dark-gray rounded bg-[#E9E9E9] backdrop-blur-lg transition-colors hover:text-brand-blue hover:bg-gray-200/90"
               >
                 <IoChevronBack className="size-5 xl:size-7" />
               </button>
             )}
-            <h1 className="mb-6 font-nexa-bold text-[28px] font-bold text-[#424A4E]">
+            <h1 className="mb-6 font-nexa-bold text-[28px] font-bold text-brand-dark-gray">
               {/* {tab === "register" ? t("title") : t("signInTitle")} */}
               Registration
             </h1>
@@ -474,18 +474,18 @@ export default function Registration() {
                       }}
                     >
                       <ShieldCheck
-                        className="size-16 text-[#9AA5AC]"
+                        className="size-16 text-gray-400"
                         strokeWidth={1.5}
                       />
 
                       <div className="flex flex-col gap-2">
-                        <h2 className="font-nexa-bold text-2xl font-bold text-[#424A4E]">
+                        <h2 className="font-nexa-bold text-2xl font-bold text-brand-dark-gray">
                           Verify your email
                         </h2>
-                        <p className="font-nexa text-sm text-[#9AA5AC]">
+                        <p className="font-nexa text-sm text-gray-400">
                           We&apos;ve sent a 6-digit code to
                           <br />
-                          <span className="text-[#424A4E]">
+                          <span className="text-brand-dark-gray">
                             {formData.email || "example@gmail.com"}
                           </span>
                         </p>
@@ -509,12 +509,12 @@ export default function Registration() {
                             onKeyDown={(e) => handleCodeKeyDown(i, e)}
                             onPaste={handleCodePaste}
                             aria-label={`Digit ${i + 1}`}
-                            className="w-10 h-12 rounded border border-brand-blue text-center font-nexa-bold text-xl font-bold text-[#424A4E] outline-none transition-colors focus:border-brand-blue"
+                            className="w-10 h-12 rounded border border-brand-blue text-center font-nexa-bold text-xl font-bold text-brand-dark-gray outline-none transition-colors focus:border-brand-blue"
                           />
                         ))}
                       </div>
 
-                      <p className="font-nexa text-sm text-[#9AA5AC]">
+                      <p className="font-nexa text-sm text-gray-400">
                         Enter the verification code sent to your email
                       </p>
 
@@ -525,7 +525,7 @@ export default function Registration() {
                         Verify email
                       </button>
 
-                      <p className="font-nexa text-sm text-[#424A4E]">
+                      <p className="font-nexa text-sm text-brand-dark-gray">
                         Didn&apos;t receive a code?{" "}
                         <button
                           type="button"
@@ -613,7 +613,7 @@ function Field({
     <div className="relative">
       <label
         htmlFor={id}
-        className="label-style font-nexa flex items-center gap-1 text-[#424A4E] text-xs"
+        className="label-style font-nexa flex items-center gap-1 text-brand-dark-gray text-xs"
       >
         {label}
         {required ? (

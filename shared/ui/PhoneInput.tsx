@@ -73,7 +73,7 @@ export default function PhoneInput({
       {label ? (
         <label
           htmlFor={id}
-          className="label-style font-nexa flex items-center gap-1 text-[#424A4E] text-xs"
+          className="label-style font-nexa flex items-center gap-1 text-brand-dark-gray text-xs"
         >
           {label}
           <span className="absolute -top-1 right-0 text-base"> *</span>
@@ -92,7 +92,7 @@ export default function PhoneInput({
             code={selectedCountry.code}
             title={selectedCountry.name}
           />
-          <span className="text-sm text-[#424A4E]">
+          <span className="text-sm text-brand-dark-gray">
             {selectedCountry.dialCode}
           </span>
           <FaChevronDown
@@ -113,7 +113,7 @@ export default function PhoneInput({
           value={value}
           onChange={(e) => onChange(e.target.value.replace(/\D/g, ""))}
           autoComplete="tel-national"
-          className="min-w-0 flex-1 px-3 text-sm text-[#424A4E] outline-none placeholder:text-[#aab4bd]"
+          className="min-w-0 flex-1 px-3 text-sm text-brand-dark-gray outline-none placeholder:text-[#aab4bd]"
           required={required}
         />
       </div>

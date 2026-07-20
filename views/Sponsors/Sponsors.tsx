@@ -86,30 +86,30 @@ function Sponsors() {
                 const nameParts = formatSponsorName(t(sponsor.name));
 
                 return (
-                <div
-                  key={`${copyIndex}-${sponsor.id}`}
-                  className="mx-3 h-52 w-52 shrink-0"
-                >
-                  <div className="flex h-full flex-col overflow-hidden  rounded bg-white shadow-partner transition duration-300 hover:grayscale-0">
-                    <div className="relative min-h-0 flex-1">
-                      <SkeletonImage
-                        src={sponsor.logo}
-                        alt={copyIndex === 0 ? nameParts.join(" ") : ""}
-                        fill
-                        sizes="176px"
-                        className="object-contain"
-                      />
-                    </div>
-                    <div className="shrink-0 border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
-                      {nameParts.map((part, index) => (
-                        <Fragment key={index}>
-                          {index > 0 && <br />}
-                          {part}
-                        </Fragment>
-                      ))}
+                  <div
+                    key={`${copyIndex}-${sponsor.id}`}
+                    className="mx-3 h-52 w-52 shrink-0"
+                  >
+                    <div className="flex h-full flex-col overflow-hidden  rounded bg-white shadow-partner transition duration-300 hover:grayscale-0">
+                      <div className="relative min-h-0 flex-1">
+                        <SkeletonImage
+                          src={sponsor.logo}
+                          alt={copyIndex === 0 ? nameParts.join(" ") : ""}
+                          fill
+                          sizes="176px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="shrink-0 border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
+                        {nameParts.map((part, index) => (
+                          <Fragment key={index}>
+                            {index > 0 && <br />}
+                            {part}
+                          </Fragment>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
                 );
               })}
             </div>

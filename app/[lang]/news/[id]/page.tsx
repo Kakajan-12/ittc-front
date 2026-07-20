@@ -38,9 +38,9 @@ export default function NewsDetailPage() {
     <section className="mt-24 px-4 lg:px-10 relative">
       <Link
         href="/news"
-        className="inline-flex items-center gap-2 text-lg font-medium font-roboto text-[#424A4E] transition-colors hover:text-brand-blue"
+        className="inline-flex items-center gap-2 text-lg font-medium font-roboto text-brand-dark-gray transition-colors hover:text-brand-blue"
       >
-        <IoIosArrowBack className="size-4 text-[#424A4E]" />
+        <IoIosArrowBack className="size-4 text-brand-dark-gray" />
         <span>{t("back")}</span>
       </Link>
 
@@ -69,7 +69,7 @@ export default function NewsDetailPage() {
             </span>
             <span className="text-gray-400">{article.date}</span>
           </div>
-          <p className="text-base font-normal text-[#424A4E]">
+          <p className="text-base font-normal text-brand-dark-gray">
             {article.description}
           </p>
         </div>

@@ -30,7 +30,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
           <div>
             <h2
               id="terms-modal-title"
-              className="mb-2 font-nexa-bold text-base lg:text-2xl font-bold text-[#424A4E]"
+              className="mb-2 font-nexa-bold text-base lg:text-2xl font-bold text-brand-dark-gray"
             >
               Terms of Use and Privacy Policy
             </h2>
@@ -46,7 +46,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
         {/* Terms of Use */}
         <section>
           <div className="mb-3 flex items-center gap-3">
-            <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-[#424A4E]">
+            <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-brand-dark-gray">
               Terms of Use
             </h3>
           </div>
@@ -63,7 +63,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
         {/* Privacy Policy */}
         <section className="mb-8">
           <div className="mb-3 flex items-center gap-3">
-            <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-[#424A4E]">
+            <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-brand-dark-gray">
               Privacy Policy
             </h3>
           </div>

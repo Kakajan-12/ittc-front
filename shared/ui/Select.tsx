@@ -56,7 +56,7 @@ export default function Select({
     <div className={cn("relative", className)} ref={containerRef}>
       <label
         htmlFor={id}
-        className="label-style font-nexa flex items-center gap-1 text-[#424A4E] text-xs"
+        className="label-style font-nexa flex items-center gap-1 text-brand-dark-gray text-xs"
       >
         {label}
         {required ? (

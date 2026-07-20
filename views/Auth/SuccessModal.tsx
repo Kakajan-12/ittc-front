@@ -28,7 +28,7 @@ export default function SuccessModal({ open, onClose }: SuccessModalProps) {
 
         <h2
           id="success-modal-title"
-          className="mb-3 font-nexa-bold text-base lg:text-2xl font-bold text-[#424A4E]"
+          className="mb-3 font-nexa-bold text-base lg:text-2xl font-bold text-brand-dark-gray"
         >
           Application Submitted
         </h2>

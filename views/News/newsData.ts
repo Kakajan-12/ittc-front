@@ -48,4 +48,24 @@ export const newsData: NewsItem[] = [
     description:
       "Exhibition partners join ITTC 2026 to showcase logistics, digital infrastructure and connectivity. The exhibition will feature the latest products and services from leading companies in the transport and transit sector. The exhibition will provide a platform for companies to showcase their latest products and services, as well as to network with other industry professionals. The exhibition will be held in Ashgabat, Turkmenistan, from 24 to 26 November 2026.",
   },
+  {
+    id: 5,
+    title:
+      "Exhibition partners join ITTC 2026 to showcase logistics, digital infrastructure and connectivity",
+    date: "25 June, 2026",
+    tag: "#Official news",
+    image: "/news.png",
+    description:
+      "Exhibition partners join ITTC 2026 to showcase logistics, digital infrastructure and connectivity. The exhibition will feature the latest products and services from leading companies in the transport and transit sector. The exhibition will provide a platform for companies to showcase their latest products and services, as well as to network with other industry professionals. The exhibition will be held in Ashgabat, Turkmenistan, from 24 to 26 November 2026.",
+  },
+  {
+    id: 6,
+    title:
+      "Exhibition partners join ITTC 2026 to showcase logistics, digital infrastructure and connectivity",
+    date: "25 June, 2026",
+    tag: "#Official news",
+    image: "/news.png",
+    description:
+      "Exhibition partners join ITTC 2026 to showcase logistics, digital infrastructure and connectivity. The exhibition will feature the latest products and services from leading companies in the transport and transit sector. The exhibition will provide a platform for companies to showcase their latest products and services, as well as to network with other industry professionals. The exhibition will be held in Ashgabat, Turkmenistan, from 24 to 26 November 2026.",
+  },
 ];

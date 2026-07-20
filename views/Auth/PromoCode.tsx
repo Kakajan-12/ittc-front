@@ -42,7 +42,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
       onSubmit={handleSubmit}
     >
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="mb-7 flex size-16 items-center justify-center rounded-full text-[#9AA5AC]">
+        <div className="mb-7 flex size-16 items-center justify-center rounded-full text-gray-400">
           <Image src={promo} alt="promo" width={56} height={56} />
         </div>
 
@@ -65,7 +65,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
             if (accepted) setAccepted(false);
           }}
           aria-invalid={!!error}
-          className={`h-12 w-full rounded border px-4 text-base text-center font-nexa text-[#797979] outline-none transition-colors placeholder:text-[#9AA5AC] ${
+          className={`h-12 w-full rounded border px-4 text-base text-center font-nexa text-gray-400 outline-none transition-colors placeholder:text-gray-400 ${
             error
               ? "border-red-500"
               : input
@@ -82,7 +82,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
             <span>Promo code accepted</span>
           </p>
         ) : (
-          <p className="mt-3 font-nexa text-xs text-[#9AA5AC]">
+          <p className="mt-3 font-nexa text-xs text-gray-400">
             Promo codes are issued by the event organizers
           </p>
         )}
@@ -99,7 +99,7 @@ export default function PromoCode({ value, onSubmit, onSkip }: PromoCodeProps) {
         <button
           type="button"
           onClick={onSkip}
-          className="w-full rounded h-12 font-nexa-bold font-bold bg-[#D7ECF9] text-base text-[#424A4E] shadow-promo-code transition-colors hover:text-brand-blue"
+          className="w-full rounded h-12 font-nexa-bold font-bold bg-[#D7ECF9] text-base text-brand-dark-gray shadow-promo-code transition-colors hover:text-brand-blue"
         >
           Skip
         </button>

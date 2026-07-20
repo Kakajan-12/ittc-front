@@ -1,32 +1,51 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 
 import PageHeading from "@/shared/ui/PageHeading";
 import NewsCard from "@/views/News/NewsCard";
-import { FiSearch, FiX } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiSearch, FiX } from "react-icons/fi";
 import { useTranslations } from "next-intl";
 import { useState, useMemo } from "react";
 import { newsData } from "@/views/News/newsData";
 
-const PAGE_SIZE = 8;
+const PER_PAGE = 8;
+
+function getPageList(current: number, total: number): (number | "dots")[] {
+  if (total <= 4) return Array.from({ length: total }, (_, i) => i + 1);
+  const left = Math.max(2, current - 1);
+  const right = Math.min(total - 1, current + 1);
+  const pages: (number | "dots")[] = [1];
+  if (left > 2) pages.push("dots");
+  for (let i = left; i <= right; i++) pages.push(i);
+  if (right < total - 1) pages.push("dots");
+  pages.push(total);
+  return pages;
+}
 
 export default function NewsPage() {
   const t = useTranslations("News");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const topRef = useRef<HTMLDivElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return newsData;
     return newsData.filter((n) => n.title.toLowerCase().includes(q));
-  }, [query, t]);
+  }, [query]);
 
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, pageCount);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const currentPage = Math.min(page, totalPages);
   const visible = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
+    (currentPage - 1) * PER_PAGE,
+    currentPage * PER_PAGE,
   );
+  const goTo = (p: number) => {
+    setPage(Math.min(Math.max(1, p), totalPages));
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const resetPage = () => setPage(1);
 
   return (
     <main>
@@ -36,7 +55,7 @@ export default function NewsPage() {
         crumbs={[{ label: t("title") }]}
         image="/news.webp"
       />
-      <div className="px-4 lg:px-10 py-15 lg:py-20">
+      <div ref={topRef} className="px-4 lg:px-10 py-15 lg:py-20 scroll-mt-24">
         <label
           htmlFor="search"
           className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
@@ -90,27 +109,53 @@ export default function NewsPage() {
           </p>
         )}
 
-        {pageCount > 1 && (
-          <div className="mt-10 flex justify-center gap-2">
-            {Array.from({ length: pageCount }).map((_, i) => {
-              const p = i + 1;
-              return (
+        {totalPages > 1 && (
+          <div className="mt-10 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => goTo(currentPage - 1)}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
+              className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <FiChevronLeft size={18} />
+            </button>
+
+            {getPageList(currentPage, totalPages).map((p, i) =>
+              p === "dots" ? (
+                <span
+                  key={`dots-${i}`}
+                  className="flex size-9 items-center justify-center text-[#ABB7C2]"
+                >
+                  …
+                </span>
+              ) : (
                 <button
                   key={p}
                   type="button"
                   aria-label={`Page ${p}`}
                   aria-current={p === currentPage ? "page" : undefined}
-                  onClick={() => setPage(p)}
-                  className={`flex size-9 items-center justify-center rounded-sm border text-sm transition-colors ${
+                  onClick={() => goTo(p)}
+                  className={`size-9 rounded-sm border text-sm font-medium transition-colors ${
                     p === currentPage
                       ? "border-brand-blue bg-brand-blue text-white"
-                      : "border-[#ABB7C2] text-brand-gray hover:border-brand-blue"
+                      : "border-[#ABB7C2] text-brand-gray hover:border-brand-blue hover:text-brand-blue"
                   }`}
                 >
                   {p}
                 </button>
-              );
-            })}
+              ),
+            )}
+
+            <button
+              type="button"
+              onClick={() => goTo(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              aria-label="Next page"
+              className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <FiChevronRight size={18} />
+            </button>
           </div>
         )}
       </div>

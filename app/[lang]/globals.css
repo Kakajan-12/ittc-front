@@ -51,6 +51,7 @@
   --brand-blue: #009fe3;
   --brand-blue-dark: #00008b;
   --brand-gray: #52585b;
+  --brand-dark-gray: #424a4e;
   --results: #c3d1d9;
   --font-bf: "BF", sans-serif;
   --font-capitana: "Capitana", sans-serif;
@@ -97,6 +98,7 @@
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-dark: var(--brand-blue-dark);
   --color-brand-gray: var(--brand-gray);
+  --color-brand-dark-gray: var(--brand-dark-gray);
   --color-results: var(--results);
   --font-nexa-bold: var(--font-nexa-bold);
   --font-bf: var(--font-bf);

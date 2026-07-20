@@ -6,8 +6,6 @@ import messages from "@/messages/en.json";
 
 import "../[lang]/globals.css";
 
-// Registration is single-language and lives outside the [lang] routing.
-// Change this one constant (and the import above) to switch the language.
 const LOCALE = "en";
 
 const roboto = Roboto({
