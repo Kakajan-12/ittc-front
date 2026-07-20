@@ -85,7 +85,7 @@ function Speakers() {
             {speakersData.map((speaker, i) => (
               <div
                 key={i}
-                className="w-full sm:w-1/2 shrink-0 snap-start pl-0.5 pr-2 py-1 "
+                className="w-2/3 sm:w-1/2 shrink-0 snap-start pl-0.5 pr-2 py-1 "
               >
                 <SpeakerCard
                   id={`speaker-${speaker.id}`}
