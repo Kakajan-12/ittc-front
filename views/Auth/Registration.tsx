@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ShieldCheck } from "lucide-react";
 import { IoChevronBack } from "react-icons/io5";
@@ -66,6 +66,7 @@ export default function Registration() {
   const [showTerms, setShowTerms] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
+  const [resendCountdown, setResendCountdown] = useState(0);
   const codeInputsRef = useRef<Array<HTMLInputElement | null>>([]);
   const register = useRegister();
   const verify = useVerifyEmail();
@@ -86,6 +87,13 @@ export default function Registration() {
 
   const stepIndex = steps.findIndex((s) => s.label === step.label);
   const isLastStep = stepIndex === steps.length - 1;
+
+  // Тикаем отсчёт раз в секунду до нуля.
+  useEffect(() => {
+    if (resendCountdown <= 0) return;
+    const id = setTimeout(() => setResendCountdown((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [resendCountdown]);
 
   const isPersonalValid =
     formData.name.trim() !== "" &&
@@ -161,6 +169,7 @@ export default function Registration() {
   // Шаг 1: отправляем заявку на бэкенд, при успехе → шаг верификации (OTP).
   const submitRegistration = () => {
     if (!isPersonalValid || !isCompanyValid || register.isPending) return;
+    const promoCode = formData.promoCode.trim();
     register.mutate(
       {
         first_name: formData.name.trim(),
@@ -173,9 +182,13 @@ export default function Registration() {
         company_website: formData.companyWebsite.trim(),
         participant_type: formData.participatingType as ParticipantType,
         preferred_language: "en",
+        ...(promoCode ? { promo_code: promoCode } : {}),
       },
       {
-        onSuccess: () => goNext(),
+        onSuccess: () => {
+          goNext();
+          setResendCountdown(60); // запускаем отсчёт до появления кнопки Resend
+        },
       },
     );
   };
@@ -194,9 +207,10 @@ export default function Registration() {
 
   // Повторная отправка OTP-кода на почту.
   const resendCode = () => {
-    if (resend.isPending) return;
+    if (resend.isPending || resendCountdown > 0) return;
     setCode(Array(6).fill(""));
     resend.mutate({ email: formData.email.trim() });
+    setResendCountdown(60); // снова прячем кнопку на минуту
   };
 
   return (
@@ -557,23 +571,27 @@ export default function Registration() {
 
                       <button
                         type="submit"
-                        disabled={code.join("").length !== 6 || verify.isPending}
+                        disabled={
+                          code.join("").length !== 6 || verify.isPending
+                        }
                         className="h-12 w-full rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {verify.isPending ? "Verifying..." : "Verify email"}
                       </button>
 
-                      <p className="font-nexa text-sm text-brand-dark-gray">
-                        Didn&apos;t receive a code?{" "}
-                        <button
-                          type="button"
-                          onClick={resendCode}
-                          disabled={resend.isPending}
-                          className="font-nexa-bold font-bold text-brand-blue hover:underline disabled:opacity-60"
-                        >
-                          {resend.isPending ? "Sending..." : "Resend"}
-                        </button>
-                      </p>
+                      {resendCountdown === 0 && (
+                        <p className="font-nexa text-sm text-brand-dark-gray">
+                          Didn&apos;t receive a code?{" "}
+                          <button
+                            type="button"
+                            onClick={resendCode}
+                            disabled={resend.isPending}
+                            className="font-nexa-bold font-bold text-brand-blue hover:underline disabled:opacity-60"
+                          >
+                            {resend.isPending ? "Sending..." : "Resend"}
+                          </button>
+                        </p>
+                      )}
                     </form>
                   )}
                 </>

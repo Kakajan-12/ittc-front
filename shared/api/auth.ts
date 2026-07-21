@@ -16,6 +16,7 @@ export interface RegisterPayload {
   company_website: string;
   participant_type: ParticipantType;
   preferred_language: PreferredLanguage;
+  promo_code?: string;
 }
 
 // Шаг 1: отправка заявки на регистрацию → на почту приходит OTP-код.
