@@ -23,6 +23,10 @@ import Link from "next/link";
 import PromoCode from "./PromoCode";
 import SuccessModal from "./SuccessModal";
 import TermsModal from "./TermsModal";
+import { useRegister } from "@/shared/api/hooks/useRegister";
+import { useVerifyEmail } from "@/shared/api/hooks/useVerifyEmail";
+import { useResendCode } from "@/shared/api/hooks/useResendCode";
+import type { ParticipantType } from "@/shared/api/auth";
 
 // type Tab = "signin" | "register";
 type Step = {
@@ -37,32 +41,35 @@ const steps: Step[] = [
     iconFull: TabFull1,
     activeIcon: TabActive1,
     iconGray: TabFull1,
-    label: "Promo code",
+    label: "Personal information",
   },
   {
     iconFull: TabFull2,
     iconGray: TabGray2,
     activeIcon: TabActive2,
-    label: "Personal information",
+    label: "Company information",
   },
   {
     iconFull: TabActive3,
     iconGray: TabGray3,
     activeIcon: TabActive3,
-    label: "Company information",
+    label: "Verification",
   },
 ];
 
 export default function Registration() {
   const router = useRouter();
   // const [tab, setTab] = useState<Tab>("register");
-  const [step, setStep] = useState<Step>(steps[1]);
+  const [step, setStep] = useState<Step>(steps[0]);
   const [showPromo, setShowPromo] = useState(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const codeInputsRef = useRef<Array<HTMLInputElement | null>>([]);
+  const register = useRegister();
+  const verify = useVerifyEmail();
+  const resend = useResendCode();
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -87,10 +94,16 @@ export default function Registration() {
     formData.phone.trim() !== "" &&
     accepted;
 
+  const isCompanyValid =
+    formData.companyName.trim() !== "" &&
+    formData.position.trim() !== "" &&
+    formData.participatingType !== "";
+
   // Доступ к шагу разрешён только если заполнены все предыдущие.
   const canAccessStep = (i: number) => {
-    if (i <= 1) return true; // Promo code и Personal information доступны всегда
-    return isPersonalValid; // Company information — только после Personal information
+    if (i === 0) return true; // Personal information доступен всегда
+    if (i === 1) return isPersonalValid; // Company information — после Personal information
+    return isPersonalValid && isCompanyValid; // Verification — после Company information
   };
 
   const goNext = () => {
@@ -145,23 +158,45 @@ export default function Registration() {
     codeInputsRef.current[focusIndex]?.focus();
   };
 
-  const sendByMail = () => {
-    const lines = [
-      `Name: ${formData.name}`,
-      `Surname: ${formData.surname}`,
-      `Patronymic: ${formData.patronymic}`,
-      `Email: ${formData.email}`,
-      `Phone: ${findCountry(formData.countryCode).dialCode} ${formData.phone}`,
-      `Company name: ${formData.companyName}`,
-      `Position: ${formData.position}`,
-      `Company website: ${formData.companyWebsite}`,
-      `Participating type: ${formData.participatingType}`,
-      `Promo code: ${formData.promoCode}`,
-    ];
-    const subject = encodeURIComponent("Registration ITTC");
-    const body = encodeURIComponent(lines.join("\n"));
-    window.location.href = `mailto:info@oguzforum.com?subject=${subject}&body=${body}`;
-    setShowSuccess(true);
+  // Шаг 1: отправляем заявку на бэкенд, при успехе → шаг верификации (OTP).
+  const submitRegistration = () => {
+    if (!isPersonalValid || !isCompanyValid || register.isPending) return;
+    register.mutate(
+      {
+        first_name: formData.name.trim(),
+        last_name: formData.surname.trim(),
+        patronymic: formData.patronymic.trim(),
+        email: formData.email.trim(),
+        phone_number: `${findCountry(formData.countryCode).dialCode}${formData.phone.trim()}`,
+        company_name: formData.companyName.trim(),
+        position: formData.position.trim(),
+        company_website: formData.companyWebsite.trim(),
+        participant_type: formData.participatingType as ParticipantType,
+        preferred_language: "en",
+      },
+      {
+        onSuccess: () => goNext(),
+      },
+    );
+  };
+
+  // Шаг 2: проверка OTP-кода → отправка заявки модератору → успех.
+  const verifyCode = () => {
+    const otp = code.join("");
+    if (otp.length !== 6 || verify.isPending) return;
+    verify.mutate(
+      { email: formData.email.trim(), code: otp },
+      {
+        onSuccess: () => setShowSuccess(true),
+      },
+    );
+  };
+
+  // Повторная отправка OTP-кода на почту.
+  const resendCode = () => {
+    if (resend.isPending) return;
+    setCode(Array(6).fill(""));
+    resend.mutate({ email: formData.email.trim() });
   };
 
   return (
@@ -214,11 +249,11 @@ export default function Registration() {
           </Link>
 
           <div className="sm:p-20 lg:p-15 xl:p-26 w-full">
-            {!showPromo && stepIndex >= 1 && (
+            {!showPromo && stepIndex >= 0 && (
               <button
                 type="button"
                 onClick={() => {
-                  if (stepIndex === 1) setShowPromo(true);
+                  if (stepIndex === 0) setShowPromo(true);
                   else goPrev();
                 }}
                 aria-label="Back"
@@ -266,10 +301,7 @@ export default function Registration() {
                           type="button"
                           key={s.label}
                           disabled={isLocked}
-                          onClick={() => {
-                            if (i === 0) setShowPromo(true);
-                            else setStep(steps[i]!);
-                          }}
+                          onClick={() => setStep(steps[i]!)}
                           className={`relative min-w-0 flex-1 ${
                             isLocked
                               ? "cursor-not-allowed opacity-60"
@@ -295,11 +327,12 @@ export default function Registration() {
                       );
                     })}
                   </div>
-                  {stepIndex === 1 && (
+                  {stepIndex === 0 && (
                     <form
                       className="flex flex-col gap-5"
                       onSubmit={(e) => {
                         e.preventDefault();
+                        if (!isPersonalValid) return;
                         goNext();
                       }}
                     >
@@ -393,13 +426,12 @@ export default function Registration() {
                       </button>
                     </form>
                   )}
-                  {stepIndex === 2 && (
+                  {stepIndex === 1 && (
                     <form
                       className="flex flex-col gap-5"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        if (!formData.participatingType) return;
-                        sendByMail();
+                        submitRegistration();
                       }}
                     >
                       <Field
@@ -450,21 +482,26 @@ export default function Registration() {
                     value={formData.promoCode}
                     onChange={handleChange}
                   /> */}
+                      {register.isError && (
+                        <p className="font-nexa text-sm text-red-500">
+                          {register.error.message}
+                        </p>
+                      )}
                       <button
                         type="submit"
-                        disabled={!formData.participatingType}
+                        disabled={!isCompanyValid || register.isPending}
                         className="mt-1 h-12 rounded bg-[#0071BB] text-base font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        Submit a request
+                        {register.isPending ? "Sending..." : "Next"}
                       </button>
                     </form>
                   )}
-                  {stepIndex === 3 && (
+                  {stepIndex === 2 && (
                     <form
                       className="flex flex-col items-center gap-5 text-center"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        sendByMail();
+                        verifyCode();
                       }}
                     >
                       <ShieldCheck
@@ -512,21 +549,29 @@ export default function Registration() {
                         Enter the verification code sent to your email
                       </p>
 
+                      {verify.isError && (
+                        <p className="font-nexa text-sm text-red-500">
+                          {verify.error.message}
+                        </p>
+                      )}
+
                       <button
                         type="submit"
+                        disabled={code.join("").length !== 6 || verify.isPending}
                         className="h-12 w-full rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
                       >
-                        Verify email
+                        {verify.isPending ? "Verifying..." : "Verify email"}
                       </button>
 
                       <p className="font-nexa text-sm text-brand-dark-gray">
                         Didn&apos;t receive a code?{" "}
                         <button
                           type="button"
-                          onClick={() => setCode(Array(6).fill(""))}
-                          className="font-nexa-bold font-bold text-brand-blue hover:underline"
+                          onClick={resendCode}
+                          disabled={resend.isPending}
+                          className="font-nexa-bold font-bold text-brand-blue hover:underline disabled:opacity-60"
                         >
-                          Resend
+                          {resend.isPending ? "Sending..." : "Resend"}
                         </button>
                       </p>
                     </form>
