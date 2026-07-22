@@ -16,7 +16,7 @@ type PhoneInputProps = {
   name?: string;
   label?: string;
   placeholder?: string;
-  value: string;
+  value?: string;
   countryCode?: string;
   onChange: (phone: string) => void;
   onCountryChange?: (country: Country) => void;
@@ -69,18 +69,20 @@ export default function PhoneInput({
   };
 
   return (
-    <div className={cn("relative", className)} ref={containerRef}>
+    <div className={cn("relative group", className)} ref={containerRef}>
       {label ? (
         <label
           htmlFor={id}
-          className="label-style font-nexa flex items-center gap-1 text-brand-dark-gray text-xs"
+          className="label-style font-nexa hidden items-center gap-1 text-brand-dark-gray text-xs group-focus-within:flex"
         >
           {label}
           <span className="absolute -top-1 right-0 text-base"> *</span>
         </label>
       ) : null}
 
-      <div className="flex h-12 items-stretch overflow-hidden rounded border border-gray-400 transition-colors focus-within:border-brand-blue">
+      <div
+        className={`flex h-12 items-stretch overflow-hidden rounded border transition-colors group-focus-within:border-brand-blue ${value ? "border-gray-300" : "border-gray-400"}`}
+      >
         <button
           type="button"
           aria-expanded={open}

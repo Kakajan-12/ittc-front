@@ -6,14 +6,7 @@ import { ShieldCheck } from "lucide-react";
 import { IoChevronBack } from "react-icons/io5";
 import Image from "next/image";
 import { SkeletonImage } from "@/components/ui/Skeleton";
-import TabActive1 from "@/public/tab1active.svg";
-import TabFull1 from "@/public/tab1full.svg";
-import TabGray2 from "@/public/tab2gray.svg";
-import TabActive2 from "@/public/tab2.svg";
-import TabFull2 from "@/public/tab2full.svg";
-import TabGray3 from "@/public/tab3gray.svg";
-import TabActive3 from "@/public/tab3active.svg";
-import { StaticImageData } from "next/image";
+import StepTab, { type TabVariant } from "./StepTab";
 import Field from "@/shared/ui/Field";
 import PhoneInput from "@/shared/ui/PhoneInput";
 import Select from "@/shared/ui/Select";
@@ -30,31 +23,14 @@ import type { ParticipantType } from "@/shared/api/auth";
 
 // type Tab = "signin" | "register";
 type Step = {
-  iconFull: StaticImageData;
-  iconGray: StaticImageData;
-  activeIcon: StaticImageData;
+  variant: TabVariant;
   label: string;
 };
 
 const steps: Step[] = [
-  {
-    iconFull: TabFull1,
-    activeIcon: TabActive1,
-    iconGray: TabFull1,
-    label: "Personal information",
-  },
-  {
-    iconFull: TabFull2,
-    iconGray: TabGray2,
-    activeIcon: TabActive2,
-    label: "Company information",
-  },
-  {
-    iconFull: TabActive3,
-    iconGray: TabGray3,
-    activeIcon: TabActive3,
-    label: "Verification",
-  },
+  { variant: "start", label: "Personal information" },
+  { variant: "middle", label: "Company information" },
+  { variant: "end", label: "Verification" },
 ];
 
 export default function Registration() {
@@ -292,11 +268,15 @@ export default function Registration() {
                       const isCompleted = i < stepIndex;
                       const isActive = i === stepIndex;
                       const isLocked = !canAccessStep(i);
-                      const icon = isCompleted
-                        ? s.iconFull
+                      // Цвет обводки берётся из currentColor (text-* класс).
+                      const strokeClass = isCompleted
+                        ? "text-[#0071BB]"
                         : isActive
-                          ? s.activeIcon
-                          : s.iconGray;
+                          ? "text-[#4184B7]"
+                          : "text-[#849299]/50";
+                      const fillColor = isCompleted ? "#0071BB94" : "none";
+                      // У завершённого шага заливка есть → обводка не нужна.
+                      const strokeWidth = isCompleted ? 0 : 1.5;
                       const textColor = isCompleted
                         ? "text-white"
                         : isActive
@@ -314,13 +294,11 @@ export default function Registration() {
                               : "cursor-pointer"
                           }`}
                         >
-                          <Image
-                            src={icon}
-                            alt={s.label}
-                            width={144}
-                            height={40}
-                            sizes="(max-width: 1024px) 33vw, 20vw"
-                            className="h-auto w-full object-contain"
+                          <StepTab
+                            variant={s.variant}
+                            fill={fillColor}
+                            strokeWidth={strokeWidth}
+                            className={`h-auto w-full ${strokeClass}`}
                           />
                           <div
                             className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center font-nexa text-[10px] sm:text-xs md:text-sm lg:text-xs xl:text-base ${textColor}`}
@@ -345,7 +323,7 @@ export default function Registration() {
                       <Field
                         id="name"
                         label="Name"
-                        placeholder="Enter your name"
+                        placeholder="Name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
@@ -358,12 +336,12 @@ export default function Registration() {
                         value={formData.surname}
                         onChange={handleChange}
                         required
-                        placeholder="Enter your surname"
+                        placeholder="Surname"
                       />
                       <Field
                         id="patronymic"
                         label="Patronymic"
-                        placeholder="Enter your patronymic"
+                        placeholder="Patronymic"
                         name="patronymic"
                         value={formData.patronymic}
                         onChange={handleChange}
@@ -371,7 +349,7 @@ export default function Registration() {
                       <Field
                         id="email"
                         label="Email"
-                        placeholder="Enter your email"
+                        placeholder="Email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}

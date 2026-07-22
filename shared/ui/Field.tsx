@@ -22,10 +22,10 @@ export default function Field({
   onChange,
 }: FieldProps) {
   return (
-    <div className="relative">
+    <div className="relative group">
       <label
         htmlFor={id}
-        className="label-style font-nexa flex items-center gap-1 text-brand-dark-gray text-xs"
+        className="label-style font-nexa hidden items-center gap-1 text-brand-dark-gray text-xs group-focus-within:flex"
       >
         {label}
         {required ? (
@@ -43,7 +43,7 @@ export default function Field({
         value={value}
         onChange={onChange}
         required={required}
-        className={`input-style border ${value ? "border-brand-blue-dark" : "border-gray-400"}`}
+        className={`input-style border ${value ? "border-gray-300" : "border-gray-400"}`}
       />
     </div>
   );

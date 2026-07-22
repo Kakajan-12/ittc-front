@@ -73,9 +73,8 @@ export default function Select({
         aria-haspopup="listbox"
         onClick={() => setOpen((prev) => !prev)}
         className={cn(
-          "input-style flex w-full items-center justify-between text-left border border-gray-400 rounded",
+          `input-style flex w-full items-center justify-between text-left border rounded ${value ? "border-gray-300" : "border-gray-400"}`,
           !selectedOption && "text-[#aab4bd]",
-          selectedOption && "text-gray-400 border-brand-blue-dark",
         )}
       >
         <span className="truncate text-black">
