@@ -63,7 +63,7 @@ function Speakers() {
         </div>
 
         {/* desktop / tablet grid */}
-        <div className="mt-8 hidden gap-4 lg:grid lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-8 hidden gap-4 lg:grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {speakersData.map((speaker, i) => (
             <SpeakerCard
               key={i}

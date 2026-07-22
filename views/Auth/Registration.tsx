@@ -27,6 +27,7 @@ import { useRegister } from "@/shared/api/hooks/useRegister";
 import { useVerifyEmail } from "@/shared/api/hooks/useVerifyEmail";
 import { useResendCode } from "@/shared/api/hooks/useResendCode";
 import type { ParticipantType } from "@/shared/api/auth";
+import { ArrowStep } from "@/shared/ui/ArrowStep";
 
 // type Tab = "signin" | "register";
 type Step = {
@@ -86,8 +87,6 @@ export default function Registration() {
   });
 
   const stepIndex = steps.findIndex((s) => s.label === step.label);
-  const isLastStep = stepIndex === steps.length - 1;
-
   // Тикаем отсчёт раз в секунду до нуля.
   useEffect(() => {
     if (resendCountdown <= 0) return;
@@ -109,9 +108,9 @@ export default function Registration() {
 
   // Доступ к шагу разрешён только если заполнены все предыдущие.
   const canAccessStep = (i: number) => {
-    if (i === 0) return true; // Personal information доступен всегда
-    if (i === 1) return isPersonalValid; // Company information — после Personal information
-    return isPersonalValid && isCompanyValid; // Verification — после Company information
+    if (i === 0) return true;
+    if (i === 1) return isPersonalValid;
+    return isPersonalValid && isCompanyValid;
   };
 
   const goNext = () => {
@@ -322,6 +321,7 @@ export default function Registration() {
                               : "cursor-pointer"
                           }`}
                         >
+                          {/* <ArrowStep strokeWidth={1} width={300} /> */}
                           <Image
                             src={icon}
                             alt={s.label}
