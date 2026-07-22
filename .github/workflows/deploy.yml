@@ -15,9 +15,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /var/www/app
+            cd /var/www/ittc-frontend
             git fetch origin main
             git reset --hard origin/main
             npm install
             npm run build
-            pm2 restart app
+            pm2 restart ittc-front

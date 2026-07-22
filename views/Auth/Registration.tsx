@@ -27,7 +27,6 @@ import { useRegister } from "@/shared/api/hooks/useRegister";
 import { useVerifyEmail } from "@/shared/api/hooks/useVerifyEmail";
 import { useResendCode } from "@/shared/api/hooks/useResendCode";
 import type { ParticipantType } from "@/shared/api/auth";
-import { ArrowStep } from "@/shared/ui/ArrowStep";
 
 // type Tab = "signin" | "register";
 type Step = {
@@ -87,7 +86,6 @@ export default function Registration() {
   });
 
   const stepIndex = steps.findIndex((s) => s.label === step.label);
-  // Тикаем отсчёт раз в секунду до нуля.
   useEffect(() => {
     if (resendCountdown <= 0) return;
     const id = setTimeout(() => setResendCountdown((s) => s - 1), 1000);
@@ -106,7 +104,6 @@ export default function Registration() {
     formData.position.trim() !== "" &&
     formData.participatingType !== "";
 
-  // Доступ к шагу разрешён только если заполнены все предыдущие.
   const canAccessStep = (i: number) => {
     if (i === 0) return true;
     if (i === 1) return isPersonalValid;
@@ -127,9 +124,8 @@ export default function Registration() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  {
-    /* <Verificatiom> */
-  }
+  /* <Verificatiom> */
+
   const handleCodeChange = (index: number, raw: string) => {
     const digit = raw.replace(/\D/g, "").slice(-1);
     setCode((prev) => {
@@ -165,7 +161,6 @@ export default function Registration() {
     codeInputsRef.current[focusIndex]?.focus();
   };
 
-  // Шаг 1: отправляем заявку на бэкенд, при успехе → шаг верификации (OTP).
   const submitRegistration = () => {
     if (!isPersonalValid || !isCompanyValid || register.isPending) return;
     const promoCode = formData.promoCode.trim();
@@ -186,13 +181,12 @@ export default function Registration() {
       {
         onSuccess: () => {
           goNext();
-          setResendCountdown(60); // запускаем отсчёт до появления кнопки Resend
+          setResendCountdown(60);
         },
       },
     );
   };
 
-  // Шаг 2: проверка OTP-кода → отправка заявки модератору → успех.
   const verifyCode = () => {
     const otp = code.join("");
     if (otp.length !== 6 || verify.isPending) return;
@@ -204,12 +198,11 @@ export default function Registration() {
     );
   };
 
-  // Повторная отправка OTP-кода на почту.
   const resendCode = () => {
     if (resend.isPending || resendCountdown > 0) return;
     setCode(Array(6).fill(""));
     resend.mutate({ email: formData.email.trim() });
-    setResendCountdown(60); // снова прячем кнопку на минуту
+    setResendCountdown(60);
   };
 
   return (
@@ -321,7 +314,6 @@ export default function Registration() {
                               : "cursor-pointer"
                           }`}
                         >
-                          {/* <ArrowStep strokeWidth={1} width={300} /> */}
                           <Image
                             src={icon}
                             alt={s.label}
