@@ -189,3 +189,8 @@ export const defaultCountry =
 export function findCountry(code: string): Country {
   return countries.find((c) => c.code === code) ?? defaultCountry;
 }
+
+export const countryOptions = countries.map((c) => ({
+  value: c.code,
+  label: c.name,
+}));

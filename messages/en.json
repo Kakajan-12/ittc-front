@@ -248,7 +248,7 @@
     "placeholder": "Search news",
     "clear": "Clear search",
     "back": "Back to News",
-    "notResults": "News not found.",
+    "noResults": "News not found.",
     "others": "Other news",
     "readMore": "Read more"
   },

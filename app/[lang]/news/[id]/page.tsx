@@ -29,7 +29,7 @@ export default function NewsDetailPage() {
           <IoIosArrowBack className="size-4" />
           {t("back")}
         </Link>
-        <p className="mt-8 text-brand-gray">{t("notResults")}</p>
+        <p className="mt-8 text-brand-gray">{t("noResults")}</p>
       </section>
     );
   }

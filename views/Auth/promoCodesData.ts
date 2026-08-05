@@ -6,7 +6,8 @@ export interface PromoCode {
 }
 
 export const promoCodesData: PromoCode[] = [
-  { id: 1, code: "TULM202611", discount: 10, expiresAt: "2026-11-30" },
+  { id: 1, code: "TULMITTC26", discount: 10, expiresAt: "2026-11-30" },
+  { id: 2, code: "TLAITTC26", discount: 15, expiresAt: "2026-11-30" },
 ];
 export function validatePromoCode(input: string): PromoCode | null {
   const trimmed = input.trim().toLowerCase();

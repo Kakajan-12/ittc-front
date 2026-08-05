@@ -65,9 +65,9 @@ export default function NavDropdown({
               key={`${child.label}-${child.href}`}
               href={child.href}
               onClick={() => setOpen(false)}
-              className=" px-4 py-2 text-sm flex items-center justify-between gap-2 transition-colors hover:translate-x-1"
+              className=" px-4 py-2 text-sm flex items-center justify-between gap-2 transition-colors hover:translate-x-1 group"
             >
-              <span className="text-black hover:text-brand-blue">
+              <span className=" text-black group-hover:text-brand-blue">
                 {child.label}
               </span>
               {child.href === "#" ? (
