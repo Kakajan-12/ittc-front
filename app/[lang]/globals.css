@@ -33,6 +33,13 @@
   font-display: swap;
 }
 @font-face {
+  font-family: "NexaRegular";
+  src: url("/fonts/Nexa-Regular_0.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: "NexaBold";
   src: url("/fonts/NexaBold.otf") format("opentype");
   font-weight: 700;
@@ -48,6 +55,11 @@
 } */
 
 :root {
+  --gradient-registration: linear-gradient(
+    192.53deg,
+    #0071bb 2.25%,
+    #00326e 95.79%
+  );
   --brand-blue: #009fe3;
   --brand-blue-dark: #00008b;
   --brand-gray: #52585b;
@@ -57,6 +69,7 @@
   --font-capitana: "Capitana", sans-serif;
   --font-proxima-nova: "ProximaNova", sans-serif;
   --font-nexa: "Nexa", sans-serif;
+  --font-nexa-regular: "NexaRegular", sans-serif;
   --font-nexa-bold: "NexaBold", sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -106,6 +119,7 @@
   --font-capitana: var(--font-capitana);
   --font-proxima-nova: var(--font-proxima-nova);
   --font-nexa: var(--font-nexa);
+  --font-nexa-regular: var(--font-nexa-regular);
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -144,6 +158,108 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@utility bg-gradient-registration {
+  background-image: var(--gradient-registration);
+}
+
+/* Эффект стекла: подложка + кромка света сверху + бордер + тень */
+@utility glass {
+  position: relative;
+  isolation: isolate;
+  background-color: rgb(255 255 255 / 0.08);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  border: 1px solid rgb(255 255 255 / 0.18);
+  /* box-shadow:
+    0 8px 32px rgb(0 0 0 / 0.25),
+    inset 0 1px 0 rgb(255 255 255 / 0.25); */
+
+  /* блик: сверху светлее, снизу прозрачно */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      rgb(255 255 255 / 0.18) 0%,
+      rgb(255 255 255 / 0.04) 40%,
+      rgb(255 255 255 / 0) 70%
+    );
+  }
+}
+
+/* Стеклянная пилюля-кнопка: мягкая подложка + градиентная кромка света */
+@utility glass-btn {
+  position: relative;
+  isolation: isolate;
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.16) 0%,
+    rgb(255 255 255 / 0.06) 45%,
+    rgb(255 255 255 / 0.02) 100%
+  );
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 4px 16px rgb(0 0 0 / 0.12);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+
+  /* кромка: градиентный бордер через mask */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      150deg,
+      rgb(255 255 255 / 0.75) 0%,
+      rgb(255 255 255 / 0.25) 35%,
+      rgb(255 255 255 / 0.12) 60%,
+      rgb(255 255 255 / 0.4) 100%
+    );
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+
+  &:hover {
+    background: linear-gradient(
+      160deg,
+      rgb(255 255 255 / 0.24) 0%,
+      rgb(255 255 255 / 0.1) 45%,
+      rgb(255 255 255 / 0.04) 100%
+    );
+  }
+
+  &[aria-pressed="true"] {
+    background: linear-gradient(
+      160deg,
+      rgb(255 255 255 / 0.32) 0%,
+      rgb(255 255 255 / 0.16) 45%,
+      rgb(255 255 255 / 0.08) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.4),
+      0 4px 20px rgb(0 0 0 / 0.18);
+  }
 }
 
 body {
@@ -188,6 +304,116 @@ article {
   }
 }
 
+.auth-segmented.ant-segmented {
+  /* border: 1px solid rgb(255 255 255 / 0.18); */
+  border-radius: 4px;
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+}
+.auth-segmented .ant-segmented-item-label {
+  font-family: var(--font-nexa-bold);
+  font-weight: 500;
+  padding: 6px 0px;
+}
+.auth-segmented .ant-segmented-thumb,
+.auth-segmented .ant-segmented-item-selected {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  box-shadow: 0 3px 9.9px 0 rgb(0 0 0 / 0.1);
+}
+/* Зазор между табами — плашки не слипаются */
+.auth-segmented .ant-segmented-group {
+  gap: 6px;
+  align-items: stretch;
+}
+
+/* Одинаковая геометрия у обоих табов: прозрачная рамка вместо отсутствующей
+   у невыбранного — иначе бордер selected сдвигает текст по вертикали */
+.auth-segmented .ant-segmented-item {
+  display: flex;
+  border-radius: 4px;
+}
+.auth-segmented .ant-segmented-item:not(.ant-segmented-item-selected) {
+  border: 1px solid transparent;
+}
+.auth-segmented .ant-segmented-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  line-height: 1.2;
+}
+
+/* Невыбранный таб — своя плашка, чуть светлее трека, как на макете */
+.auth-segmented .ant-segmented-item:not(.ant-segmented-item-selected) {
+  background-color: #55aaec;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.auth-segmented .ant-segmented-item:not(.ant-segmented-item-selected):hover {
+  background-color: rgb(255 255 255 / 0.22);
+  border-color: rgb(255 255 255 / 0.3);
+}
+
+/* Табы «Sign In / Registration» — доступны на любом шаге */
+.auth-mode-segmented.ant-segmented {
+  border-radius: 6px;
+}
+.auth-mode-segmented .ant-segmented-group {
+  gap: 6px;
+  align-items: stretch;
+}
+.auth-mode-segmented .ant-segmented-item {
+  display: flex;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.auth-mode-segmented.ant-segmented .ant-segmented-item-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* Высоту (min-height) ставит antd из controlHeight — не перебиваем,
+     здесь только выравнивание подписи по центру */
+  padding: 0 12px;
+  font-family: var(--font-nexa);
+  line-height: 1.2;
+}
+.auth-mode-segmented .ant-segmented-item-selected .ant-segmented-item-label,
+.auth-mode-segmented .ant-segmented-thumb + .ant-segmented-item-label {
+  font-family: var(--font-nexa-bold);
+}
+/* Бегунок повторяет геометрию плашки, без лишней рамки */
+.auth-mode-segmented .ant-segmented-thumb {
+  border-radius: 4px;
+}
+
+/* Радио способа оплаты: занимает всю карточку, кружок по центру строки */
+.payment-radio.ant-radio-wrapper {
+  width: 100%;
+  margin: 0;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+}
+.payment-radio.ant-radio-wrapper > span:last-child {
+  padding-inline: 0;
+}
+.payment-radio.ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: #ffffff;
+}
+/* Невыбранный кружок — только обводка: заливку antd берёт из colorBgContainer,
+   а он нужен лишь как цвет точки у выбранного (см. токены в Payment.tsx).
+   !important — стили antd приезжают в <head> позже этого файла */
+.payment-radio.ant-radio-wrapper
+  .ant-radio:not(.ant-radio-checked)
+  .ant-radio-inner {
+  background-color: transparent !important;
+}
+
 .registration-tab {
   clip-path: polygon(88% 0%, 100% 50%, 88% 100%, 0% 100%, 0 49%, 0% 0%);
 }
@@ -195,7 +421,7 @@ article {
   background-color: #fff;
   font-size: 12px;
   font-weight: 400;
-  color: #424a4e;
+  color: #e3e9ef;
   padding: 0 8px 0 4px;
   position: absolute;
   top: -8px;
@@ -205,7 +431,10 @@ article {
 .input-style {
   font-size: 16px;
   font-weight: 400;
-  padding: 12px 16px;
+  /* Высота фиксирована, поэтому вертикального padding нет — текст держит
+     по центру сама высота строки поля */
+  height: 48px;
+  padding: 0 16px;
   width: 100%;
   border-radius: 4px;
   outline: none;
@@ -213,10 +442,127 @@ article {
   transition: border-color 0.2s;
 }
 .input-style::placeholder {
-  color: #aab4bd;
+  color: #ffffff80;
 }
 .input-style:focus {
   border-color: var(--brand-blue);
+}
+
+.field-input {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+/* Высота строки легенды: браузер поднимает рамку fieldset на её половину,
+   поэтому эта же величина уходит в отрицательный top ниже */
+:root {
+  --field-legend-line: 14px;
+}
+.field-outline {
+  position: absolute;
+  inset: 0;
+  /* Легенда лежит поверх верхней границы и сдвигает рамку вниз на половину
+     своей строки — компенсируем, иначе рамка не совпадает с полем и текст
+     инпута оказывается выше её центра */
+  top: calc(var(--field-legend-line) / -2);
+  min-inline-size: 0;
+  box-sizing: border-box;
+  width: 100%;
+  /* Высоту задают top/bottom, а не height: легенда съедает свою половину
+     сверху, и рамка ровно совпадает с полем (48px) */
+  height: auto;
+  margin: 0;
+  padding: 0 11px;
+  border: 1px solid #aeaeae91;
+  border-radius: 4px;
+  pointer-events: none;
+  transition: border-color 0.2s;
+}
+.field-outline--filled {
+  border-color: #96959591;
+}
+.field-outline--error {
+  border-color: #ef4444;
+}
+
+.field-input:focus ~ .field-outline {
+  border-color: var(--brand-blue);
+}
+.field-legend {
+  max-width: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: var(--font-nexa);
+  font-size: 14px;
+  /* Фиксированная высота строки — от неё считается компенсация в .field-outline */
+  height: var(--field-legend-line);
+  line-height: var(--field-legend-line);
+  color: #fff;
+  white-space: nowrap;
+  visibility: hidden;
+  transition:
+    max-width 0.2s ease,
+    padding 0.2s ease;
+}
+.field-label {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  font-family: var(--font-nexa);
+  font-size: 16px;
+  line-height: 1;
+  color: #ffffff80;
+  white-space: nowrap;
+  pointer-events: none;
+  transition:
+    top 0.2s,
+    font-size 0.2s,
+    color 0.2s;
+}
+
+/* Подняты — при фокусе или когда есть значение. Подпись уезжает на рамку,
+   вырез под неё раскрывается синхронно. */
+.field-input:focus ~ .field-label,
+.field-outline--filled ~ .field-label {
+  /* top задаёт центр подписи (её сдвигает translateY(-50%)) — она должна лечь
+     на верхнюю границу рамки, которая теперь начинается от 0 */
+  top: -2px;
+  font-size: 14px;
+  color: #fff;
+}
+.field-input:focus ~ .field-outline .field-legend,
+.field-outline--filled .field-legend,
+[data-raised] .field-legend {
+  max-width: 100%;
+  /* 8px чистого поля слева и справа от текста, чтобы линия его не касалась */
+  padding: 0 8px;
+}
+
+/* Поля, где слева всегда что-то нарисовано (телефон с кодом страны): подпись
+   не может лечь по центру — она бы села на «+993». Поэтому сразу наверху и
+   только проявляется. Состояние приходит из React через data-raised, потому
+   что input лежит внутри библиотеки и соседом для `~` не является. */
+.field-label--raised {
+  top: -4px;
+  font-size: 14px;
+  color: #fff;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
+}
+[data-raised] .field-label--raised {
+  opacity: 1;
+}
+
+/* Пока подпись лежит по центру, плейсхолдер прятан — иначе они наложатся */
+.field-input::placeholder {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.field-input:focus::placeholder {
+  opacity: 1;
 }
 @keyframes skeleton-shimmer {
   100% {

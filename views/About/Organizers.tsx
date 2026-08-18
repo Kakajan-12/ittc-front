@@ -4,13 +4,13 @@ import SectionHeading from "@/shared/ui/SectionHeading";
 import { SkeletonImage } from "@/components/ui/Skeleton";
 
 const logos = [
-  { key: 1, name: "logo1" },
-  { key: 2, name: "logo2" },
-  { key: 3, name: "logo3" },
-  { key: 4, name: "logo4" },
-  { key: 5, name: "logo5" },
-  { key: 6, name: "logo6" },
-  { key: 7, name: "logo7" },
+  { key: 1, name: "logo1", href: "https://awtoulag.gov.tm/ru" },
+  { key: 2, name: "logo2", href: "https://turkmendemiryollary.gov.tm" },
+  { key: 3, name: "logo3", href: "https://turkmenistanairlines.tm/ru" },
+  { key: 4, name: "logo4", href: "https://tmrl.gov.tm/ru" },
+  { key: 5, name: "logo5", href: "http://www.tulm.tm" },
+  { key: 6, name: "logo6", href: "https://cci.gov.tm/" },
+  { key: 7, name: "logo7", href: "https://oguzforum.com/" },
 ] as const;
 
 function Organizers() {
@@ -21,9 +21,13 @@ function Organizers() {
       <SectionHeading title={t("title")} />
 
       <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 justify-items-start gap-3 lg:gap-5">
-        {logos.map(({ key, name }) => (
+        {logos.map(({ key, name, href }) => (
           <li key={key} className="flex flex-col items-center gap-2 ">
-            <div className="sponsorShadow group relative flex flex-col h-42 w-40 lg:w-54 xl:w-48 2xl:w-50 rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm">
+            <a
+              href={href}
+              target="_blank"
+              className="sponsorShadow group relative flex flex-col h-42 w-40 lg:w-54 xl:w-48 2xl:w-50 rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm"
+            >
               <div className="relative h-full w-full">
                 <SkeletonImage
                   src={`/logos/${key}.svg`}
@@ -42,7 +46,7 @@ function Organizers() {
               <p className="relative block lg:hidden group-hover:hidden z-10 text-center text-xs text-brand-gray lg:text-sm">
                 {t(name)}
               </p>
-            </div>
+            </a>
           </li>
         ))}
       </ul>

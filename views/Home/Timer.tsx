@@ -27,7 +27,7 @@ function Timer() {
     {
       key: "days",
       value: total === null ? null : Math.floor(total / 86400),
-      pad: 3,
+      pad: 1,
     },
     {
       key: "hours",
