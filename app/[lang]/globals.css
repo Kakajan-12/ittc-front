@@ -442,7 +442,7 @@ article {
   transition: border-color 0.2s;
 }
 .input-style::placeholder {
-  color: #ffffff80;
+  color: #aab4bd;
 }
 .input-style:focus {
   border-color: var(--brand-blue);
