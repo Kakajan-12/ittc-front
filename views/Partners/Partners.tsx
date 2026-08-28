@@ -15,7 +15,7 @@ import partner7 from "@/public/partners/7.png";
 
 const partnerData = [
   { id: 1, name: "Partner 1", logo: partner1, category: "media" },
-  { id: 2, name: "Partner 2", logo: partner2, category: "media" },
+  // { id: 2, name: "Partner 2", logo: partner2, category: "media" },
   { id: 3, name: "Partner 3", logo: partner3, category: "knowledge" },
   { id: 4, name: "Partner 4", logo: partner4, category: "media" },
   { id: 5, name: "Partner 5", logo: partner5, category: "media" },

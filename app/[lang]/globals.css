@@ -172,6 +172,8 @@
   backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
   border: 1px solid rgb(255 255 255 / 0.18);
+
+  /* h-full min-h-0 overflow-hidden */
   /* box-shadow:
     0 8px 32px rgb(0 0 0 / 0.25),
     inset 0 1px 0 rgb(255 255 255 / 0.25); */
@@ -199,12 +201,6 @@
   isolation: isolate;
   border-radius: 9999px;
   color: #fff;
-  background: linear-gradient(
-    160deg,
-    rgb(255 255 255 / 0.16) 0%,
-    rgb(255 255 255 / 0.06) 45%,
-    rgb(255 255 255 / 0.02) 100%
-  );
   backdrop-filter: blur(16px) saturate(140%);
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   box-shadow:
@@ -279,11 +275,7 @@ article {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   }
 }
-/* @media (max-width: 768px) {
-  .sponsorShadow {
-    box-shadow: none;
-  }
-} */
+
 .shadow-faq {
   box-shadow: 0px 0px 4px 0px #00000040;
 }
@@ -305,7 +297,6 @@ article {
 }
 
 .auth-segmented.ant-segmented {
-  /* border: 1px solid rgb(255 255 255 / 0.18); */
   border-radius: 4px;
   backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
@@ -320,14 +311,11 @@ article {
   border: 1px solid rgb(255 255 255 / 0.4);
   box-shadow: 0 3px 9.9px 0 rgb(0 0 0 / 0.1);
 }
-/* Зазор между табами — плашки не слипаются */
 .auth-segmented .ant-segmented-group {
   gap: 6px;
   align-items: stretch;
 }
 
-/* Одинаковая геометрия у обоих табов: прозрачная рамка вместо отсутствующей
-   у невыбранного — иначе бордер selected сдвигает текст по вертикали */
 .auth-segmented .ant-segmented-item {
   display: flex;
   border-radius: 4px;
@@ -343,9 +331,17 @@ article {
   line-height: 1.2;
 }
 
-/* Невыбранный таб — своя плашка, чуть светлее трека, как на макете */
+.auth-segmented.ant-segmented.ant-segmented-lg .ant-segmented-item-label {
+  font-size: 14px;
+}
+@media (min-width: 640px) {
+  .auth-segmented.ant-segmented.ant-segmented-lg .ant-segmented-item-label {
+    font-size: 16px;
+  }
+}
+
 .auth-segmented .ant-segmented-item:not(.ant-segmented-item-selected) {
-  background-color: #55aaec;
+  background-color: #55aaec8f;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -376,11 +372,15 @@ article {
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* Высоту (min-height) ставит antd из controlHeight — не перебиваем,
-     здесь только выравнивание подписи по центру */
   padding: 0 12px;
   font-family: var(--font-nexa);
+  font-size: 14px;
   line-height: 1.2;
+}
+@media (min-width: 640px) {
+  .auth-mode-segmented.ant-segmented .ant-segmented-item-label {
+    font-size: 16px;
+  }
 }
 .auth-mode-segmented .ant-segmented-item-selected .ant-segmented-item-label,
 .auth-mode-segmented .ant-segmented-thumb + .ant-segmented-item-label {
@@ -431,8 +431,6 @@ article {
 .input-style {
   font-size: 16px;
   font-weight: 400;
-  /* Высота фиксирована, поэтому вертикального padding нет — текст держит
-     по центру сама высота строки поля */
   height: 48px;
   padding: 0 16px;
   width: 100%;
@@ -453,17 +451,14 @@ article {
   box-sizing: border-box;
   max-width: 100%;
 }
-/* Высота строки легенды: браузер поднимает рамку fieldset на её половину,
-   поэтому эта же величина уходит в отрицательный top ниже */
+
 :root {
   --field-legend-line: 14px;
 }
 .field-outline {
   position: absolute;
   inset: 0;
-  /* Легенда лежит поверх верхней границы и сдвигает рамку вниз на половину
-     своей строки — компенсируем, иначе рамка не совпадает с полем и текст
-     инпута оказывается выше её центра */
+
   top: calc(var(--field-legend-line) / -2);
   min-inline-size: 0;
   box-sizing: border-box;
@@ -520,13 +515,8 @@ article {
     font-size 0.2s,
     color 0.2s;
 }
-
-/* Подняты — при фокусе или когда есть значение. Подпись уезжает на рамку,
-   вырез под неё раскрывается синхронно. */
 .field-input:focus ~ .field-label,
 .field-outline--filled ~ .field-label {
-  /* top задаёт центр подписи (её сдвигает translateY(-50%)) — она должна лечь
-     на верхнюю границу рамки, которая теперь начинается от 0 */
   top: -2px;
   font-size: 14px;
   color: #fff;
@@ -535,14 +525,9 @@ article {
 .field-outline--filled .field-legend,
 [data-raised] .field-legend {
   max-width: 100%;
-  /* 8px чистого поля слева и справа от текста, чтобы линия его не касалась */
   padding: 0 8px;
 }
 
-/* Поля, где слева всегда что-то нарисовано (телефон с кодом страны): подпись
-   не может лечь по центру — она бы села на «+993». Поэтому сразу наверху и
-   только проявляется. Состояние приходит из React через data-raised, потому
-   что input лежит внутри библиотеки и соседом для `~` не является. */
 .field-label--raised {
   top: -4px;
   font-size: 14px;
@@ -555,22 +540,54 @@ article {
 [data-raised] .field-label--raised {
   opacity: 1;
 }
-
-/* Пока подпись лежит по центру, плейсхолдер прятан — иначе они наложатся */
 .field-input::placeholder {
+  color: #ffffff80;
   opacity: 0;
   transition: opacity 0.2s;
 }
 .field-input:focus::placeholder {
   opacity: 1;
 }
+.services-card.ant-collapse-ghost > .ant-collapse-item {
+  border-bottom: none;
+}
+.services-card.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-header {
+  padding: 0;
+  align-items: center;
+  cursor: pointer;
+}
+.services-card.ant-collapse-ghost
+  > .ant-collapse-item
+  > .ant-collapse-header
+  > .ant-collapse-header-text {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  margin-inline-end: 0;
+}
+.services-card.ant-collapse-ghost,
+.services-card.ant-collapse-ghost > .ant-collapse-item,
+.services-card.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-panel {
+  background-color: #edf6ff;
+  border-top: none;
+}
+.services-card.ant-collapse-ghost {
+  overflow: hidden;
+}
+.services-card.ant-collapse-ghost
+  > .ant-collapse-item
+  > .ant-collapse-panel
+  > .ant-collapse-body {
+  padding: 0 12px 12px;
+  background-color: #edf6ff;
+}
+
 @keyframes skeleton-shimmer {
   100% {
     transform: translateX(100%);
   }
 }
 
-/* В base-слое, чтобы утилиты Tailwind (напр. `absolute`) могли перебить position. */
 @layer base {
   .skeleton-shimmer {
     position: relative;

@@ -16,7 +16,7 @@ function Home() {
   const t = useTranslations("Hero");
 
   const actions = [
-    { key: "register", href: "../register", mobileOnly: true },
+    { key: "register", href: "/register", mobileOnly: true },
     { key: "agenda", href: "/agenda" },
     { key: "brochure", href: "/brochure" },
     { key: "faq", href: "/faq" },

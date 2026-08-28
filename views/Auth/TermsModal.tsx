@@ -1,6 +1,7 @@
 "use client";
 
-import { FileText, ShieldCheck, X } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface TermsModalProps {
   open: boolean;
@@ -8,6 +9,8 @@ interface TermsModalProps {
 }
 
 export default function TermsModal({ open, onClose }: TermsModalProps) {
+  const t = useTranslations("Registration.termsModal");
+
   if (!open) return null;
 
   return (
@@ -15,7 +18,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="terms-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4"
+      className="fixed inset-0 z-80 flex items-center justify-center bg-black/30 p-4"
       onClick={onClose}
     >
       <div
@@ -32,11 +35,10 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
               id="terms-modal-title"
               className="mb-2 font-nexa-bold text-base lg:text-2xl font-bold text-brand-dark-gray"
             >
-              Terms of Use and Privacy Policy
+              {t("title")}
             </h2>
             <p className="font-nexa text-xs lg:text-sm text-gray-400">
-              Please read the following terms and policies carefully to
-              understand how your data is used and your rights.
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -47,14 +49,11 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
         <section>
           <div className="mb-3 flex items-center gap-3">
             <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-brand-dark-gray">
-              Terms of Use
+              {t("termsTitle")}
             </h3>
           </div>
           <p className="font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
-            By registering for ITTC 2026, you agree to provide accurate and
-            complete information. Your registration is personal and
-            non-transferable. We reserve the right to refuse or cancel any
-            registration at our discretion.
+            {t("termsText")}
           </p>
         </section>
 
@@ -64,18 +63,14 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
         <section className="mb-8">
           <div className="mb-3 flex items-center gap-3">
             <h3 className="font-nexa-bold text-base lg:text-lg font-bold text-brand-dark-gray">
-              Privacy Policy
+              {t("privacyTitle")}
             </h3>
           </div>
           <p className="font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
-            We are committed to protecting your privacy. The personal
-            information you provide will be used solely for event registration
-            and related communications. We do not share your data with third
-            parties without your consent.
+            {t("privacyText")}
           </p>
           <p className="mt-4 font-nexa text-xs lg:text-sm leading-relaxed text-gray-400">
-            For more details, please visit our full Privacy Policy on the
-            website.
+            {t("privacyMore")}
           </p>
         </section>
 
@@ -84,7 +79,7 @@ export default function TermsModal({ open, onClose }: TermsModalProps) {
           onClick={onClose}
           className="h-12 w-full rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80"
         >
-          Close
+          {t("close")}
         </button>
       </div>
     </div>

@@ -145,7 +145,7 @@ function DayTable({ day }: { day: AgendaDay }) {
                 <SessionTitle session={session} />
               </TableCell>
 
-              <TableCell className="py-5 pr-6 whitespace-normal">
+              {/* <TableCell className="py-5 pr-6 whitespace-normal">
                 <div className="flex flex-col items-end gap-3">
                   <SessionSponsors session={session} />
                   {session.details ? (
@@ -158,7 +158,7 @@ function DayTable({ day }: { day: AgendaDay }) {
                     </button>
                   ) : null}
                 </div>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           );
         })}

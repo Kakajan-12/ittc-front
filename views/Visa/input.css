@@ -1,0 +1,350 @@
+.field {
+  position: relative;
+  /* One height for every field type — text inputs, selects, dates and the
+     phone box — so the grid rows line up */
+  --visa-field-height: 46px;
+}
+
+.visa-label-style {
+  background-color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--brand-gray);
+  padding: 0 6px;
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  z-index: 10;
+  pointer-events: none;
+  transition:
+    top 0.2s,
+    font-size 0.2s,
+    color 0.2s;
+}
+.visa-input-style:focus ~ .visa-label-style,
+.visa-input-style:not(:placeholder-shown) ~ .visa-label-style {
+  top: 0;
+  font-size: 12px;
+}
+
+.visa-input-style:focus ~ .visa-label-style {
+  color: var(--brand-blue);
+}
+.visa-label-required {
+  color: var(--brand-gray);
+  margin-left: 2px;
+  transition: color 0.2s;
+}
+.visa-input-style:focus ~ .visa-label-style .visa-label-required {
+  color: var(--brand-blue);
+}
+.visa-label-optional {
+  color: var(--brand-gray);
+  margin-left: 4px;
+  font-size: 0.85em;
+}
+
+.visa-input-style {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 12px 16px;
+  width: 100%;
+  height: var(--visa-field-height);
+  box-sizing: border-box;
+  border: 1px solid var(--brand-gray);
+  border-radius: 4px;
+  outline: none;
+  background-color: #fff;
+  color: var(--foreground);
+  flex-shrink: 0;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.visa-input-style::placeholder {
+  color: var(--brand-gray);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.visa-input-style:focus::placeholder {
+  opacity: 1;
+}
+
+/* Select trigger reuses the input look */
+.visa-select-trigger {
+  height: var(--visa-field-height);
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.visa-select-trigger[data-placeholder] {
+  border-color: var(--brand-gray);
+}
+.visa-select-trigger:not([data-placeholder]) {
+  border-color: color-mix(in srgb, var(--brand-gray) 60%, transparent);
+}
+.visa-select-trigger[data-popup-open] {
+  border-color: var(--brand-blue);
+}
+
+/* Select and date fields always show their placeholder, so the label can never
+   sit over it: it stays raised and only fades in on focus or once filled. */
+.field-raised .visa-label-style {
+  top: 0;
+  font-size: 12px;
+  opacity: 0;
+  transition:
+    opacity 0.2s,
+    color 0.2s;
+}
+.visa-select-trigger:not([data-placeholder]) ~ .visa-label-style,
+.visa-select-trigger[data-popup-open] ~ .visa-label-style,
+.field-raised[data-filled] .visa-label-style,
+.field-raised[data-focus] .visa-label-style {
+  opacity: 1;
+}
+.visa-select-trigger[data-popup-open] ~ .visa-label-style,
+.field-raised[data-focus] .visa-label-style {
+  color: var(--brand-blue);
+}
+
+.visa-select-trigger[data-placeholder] .visa-select-value {
+  color: var(--brand-gray);
+}
+
+/* Phone field: intl-tel-input dressed as a visa input.
+   Разметка библиотеки: селектор страны абсолютно позиционирован поверх левого
+   края инпута, а padding-left самого инпута она пересчитывает сама. Рамку и фон
+   держит контейнер (.visa-input-style), поэтому его собственный padding снят —
+   иначе он бы разъехался с абсолютным селектором. */
+.visa-phone {
+  display: block;
+  padding: 0;
+  font-size: 16px;
+  --iti-spacer-horizontal: 8px;
+  --iti-icon-color: var(--brand-gray);
+}
+.field[data-filled] .visa-phone {
+  border-color: color-mix(in srgb, var(--brand-gray) 60%, transparent);
+}
+.field[data-focus] .visa-phone {
+  border-color: var(--brand-blue);
+}
+/* Doubled class beats the library's own `.iti__selected-country` rule.
+   Разделитель — правая граница кнопки: её ширину библиотека учитывает, когда
+   считает отступ инпута. */
+.visa-phone .visa-phone-button.visa-phone-button {
+  height: 100%;
+  padding-right: 8px;
+  border-right: 1px solid color-mix(in srgb, var(--brand-gray) 40%, transparent);
+  border-radius: 0;
+  background: transparent;
+}
+.visa-phone .visa-phone-input.visa-phone-input {
+  width: 100%;
+  /* Контейнер держит --visa-field-height вместе с рамкой, инпуту достаётся его
+     content-box — отсюда 100%, а не сама переменная */
+  height: 100%;
+  padding-right: 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--foreground);
+  outline: none;
+}
+.visa-phone .visa-phone-input::placeholder {
+  color: var(--brand-gray);
+}
+/* На узких экранах список стран уезжает в document.body (fullscreen popup),
+   поэтому селектор не привязан к .visa-phone.
+   Doubled class beats the library's own dropdown rules, which let the next
+   field's label and background paint over the list */
+.visa-phone-dropdown.visa-phone-dropdown {
+  z-index: 50;
+  border: 1px solid color-mix(in srgb, var(--brand-gray) 40%, transparent);
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  color: var(--foreground);
+}
+/* В fullscreen-режиме селектор — колоночный флекс с max-height: 100%, поэтому
+   строку поиска может сжать ниже её содержимого и текст обрежется. Сжиматься и
+   прокручиваться должен только список стран. */
+.visa-phone-dropdown.visa-phone-dropdown .iti__search-input-wrapper {
+  flex-shrink: 0;
+}
+.visa-phone-dropdown.visa-phone-dropdown .iti__country-list {
+  max-height: 260px;
+  min-height: 0;
+}
+.visa-phone-dropdown.visa-phone-dropdown .iti__search-input {
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--foreground);
+}
+
+/* antd DatePicker dressed up as a visa input.
+   Doubled class beats antd's runtime-injected styles. */
+.visa-date-picker.visa-date-picker {
+  padding: 12px 16px;
+  width: 100%;
+  height: var(--visa-field-height);
+  box-sizing: border-box;
+  border: 1px solid var(--brand-gray);
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: none;
+  transition: border-color 0.2s;
+}
+.field[data-filled] .visa-date-picker.visa-date-picker {
+  border-color: color-mix(in srgb, var(--brand-gray) 60%, transparent);
+}
+.field[data-focus] .visa-date-picker.visa-date-picker {
+  border-color: var(--brand-blue);
+}
+.visa-date-picker.visa-date-picker .ant-picker-input > input {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--foreground);
+}
+.visa-date-picker.visa-date-picker .ant-picker-input > input::placeholder {
+  color: var(--brand-gray);
+  opacity: 1;
+}
+
+.visa-input-style:not(:placeholder-shown) {
+  border-color: color-mix(in srgb, var(--brand-gray) 60%, transparent);
+}
+.visa-input-style:focus {
+  border-color: var(--brand-blue);
+}
+
+/* Validation */
+.visa-input-style.visa-input-error,
+.visa-input-style.visa-input-error:not(:placeholder-shown),
+.visa-input-style.visa-input-error:focus,
+.field .visa-date-picker.visa-input-error {
+  border-color: #dc2626;
+}
+.visa-error-text {
+  font-size: 12px;
+  line-height: 1.3;
+  color: #dc2626;
+}
+
+/* Upload (antd Upload dressed as the mock-up drop area) */
+.visa-upload {
+  --visa-upload-accent: #3aa757;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.visa-upload-title {
+  font-size: 18px;
+  font-weight: 400;
+  text-align: center;
+  color: var(--brand-dark-gray);
+}
+/* antd wraps the trigger in a span — make it fill the column */
+.visa-upload-control.visa-upload-control,
+.visa-upload-control .ant-upload,
+.visa-upload-control .ant-upload-select {
+  display: block;
+  width: 100%;
+}
+.visa-upload-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed color-mix(in srgb, var(--brand-gray) 45%, transparent);
+  border-radius: 6px;
+  background-color: #fff;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+/* The sample/preview sits behind a white veil so the green CTA stays readable */
+.visa-upload-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  transition: background 0.2s;
+}
+.visa-upload-box[data-filled]::before {
+  background: rgba(255, 255, 255, 0.25);
+}
+.visa-upload-box:hover,
+.visa-upload-control:focus-within .visa-upload-box {
+  border-color: var(--visa-upload-accent);
+  outline: none;
+}
+.visa-upload-box[data-filled]:hover::before {
+  background: rgba(255, 255, 255, 0.55);
+}
+.visa-upload-cta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--visa-upload-accent);
+  font-size: 18px;
+  font-weight: 400;
+}
+.visa-upload-box[data-filled] .visa-upload-cta {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.visa-upload-box[data-filled]:hover .visa-upload-cta,
+.visa-upload-control:focus-within
+  .visa-upload-box[data-filled]
+  .visa-upload-cta {
+  opacity: 1;
+}
+.visa-upload-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--brand-gray);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.visa-upload-remove:hover {
+  color: #dc2626;
+}
+.visa-upload-name {
+  font-size: 12px;
+  text-align: center;
+  color: var(--brand-gray);
+  overflow-wrap: anywhere;
+}
+.visa-upload-box.visa-upload-error {
+  border-color: #dc2626;
+}
+.visa-upload .visa-error-text {
+  text-align: center;
+}

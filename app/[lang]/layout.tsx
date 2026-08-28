@@ -4,11 +4,10 @@ import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Roboto } from "next/font/google";
-import Providers from "@/app/providers";
-import TopBar from "@/shared/ui/TopBar";
-import Footer from "@/shared/ui/Footer";
-
 import "./globals.css";
+import QueryProviders from "@/providers/query";
+import AntProviders from "@/providers/antDesign";
+import AuthStorageCleanup from "@/views/Auth/AuthStorageCleanup";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -50,15 +49,15 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <link rel="apple-touch-icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body className="min-h-full flex flex-col">
-        <Providers>
-          <NextIntlClientProvider messages={messages}>
-            <main className="flex-1">
-              <TopBar />
+        <QueryProviders>
+          <AntProviders>
+            <NextIntlClientProvider messages={messages}>
+              {/* Уход с /register стирает заполненную форму */}
+              <AuthStorageCleanup />
               {children}
-              <Footer />
-            </main>
-          </NextIntlClientProvider>
-        </Providers>
+            </NextIntlClientProvider>
+          </AntProviders>
+        </QueryProviders>
       </body>
     </html>
   );

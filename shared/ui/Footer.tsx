@@ -53,8 +53,8 @@ const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
   {
     titleKey: "links",
     links: [
-      { labelKey: "support", href: "/support" },
-      { labelKey: "register", href: "../register" },
+      { labelKey: "support", href: "/officialsupport" },
+      { labelKey: "register", href: "/register" },
       { labelKey: "faq", href: "/faq" },
     ],
   },

@@ -18,6 +18,13 @@ export default function MobileMenu({
 }) {
   const pathname = usePathname();
 
+  // "#" — заглушка (раздел ещё не готов), такие ссылки активными не считаем
+  const isActive = (href: string) =>
+    href !== "#" &&
+    (href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(`${href}/`));
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -54,7 +61,10 @@ export default function MobileMenu({
           <Link
             href="/"
             onClick={onClose}
-            className="text-base font-roboto transition hover:text-brand-blue"
+            aria-current={isActive("/") ? "page" : undefined}
+            className={`text-base font-roboto transition hover:text-brand-blue ${
+              isActive("/") ? "font-semibold text-brand-blue" : "text-black"
+            }`}
           >
             {homeLabel}
           </Link>
@@ -65,27 +75,43 @@ export default function MobileMenu({
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="text-base font-roboto transition hover:text-brand-blue"
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={`text-base font-roboto transition hover:text-brand-blue ${
+                    isActive(item.href)
+                      ? "font-semibold text-brand-blue"
+                      : "text-black"
+                  }`}
                 >
                   {item.label}
                 </Link>
                 <ul className="flex flex-col gap-6 pl-2.5 text-brand-gray">
                   {item.children.map((child, index) => {
-                    const active = pathname === child.href;
+                    const active = isActive(child.href);
                     return (
                       <li
                         key={`${child.href}-${index}`}
                         className="flex items-center gap-3"
                       >
-                        <span className="size-2 shrink-0 rounded-full bg-brand-blue" />
+                        <span
+                          className={`shrink-0 size-2 rounded-full transition-all ${
+                            active ? "bg-brand-blue" : "bg-brand-blue/40"
+                          }`}
+                        />
                         <Link
                           href={child.href}
                           onClick={onClose}
-                          className={`text-base transition w-full flex items-center justify-between hover:text-brand-blue ${
-                            active ? "text-brand-blue" : "text-brand-gray"
-                          }`}
+                          aria-current={active ? "page" : undefined}
+                          className="text-base transition w-full flex items-center justify-between hover:text-brand-blue group"
                         >
-                          <span className="text-black">{child.label}</span>
+                          <span
+                            className={
+                              active
+                                ? "font-semibold text-brand-blue"
+                                : "text-black group-hover:text-brand-blue"
+                            }
+                          >
+                            {child.label}
+                          </span>
                           {child.href === "#" ? (
                             <IoLockClosedOutline
                               size={16}
@@ -103,7 +129,10 @@ export default function MobileMenu({
                 key={item.key}
                 href={item.href}
                 onClick={onClose}
-                className="text-lg font-bold text-black transition hover:text-brand-blue"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`text-base font-roboto transition hover:text-brand-blue ${
+                  isActive(item.href) ? "text-brand-blue" : "text-black"
+                }`}
               >
                 {item.label}
               </Link>

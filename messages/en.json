@@ -47,7 +47,6 @@
     "subtitle": "About the ITTC 2026  “International Transport and Transit Corridors",
     "text": "Connectivity and Development – 2026” (ITTC 2026) is an international forum and exhibition dedicated to the development of transport corridors, logistics, digital infrastructure, and international cooperation. The event brings together representatives of government authorities, international organizations, financial institutions, transport and logistics companies, investors, and industry experts to discuss current trends and prospects for the development of global transport connectivity. The Forum serves as a platform for professional dialogue, exchange of experience, and the development of practical solutions aimed at improving efficient transport routes, enhancing logistics processes, and strengthening international cooperation.",
     "section": {
-      "title": "Exhibition Section",
       "1": {
         "category": "Infrastructure",
         "title": "Transport Infrastructure and Logistics",
@@ -87,7 +86,8 @@
         "category": "Services",
         "title": "Trade and Industrial Services",
         "text": "Freight forwarding services, trade logistics, industrial equipment for the transport sector, and related services."
-      }
+      },
+      "title": "Exhibition Section"
     },
     "more": "More about event",
     "playAlt": "Play the event video"
@@ -144,7 +144,7 @@
     "more": "View Sponsorship Prospectus"
   },
   "Sponsors": {
-    "title": "Sponsors",
+    "title": "ITTC 2025 Sponsors",
     "sponsors": {
       "name1": "Bronze sponsor",
       "name2": "Diamond sponsor",
@@ -356,7 +356,210 @@
     "contact": "If you have any questions regarding these Terms of Use, please contact us at",
     "email": "info@oguzforum.com"
   },
-  "test": {
-    "title": "test"
+  "Common": {
+    "optional": "(opt.)",
+    "selectPlaceholder": "Select option",
+    "loading": "Loading...",
+    "search": "Search",
+    "notFound": "Nothing found"
+  },
+  "Errors": {
+    "phoneRequired": "Enter your phone number",
+    "phoneInvalid": "Enter a valid phone number",
+    "phoneLength": "Number for +{dialCode} must be {expected} digits — you entered {entered}",
+    "phoneOperator": "No such number in +{dialCode} — check the operator code"
+  },
+  "Registration": {
+    "platform": "Event participant platform",
+    "back": "Back",
+    "logoAlt": "OGUZ Forum Expo",
+    "tabs": {
+      "signIn": "Sign In",
+      "registration": "Registration"
+    },
+    "signIn": {
+      "registrationId": "Registration ID",
+      "registrationIdPlaceholder": "TIF-2026-XXXXX",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "submit": "Sign In",
+      "to-platform": "Go to platform",
+      "submitting": "Signing in…",
+      "forgotId": "Forgot your ID?",
+      "errors": {
+        "idRequired": "Enter your registration ID",
+        "idFormat": "Registration ID format is TIF-2026-XXXXX",
+        "passwordRequired": "Enter your password"
+      }
+    },
+    "steps": {
+      "personal": "Personal information",
+      "company": "Company information",
+      "services": "Event Services",
+      "payment": "Payment",
+      "verification": "Verification"
+    },
+    "personal": {
+      "name": "Name",
+      "namePlaceholder": "Enter your name",
+      "surname": "Surname",
+      "surnamePlaceholder": "Enter your surname",
+      "patronymic": "Patronymic",
+      "patronymicPlaceholder": "Enter your patronymic",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "phone": "Mobile number",
+      "phonePlaceholder": "Mobile number",
+      "terms": "I accept the <terms>terms of use</terms> and <privacy>privacy policy</privacy>",
+      "position": "Position",
+      "positionPlaceholder": "Position",
+      "next": "Next",
+      "sending": "Sending..."
+    },
+    "company": {
+      "companyName": "Company name",
+      "companyNamePlaceholder": "Company name",
+      "companyWebsite": "Company website",
+      "companyWebsitePlaceholder": "Company website",
+      "companyAddress": "Company Address",
+      "companyAddressPlaceholder": "Company address",
+      "companyCountry": "Company country",
+      "companyCountryPlaceholder": "Select company country",
+      "city": "City",
+      "cityPlaceholder": "Company city",
+      "postalCode": "ZIP/Postal code",
+      "postalCodePlaceholder": "Postal code",
+      "next": "Next",
+      "sending": "Sending..."
+    },
+    "services": {
+      "audience": {
+        "international": "International",
+        "local": "Local"
+      },
+      "categories": {
+        "delegate": "Delegate",
+        "exhibition": "Exhibition"
+      },
+      "positions": "{count, plural, one {# position} other {# positions}}",
+      "next": "Next",
+      "sending": "Sending...",
+      "card": {
+        "select": "Select",
+        "showLess": "Show less",
+        "allFeatures": "See all features +{count}",
+        "registrationFee": "+{amount} {currency} Registration fee",
+        "feeShort": "+{amount} {currency} fee",
+        "perDelegate": "for 1 delegate",
+        "decrease": "Decrease {title}",
+        "increase": "Increase {title}"
+      },
+      "packages": {
+        "delegateStandard": "Delegate Package",
+        "delegatePremium": "Delegate Premium Package",
+        "exhibition18": "Exhibition Package 18 m2",
+        "exhibition36": "Exhibition Package 36 m2",
+        "space18": "Space Area 18 m2"
+      },
+      "features": {
+        "allSessions": "Access to all sessions and panels",
+        "appProfile": "Profile in the app and B2B meetings",
+        "coffeeAndLunch": "Coffee breaks and lunch for 3 days",
+        "materials": "Conference materials and gifts",
+        "galaDinner": "Invitation to the gala dinner",
+        "certificate": "Participant certificate",
+        "vipSeating": "Seat in the VIP area",
+        "closedMeeting": "Closed-door meeting with the speakers",
+        "booth18": "Equipped exhibition booth 18 m2",
+        "booth36": "Equipped exhibition booth 36 m2",
+        "bareSpace": "Unequipped exhibition space",
+        "logoInCatalog": "Company logo in the catalogue",
+        "mediaExposure": "Presence in the media materials",
+        "extraDelegates1": "Ticket for 1 additional delegate",
+        "extraDelegates2": "Tickets for 2 additional delegates",
+        "extraDelegates4": "Tickets for 4 additional delegates"
+      }
+    },
+    "payment": {
+      "promoCode": "Promo Code",
+      "promoCodePlaceholder": "Enter code",
+      "apply": "Apply",
+      "loading": "Applying...",
+      "applied": "Promo code {code} applied — {discount}% discount",
+      "appliedFixed": "Promo code {code} applied — {discount} off",
+      "invalidPromo": "This promo code is invalid or expired",
+      "title": "Payment",
+      "registrationFee": "Registration fee",
+      "empty": "No packages selected yet",
+      "discount": "Discount for promo code {discount}%",
+      "discountFixed": "Promo code discount",
+      "total": "Total:",
+      "methodTitle": "Payment Method",
+      "methodsLoading": "Loading payment methods...",
+      "methodsEmpty": "No payment methods available",
+      "submit": "Submit Registration",
+      "sending": "Sending..."
+    },
+    "verification": {
+      "title": "Verify your email",
+      "sentTo": "We've sent a 6-digit code to",
+      "hint": "Enter the verification code sent to your email",
+      "verify": "Verify email",
+      "verifying": "Verifying...",
+      "noCode": "Didn't receive a code?",
+      "resend": "Resend",
+      "resending": "Sending..."
+    },
+    "success": {
+      "title": "Your request has been sent",
+      "text": "Thank you for registering for ITTC 2026. You will receive a confirmation email with your Registration ID and password",
+      "close": "Ok"
+    },
+    "termsModal": {
+      "title": "Terms of Use and Privacy Policy",
+      "subtitle": "Please read the following terms and policies carefully to understand how your data is used and your rights.",
+      "termsTitle": "Terms of Use",
+      "termsText": "By registering for ITTC 2026, you agree to provide accurate and complete information. Your registration is personal and non-transferable. We reserve the right to refuse or cancel any registration at our discretion.",
+      "privacyTitle": "Privacy Policy",
+      "privacyText": "We are committed to protecting your privacy. The personal information you provide will be used solely for event registration and related communications. We do not share your data with third parties without your consent.",
+      "privacyMore": "For more details, please visit our full Privacy Policy on the website.",
+      "close": "Close"
+    },
+    "errors": {
+      "NAME_IS_TOO_SMALL": "Name must be at least 2 characters",
+      "NAME_IS_TOO_BIG": "Name must be at most 50 characters",
+      "SURNAME_IS_TOO_SMALL": "Surname must be at least 2 characters",
+      "SURNAME_IS_TOO_BIG": "Surname must be at most 50 characters",
+      "PATRONYMIC_IS_TOO_SMALL": "Patronymic must be at least 2 characters",
+      "PATRONYMIC_IS_TOO_BIG": "Patronymic must be at most 50 characters",
+      "EMAIL_IS_INVALID": "Enter a valid email address",
+      "PHONE_NUMBER_IS_INVALID": "Enter a valid mobile number",
+      "TERMS_ARE_NOT_ACCEPTED": "Accept the terms of use",
+      "PRIVACY_POLICY_NOT_ACCEPTED": "Accept the privacy policy",
+      "ORGANIZATION_NAME_IS_TOO_SMALL": "Company name must be at least 2 characters",
+      "ORGANIZATION_NAME_IS_TOO_BIG": "Company name must be at most 100 characters",
+      "POSITION_IS_TOO_SMALL": "Position must be at least 2 characters",
+      "POSITION_IS_TOO_BIG": "Position must be at most 50 characters",
+      "WEBSITE_IS_INVALID": "Enter a valid website, e.g. example.com",
+      "ADDRESS_IS_TOO_SMALL": "Company address must be at least 2 characters",
+      "ADDRESS_IS_TOO_BIG": "Company address must be at most 255 characters",
+      "COUNTRY_IS_REQUIRED": "Select company country",
+      "CITY_IS_TOO_SMALL": "City must be at least 2 characters",
+      "CITY_IS_TOO_BIG": "City must be at most 100 characters",
+      "POSTAL_CODE_IS_TOO_SMALL": "Postal code must be at least 2 characters",
+      "POSTAL_CODE_IS_TOO_BIG": "Postal code must be at most 20 characters",
+      "PARTICIPATING_TYPE_IS_REQUIRED": "Select participating type",
+      "PACKAGE_IS_REQUIRED": "Select at least one package",
+      "PAYMENT_METHOD_IS_REQUIRED": "Select a payment method",
+      "OTP_IS_REQUIRED": "Enter the verification code",
+      "OTP_IS_INVALID": "The code must be 6 digits",
+      "DRAFT_IS_REQUIRED": "Registration draft not found, start over",
+      "INVALID_EMAIL_CODE": "The code is incorrect, check it and try again",
+      "SEND_EMAIL_FAILED": "Could not send the code, try again",
+      "VERIFY_EMAIL_FAILED": "Could not verify the code, try again",
+      "COMPLETE_REGISTRATION_FAILED": "Could not complete registration, try again"
+    }
   }
 }

@@ -1,0 +1,126 @@
+/* intl-tel-input dressed as a registration input.
+   Разметка библиотеки: селектор страны абсолютно позиционирован поверх левого
+   края инпута, а padding-left самого инпута она пересчитывает сама. Поэтому
+   здесь только снимаем её оформление и отдаём тёмную палитру. */
+/* Рамку рисует не .auth-phone, а .field-outline поверх него — так поле получает
+   тот же разрыв под подпись, что и остальные (см. globals.css). */
+.auth-phone {
+  display: block;
+  width: 100%;
+  --iti-spacer-horizontal: 12px;
+  /* Стрелка и иконки лежат на тёмном поле — внутри белого списка стран цвет
+     возвращается обратно (см. .auth-phone-dropdown). */
+  --iti-icon-color: #aab4bd;
+  --iti-hover-color: rgba(255, 255, 255, 0.08);
+}
+.auth-phone-wrap[data-focus] .field-outline {
+  border-color: var(--brand-blue);
+}
+
+/* Обёртка селектора растянута на всю высоту поля — делаем её флексом, чтобы
+   кнопка (и разделитель на ней) были ниже поля и стояли по центру. */
+.auth-phone .iti__country-container {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* Doubled class beats the library's own `.iti__selected-country` rule, which
+   ships `height: 100%`. Разделитель — правая граница кнопки: её ширину
+   библиотека учитывает, когда считает отступ инпута. */
+.auth-phone .auth-phone-button.auth-phone-button {
+  height: 25px;
+  padding-right: 10px;
+  border-right: 1px solid #c7ced4;
+  border-radius: 3px 0 0 3px;
+  background: transparent;
+}
+/* showFlags={false} рисует на месте флага иконку глобуса — в селекторе нужны
+   только код и стрелка. Отступ инпута библиотека пересчитает сама. */
+.auth-phone .auth-phone-flag {
+  display: none;
+}
+/* В разметке порядок [primary со стрелкой][код], а нужен [код][стрелка] —
+   кнопка это флекс, поэтому код переставляем через order, а левый отступ
+   переезжает с primary на него. */
+.auth-phone .iti__selected-dial-code {
+  order: -1;
+  margin-left: 0;
+  padding-left: var(--iti-spacer-horizontal);
+  font-size: 16px;
+  color: #e3e9ef;
+}
+.auth-phone .iti__selected-country-primary {
+  padding-left: 0;
+}
+
+.auth-phone .auth-phone-input.auth-phone-input {
+  width: 100%;
+  height: 48px;
+  padding-right: 12px;
+  border: 0;
+  border-radius: 0 3px 3px 0;
+  background: transparent;
+  font-size: 16px;
+  line-height: normal;
+  font-family: inherit;
+  color: white;
+  outline: none;
+}
+.auth-phone .auth-phone-input::placeholder {
+  color: #aab4bd;
+}
+
+/* Список стран — тёмная панель в тон формы.
+   На узких экранах он уезжает в document.body (fullscreen popup), поэтому
+   селектор не привязан к .auth-phone: палитру задаём прямо на нём. */
+.auth-phone-dropdown.auth-phone-dropdown {
+  z-index: 50;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  background-color: #1c5b87;
+  font-size: 14px;
+  font-family: inherit;
+  color: #fff;
+  overflow: hidden;
+  --iti-icon-color: #aab4bd;
+  --iti-hover-color: rgba(255, 255, 255, 0.1);
+}
+
+.auth-phone-dropdown.auth-phone-dropdown .iti__search-input-wrapper {
+  flex-shrink: 0;
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+.auth-phone-dropdown.auth-phone-dropdown .iti__search-input {
+  font-size: 15px;
+  font-family: inherit;
+  line-height: 1.5;
+  background: transparent;
+  border-radius: 0;
+  color: #fff;
+}
+.auth-phone-dropdown.auth-phone-dropdown .iti__search-input::placeholder {
+  color: #aab4bd;
+}
+
+.auth-phone-dropdown.auth-phone-dropdown .iti__country-list {
+  max-height: 220px;
+  /* min-height: 0 снимает флексовый минимум по содержимому — иначе длинный
+     список отказывается ужиматься и давит на строку поиска */
+  min-height: 0;
+}
+.auth-phone-dropdown.auth-phone-dropdown .iti__country {
+  min-height: 36px;
+}
+/* Код страны приглушён, чтобы название читалось первым */
+.auth-phone-dropdown.auth-phone-dropdown .iti__dial-code {
+  color: #aab4bd;
+}
+/* Галочка у выбранной страны — фирменный акцент */
+.auth-phone-dropdown.auth-phone-dropdown .iti__country-check {
+  color: var(--brand-blue);
+}
+.auth-phone-dropdown.auth-phone-dropdown .iti__no-results {
+  color: #aab4bd;
+}

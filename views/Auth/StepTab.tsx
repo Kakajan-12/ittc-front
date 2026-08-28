@@ -1,42 +1,62 @@
 import type { SVGProps } from "react";
 
-// Три формы вкладок степпера: первая (плоский левый край),
-// средняя (стрелка с обеих сторон) и последняя (плоский правый край).
-export type TabVariant = "start" | "middle" | "end";
+export type TabVariant = "0" | "1" | "2" | "3" | "4";
 
-const TAB_SHAPES: Record<TabVariant, { viewBox: string; d: string }> = {
-  start: {
-    viewBox: "0 0 144 40",
-    d: "M2 1H129.021C129.348 1.00002 129.654 1.16036 129.841 1.42871L142.383 19.4287C142.622 19.7721 142.622 20.2279 142.383 20.5713L129.841 38.5713C129.654 38.8396 129.348 39 129.021 39H2C1.44772 39 1 38.5523 1 38V2C1 1.44772 1.44772 1 2 1Z",
-  },
-  middle: {
-    viewBox: "0 0 143 40",
-    d: "M1.0022 1H128.107C128.434 1.00002 128.74 1.16036 128.927 1.42871L141.469 19.4287C141.708 19.7721 141.708 20.2279 141.469 20.5713L128.927 38.5713C128.74 38.8396 128.434 39 128.107 39H1.0022L13.0452 21.7148C13.7633 20.6842 13.7633 19.3158 13.0452 18.2852L1.0022 1Z",
-  },
-  end: {
-    viewBox: "0 0 144 40",
-    d: "M1.0022 1H141.086C141.638 1 142.086 1.44772 142.086 2V38C142.086 38.5523 141.638 39 141.086 39H1.0022L13.0452 21.7148C13.7633 20.6842 13.7633 19.3158 13.0452 18.2852L1.0022 1Z",
-  },
+const HEIGHT = 40;
+
+/** Ширина viewBox: активный шаг шире остальных (как на макете). */
+export const tabWidth = (active: boolean) => (active ? 144 : 74);
+
+const n = (v: number) => +v.toFixed(3);
+
+const LEFT_ROUND_START = "M2 1";
+const LEFT_ROUND_END =
+  "H2C1.44772 39 1 38.5523 1 38V2C1 1.44772 1.44772 1 2 1Z";
+const LEFT_NOTCH_START = "M1.0022 1";
+const LEFT_NOTCH_END =
+  "H1.0022L13.0452 21.7148C13.7633 20.6842 13.7633 19.3158 13.0452 18.2852L1.0022 1Z";
+
+// Правый край отсчитывается от правой границы, поэтому переносится на любую ширину.
+const rightArrow = (w: number) =>
+  `H${n(w - 14.979)}C${n(w - 14.652)} 1.00002 ${n(w - 14.346)} 1.16036 ${n(w - 14.159)} 1.42871L${n(w - 1.617)} 19.4287C${n(w - 1.378)} 19.7721 ${n(w - 1.378)} 20.2279 ${n(w - 1.617)} 20.5713L${n(w - 14.159)} 38.5713C${n(w - 14.346)} 38.8396 ${n(w - 14.652)} 39 ${n(w - 14.979)} 39`;
+
+const rightFlat = (w: number) =>
+  `H${n(w - 2.914)}C${n(w - 2.362)} 1 ${n(w - 1.914)} 1.44772 ${n(w - 1.914)} 2V38C${n(w - 1.914)} 38.5523 ${n(w - 2.362)} 39 ${n(w - 2.914)} 39`;
+
+const buildPath = (variant: TabVariant, w: number) => {
+  if (variant === "0") return LEFT_ROUND_START + rightArrow(w) + LEFT_ROUND_END;
+  if (variant === "4") return LEFT_NOTCH_START + rightFlat(w) + LEFT_NOTCH_END;
+  return LEFT_NOTCH_START + rightArrow(w) + LEFT_NOTCH_END;
 };
 
 type StepTabProps = {
   variant: TabVariant;
-  /** Цвет заливки. По умолчанию без заливки. */
+  active?: boolean;
   fill?: string;
   strokeWidth?: number;
 } & Omit<SVGProps<SVGSVGElement>, "fill">;
 
-// stroke="currentColor" → цвет обводки берётся из text-* класса (currentColor).
 export default function StepTab({
   variant,
+  active = false,
   fill = "none",
   strokeWidth = 1.5,
   ...props
 }: StepTabProps) {
-  const { viewBox, d } = TAB_SHAPES[variant];
+  const width = tabWidth(active);
   return (
-    <svg viewBox={viewBox} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d={d} fill={fill} stroke="currentColor" strokeWidth={strokeWidth} />
+    <svg
+      viewBox={`0 0 ${width} ${HEIGHT}`}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d={buildPath(variant, width)}
+        fill={fill}
+        stroke="currentColor"
+        strokeWidth={strokeWidth}
+      />
     </svg>
   );
 }

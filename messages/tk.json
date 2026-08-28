@@ -47,7 +47,6 @@
     "subtitle": "ITTC 2026 «Halkara ulag we üstaşyr geçelgeleri» halkara maslahaty we sergisi barada",
     "text": "«Baglanyşyk we ösüş – 2026» (ITTC 2026) — bu ulag geçelgeleriniň, logistikanyň, sanly infrastrukturanyň we halkara hyzmatdaşlygyň ösdürilmegine bagyşlanan halkara forum we sergidir. Bu çäre ähliumumy ulag baglanyşygyny ösdürmegiň häzirki zaman meýillerini we geljegi uly ugurlaryny ara alyp maslahatlaşmak canceled üçin döwlet edaralarynyň, halkara guramalaryň, maliýe institutlarynyň, ulag-logistika kompaniýalarynyň wekillerini, maýadarlary we pudaklaýyn bilermenleri bir ýere jemleýär. Forum hünär derejesindäki gepleşikler, tejribe alyşmak hem-de ulag ugurlarynyň netijeliligini ýokarlandyrmaga, logistika amallaryny kämilleşdirmäge we halkara hyzmatdaşlygy berkitmäge gönükdirilen iş ýüzündäki çözgütleri işläp taýýarlamak üçün platforma bolup hyzmat edýär.",
     "section": {
-      "title": "Serginiň bölümleri",
       "1": {
         "category": "Infrastrukturasy",
         "title": "Ulag infrastrukturasy we logistika",
@@ -87,7 +86,8 @@
         "category": "Hyzmatlar",
         "title": "Söwda we senagat hyzmatlary",
         "text": "Ýük ugratmak (ekspeditorlyk) hyzmatlary, söwda logistikasy, ulag pudagy üçin senagat enjamlary we degişli hyzmatlar."
-      }
+      },
+      "title": "Serginiň bölümleri"
     },
     "more": "Çäre barada giňişleýin maglumat",
     "playAlt": "Çäräniň wideosyny görkez"
@@ -153,7 +153,7 @@
     "more": "Hemaýatkärlik mümkinçilikler barada giňişleýin maglumat"
   },
   "Sponsors": {
-    "title": "Hemaýatkärler",
+    "title": "ITTC 2025 hemaýatkärleri",
     "sponsors": {
       "name1": "Bürünç derejeli hemaýatkär",
       "name2": "Göwher derejeli hemaýatkär",
@@ -356,5 +356,212 @@
     ],
     "contact": "Şu Ulanyş şertleri barada soraglaryňyz bolsa, biziň bilen şu salgy boýunça habarlaşyň:",
     "email": "info@oguzforum.com"
+  },
+  "Common": {
+    "optional": "(hökman däl)",
+    "selectPlaceholder": "Saýlaň",
+    "loading": "Ýüklenýär...",
+    "search": "Gözleg",
+    "notFound": "Hiç zat tapylmady"
+  },
+  "Errors": {
+    "phoneRequired": "Telefon belgiňizi giriziň",
+    "phoneInvalid": "Dogry telefon belgisini giriziň",
+    "phoneLength": "+{dialCode} üçin belgi {expected} sandan ybarat bolmaly — siz {entered} sany girizdiňiz",
+    "phoneOperator": "+{dialCode} boýunça beýle belgi ýok — operator kodyny barlaň"
+  },
+  "Registration": {
+    "platform": "Çäräniň gatnaşyjy platformasy",
+    "back": "Yza",
+    "logoAlt": "OGUZ Forum Expo",
+    "tabs": {
+      "signIn": "Girmek",
+      "registration": "Hasaba durmak"
+    },
+    "signIn": {
+      "registrationId": "Hasaba alyş ID",
+      "registrationIdPlaceholder": "TIF-2026-XXXXX",
+      "password": "Parol",
+      "passwordPlaceholder": "Parolyňyzy giriziň",
+      "showPassword": "Paroly görkez",
+      "hidePassword": "Paroly gizle",
+      "submit": "Girmek",
+      "to-platform": "Platforma geçiň",
+
+      "submitting": "Girilýär…",
+      "forgotId": "ID-ňizi unutdyňyzmy?",
+      "errors": {
+        "idRequired": "Hasaba alyş ID-ňizi giriziň",
+        "idFormat": "Hasaba alyş ID formaty: TIF-2026-XXXXX",
+        "passwordRequired": "Parolyňyzy giriziň"
+      }
+    },
+    "steps": {
+      "personal": "Şahsy maglumatlar",
+      "company": "Kompaniýa maglumatlary",
+      "services": "Çäre hyzmatlary",
+      "payment": "Töleg",
+      "verification": "Tassyklama"
+    },
+    "personal": {
+      "name": "Ady",
+      "namePlaceholder": "Adyňyzy giriziň",
+      "surname": "Familiýasy",
+      "surnamePlaceholder": "Familiýaňyzy giriziň",
+      "patronymic": "Atasynyň ady",
+      "patronymicPlaceholder": "Atasynyň adyny giriziň",
+      "email": "Email",
+      "emailPlaceholder": "Emailiňizi giriziň",
+      "phone": "Ykjam telefon",
+      "phonePlaceholder": "Ykjam telefon",
+      "position": "Wezipesi",
+      "positionPlaceholder": "Wezipesi",
+      "terms": "Men <terms>ulanyş şertlerini</terms> we <privacy>gizlinlik syýasatyny</privacy> kabul edýärin",
+      "next": "Indiki",
+      "sending": "Iberilýär..."
+    },
+    "company": {
+      "companyName": "Kompaniýanyň ady",
+      "companyNamePlaceholder": "Kompaniýanyň ady",
+      "companyWebsite": "Kompaniýanyň web sahypasy",
+      "companyWebsitePlaceholder": "Kompaniýanyň web sahypasy",
+      "companyAddress": "Kompaniýanyň salgysy",
+      "companyAddressPlaceholder": "Kompaniýanyň salgysy",
+      "companyCountry": "Kompaniýanyň ýurdy",
+      "companyCountryPlaceholder": "Kompaniýanyň ýurduny saýlaň",
+      "city": "Şäher",
+      "cityPlaceholder": "Kompaniýanyň şäheri",
+      "postalCode": "Poçta indeksi",
+      "postalCodePlaceholder": "Poçta indeksi",
+      "next": "Indiki",
+      "sending": "Iberilýär..."
+    },
+    "services": {
+      "audience": {
+        "international": "Halkara",
+        "local": "Ýerli"
+      },
+      "categories": {
+        "delegate": "Delegat",
+        "exhibition": "Sergi"
+      },
+      "positions": "{count} pozisiýa",
+      "next": "Indiki",
+      "sending": "Iberilýär...",
+      "card": {
+        "select": "Saýlamak",
+        "showLess": "Ýygnamak",
+        "allFeatures": "Ähli mümkinçilikleri görmek +{count}",
+        "registrationFee": "+{amount} {currency} hasaba alyş tölegi",
+        "feeShort": "+{amount} {currency} töleg",
+        "perDelegate": "1 delegat üçin",
+        "decrease": "Azaltmak: {title}",
+        "increase": "Köpeltmek: {title}"
+      },
+      "packages": {
+        "delegateStandard": "Delegat paketi",
+        "delegatePremium": "Delegat Premium paketi",
+        "exhibition18": "Sergi paketi 18 m2",
+        "exhibition36": "Sergi paketi 36 m2",
+        "space18": "Sergi meýdançasy 18 m2"
+      },
+      "features": {
+        "allSessions": "Ähli sessiýalara we panellere giriş",
+        "appProfile": "Goşundyda profil we B2B duşuşyklar",
+        "coffeeAndLunch": "3 gün üçin kofe-brek we nahar",
+        "materials": "Konferensiýa materiallary we sowgatlar",
+        "galaDinner": "Gala agşamlyk naharyna çakylyk",
+        "certificate": "Gatnaşyjynyň şahadatnamasy",
+        "vipSeating": "VIP zolakda oturgyç",
+        "closedMeeting": "Spikerler bilen ýapyk duşuşyk",
+        "booth18": "Enjamlaşdyrylan sergi stendi 18 m2",
+        "booth36": "Enjamlaşdyrylan sergi stendi 36 m2",
+        "bareSpace": "Enjamlaşdyrylmadyk sergi meýdançasy",
+        "logoInCatalog": "Kompaniýanyň logotipi katalogda",
+        "mediaExposure": "Media materiallarynda görkeziliş",
+        "extraDelegates1": "1 sany goşmaça wekiliň bileti",
+        "extraDelegates2": "2 sany goşmaça wekiliň bileti",
+        "extraDelegates4": "4 sany goşmaça wekiliň bileti"
+      }
+    },
+    "payment": {
+      "promoCode": "Promo kod",
+      "promoCodePlaceholder": "Kody giriziň",
+      "apply": "Ulanmak",
+      "loading": "Ulanylýar...",
+      "applied": "{code} promo kody ulanyldy — {discount}% arzanladyş",
+      "appliedFixed": "{code} promo kody ulanyldy — {discount} arzanladyş",
+      "invalidPromo": "Bu promo kod nädogry ýa-da möhleti geçen",
+      "title": "Töleg",
+      "registrationFee": "Hasaba alyş tölegi",
+      "empty": "Heniz paket saýlanmady",
+      "discount": "Promo kod boýunça arzanladyş {discount}%",
+      "discountFixed": "Promo kod boýunça arzanladyş",
+      "total": "Jemi:",
+      "methodTitle": "Töleg usuly",
+      "methodsLoading": "Töleg usullary ýüklenýär...",
+      "methodsEmpty": "Töleg usullary elýeterli däl",
+      "submit": "Hasaba durmagy tabşyrmak",
+      "sending": "Iberilýär..."
+    },
+    "verification": {
+      "title": "Emailiňizi tassyklaň",
+      "sentTo": "Biz 6 belgili kody şu salga iberdik",
+      "hint": "Emailiňize iberilen tassyklama kodyny giriziň",
+      "verify": "Emaili tassyklamak",
+      "verifying": "Barlanýar...",
+      "noCode": "Kod gelmedimi?",
+      "resend": "Gaýtadan ibermek",
+      "resending": "Iberilýär..."
+    },
+    "success": {
+      "title": "Arza iberildi",
+      "text": "ITTC 2026-a hasaba durandygyňyz üçin sag boluň. Hasaba alyş ID-ňiz we parolyňyz bilen tassyklaýyş hatyny e-poçtaňyza alarsyňyz",
+      "close": "Ýapmak"
+    },
+    "termsModal": {
+      "title": "Ulanyş şertleri we gizlinlik syýasaty",
+      "subtitle": "Maglumatlaryňyzyň nähili ulanylýandygyna we hukuklaryňyza düşünmek üçin aşakdaky şertler bilen üns bilen tanşyň.",
+      "termsTitle": "Ulanyş şertleri",
+      "termsText": "ITTC 2026-a hasaba durmak bilen siz takyk we doly maglumat bermegi kabul edýärsiňiz. Hasaba alyş şahsydyr we başga birine geçirilmeýär. Biz islendik hasaba alyşy ret etmäge ýa-da ýatyrmaga hukuk saklaýarys.",
+      "privacyTitle": "Gizlinlik syýasaty",
+      "privacyText": "Biz gizlinligiňizi goramaga borçlanýarys. Beren şahsy maglumatlaryňyz diňe çärä hasaba almak we şoňa degişli habarlaşmak üçin ulanylýar. Razylygyňyz bolmazdan maglumatlaryňyzy üçünji taraplara bermeýäris.",
+      "privacyMore": "Giňişleýin maglumat üçin web sahypamyzdaky doly gizlinlik syýasatyna serediň.",
+      "close": "Ýapmak"
+    },
+    "errors": {
+      "NAME_IS_TOO_SMALL": "Ady azyndan 2 belgiden ybarat bolmaly",
+      "NAME_IS_TOO_BIG": "Ady iň köp 50 belgiden ybarat bolmaly",
+      "SURNAME_IS_TOO_SMALL": "Familiýasy azyndan 2 belgiden ybarat bolmaly",
+      "SURNAME_IS_TOO_BIG": "Familiýasy iň köp 50 belgiden ybarat bolmaly",
+      "PATRONYMIC_IS_TOO_SMALL": "Atasynyň ady azyndan 2 belgiden ybarat bolmaly",
+      "PATRONYMIC_IS_TOO_BIG": "Atasynyň ady iň köp 50 belgiden ybarat bolmaly",
+      "EMAIL_IS_INVALID": "Dogry email salgysyny giriziň",
+      "PHONE_NUMBER_IS_INVALID": "Dogry telefon belgisini giriziň",
+      "TERMS_ARE_NOT_ACCEPTED": "Ulanyş şertlerini kabul ediň",
+      "PRIVACY_POLICY_NOT_ACCEPTED": "Gizlinlik syýasatyny kabul ediň",
+      "ORGANIZATION_NAME_IS_TOO_SMALL": "Kärhananyň ady azyndan 2 belgiden ybarat bolmaly",
+      "ORGANIZATION_NAME_IS_TOO_BIG": "Kärhananyň ady iň köp 100 belgiden ybarat bolmaly",
+      "POSITION_IS_TOO_SMALL": "Wezipesi azyndan 2 belgiden ybarat bolmaly",
+      "POSITION_IS_TOO_BIG": "Wezipesi iň köp 50 belgiden ybarat bolmaly",
+      "WEBSITE_IS_INVALID": "Dogry web salgyny giriziň, mysal üçin example.com",
+      "ADDRESS_IS_TOO_SMALL": "Kärhananyň salgysy azyndan 2 belgiden ybarat bolmaly",
+      "ADDRESS_IS_TOO_BIG": "Kärhananyň salgysy iň köp 255 belgiden ybarat bolmaly",
+      "COUNTRY_IS_REQUIRED": "Kärhananyň ýurduny saýlaň",
+      "CITY_IS_TOO_SMALL": "Şäher azyndan 2 belgiden ybarat bolmaly",
+      "CITY_IS_TOO_BIG": "Şäher iň köp 100 belgiden ybarat bolmaly",
+      "POSTAL_CODE_IS_TOO_SMALL": "Poçta indeksi azyndan 2 belgiden ybarat bolmaly",
+      "POSTAL_CODE_IS_TOO_BIG": "Poçta indeksi iň köp 20 belgiden ybarat bolmaly",
+      "PARTICIPATING_TYPE_IS_REQUIRED": "Gatnaşyk görnüşini saýlaň",
+      "PACKAGE_IS_REQUIRED": "Iň bolmanda bir paket saýlaň",
+      "PAYMENT_METHOD_IS_REQUIRED": "Töleg usulyny saýlaň",
+      "OTP_IS_REQUIRED": "Tassyklaýyş kodyny giriziň",
+      "OTP_IS_INVALID": "Kod 6 sandan ybarat bolmaly",
+      "DRAFT_IS_REQUIRED": "Hasaba alyş taslamasy tapylmady, täzeden başlaň",
+      "INVALID_EMAIL_CODE": "Kod nädogry, barlaň-da gaýtadan synanyşyň",
+      "SEND_EMAIL_FAILED": "Kody ugratmak başartmady, gaýtadan synanyşyň",
+      "VERIFY_EMAIL_FAILED": "Kody barlamak başartmady, gaýtadan synanyşyň",
+      "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň"
+    }
   }
 }

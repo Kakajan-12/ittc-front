@@ -55,7 +55,7 @@ export default function NavBar({
       label: t("travel"),
       href: "/travel",
       children: [
-        { label: t("visa"), href: "#" },
+        { label: t("visa"), href: "/visa" },
         { label: t("flight"), href: "#" },
         { label: t("hotel"), href: "#" },
       ],
@@ -100,7 +100,7 @@ export default function NavBar({
           )}
 
           <Link
-            href="../register"
+            href="/register"
             className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-normal text-white transition hover:bg-brand-blue/85"
           >
             {t("register")}
