@@ -19,10 +19,9 @@ function Home() {
   const t = useTranslations("Hero");
   const locale = useLocale();
   const brochurePath =
-    locale === "ru"
+    locale === "ru" || locale === "tk"
       ? "/documents/Brochure ITTC 2026 ру 001.pdf"
       : "/documents/Brochure ITTC 2026 eng 01.pdf";
-
   const actions: Array<{
     key: string;
     href?: string;
@@ -75,7 +74,7 @@ function Home() {
                         key={i.key}
                         onClick={i.action}
                         className={cn(
-                          "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                          "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 py-2.5 text-base transition cursor-pointer hover:border-brand-blue hover:bg-brand-blue/20",
                           "mobileOnly" in i && "md:hidden",
                         )}
                       >
