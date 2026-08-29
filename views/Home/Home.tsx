@@ -1,4 +1,6 @@
-import { useTranslations } from "next-intl";
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
 import { SkeletonImage } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { GoArrowUpRight } from "react-icons/go";
@@ -11,14 +13,30 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
+import Button from "@/shared/ui/Button";
 
 function Home() {
   const t = useTranslations("Hero");
+  const locale = useLocale();
+  const brochurePath =
+    locale === "ru"
+      ? "/documents/Brochure ITTC 2026 ру 001.pdf"
+      : "/documents/Brochure ITTC 2026 eng 01.pdf";
 
-  const actions = [
+  const actions: Array<{
+    key: string;
+    href?: string;
+    mobileOnly?: boolean;
+    action?: () => void;
+  }> = [
     { key: "register", href: "/register", mobileOnly: true },
     { key: "agenda", href: "/agenda" },
-    { key: "brochure", href: "/brochure" },
+    { key: "brochure", action: () => window.open(brochurePath, "_blank") },
+    {
+      key: "travel-guide",
+      action: () =>
+        window.open("/documents/ITTC_Travel accommodation.pdf", "_blank"),
+    },
     { key: "faq", href: "/faq" },
   ] as const;
 
@@ -50,19 +68,36 @@ function Home() {
               </p>
 
               <div className="mt-8 flex flex-wrap flex-col content-start gap-2 lg:gap-4 h-66">
-                {actions.map((action) => (
-                  <Link
-                    key={action.key}
-                    href={action.href}
-                    className={cn(
-                      "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-36 px-8 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
-                      "mobileOnly" in action && "md:hidden",
-                    )}
-                  >
-                    {t(action.key)}
-                    <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </Link>
-                ))}
+                {actions.map((i) => {
+                  if (!!i.action) {
+                    return (
+                      <div
+                        key={i.key}
+                        onClick={i.action}
+                        className={cn(
+                          "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                          "mobileOnly" in i && "md:hidden",
+                        )}
+                      >
+                        {t(i.key)}
+                        <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </div>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={i.key}
+                      href={i.href ?? ""}
+                      className={cn(
+                        "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 px-8 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                        "mobileOnly" in i && "md:hidden",
+                      )}
+                    >
+                      {t(i.key)}
+                      <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -40,11 +40,7 @@ export type T_CRUD_CONFIG<
   searchFields: readonly T_SEARCH_FIELD[];
   orderByFields: readonly T_ORDER_BY_FIELD[];
   filterFields: readonly T_FILTER_FIELD[];
-  /**
-   * Путь для UPDATE, когда он не совпадает с `{resource}/{id}`. У черновика
-   * регистрации плоского `PATCH /registration-drafts/{id}` нет — обновление
-   * разбито по шагам (`/personal-info`, `/organization-info`, `/packages`).
-   */
+
   updatePath?: (id: number) => string;
 };
 
