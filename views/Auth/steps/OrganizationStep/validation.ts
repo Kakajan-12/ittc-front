@@ -6,12 +6,6 @@ export const organizationStepSchema = z.object({
     .string()
     .min(2, ORGANIZATION_STEP_ERROR_CODE.ORGANIZATION_NAME_IS_TOO_SMALL)
     .max(100, ORGANIZATION_STEP_ERROR_CODE.ORGANIZATION_NAME_IS_TOO_BIG),
-
-  /**
-   * Необязательное поле. Пустое значение приводится к "" (в payload не
-   * попадает), введённое без схемы — к `https://…`, потому что бэкенд
-   * принимает только полноценный URL.
-   */
   website: z
     .string()
     .transform((value) => {
