@@ -17,6 +17,8 @@ import { EVENT_SERVICES_ERROR_CODE } from "../errorCodes";
 import { getErrorMessage } from "../dictionary";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
+import { API_V2 } from "@/shared/api_v2";
+import { PRINT } from "@/shared/lib/helpers";
 
 export default function EventServices() {
   const t = useTranslations("Registration.services");
@@ -48,9 +50,13 @@ export default function EventServices() {
   } = useQuery({
     queryKey: ["eventPackageTypesList"],
     queryFn: async () => {
-      const res = await API.EVENT_PACKAGE_TYPES.LIST({ offset: 0, limit: 100 });
-      setPackageType(res.items[0]);
-      return res.items;
+      const res = await API_V2.EVENT_PACKAGE_TYPES.LIST({
+        offset: 0,
+        limit: 100,
+      });
+      // setPackageType(res.rows);
+      // console.log(res.rows);
+      return res.rows;
     },
   });
 
@@ -59,17 +65,18 @@ export default function EventServices() {
     isLoading: isEventPackagesLoading,
     isError: IsEventPackagesError,
   } = useQuery({
-    queryKey: ["eventPackagesList", packageType?.id, isLocal],
+    queryKey: ["eventPackagesList"],
     queryFn: async () => {
-      const res = await API.EVENT_PACKAGES.LIST({
+      const res = await API_V2.EVENT_PACKAGES.LIST({
         offset: 0,
         limit: 100,
-        filters: [
-          { field: "id", op: "eq", val: packageType?.id },
-          { field: "isLocal", op: "eq", val: isLocal },
-        ],
+        // filters: [
+        //   { field: "id", op: "eq", val: packageType?.id },
+        //   { field: "isLocal", op: "eq", val: isLocal },
+        // ],
       });
-      return res.items;
+      PRINT(res.rows);
+      return res.rows;
     },
     enabled: !!packageType?.id,
   });

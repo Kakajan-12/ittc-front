@@ -9,6 +9,7 @@ import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { API_V2 } from "@/shared/api_v2";
 
 type PersonalForm = Omit<
   PersonalStepRequest,
@@ -57,7 +58,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
 
   const createMutation = useMutation({
     mutationFn: async (data: PersonalStepRequest) =>
-      await API.PERSONAL_STEP.CREATE(data),
+      await API_V2.PERSONAL_STEP.CREATE(data),
 
     onSuccess: async (response) => {
       setStoredDraftId(response.id);
@@ -74,7 +75,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         throw new Error("NO ID PROVIDED");
       }
 
-      return API.PERSONAL_STEP.UPDATE(Number(draftId), data);
+      return API_V2.PERSONAL_STEP.UPDATE(Number(draftId), data);
     },
 
     onSuccess: async (response) => {
@@ -102,6 +103,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
+        expiredAt: new Date(),
       };
 
       if (draftId) {

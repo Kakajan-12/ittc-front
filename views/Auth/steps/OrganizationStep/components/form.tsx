@@ -46,10 +46,11 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
       const res = await API_V2.COUNTRIES.LIST({
         offset: pageParam,
         limit: 50,
-        search: debouncedQuery.trim() || undefined,
-        searchFields: ["titleEn", "titleRu", "titleTk", "code"],
+        // search: debouncedQuery.trim() || undefined,
+        // searchFields: ["titleEn", "titleRu", "titleTk", "code"],
       });
-      return res.items;
+      console.log(res.rows);
+      return res.rows;
     },
 
     getNextPageParam: (lastPage, allPages) => {

@@ -29,13 +29,13 @@ export type RegistrationDraft = T_ENTITY & {
   totalAmountUsd?: number | null;
   totalAmountTmt?: number | null;
   status?: "PENDING" | "VERIFIED" | "COMPLETED" | "EXPIRED" | "CANCELLED";
-  expiresAt?: string | null;
+  expiredAt?: string | null;
   packages?: T_Package[];
   emailVerification?: {
     id: number;
     registrationDraftId: number;
     codeHash: string;
-    expiresAt: string;
+    expiredAt: string;
     verifiedAt: string;
     attempts: number;
     maxAttempts: number;

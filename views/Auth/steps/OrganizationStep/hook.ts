@@ -9,6 +9,7 @@ import { ORGANIZATION_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { API_V2 } from "@/shared/api_v2";
 
 type OrganizationForm = OrganizationStepRequest;
 
@@ -51,7 +52,7 @@ export function useOrganizationStepForm({
         throw new Error("NO ID PROVIDED");
       }
 
-      return API.ORGANIZATION_STEP.UPDATE(draftId, data);
+      return API_V2.ORGANIZATION_STEP.UPDATE(draftId, data);
     },
 
     onSuccess: async () => {

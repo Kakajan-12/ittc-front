@@ -36,7 +36,7 @@ export type T_API_FILTER<T extends Record<string, any>> = Partial<{
 }>;
 
 // here we procide MORE FIELDS WE WANT TO USE IN ORDER BY
-export type T_COMMON_ORDER_BY = { createdAt?: T_SORT_ORDER };
+export type T_COMMON_ORDER_BY = { id?: T_SORT_ORDER };
 
 const BASE_URL = "http://104.207.74.50:3101/api/v1";
 
@@ -50,7 +50,7 @@ export function createCrudApi<
       offset = 0,
       limit = 10,
       filter = {},
-      orderBy = { createdAt: "desc" },
+      orderBy = { id: "asc" },
     }: {
       offset?: number;
       limit?: number;
