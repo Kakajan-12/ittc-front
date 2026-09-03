@@ -12,7 +12,6 @@ import { useOrganizationStepForm } from "../hook";
 import { API } from "@/shared/api";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { API_V2 } from "@/shared/api_v2";
 
 interface OrganizationStepProps {
   id?: number;
@@ -43,7 +42,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
     queryKey: ["countries", debouncedQuery, locale],
 
     queryFn: async ({ pageParam }) => {
-      const res = await API_V2.COUNTRIES.LIST({
+      const res = await API.COUNTRIES.LIST({
         offset: pageParam,
         limit: 50,
         search: debouncedQuery.trim() || undefined,

@@ -21,7 +21,6 @@ import { API } from "@/shared/api";
 import { EVENTS } from "@/shared/event/api";
 import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
 import { T_LOCALE } from "@/shared/lib/types";
-import { API_V2 } from "@/shared/api_v2";
 
 function Home() {
   const t = useTranslations("Hero");
@@ -57,22 +56,6 @@ function Home() {
       const res = await EVENTS.GET(1);
       // setEventData(res)
       // console.log(res);
-      return res;
-    },
-  });
-  const {
-    data: countries,
-    isLoading: isCountriesLoading,
-    isError: IsCountriesError,
-  } = useQuery({
-    queryKey: ["countries"],
-    queryFn: async () => {
-      const res = await API_V2.COUNTRIES.LIST({
-        offset: 0,
-        limit: 10,
-      });
-
-      console.log(res.rows);
       return res;
     },
   });
