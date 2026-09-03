@@ -14,10 +14,18 @@ import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
 import Button from "@/shared/ui/Button";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { EVENT_QUERY_KEYS } from "@/shared/event/query-keys";
+import { API } from "@/shared/api";
+import { EVENTS } from "@/shared/event/api";
+import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
+import { T_LOCALE } from "@/shared/lib/types";
+import { API_V2 } from "@/shared/api_v2";
 
 function Home() {
   const t = useTranslations("Hero");
-  const locale = useLocale();
+  const locale = useLocale() as T_LOCALE;
   const brochurePath =
     locale === "ru" || locale === "tk"
       ? "/documents/Brochure ITTC 2026 ру 001.pdf"
@@ -39,13 +47,81 @@ function Home() {
     { key: "faq", href: "/faq" },
   ] as const;
 
+  const {
+    data: eventData,
+    isLoading: isEventDataLoading,
+    isError: IsEventDataError,
+  } = useQuery({
+    queryKey: [EVENT_QUERY_KEYS.GET_BY_ID],
+    queryFn: async () => {
+      const res = await EVENTS.GET(1);
+      // setEventData(res)
+      // console.log(res);
+      return res;
+    },
+  });
+  const {
+    data: countries,
+    isLoading: isCountriesLoading,
+    isError: IsCountriesError,
+  } = useQuery({
+    queryKey: ["countries"],
+    queryFn: async () => {
+      const res = await API_V2.COUNTRIES.LIST({
+        offset: 0,
+        limit: 10,
+      });
+
+      console.log(res.rows);
+      return res;
+    },
+  });
+
+  // useEffect(() => {
+  //   const s = [2, 6, 10, 8];
+
+  //   function getDoubleArray(doubleS: Array<number>, myN: number) {
+  //     let myA = [];
+  //     for (let i = 0; i < doubleS.length; i++) {
+  //       myA.push(doubleS[i] * myN);
+  //     }
+  //     const twoArray = doubleS
+  //       .concat(myA)
+  //       .reverse()
+  //       .filter((i) => i >= 10);
+
+  //     // reduce((acc, current) => {
+  //     //   acc += current;
+  //     //   return acc;
+  //     // }, 0);
+
+  //     // let sum = 0;
+  //     // for (let i = 0; i < twoArray.length; i++) {
+  //     //   sum += twoArray[i];
+  //     // }
+
+  //     return twoArray;
+  //   }
+  //   const found = [
+  //     { name: "al", age: 30 },
+
+  //     {
+  //       name: "bl",
+  //       age: 35,
+  //     },
+  //   ].find((i) => i.age === 35);
+
+  //   const o = getDoubleArray(s, 5);
+  //   console.log(found);
+  // }, []);
+
   return (
     <>
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
           <SkeletonImage
-            src="/main.jpg"
-            alt=""
+            src={getMediaUrl(eventData?.bannerImage)}
+            alt="bannerImage"
             fill
             priority
             sizes="100vw"
@@ -57,7 +133,14 @@ function Home() {
           <div className="px-4 lg:px-10 py-24 lg:py-30">
             <div className="max-w-2xl lg:max-w-3xl 2xl:max-w-4xl">
               <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
-                {t("title")}
+                {eventData
+                  ? getLocalizedTitle({
+                      titleEn: eventData?.titleEn,
+                      titleRu: eventData?.titleRu,
+                      titleTk: eventData?.titleTk,
+                      locale,
+                    })
+                  : null}
               </h1>
 
               <p className="mt-1 flex flex-wrap items-center sm:gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
@@ -101,7 +184,11 @@ function Home() {
             </div>
           </div>
         </section>
-        <Timer />
+        <Timer
+          eventsStart={
+            eventData?.eventStartsAt ? new Date(eventData.eventStartsAt) : null
+          }
+        />
       </div>
       <About />
       <Results />

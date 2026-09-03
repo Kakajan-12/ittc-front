@@ -40,21 +40,25 @@ function SkeletonImage({
   skeletonClassName,
   onLoad,
   fill,
+  src,
   ...props
 }: SkeletonImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   // onLoad не срабатывает для уже закэшированных картинок — ловим это через ref.
+  // При смене src сбрасываем состояние, чтобы снова показать скелетон.
   useEffect(() => {
-    if (imgRef.current?.complete) {
-      setIsLoaded(true);
-    }
-  }, []);
+    setIsLoaded(imgRef.current?.complete ?? false);
+  }, [src]);
 
-  const image = (
+  // src ещё не пришёл (например, данные грузятся) — next/image требует непустой src.
+  const hasSrc = Boolean(src);
+
+  const image = hasSrc ? (
     <Image
       {...props}
+      src={src}
       ref={imgRef}
       fill={fill}
       className={cn(
@@ -68,12 +72,14 @@ function SkeletonImage({
         onLoad?.(event);
       }}
     />
-  );
+  ) : null;
+
+  const showSkeleton = !hasSrc || !isLoaded;
 
   if (fill) {
     return (
       <>
-        {!isLoaded && <ImageSkeleton className={skeletonClassName} />}
+        {showSkeleton && <ImageSkeleton className={skeletonClassName} />}
         {image}
       </>
     );
@@ -81,7 +87,7 @@ function SkeletonImage({
 
   return (
     <span className="relative inline-block">
-      {!isLoaded && (
+      {showSkeleton && (
         <ImageSkeleton
           className={cn("rounded-md", skeletonClassName)}
           style={{ width: props.width, height: props.height }}

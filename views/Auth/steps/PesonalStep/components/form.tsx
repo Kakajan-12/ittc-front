@@ -6,6 +6,7 @@ import Field from "@/shared/ui/Field";
 import PhoneInput from "@/shared/ui/PhoneInput";
 import { usePersonalStepForm } from "../hook";
 import { useRouter } from "next/navigation";
+import { useErrorText } from "@/shared/lib/errorText";
 
 interface PersonalStepProps {
   onShowTerms: () => void;
@@ -20,6 +21,7 @@ export default function PersonalStepForm({
   const tErrors = useTranslations("Registration.errors");
   const [accepted, setAccepted] = useState(false);
   const router = useRouter();
+  const errorText = useErrorText();
 
   const {
     setPersonalForm,
@@ -65,6 +67,7 @@ export default function PersonalStepForm({
           required
           placeholder={t("surnamePlaceholder")}
         />
+
         <Field
           id="patronymic"
           label={t("patronymic")}
@@ -78,6 +81,7 @@ export default function PersonalStepForm({
             }))
           }
         />
+
         <Field
           id="position"
           label={t("position")}
@@ -89,6 +93,7 @@ export default function PersonalStepForm({
           }
           required
         />
+
         <Field
           id="email"
           label={t("email")}
@@ -147,7 +152,9 @@ export default function PersonalStepForm({
           </span>
         </label>
 
-        {error && <p className="font-nexa text-sm text-[#DE7A7A]">{error}</p>}
+        {error && (
+          <p className="font-nexa text-sm text-[#DE7A7A]">{errorText(error)}</p>
+        )}
       </div>
 
       <button

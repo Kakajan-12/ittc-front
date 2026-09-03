@@ -1,6 +1,7 @@
 import { createCrudApi, type T_API_RESPONSE } from "@/shared/api/crud";
 import { T_Promocode } from "./type";
 import { HTTP } from "@/shared/api/http";
+import { API_BASE } from "@/shared/api/config";
 import { RegistrationDraft } from "../types";
 
 export const PROMOCODE = createCrudApi<T_Promocode>({
@@ -44,7 +45,7 @@ export const APPLY_PROMOCODE_REQUEST = async ({
   draftId: string;
   code: string;
 }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const baseUrl = API_BASE;
   const resource = "registration-drafts";
 
   const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({

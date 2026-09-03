@@ -68,11 +68,11 @@ function DayCards({ day }: { day: AgendaDay }) {
               </p>
             ) : null}
 
-            {session.sponsors ? (
+            {/* {session.sponsors ? (
               <CardLogos label={t("sponsoredBy")} logos={session.sponsors} />
-            ) : null}
+            ) : null} */}
 
-            {session.details && isOpen ? (
+            {/* {session.details && isOpen ? (
               <SessionDetails
                 details={session.details}
                 onHide={() => setOpenSession(null)}
@@ -89,7 +89,7 @@ function DayCards({ day }: { day: AgendaDay }) {
                   {t("view")}
                 </button>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         );
       })}

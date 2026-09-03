@@ -3,7 +3,10 @@ import { useMutation } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
 
-import { usePersistentState } from "@/shared/lib/usePersistentState";
+import {
+  clearPersisted,
+  usePersistentState,
+} from "@/shared/lib/usePersistentState";
 import {
   OTP_LENGTH,
   RESEND_COUNTDOWN_SECONDS,
@@ -61,11 +64,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const [code, setCode] = useState<string[]>(initialCode);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
-  const email = useSyncExternalStore(
-    subscribeToDraft,
-    getDraftEmail,
-    () => "",
-  );
+  const email = useSyncExternalStore(subscribeToDraft, getDraftEmail, () => "");
 
   useEffect(() => {
     if (resendCountdown <= 0) return;
@@ -116,6 +115,9 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
       return COMPLETE_REGISTRATION_REQUEST({
         draftId,
       });
+    },
+    onSuccess: () => {
+      clearPersisted([STORAGE_KEYS.draftId]);
     },
   });
 

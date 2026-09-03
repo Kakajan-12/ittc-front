@@ -1,5 +1,6 @@
 import { createCrudApi, type T_API_RESPONSE } from "@/shared/api/crud";
 import { HTTP } from "@/shared/api/http";
+import { API_BASE } from "@/shared/api/config";
 import { RegistrationDraft } from "../../types";
 import { T_PAYMENT } from "./type";
 
@@ -24,7 +25,7 @@ export const PAYMENT_STEP_REQUEST = async ({
   payload: T_PAYMENT;
 }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const baseUrl = API_BASE;
     const resource = "registration-drafts";
 
     const res = await HTTP.PATCH<T_API_RESPONSE<RegistrationDraft>>({
@@ -40,7 +41,7 @@ export const PAYMENT_STEP_REQUEST = async ({
           "FETCH FAILED",
       );
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
 };

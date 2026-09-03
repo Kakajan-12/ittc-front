@@ -88,7 +88,10 @@ overflow: hidden; */
             </span>
           </div>
           {!showSuccess && <Stepper steps={steps} />}
-          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          <div className="flex min-h-0 flex-1 flex-col sm:px-12 xl:px-20">
+            <span className="border-b border-[#05518B]/80"></span>
+            {children}
+          </div>
         </div>
       </div>
     </RegistrationContainerContext.Provider>

@@ -47,6 +47,7 @@ export default function StepTab({
   return (
     <svg
       viewBox={`0 0 ${width} ${HEIGHT}`}
+      preserveAspectRatio="none"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
@@ -56,6 +57,7 @@ export default function StepTab({
         fill={fill}
         stroke="currentColor"
         strokeWidth={strokeWidth}
+        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );

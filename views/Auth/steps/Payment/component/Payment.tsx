@@ -167,7 +167,7 @@ export default function PaymentForm() {
   // PRINT("eventPackages", eventPackages);
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex h-full min-h-0 flex-1 flex-col gap-6 overflow-y-auto pt-2.5">
+      <div className="flex h-full min-h-0 flex-1 flex-col gap-6 overflow-y-auto pt-6">
         {/* Promo code */}
         <div className="flex flex-col gap-2">
           <div className="flex items-start gap-3">

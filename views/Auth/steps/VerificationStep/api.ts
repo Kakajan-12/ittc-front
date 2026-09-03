@@ -1,10 +1,11 @@
 import { type T_API_RESPONSE } from "@/shared/api/crud";
 import { HTTP } from "@/shared/api/http";
+import { API_BASE } from "@/shared/api/config";
 import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { RegistrationDraft } from "../../types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const BASE_URL = API_BASE;
 const RESOURCE = "registration-drafts";
 
 const KNOWN_ERROR_CODES = new Set<string>(

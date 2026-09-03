@@ -2,6 +2,7 @@ import { createCrudApi, type T_API_RESPONSE } from "@/shared/api/crud";
 import { RegistrationDraft } from "../../types";
 import { EventServices } from "./type";
 import { HTTP } from "@/shared/api/http";
+import { API_BASE } from "@/shared/api/config";
 
 export const EVENT_SERVICES = createCrudApi<RegistrationDraft>({
   resource: "registration-drafts",
@@ -19,7 +20,7 @@ export const EVENT_SERVICE_STEP_REQUEST = async ({
   payload: EventServices;
 }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const baseUrl = API_BASE;
     const resource = "registration-drafts";
 
     const res = await HTTP.PATCH<T_API_RESPONSE<RegistrationDraft>>({

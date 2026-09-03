@@ -13,7 +13,7 @@ export default function RegisterLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="flex w-full h-screen overflow-hidden bg-gradient-registration justify-end">
+    <main className="flex w-full h-screen overflow-hidden bg-gradient-registration justify-center lg:justify-end">
       <div className="absolute left-0 bottom-0 top-0 z-0 lg:w-1/2 hidden lg:block">
         <Scanner
           color1="#678dce"

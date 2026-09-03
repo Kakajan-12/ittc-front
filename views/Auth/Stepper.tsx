@@ -24,8 +24,9 @@ export default function Stepper({ steps }: StepperProps) {
   const currentStep = currentPath.split("/")[2];
 
   const currentStepIndex = steps.findIndex((step) => step.link === currentStep);
+  // shrink-0
   return (
-    <div className="flex justify-center items-center gap-1 pb-3 border-b border-[#05518B]/80">
+    <div className="flex shrink-0 justify-center items-center gap-1 sm:px-12 xl:px-20">
       {steps.map((i, index) => {
         const isActive = index === currentStepIndex;
 
@@ -52,7 +53,7 @@ export default function Stepper({ steps }: StepperProps) {
             // disabled={isLocked}
             onClick={() => i.link && router.push(i.link)}
             style={{ flexGrow: tabWidth(isActive) }}
-            className={`relative min-w-0 basis-0`}
+            className={`relative h-10 min-w-0 basis-0`}
             // ${
             //   isLocked ? "cursor-not-allowed opacity-60" : "cursor-pointer"
             // }
@@ -61,7 +62,7 @@ export default function Stepper({ steps }: StepperProps) {
               variant={String(index) as TabVariant}
               active={isActive}
               fill={fillColor}
-              className={`h-auto w-full ${strokeClass}`}
+              className={`h-full w-full ${strokeClass}`}
             />
             <div
               className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full flex items-center justify-center font-nexa text-[10px] sm:text-xs md:text-sm lg:text-xs xl:text-base ${textColor}`}
