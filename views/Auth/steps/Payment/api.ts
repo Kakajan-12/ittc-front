@@ -6,6 +6,7 @@ import {
   T_API_ERROR,
   T_API_RESPONSE,
 } from "@/shared/api_v2/crud";
+import { PACKAGES } from "../../Packages/api";
 
 const BASE_URL = `http://104.207.74.50:3101/api/v1`;
 const resource = "registrationDraft";
@@ -14,6 +15,23 @@ export const PAYMENT = {
   ...createCrudApi<RegistrationDraft>({
     resource: resource,
   }),
+  // Пакеты, выбранные конкретным драфтом (registrationDraftPackage)
+  DRAFT_PACKAGES_LIST: ({
+    draftId,
+    offset = 0,
+    limit = 100,
+  }: {
+    draftId: number;
+    offset?: number;
+    limit?: number;
+  }) =>
+    PACKAGES.LIST({
+      offset,
+      limit,
+      filter: {
+        registrationDraftId: { op: "=", val: draftId },
+      },
+    }),
 
   APPLY_PROMOCODE: async ({
     draftId,

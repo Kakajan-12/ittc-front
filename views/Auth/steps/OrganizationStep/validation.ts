@@ -15,10 +15,17 @@ export const organizationStepSchema = z.object({
 
       return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
     })
-    .refine(
-      (value) => value === "" || z.url().safeParse(value).success,
-      ORGANIZATION_STEP_ERROR_CODE.WEBSITE_IS_INVALID,
-    )
+    .refine((value) => {
+      if (value === "") return true;
+
+      try {
+        const { hostname } = new URL(value);
+
+        return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(hostname);
+      } catch {
+        return false;
+      }
+    }, ORGANIZATION_STEP_ERROR_CODE.WEBSITE_IS_INVALID)
     .nullable()
     .optional(),
 

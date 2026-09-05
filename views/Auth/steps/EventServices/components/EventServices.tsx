@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfigProvider, Segmented } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
@@ -8,9 +8,11 @@ import { localizedTitle } from "@/shared/lib/localization";
 import { API } from "@/shared/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { EventPackageType } from "@/views/Auth/EventPackageTypes/type";
+import { EventPackages } from "@/views/Auth/EventPackages/type";
 import ServicesCard from "@/views/Auth/ServicesCard";
 import { fallbackCurrency, formatPrice } from "@/views/Auth/servicesData";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { saveDraft } from "@/views/Auth/draft";
 // import { EVENT_SERVICE_STEP_REQUEST } from "../api";
 import { eventServicesSchema } from "../validation";
 import { EVENT_SERVICES_ERROR_CODE } from "../errorCodes";
@@ -28,16 +30,20 @@ export default function EventServices() {
   const locale = useLocale();
   const router = useRouter();
 
-  const [selectedPackages, setSelectedPackages] = useState<
+  // Через `sessionStorage`: выбор переживает переход на другой шаг и смену
+  // языка, поэтому при возврате назад пакеты остаются отмеченными
+  const [selectedPackages, setSelectedPackages] = usePersistentState<
     Record<string, { eventPackageId: number; quantity: number }>
-  >({});
+  >(STORAGE_KEYS.services, {});
   const [error, setError] = useState<string>("");
 
+  // `undefined` — пользователь ещё не переключал вкладку сам, значит её можно
+  // открыть по восстановленному выбору
   const [packageType, setPackageType] = useState<
     EventPackageType | undefined
   >();
 
-  const [isLocal, setIsLocal] = useState(false);
+  const [pickedIsLocal, setPickedIsLocal] = useState<boolean | undefined>();
 
   const [draftId] = usePersistentState<number | null>(
     STORAGE_KEYS.draftId,
@@ -59,9 +65,72 @@ export default function EventServices() {
     },
   });
 
+  // Полный справочник: отмеченный пакет может лежать не в открытой вкладке —
+  // и после возврата на шаг, и когда пользователь просто переключил тип
+  const { data: allEventPackages } = useQuery({
+    queryKey: ["eventPackagesAll"],
+    queryFn: async () => {
+      const res = await API_V2.EVENT_PACKAGES.LIST({ offset: 0, limit: 100 });
+      return res.rows;
+    },
+  });
+
+  // Пакеты, уже сохранённые в драфте: их подставляем при возврате на шаг,
+  // если в этой сессии выбор ещё не делали
+  const { data: draftPackages } = useQuery({
+    enabled: !!draftId,
+    queryKey: ["draftPackages", draftId],
+    queryFn: async () => {
+      const res = await API_V2.PACKAGES.LIST({
+        offset: 0,
+        limit: 100,
+        filter: {
+          registrationDraftId: { op: "=", val: draftId! },
+        },
+      });
+      return res.rows;
+    },
+  });
+
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (hydrated.current || !draftPackages?.length) return;
+
+    hydrated.current = true;
+
+    setSelectedPackages((prev) =>
+      Object.keys(prev).length
+        ? prev
+        : Object.fromEntries(
+            draftPackages.map((row) => [
+              String(row.eventPackageId),
+              { eventPackageId: row.eventPackageId, quantity: row.quantity },
+            ]),
+          ),
+    );
+  }, [draftPackages, setSelectedPackages]);
+
+  // Восстановленный выбор должен быть виден: пока вкладку и тип не переключили
+  // руками, открыт тот раздел, где лежит первый сохранённый пакет
+  const restoredPackage = useMemo(() => {
+    const [firstSaved] = draftPackages ?? [];
+
+    if (!firstSaved) return undefined;
+
+    return allEventPackages?.find(
+      (pkg) => pkg.id === firstSaved.eventPackageId,
+    );
+  }, [allEventPackages, draftPackages]);
+
+  const isLocal = pickedIsLocal ?? restoredPackage?.isLocal ?? false;
+
   // Пока пользователь не выбрал тип вручную — берём первый из списка,
   // иначе запрос за пакетами не стартует вообще
-  const selectedTypeId = packageType?.id ?? eventPackageTypes?.[0]?.id;
+  const selectedTypeId =
+    packageType?.id ??
+    restoredPackage?.eventPackageTypeId ??
+    eventPackageTypes?.[0]?.id;
 
   const {
     data: eventPackageList,
@@ -91,12 +160,21 @@ export default function EventServices() {
     enabled: !!selectedTypeId,
   });
 
+  const packagesById = useMemo(() => {
+    const map = new Map<number, EventPackages>();
+    for (const pkg of allEventPackages ?? []) map.set(pkg.id, pkg);
+    for (const pkg of eventPackageList ?? []) map.set(pkg.id, pkg);
+    return map;
+  }, [allEventPackages, eventPackageList]);
+
   const summary = useMemo(() => {
     const totals = new Map<string, number>();
     let positions = 0;
-    for (const pkg of eventPackageList ?? []) {
-      const quantity = selectedPackages[String(pkg.id)]?.quantity ?? 0;
-      if (!quantity) continue;
+    for (const { eventPackageId, quantity } of Object.values(
+      selectedPackages,
+    )) {
+      const pkg = packagesById.get(eventPackageId);
+      if (!pkg || !quantity) continue;
       positions += quantity;
       totals.set(
         pkg.currency,
@@ -104,7 +182,7 @@ export default function EventServices() {
       );
     }
     return { positions, totals };
-  }, [eventPackageList, selectedPackages]);
+  }, [packagesById, selectedPackages]);
 
   const totalLines = [...summary.totals.entries()].map(
     ([currency, total]) => `${formatPrice(total)} ${currency}`,
@@ -124,7 +202,7 @@ export default function EventServices() {
     },
 
     onSuccess: (response) => {
-      localStorage.setItem("eventDraft", JSON.stringify(response));
+      saveDraft(response);
     },
   });
 
@@ -190,7 +268,7 @@ export default function EventServices() {
               block
               size="large"
               value={isLocal}
-              onChange={(val) => setIsLocal(val)}
+              onChange={(val) => setPickedIsLocal(val)}
               options={[
                 {
                   value: false,

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
 import PhoneInput from "@/shared/ui/PhoneInput";
@@ -21,7 +20,6 @@ export default function PersonalStepForm({
 }: PersonalStepProps) {
   const t = useTranslations("Registration.personal");
   const tErrors = useTranslations("Registration.errors");
-  const [accepted, setAccepted] = useState(false);
   const router = useRouter();
   const errorText = useErrorText();
 
@@ -35,13 +33,11 @@ export default function PersonalStepForm({
     error,
   } = usePersonalStepForm({ t: tErrors });
 
-  useEffect(() => {
-    setPersonalForm((prev) => ({ ...prev, privacyPolicyAccepted: accepted }));
-    setPersonalForm((prev) => ({
-      ...prev,
-      termsAndConditionsAccepted: accepted,
-    }));
-  }, [accepted]);
+  // Галка живёт в самой форме, а не отдельным состоянием: иначе при возврате
+  // на шаг она сбрасывалась и затирала уже принятые условия
+  const accepted =
+    personalForm.privacyPolicyAccepted &&
+    personalForm.termsAndConditionsAccepted;
 
   return (
     <div className="flex min-h-0 h-full w-full flex-1 flex-col">
@@ -127,7 +123,13 @@ export default function PersonalStepForm({
             id="accept-terms"
             type="checkbox"
             checked={accepted}
-            onChange={(e) => setAccepted(e.target.checked)}
+            onChange={(e) =>
+              setPersonalForm((prev) => ({
+                ...prev,
+                privacyPolicyAccepted: e.target.checked,
+                termsAndConditionsAccepted: e.target.checked,
+              }))
+            }
             className="mt-0.5 size-4 accent-brand-blue rounded"
           />
           <span>

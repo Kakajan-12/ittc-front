@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
@@ -14,7 +14,6 @@ import {
 } from "@/views/Auth/config";
 
 import {
-  COMPLETE_REGISTRATION_REQUEST,
   // COMPLETE_REGISTRATION_REQUEST,
   SEND_OTP,
   VERIFY_OTP,
@@ -25,29 +24,9 @@ import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
 import { verificationSchema } from "./validation";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
-import type { RegistrationDraft } from "../../types";
+import { useRegistrationDraft } from "@/views/Auth/draft";
 
 const initialCode = () => Array<string>(OTP_LENGTH).fill("");
-
-function subscribeToDraft(onChange: () => void) {
-  const handleStorage = (event: StorageEvent) => {
-    if (event.key === "eventDraft") onChange();
-  };
-
-  window.addEventListener("storage", handleStorage);
-  return () => window.removeEventListener("storage", handleStorage);
-}
-
-function getDraftEmail() {
-  try {
-    const rawDraft = localStorage.getItem("eventDraft");
-    if (!rawDraft) return "";
-
-    return (JSON.parse(rawDraft) as RegistrationDraft).email ?? "";
-  } catch {
-    return "";
-  }
-}
 
 type UseVerificationStepProps = {
   t: _Translator<Record<string, any>, "Registration.errors">;
@@ -66,7 +45,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const [revId, setRevId] = useState<number | null>(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
-  const email = useSyncExternalStore(subscribeToDraft, getDraftEmail, () => "");
+  const email = useRegistrationDraft()?.email ?? "";
 
   useEffect(() => {
     if (resendCountdown <= 0) return;
@@ -110,20 +89,20 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     },
   });
 
-  const completeMutation = useMutation({
-    mutationFn: async (): Promise<T_COMPLETED_REGISTRATION> => {
-      if (!draftId) {
-        throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
-      }
+  // const completeMutation = useMutation({
+  //   mutationFn: async (): Promise<T_COMPLETED_REGISTRATION> => {
+  //     if (!draftId) {
+  //       throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
+  //     }
 
-      return COMPLETE_REGISTRATION_REQUEST({
-        draftId,
-      });
-    },
-    onSuccess: () => {
-      clearPersisted([STORAGE_KEYS.draftId]);
-    },
-  });
+  //     return COMPLETE_REGISTRATION_REQUEST({
+  //       draftId,
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     clearPersisted([STORAGE_KEYS.draftId]);
+  //   },
+  // });
 
   const sendCode = useCallback(async (): Promise<boolean> => {
     try {
@@ -177,7 +156,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
         revId,
       });
 
-      await completeMutation.mutateAsync();
+      // await completeMutation.mutateAsync();
 
       return true;
     } catch (error) {
@@ -203,8 +182,8 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [code, revId, verifyMutation, completeMutation, t]);
-
+  }, [code, revId, verifyMutation, t]);
+  // completeMutation
   return {
     draftId,
     email,
@@ -219,9 +198,10 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     isResending: sendMutation.isPending,
     resendCountdown,
 
-    isSubmitting: verifyMutation.isPending || completeMutation.isPending,
+    isSubmitting: verifyMutation.isPending,
+    // || completeMutation.isPending,
 
-    completed: completeMutation.data,
+    // completed: completeMutation.data,
 
     error,
   };

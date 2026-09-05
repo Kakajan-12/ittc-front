@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
@@ -10,6 +10,8 @@ import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
 import { API_V2 } from "@/shared/api_v2";
+import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
+import type { RegistrationDraft } from "@/views/Auth/types";
 
 type OrganizationForm = OrganizationStepRequest;
 
@@ -22,6 +24,29 @@ const initialState: OrganizationForm = {
   postalCode: "",
 };
 
+/** Форму ещё не заполняли — можно подставить сохранённое в драфте */
+function isPristine(form: OrganizationForm) {
+  return (
+    !form.organizationName &&
+    !form.website &&
+    !form.address &&
+    !form.countryId &&
+    !form.city &&
+    !form.postalCode
+  );
+}
+
+function fromDraft(draft: RegistrationDraft): OrganizationForm {
+  return {
+    organizationName: draft.organizationName ?? "",
+    website: draft.website ?? "",
+    address: draft.address ?? "",
+    countryId: draft.countryId ?? 0,
+    city: draft.city ?? "",
+    postalCode: draft.postalCode ?? "",
+  };
+}
+
 type UseOrganizationStepFormProps = {
   t: _Translator<Record<string, any>, "Registration.organization">;
   id?: number;
@@ -31,8 +56,13 @@ export function useOrganizationStepForm({
   t,
   id,
 }: UseOrganizationStepFormProps) {
+  // Через `sessionStorage`: значение переживает переход на другой шаг и смену
+  // языка, поэтому при возврате назад поля остаются заполненными
   const [organizationForm, setOrganizationForm] =
-    useState<OrganizationForm>(initialState);
+    usePersistentState<OrganizationForm>(
+      STORAGE_KEYS.draftCompany,
+      initialState,
+    );
   const [error, setError] = useState<string>("");
   const [storedDraftId] = usePersistentState<number | null>(
     STORAGE_KEYS.draftId,
@@ -41,10 +71,25 @@ export function useOrganizationStepForm({
 
   const draftId = id ?? storedDraftId;
 
+  const draft = useRegistrationDraft();
+
   const resetForm = useCallback(() => {
     setOrganizationForm(initialState);
     setError("");
-  }, []);
+  }, [setOrganizationForm]);
+
+  // Введённое в этой сессии важнее сохранённого на бэке, поэтому из драфта
+  // заполняем только нетронутую форму — например, после перезагрузки страницы
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    if (!draftId || draft?.id !== draftId) return;
+
+    hydrated.current = true;
+
+    setOrganizationForm((prev) => (isPristine(prev) ? fromDraft(draft) : prev));
+  }, [draft, draftId, setOrganizationForm]);
 
   const editMutation = useMutation({
     mutationFn: (data: OrganizationStepRequest) => {
@@ -55,8 +100,8 @@ export function useOrganizationStepForm({
       return API_V2.ORGANIZATION_STEP.UPDATE(draftId, data);
     },
 
-    onSuccess: async () => {
-      // router.back();
+    onSuccess: async (response) => {
+      saveDraft(response);
     },
   });
 

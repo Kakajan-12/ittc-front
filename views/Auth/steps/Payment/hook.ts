@@ -5,6 +5,7 @@ import { _Translator } from "next-intl";
 
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { saveDraft } from "@/views/Auth/draft";
 import { RegistrationDraft } from "../../types";
 // import { PAYMENT_STEP_REQUEST } from "./api";
 import { T_PAYMENT } from "./type";
@@ -48,7 +49,7 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
       });
     },
     onSuccess: (updated) => {
-      localStorage.setItem("eventDraft", JSON.stringify(updated));
+      saveDraft(updated);
     },
   });
 

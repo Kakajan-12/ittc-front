@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ConfigProvider, Radio, type RadioChangeEvent } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
@@ -11,6 +11,7 @@ import { PRINT } from "@/shared/lib/helpers";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { RegistrationDraft } from "@/views/Auth/types";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
 import { formatPrice } from "@/views/Auth/servicesData";
 // import { findPromocode } from "@/views/Auth/Promocodes/utils";
 // import { T_Promocode } from "@/views/Auth/Promocodes/type";
@@ -26,7 +27,7 @@ export default function PaymentForm() {
   const router = useRouter();
   const [promoCode, setPromoCode] = useState("");
   const [promoError, setPromoError] = useState("");
-  const [savedDraft, setSavedDraft] = useState<RegistrationDraft>();
+  const savedDraft = useRegistrationDraft();
   const [draftId] = usePersistentState<number | null>(
     STORAGE_KEYS.draftId,
     null,
@@ -71,17 +72,32 @@ export default function PaymentForm() {
     handleSubmit,
     isSubmitting,
     error: submitError,
-  } = usePayment({ t: tErrors, draft: savedDraft });
+  } = usePayment({ t: tErrors, draft: savedDraft ?? undefined });
+
+  const currentDraftId = draftId ?? savedDraft?.id ?? null;
+
+  const { data: draftPackages } = useQuery({
+    enabled: !!currentDraftId,
+    queryKey: ["draftPackages", currentDraftId],
+    queryFn: async () => {
+      const res = await API_V2.PAYMENT.DRAFT_PACKAGES_LIST({
+        draftId: currentDraftId!,
+      });
+      return res.rows;
+    },
+  });
+
+  const packageRows = draftPackages ?? savedDraft?.draftPackageRows ?? [];
 
   const {
     data: eventPackages,
     isLoading: isEventPackagesLoading,
     isError: IsEventPackagesError,
   } = useQuery({
-    enabled: !!savedDraft?.draftPackageRows?.length,
-    queryKey: ["eventPackagesList", savedDraft?.draftPackageRows],
+    enabled: !!packageRows.length,
+    queryKey: ["eventPackagesList", packageRows.map((i) => i.eventPackageId)],
     queryFn: async () => {
-      const res = await API.EVENT_PACKAGES.LIST({
+      const res = await API_V2.EVENT_PACKAGES.LIST({
         offset: 0,
         limit: 100,
         // filters: [
@@ -113,11 +129,25 @@ export default function PaymentForm() {
           },
         },
       });
-      console.log("paymentMethod", res.rows);
-      setSelectedPaymentMethodId(res.rows[0].id);
       return res.rows;
     },
   });
+
+  // Возврат на шаг назад: отмечаем способ из драфта, иначе первый доступный
+  useEffect(() => {
+    if (selectedPaymentMethodId !== null || !paymentMethod?.length) return;
+
+    const fromDraft = paymentMethod.find(
+      (method) => method.id === savedDraft?.paymentMethodId,
+    );
+
+    setSelectedPaymentMethodId(fromDraft?.id ?? paymentMethod[0].id);
+  }, [
+    paymentMethod,
+    savedDraft?.paymentMethodId,
+    selectedPaymentMethodId,
+    setSelectedPaymentMethodId,
+  ]);
 
   // const applyPromoCode = useMutation({
   //   mutationFn: (payload: T_PAYMENT): Promise<RegistrationDraft> => {
@@ -148,9 +178,8 @@ export default function PaymentForm() {
       return draft;
     },
     onSuccess: (draft) => {
-      localStorage.setItem("eventDraft", JSON.stringify(draft));
-      setSavedDraft(draft);
-      setPromoCode(draft?.promocodeCode ?? promoCode);
+      const saved = saveDraft(draft);
+      setPromoCode(saved?.promocodeCode ?? promoCode);
       setPromoError("");
     },
     onError: (error) => {
@@ -169,15 +198,16 @@ export default function PaymentForm() {
     applyPromoCodeMutation.mutate(promoCode);
   };
 
-  useEffect(() => {
-    const raw = localStorage.getItem("eventDraft");
-    if (!raw) return;
+  // Промокод, применённый до ухода с шага, подставляем один раз: дальше поле
+  // принадлежит пользователю — он мог начать вводить другой код
+  const hydratedPromoCode = useRef(false);
 
-    const parsed = JSON.parse(raw);
-    const draft: RegistrationDraft = parsed?.data ?? parsed;
-    setSavedDraft(draft);
-    if (draft?.promocodeCode) setPromoCode(draft.promocodeCode);
-  }, []);
+  useEffect(() => {
+    if (hydratedPromoCode.current || !savedDraft?.promocodeCode) return;
+
+    hydratedPromoCode.current = true;
+    setPromoCode(savedDraft.promocodeCode);
+  }, [savedDraft?.promocodeCode]);
 
   const discountRows = [
     { currency: "TMT", amount: savedDraft?.discountAmountTmt ?? 0 },
@@ -189,7 +219,6 @@ export default function PaymentForm() {
     { currency: "USD", amount: savedDraft?.totalAmountUsd ?? 0 },
   ].filter((row) => row.amount > 0);
 
-  console.log("savedDraft", savedDraft);
   const appliedPromoCode = savedDraft?.promocodeCode ?? null;
   const appliedDiscount = discountRows
     .map((row) => `${formatPrice(row.amount)} ${row.currency}`)
@@ -248,7 +277,7 @@ export default function PaymentForm() {
             </h3>
 
             <ul className="mt-4 flex flex-col">
-              {savedDraft?.draftPackageRows?.map((i) => {
+              {packageRows.map((i) => {
                 const found = eventPackages.find(
                   (k) => k.id === i.eventPackageId,
                 );

@@ -10,7 +10,7 @@ import { localizedTitle } from "@/shared/lib/localization";
 
 import { useOrganizationStepForm } from "../hook";
 import { API } from "@/shared/api";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { API_V2 } from "@/shared/api_v2";
 
@@ -75,6 +75,20 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
     label: localizedTitle(item, locale),
   }));
 
+  // Восстановленную из драфта страну может не быть в подгруженных страницах —
+  // тогда в триггере вместо названия остался бы плейсхолдер
+  const selectedCountryId = organizationForm.countryId;
+
+  const isSelectedCountryLoaded = !!countryOptions?.some(
+    (option) => option.value === String(selectedCountryId),
+  );
+
+  const { data: selectedCountry } = useQuery({
+    enabled: !!selectedCountryId && !isSelectedCountryLoaded,
+    queryKey: ["country", selectedCountryId],
+    queryFn: () => API_V2.COUNTRIES.GET(selectedCountryId),
+  });
+
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
       <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto pt-2.5 pr-1">
@@ -131,8 +145,9 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
               : t("companyCountryPlaceholder")
           }
           options={countryOptions ?? []}
-          value={
-            organizationForm.countryId ? String(organizationForm.countryId) : ""
+          value={selectedCountryId ? String(selectedCountryId) : ""}
+          selectedLabel={
+            selectedCountry ? localizedTitle(selectedCountry, locale) : undefined
           }
           searchPending={isFetchingCountries}
           onChange={(value) =>

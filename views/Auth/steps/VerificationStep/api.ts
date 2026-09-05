@@ -140,17 +140,17 @@ async function postToDraft<T>({
 //     fallbackError: VERIFICATION_ERROR_CODE.VERIFY_EMAIL_FAILED,
 //   });
 
-export const COMPLETE_REGISTRATION_REQUEST = ({
-  draftId,
-}: {
-  draftId: number;
-}) =>
-  postToDraft<T_COMPLETED_REGISTRATION>({
-    draftId,
+// export const COMPLETE_REGISTRATION_REQUEST = ({
+//   draftId,
+// }: {
+//   draftId: number;
+// }) =>
+//   postToDraft<T_COMPLETED_REGISTRATION>({
+//     draftId,
 
-    path: "complete",
+//     path: "complete",
 
-    body: {},
+//     body: {},
 
-    fallbackError: VERIFICATION_ERROR_CODE.COMPLETE_REGISTRATION_FAILED,
-  });
+//     fallbackError: VERIFICATION_ERROR_CODE.COMPLETE_REGISTRATION_FAILED,
+//   });

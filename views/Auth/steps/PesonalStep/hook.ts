@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { _Translator } from "next-intl";
 import { ZodError } from "zod";
@@ -10,6 +10,8 @@ import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
 import { API_V2 } from "@/shared/api_v2";
+import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
+import type { RegistrationDraft } from "@/views/Auth/types";
 
 type PersonalForm = Omit<
   PersonalStepRequest,
@@ -31,6 +33,32 @@ const initialState: PersonalForm = {
   termsAndConditionsAccepted: false,
 };
 
+/** Форму ещё не заполняли — можно подставить сохранённое в драфте */
+function isPristine(form: PersonalForm) {
+  return (
+    !form.firstName &&
+    !form.lastName &&
+    !form.patronymicName &&
+    !form.email &&
+    !form.phoneNumber &&
+    !form.position
+  );
+}
+
+function fromDraft(draft: RegistrationDraft): PersonalForm {
+  return {
+    eventId: draft.eventId ?? initialState.eventId,
+    firstName: draft.firstName ?? "",
+    lastName: draft.lastName ?? "",
+    patronymicName: draft.patronymicName ?? "",
+    email: draft.email ?? "",
+    phoneNumber: draft.phoneNumber ?? "",
+    position: draft.position ?? "",
+    privacyPolicyAccepted: !!draft.privacyPolicyAccepted,
+    termsAndConditionsAccepted: !!draft.termsAndConditionsAccepted,
+  };
+}
+
 type UsePersonalStepFormProps = {
   t: _Translator<Record<string, any>, "Registration.personal">;
   id?: number;
@@ -51,10 +79,26 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
 
   const draftId = id ?? storedDraftId;
 
+  const draft = useRegistrationDraft();
+
   const resetForm = useCallback(() => {
     setPersonalForm(initialState);
     setError("");
   }, [setPersonalForm]);
+
+  // Возврат на шаг назад: поля заполняем из драфта. Введённое в этой сессии
+  // важнее — оно уже лежит в `sessionStorage`, поэтому подставляем только в
+  // нетронутую форму и только для того драфта, с которым идёт регистрация.
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    if (!draftId || draft?.id !== draftId) return;
+
+    hydrated.current = true;
+
+    setPersonalForm((prev) => (isPristine(prev) ? fromDraft(draft) : prev));
+  }, [draft, draftId, setPersonalForm]);
 
   const createMutation = useMutation({
     mutationFn: async (data: PersonalStepRequest) =>
@@ -63,9 +107,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
     onSuccess: async (response) => {
       setStoredDraftId(response.id);
 
-      localStorage.setItem("eventDraft", JSON.stringify(response));
-
-      resetForm();
+      saveDraft(response);
     },
   });
 
@@ -79,7 +121,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
     },
 
     onSuccess: async (response) => {
-      localStorage.setItem("eventDraft", JSON.stringify(response));
+      saveDraft(response);
     },
   });
 
