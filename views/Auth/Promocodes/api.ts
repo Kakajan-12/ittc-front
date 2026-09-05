@@ -34,10 +34,6 @@ export const PROMOCODE = createCrudApi<T_Promocode>({
   updatePath: (id) => `${id}`,
 });
 
-/**
- * Промокод применяет бэкенд: он же пересчитывает скидку и итоги черновика
- * и возвращает его целиком. POST /registration-drafts/{id}/apply-promocode
- */
 export const APPLY_PROMOCODE_REQUEST = async ({
   draftId,
   code,

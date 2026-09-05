@@ -6,11 +6,13 @@ import { _Translator } from "next-intl";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
 import { RegistrationDraft } from "../../types";
-import { PAYMENT_STEP_REQUEST } from "./api";
+// import { PAYMENT_STEP_REQUEST } from "./api";
 import { T_PAYMENT } from "./type";
 import { paymentSchema } from "./validation";
 import { PAYMENT_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
+import { PAYMENT_STEP_REQUEST } from "./api";
+import { API_V2 } from "@/shared/api_v2";
 
 type UsePaymentProps = {
   t: _Translator<Record<string, any>, "Registration.errors">;
@@ -41,7 +43,7 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
       }
 
       return PAYMENT_STEP_REQUEST({
-        draftId: String(draftId),
+        draftId: draftId,
         payload,
       });
     },
@@ -101,7 +103,7 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
 
       return false;
     }
-  }, [paymentMethodId, draft, editMutation, t]);
+  }, [paymentMethodId, editMutation, draft, t]);
 
   const isSubmitting = editMutation.isPending;
 

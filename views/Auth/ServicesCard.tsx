@@ -131,11 +131,11 @@ export default function ServicesCard({
       <div className="min-w-0 flex-1">
         <h3 className="font-nexa-bold text-sm font-bold">{title}</h3>
 
-        {!expanded && service.packageFeatures.length > 0 && (
+        {!expanded && service.features.length > 0 && (
           <span className="mt-1 flex items-center gap-2 font-nexa text-xs text-brand-blue">
             <ArrowIcon />
             <span>
-              {t("card.allFeatures", { count: service.packageFeatures.length })}
+              {t("card.allFeatures", { count: service.features.length })}
             </span>
           </span>
         )}
@@ -148,14 +148,16 @@ export default function ServicesCard({
             <span className="text-[10px]">{currency}</span>
           </p>
 
-          {!!service.eventPackageFee ? (
+          {!!service.eventPackageFeeId ? (
             <div className="flex gap-2 items-center ">
               <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                +{service.eventPackageFee.price}
-                {service.eventPackageFee.currency}
+                {/* +{service.eventPackageFee.price}
+                {service.eventPackageFee.currency} */}
+                +{service.eventPackageFeeId}
+                {service.eventPackageFeeId}
               </p>
               <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                {localizedTitle(service.eventPackageFee, locale)}
+                {/* {localizedTitle(service.eventPackageFee, locale)} */}
               </p>
             </div>
           ) : null}
@@ -220,7 +222,7 @@ export default function ServicesCard({
             children: (
               <div>
                 <ul className="flex flex-col gap-1.5 border-t border-brand-blue/30 pt-3">
-                  {service.packageFeatures.map((feature) => (
+                  {service.features.map((feature) => (
                     <li
                       key={feature.id}
                       className="flex items-start gap-2 font-nexa font-light text-sm"

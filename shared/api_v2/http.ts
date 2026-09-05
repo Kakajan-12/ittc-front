@@ -1,3 +1,5 @@
+import { API_V2 } from ".";
+
 type T_HTTP_HEADERS = Record<string, string>;
 
 type T_REQUEST_RESPONSE<T> = {
@@ -38,8 +40,11 @@ function buildHeaders({
   token?: string;
   isFormData?: boolean;
 }) {
-  // const accessToken = token ?? API.AUTH.TOKEN.GET() ?? undefined;
-
+  const accessToken =
+    token ??
+    (typeof window !== "undefined"
+      ? localStorage.getItem("getAnonymToken")
+      : null);
   return {
     ...(isFormData
       ? {}
@@ -47,11 +52,11 @@ function buildHeaders({
           "Content-Type": "application/json",
         }),
 
-    // ...(accessToken
-    // ? {
-    //     Authorization: `Bearer ${accessToken}`,
-    //   }
-    // : {}),
+    ...(accessToken
+      ? {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      : {}),
 
     ...(headers ?? {}),
   };

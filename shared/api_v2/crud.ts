@@ -1,4 +1,4 @@
-import { HTTP } from "@/shared/api/http";
+import { HTTP } from "@/shared/api_v2/http";
 
 export type T_API_SUCCESS<T> = {
   success: true;
@@ -15,16 +15,30 @@ export type T_API_ERROR = {
 export type T_API_RESPONSE<T> = T_API_SUCCESS<T> | T_API_ERROR;
 export type T_SORT_ORDER = "asc" | "desc";
 
+// export const ValueOperators = [
+//   "=",
+//   "<",
+//   ">",
+//   ">=",
+//   "<=",
+//   "like",
+//   "between",
+//   "in",
+//   "is null",
+//   "is not null",
+// ] as const;
+
 type T_FILTER_OPERATOR =
-  | "eq"
-  | "neq"
+  | "="
+  | "<"
   | "like"
-  | "ilike"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "in";
+  | "between"
+  | ">"
+  | "<="
+  | ">="
+  | "is null"
+  | "in"
+  | "is not null";
 
 type T_FILTER_VALUE<T> = {
   op: T_FILTER_OPERATOR;

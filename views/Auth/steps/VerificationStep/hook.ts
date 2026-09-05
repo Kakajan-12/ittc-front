@@ -15,8 +15,9 @@ import {
 
 import {
   COMPLETE_REGISTRATION_REQUEST,
-  SEND_EMAIL_REQUEST,
-  VERIFY_EMAIL_REQUEST,
+  // COMPLETE_REGISTRATION_REQUEST,
+  SEND_OTP,
+  VERIFY_OTP,
 } from "./api";
 
 import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
@@ -62,6 +63,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const draftId = id ?? storedDraftId;
 
   const [code, setCode] = useState<string[]>(initialCode);
+  const [revId, setRevId] = useState<number | null>(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
   const email = useSyncExternalStore(subscribeToDraft, getDraftEmail, () => "");
@@ -77,17 +79,19 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   }, [resendCountdown]);
 
   const sendMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (payload: { email: string; lang: "en" }) => {
       if (!draftId) {
         throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
       }
 
-      return SEND_EMAIL_REQUEST({
+      return SEND_OTP({
         draftId,
+        payload,
       });
     },
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setRevId(data.revId);
       setCode(initialCode());
       setResendCountdown(RESEND_COUNTDOWN_SECONDS);
     },
@@ -99,7 +103,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
         throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
       }
 
-      return VERIFY_EMAIL_REQUEST({
+      return VERIFY_OTP({
         draftId,
         payload,
       });
@@ -125,7 +129,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     try {
       setError("");
 
-      await sendMutation.mutateAsync();
+      await sendMutation.mutateAsync({ email, lang: "en" });
 
       return true;
     } catch (error) {
@@ -164,8 +168,13 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
         throw result.error;
       }
 
+      if (!revId) {
+        throw new Error(VERIFICATION_ERROR_CODE.SEND_EMAIL_FAILED);
+      }
+
       await verifyMutation.mutateAsync({
         otp: result.data.otp,
+        revId,
       });
 
       await completeMutation.mutateAsync();
@@ -194,7 +203,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [code, verifyMutation, completeMutation, t]);
+  }, [code, revId, verifyMutation, completeMutation, t]);
 
   return {
     draftId,

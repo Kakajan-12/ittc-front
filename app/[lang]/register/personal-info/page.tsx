@@ -3,6 +3,8 @@ import { Link } from "lucide-react";
 import React, { useState } from "react";
 import PersonalStepForm from "@/views/Auth/steps/PesonalStep/components/form";
 import TermsModal from "@/views/Auth/TermsModal";
+import { useMutation } from "@tanstack/react-query";
+import { API_V2 } from "@/shared/api_v2";
 
 export default function PersonalStep() {
   const [showTerms, setShowTerms] = useState(false);

@@ -11,7 +11,7 @@ import { EventPackageType } from "@/views/Auth/EventPackageTypes/type";
 import ServicesCard from "@/views/Auth/ServicesCard";
 import { fallbackCurrency, formatPrice } from "@/views/Auth/servicesData";
 import { STORAGE_KEYS } from "@/views/Auth/config";
-import { EVENT_SERVICE_STEP_REQUEST } from "../api";
+// import { EVENT_SERVICE_STEP_REQUEST } from "../api";
 import { eventServicesSchema } from "../validation";
 import { EVENT_SERVICES_ERROR_CODE } from "../errorCodes";
 import { getErrorMessage } from "../dictionary";
@@ -19,6 +19,7 @@ import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
 import { API_V2 } from "@/shared/api_v2";
 import { PRINT } from "@/shared/lib/helpers";
+import { EVENT_SERVICE_STEP_REQUEST } from "../api";
 
 export default function EventServices() {
   const t = useTranslations("Registration.services");
@@ -54,37 +55,46 @@ export default function EventServices() {
         offset: 0,
         limit: 100,
       });
-      // setPackageType(res.rows);
-      // console.log(res.rows);
       return res.rows;
     },
   });
 
+  // Пока пользователь не выбрал тип вручную — берём первый из списка,
+  // иначе запрос за пакетами не стартует вообще
+  const selectedTypeId = packageType?.id ?? eventPackageTypes?.[0]?.id;
+
   const {
-    data: eventPackages,
-    isLoading: isEventPackagesLoading,
-    isError: IsEventPackagesError,
+    data: eventPackageList,
+    isLoading: isEventPackageListLoading,
+    isError: IsEventPackageListError,
   } = useQuery({
-    queryKey: ["eventPackagesList"],
+    queryKey: ["eventPackageList", selectedTypeId, isLocal],
     queryFn: async () => {
+      if (!selectedTypeId) throw new Error("NO PACKAGE TYPE SELECTED");
+
       const res = await API_V2.EVENT_PACKAGES.LIST({
         offset: 0,
         limit: 100,
-        // filters: [
-        //   { field: "id", op: "eq", val: packageType?.id },
-        //   { field: "isLocal", op: "eq", val: isLocal },
-        // ],
+        filter: {
+          eventPackageTypeId: {
+            op: "=",
+            val: selectedTypeId,
+          },
+          isLocal: {
+            op: "=",
+            val: isLocal,
+          },
+        },
       });
-      PRINT(res.rows);
       return res.rows;
     },
-    enabled: !!packageType?.id,
+    enabled: !!selectedTypeId,
   });
 
   const summary = useMemo(() => {
     const totals = new Map<string, number>();
     let positions = 0;
-    for (const pkg of eventPackages ?? []) {
+    for (const pkg of eventPackageList ?? []) {
       const quantity = selectedPackages[String(pkg.id)]?.quantity ?? 0;
       if (!quantity) continue;
       positions += quantity;
@@ -94,7 +104,7 @@ export default function EventServices() {
       );
     }
     return { positions, totals };
-  }, [eventPackages, selectedPackages]);
+  }, [eventPackageList, selectedPackages]);
 
   const totalLines = [...summary.totals.entries()].map(
     ([currency, total]) => `${formatPrice(total)} ${currency}`,
@@ -108,7 +118,7 @@ export default function EventServices() {
       if (!draftId) throw new Error("NO ID PROVIDED");
 
       return EVENT_SERVICE_STEP_REQUEST({
-        draftId: String(draftId),
+        draftId: draftId,
         payload: { packages },
       });
     },
@@ -129,7 +139,6 @@ export default function EventServices() {
       if (!result.success) {
         throw result.error;
       }
-
       await nextMutation.mutateAsync(result.data.packages);
 
       return true;
@@ -144,7 +153,6 @@ export default function EventServices() {
           }),
         );
       } else if (error instanceof Error) {
-        // Ошибка бэкенда — иначе кнопка молча ничего не делает
         setError(error.message);
       }
 
@@ -209,9 +217,9 @@ export default function EventServices() {
                 key={type.id}
                 type="button"
                 onClick={() => setPackageType(type)}
-                aria-pressed={packageType?.id === type.id}
+                aria-pressed={selectedTypeId === type.id}
                 className={` rounded-full px-5 py-1 font-nexa text-xs ${
-                  packageType?.id === type.id
+                  selectedTypeId === type.id
                     ? "text-white bg-white/20 border border-white "
                     : " text-white glass-btn"
                 }`}
@@ -223,7 +231,7 @@ export default function EventServices() {
         </div>
 
         <div className="flex flex-col gap-4 mb-10">
-          {eventPackages?.map((pkg) => (
+          {eventPackageList?.map((pkg) => (
             <ServicesCard
               key={pkg.id}
               service={pkg}

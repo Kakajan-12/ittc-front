@@ -20,7 +20,7 @@ type PersonalForm = Omit<
 };
 
 const initialState: PersonalForm = {
-  eventId: 1,
+  eventId: 4,
   firstName: "",
   lastName: "",
   patronymicName: "",
@@ -103,7 +103,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
-        expiredAt: new Date(),
+        // expiredAt: new Date(),
       };
 
       if (draftId) {

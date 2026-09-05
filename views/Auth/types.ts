@@ -30,7 +30,7 @@ export type RegistrationDraft = T_ENTITY & {
   totalAmountTmt?: number | null;
   status?: "PENDING" | "VERIFIED" | "COMPLETED" | "EXPIRED" | "CANCELLED";
   expiredAt?: string | null;
-  packages?: T_Package[];
+  draftPackageRows?: T_Package[];
   emailVerification?: {
     id: number;
     registrationDraftId: number;
