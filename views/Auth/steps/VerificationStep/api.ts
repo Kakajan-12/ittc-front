@@ -4,7 +4,7 @@ import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { HTTP } from "@/shared/api_v2/http";
 import { T_API_ERROR } from "@/shared/api_v2/crud";
 
-const BASE_URL = `http://104.207.74.50:3101/api/v1`;
+const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
 const RESOURCE = "registrationDraft";
 
 export const SEND_OTP = async ({

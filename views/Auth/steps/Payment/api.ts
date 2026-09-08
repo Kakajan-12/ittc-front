@@ -8,7 +8,7 @@ import {
 } from "@/shared/api_v2/crud";
 import { PACKAGES } from "../../Packages/api";
 
-const BASE_URL = `http://104.207.74.50:3101/api/v1`;
+const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
 const resource = "registrationDraft";
 
 export const PAYMENT = {
@@ -68,7 +68,7 @@ export const PAYMENT_STEP_REQUEST = async ({
   payload: T_PAYMENT;
 }) => {
   try {
-    const baseUrl = `http://104.207.74.50:3101/api/v1`;
+    const baseUrl = `https://api.event.oguzforum.com/api/v1`;
     const resource = "registrationDraft";
     // /payment-method
     const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({

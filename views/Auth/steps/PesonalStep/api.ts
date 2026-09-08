@@ -6,7 +6,7 @@ import {
 import { RegistrationDraft } from "../../types";
 import { HTTP } from "@/shared/api_v2/http";
 
-const BASE_URL = `http://104.207.74.50:3101/api/v1`;
+const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
 
 export const PERSONAL_STEP = {
   ...createCrudApi<RegistrationDraft>({

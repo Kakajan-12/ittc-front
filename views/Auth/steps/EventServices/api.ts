@@ -16,7 +16,7 @@ export const EVENT_SERVICE_STEP_REQUEST = async ({
   payload: EventServices;
 }) => {
   try {
-    const baseUrl = `http://104.207.74.50:3101/api/v1`;
+    const baseUrl = `https://api.event.oguzforum.com/api/v1`;
     const resource = "registrationDraft";
 
     const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({

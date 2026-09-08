@@ -52,7 +52,7 @@ export type T_API_FILTER<T extends Record<string, any>> = Partial<{
 // here we procide MORE FIELDS WE WANT TO USE IN ORDER BY
 export type T_COMMON_ORDER_BY = { id?: T_SORT_ORDER };
 
-const BASE_URL = "http://104.207.74.50:3101/api/v1";
+const BASE_URL = "https://api.event.oguzforum.com/api/v1";
 
 export function createCrudApi<
   T extends { id: number; createdAt: Date; updatedAt: Date },
