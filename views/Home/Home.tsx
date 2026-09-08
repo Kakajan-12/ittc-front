@@ -22,6 +22,7 @@ import { EVENTS } from "@/shared/event/api";
 import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
 import { T_LOCALE } from "@/shared/lib/types";
 import { API_V2 } from "@/shared/api_v2";
+import { Image } from "antd";
 
 function Home() {
   const t = useTranslations("Hero");
@@ -120,7 +121,8 @@ function Home() {
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
           <SkeletonImage
-            src={getMediaUrl(eventData?.bannerImage)}
+          src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
+            // src={`htts://api.event.oguzforum.com${eventData?.bannerImage}`}
             alt="bannerImage"
             fill
             priority
@@ -128,6 +130,13 @@ function Home() {
             className="-z-10 object-cover object-center"
             skeletonClassName="-z-10"
           />
+          {/* <Image
+            preview={false}
+            width={100}
+            height={100}
+            className="-z-10 object-cover object-center"
+            src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
+          /> */}
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
           <div className="px-4 lg:px-10 py-24 lg:py-30">
