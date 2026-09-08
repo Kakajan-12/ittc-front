@@ -9,12 +9,12 @@ export function isUsablePromocode(
   now: number = Date.now(),
 ): boolean {
   if (promo.status !== "ACTIVE") return false;
-  if (promo.startDate && new Date(promo.startDate).getTime() > now)
+  if (promo.startAt && new Date(promo.startAt).getTime() > now)
     return false;
   if (promo.expiredAt && new Date(promo.expiredAt).getTime() < now)
     return false;
-  if (promo.usageLimit !== null && promo.usageCount >= promo.usageLimit)
-    return false;
+  // if (promo.usageLimit !== null && promo.usageLimit >= promo.usageLimit)
+  // return false;
   return true;
 }
 
