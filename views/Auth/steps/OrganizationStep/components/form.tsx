@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
-import Select from "@/shared/ui/Select";
 import { useDebouncedValue } from "@/shared/lib/useDebouncedValue";
 import { localizedTitle } from "@/shared/lib/localization";
 import { useOrganizationStepForm } from "../hook";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { API_V2 } from "@/shared/api_v2";
 import { T_LOCALE } from "@/shared/lib/types";
 import { Select as CountrySelect } from "antd";
+import Select from "@/shared/ui/Select";
 
 interface OrganizationStepProps {
   id?: number;
@@ -76,16 +76,6 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
   // тогда в триггере вместо названия остался бы плейсхолдер
   const selectedCountryId = organizationForm.countryId;
 
-  // const isSelectedCountryLoaded = !!countryOptions?.some(
-  //   (option) => option.value === String(selectedCountryId),
-  // );
-
-  // const { data: selectedCountry } = useQuery({
-  //   enabled: !!selectedCountryId && !isSelectedCountryLoaded,
-  //   queryKey: ["country", selectedCountryId],
-  //   queryFn: () => API_V2.COUNTRIES.GET(selectedCountryId),
-  // });
-
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
       <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto pt-2.5 pr-1">
@@ -134,11 +124,16 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
         />
 
         <CountrySelect
-          value={String(organizationForm.countryId)}
+          value={
+            organizationForm.countryId > 0
+              ? String(organizationForm.countryId)
+              : undefined
+          }
           onChange={(countryId) =>
             setOrganizationForm((prev) => ({ ...prev, countryId: +countryId }))
           }
           placeholder={t("companyCountryPlaceholder")}
+          // styles
           loading={isLoadingCountries}
           showSearch={{
             filterOption: (input, option) =>
@@ -159,11 +154,27 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           styles={{
             input: {
               color: "#fff",
+              fontFamily: "inherit",
+              fontSize: 16,
+            },
+            placeholder: {
+              color: "#97b4d1",
+              fontFamily: "inherit",
+              fontSize: 16,
+              opacity: 0.8,
+              fontWeight:300
+            },
+            suffix: {
+              color: "#97b4d1",
+              opacity: 0.8,
+            },
+
+            clear: {
+              color: "#97b4d1",
+              opacity: 0.8,
             },
           }}
-          className="
-    w-full h-13 rounded-[4px]! bg-transparent! text-white! border-gray-400/90!
-  "
+          className="w-full h-13 rounded-[4px]! bg-transparent! text-white! border-[#7892ac]! [&_.ant-select-arrow]:!text-[#97b4d1]"
         />
 
         {/* <Select
