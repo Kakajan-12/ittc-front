@@ -52,9 +52,9 @@ function Agenda() {
                     className="-mb-px h-auto max-w-56 w-full flex-none flex-col items-center gap-1 rounded-none border-b-[3px] border-transparent px-2 pb-4 after:hidden data-active:border-b-brand-blue data-active:text-brand-blue"
                   >
                     <span className="text-base lg:text-2xl font-semibold font-roboto tracking-wide uppercase">
-                      {t("day", {
+                      {/* {t("day", {
                         number: String(day.number).padStart(2, "0"),
-                      })}
+                      })} */}
                     </span>
                     <span className="text-sm lg:text-lg font-normal font-roboto">
                       {day.date}

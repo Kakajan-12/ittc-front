@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-
 import Field from "@/shared/ui/Field";
 import Select from "@/shared/ui/Select";
 import { useDebouncedValue } from "@/shared/lib/useDebouncedValue";
 import { localizedTitle } from "@/shared/lib/localization";
-
 import { useOrganizationStepForm } from "../hook";
-import { API } from "@/shared/api";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { API_V2 } from "@/shared/api_v2";
+import { T_LOCALE } from "@/shared/lib/types";
+import { Select as CountrySelect } from "antd";
 
 interface OrganizationStepProps {
   id?: number;
@@ -22,40 +21,38 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
   const t = useTranslations("Registration.company");
   const tErrors = useTranslations("Registration.errors");
   const router = useRouter();
-
   const tCommon = useTranslations("Common");
-
   const locale = useLocale();
-
   const [countryQuery, setCountryQuery] = useState("");
-
   const debouncedQuery = useDebouncedValue(countryQuery, 800);
 
-  const {
-    data: countries,
-    isFetching: isFetchingCountries,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery({
-    initialPageParam: 0,
-    // enabled: !!currentWelayat.id,
-    queryKey: ["countries", debouncedQuery, locale],
+  type SelectOption = {
+    value: string;
+    label: string;
+  };
 
-    queryFn: async ({ pageParam }) => {
+  type SelectGroup = {
+    label: string;
+    options: SelectOption[];
+  };
+
+  const { data: countries, isLoading: isLoadingCountries } = useQuery({
+    queryKey: ["countries", debouncedQuery, locale],
+    queryFn: async () => {
       const res = await API_V2.COUNTRIES.LIST({
-        offset: pageParam,
-        limit: 50,
-        // search: debouncedQuery.trim() || undefined,
-        // searchFields: ["titleEn", "titleRu", "titleTk", "code"],
+        offset: 0,
+        limit: 999,
+        filter: !!debouncedQuery.trim().length
+          ? {
+              titleEn: {
+                op: "=",
+                val: debouncedQuery,
+              },
+            }
+          : {},
       });
       console.log(res.rows);
       return res.rows;
-    },
-
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < 10) return undefined;
-      return allPages.flat().length;
     },
   });
 
@@ -70,24 +67,24 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
     id,
   });
 
-  const countryOptions = countries?.pages.flat().map((item) => ({
-    value: String(item.id),
-    label: localizedTitle(item, locale),
-  }));
+  // const countryOptions = countries?.pages.flat().map((item) => ({
+  //   value: String(item.id),
+  //   label: localizedTitle(item, locale),
+  // }));
 
   // Восстановленную из драфта страну может не быть в подгруженных страницах —
   // тогда в триггере вместо названия остался бы плейсхолдер
   const selectedCountryId = organizationForm.countryId;
 
-  const isSelectedCountryLoaded = !!countryOptions?.some(
-    (option) => option.value === String(selectedCountryId),
-  );
+  // const isSelectedCountryLoaded = !!countryOptions?.some(
+  //   (option) => option.value === String(selectedCountryId),
+  // );
 
-  const { data: selectedCountry } = useQuery({
-    enabled: !!selectedCountryId && !isSelectedCountryLoaded,
-    queryKey: ["country", selectedCountryId],
-    queryFn: () => API_V2.COUNTRIES.GET(selectedCountryId),
-  });
+  // const { data: selectedCountry } = useQuery({
+  //   enabled: !!selectedCountryId && !isSelectedCountryLoaded,
+  //   queryKey: ["country", selectedCountryId],
+  //   queryFn: () => API_V2.COUNTRIES.GET(selectedCountryId),
+  // });
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
@@ -136,7 +133,40 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           required
         />
 
-        <Select
+        <CountrySelect
+          value={String(organizationForm.countryId)}
+          onChange={(countryId) =>
+            setOrganizationForm((prev) => ({ ...prev, countryId: +countryId }))
+          }
+          placeholder={t("companyCountryPlaceholder")}
+          loading={isLoadingCountries}
+          showSearch={{
+            filterOption: (input, option) =>
+              String(option?.label ?? "")
+                .toLocaleLowerCase(locale)
+                .includes(input.toLocaleLowerCase(locale)),
+          }}
+          options={(countries ?? [])
+            .map((country) => ({
+              value: String(country.id),
+              label: localizedTitle(country, locale as T_LOCALE),
+            }))
+            .sort((a, b) =>
+              a.label.localeCompare(b.label, locale, {
+                sensitivity: "base",
+              }),
+            )}
+          styles={{
+            input: {
+              color: "#fff",
+            },
+          }}
+          className="
+    w-full h-13 rounded-[4px]! bg-transparent! text-white! border-gray-400/90!
+  "
+        />
+
+        {/* <Select
           id="organization-country"
           label={t("companyCountry")}
           placeholder={
@@ -147,7 +177,9 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           options={countryOptions ?? []}
           value={selectedCountryId ? String(selectedCountryId) : ""}
           selectedLabel={
-            selectedCountry ? localizedTitle(selectedCountry, locale) : undefined
+            selectedCountry
+              ? localizedTitle(selectedCountry, locale)
+              : undefined
           }
           searchPending={isFetchingCountries}
           onChange={(value) =>
@@ -162,7 +194,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           onLoadMore={fetchNextPage}
           hasNextPage={hasNextPage}
           isLoadingMore={isFetchingNextPage}
-        />
+        /> */}
 
         <Field
           id="city"

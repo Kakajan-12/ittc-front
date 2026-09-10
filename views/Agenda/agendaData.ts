@@ -63,44 +63,44 @@ export const agendaData: AgendaPhase[] = [
       {
         id: "before-1",
         number: 1,
-        date: "21 November",
-        sessions: [
-          {
-            icon: FaRegUser,
-            title: "Arrival Of Delegations And Airport Transfers",
-            startTime: "09:00 AM",
-            endTime: "08:00 PM",
-          },
-        ],
-      },
-      {
-        id: "before-2",
-        number: 2,
-        date: "22 November",
-        sessions: [
-          {
-            icon: FaRegUser,
-            title: "Exhibitor Move-In And Stand Construction",
-            startTime: "10:00 AM",
-            endTime: "06:00 PM",
-            room: "Exhibition Hall",
-          },
-        ],
-      },
-      {
-        id: "before-3",
-        number: 3,
         date: "23 November",
         sessions: [
           {
-            icon: TiMicrophoneOutline,
-            title: "Technical Rehearsal And Speakers Briefing",
-            startTime: "11:00 AM",
-            endTime: "04:00 PM",
-            room: "Conference Room 1",
+            icon: FaRegUser,
+            startTime: "09:00 AM",
+            // endTime: "21:00",
+            title: "Conference Registration",
           },
         ],
       },
+      // {
+      //   id: "before-2",
+      //   number: 2,
+      //   date: "22 November",
+      //   sessions: [
+      //     {
+      //       icon: FaRegUser,
+      //       title: "Exhibitor Move-In And Stand Construction",
+      //       startTime: "10:00 AM",
+      //       endTime: "06:00 PM",
+      //       room: "Exhibition Hall",
+      //     },
+      //   ],
+      // },
+      // {
+      //   id: "before-3",
+      //   number: 3,
+      //   date: "23 November",
+      //   sessions: [
+      //     {
+      //       icon: TiMicrophoneOutline,
+      //       title: "Technical Rehearsal And Speakers Briefing",
+      //       startTime: "11:00 AM",
+      //       endTime: "04:00 PM",
+      //       room: "Conference Room 1",
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -254,36 +254,37 @@ export const agendaData: AgendaPhase[] = [
             icon: FaRegStar,
             title: "Technical Tour: Turkmenbashi International Seaport",
             startTime: "09:00 AM",
-            endTime: "06:00 PM",
+
+            // endTime: '',
           },
         ],
       },
-      {
-        id: "after-2",
-        number: 2,
-        date: "28 November",
-        sessions: [
-          {
-            icon: FaRegStar,
-            title: "Cultural Programme And City Tour",
-            startTime: "10:00 AM",
-            endTime: "04:00 PM",
-          },
-        ],
-      },
-      {
-        id: "after-3",
-        number: 3,
-        date: "29 November",
-        sessions: [
-          {
-            icon: FaRegUser,
-            title: "Departure Of Delegations",
-            startTime: "08:00 AM",
-            endTime: "08:00 PM",
-          },
-        ],
-      },
+      // {
+      //   id: "after-2",
+      //   number: 2,
+      //   date: "28 November",
+      //   sessions: [
+      //     {
+      //       icon: FaRegStar,
+      //       title: "Cultural Programme And City Tour",
+      //       startTime: "10:00 AM",
+      //       endTime: "04:00 PM",
+      //     },
+      //   ],
+      // },
+      // {
+      //   id: "after-3",
+      //   number: 3,
+      //   date: "29 November",
+      //   sessions: [
+      //     {
+      //       icon: FaRegUser,
+      //       title: "Departure Of Delegations",
+      //       startTime: "08:00 AM",
+      //       endTime: "08:00 PM",
+      //     },
+      //   ],
+      // },
     ],
   },
 ];
