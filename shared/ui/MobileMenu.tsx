@@ -4,6 +4,8 @@ import { IoClose } from "react-icons/io5";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
 import { IoLockClosedOutline } from "react-icons/io5";
+import { useTranslations } from "next-intl";
+import { LockIcon } from "./LockIcon";
 
 export default function MobileMenu({
   open,
@@ -17,6 +19,7 @@ export default function MobileMenu({
   homeLabel: string;
 }) {
   const pathname = usePathname();
+  const t = useTranslations("Navbar");
 
   // "#" — заглушка (раздел ещё не готов), такие ссылки активными не считаем
   const isActive = (href: string) =>
@@ -56,6 +59,31 @@ export default function MobileMenu({
         >
           <IoClose className="size-7 text-brand-blue" />
         </button>
+
+        <div className="flex flex-col gap-3 mt-4">
+          <Link
+            href="http://104.207.74.50:3001"
+            onClick={(e) => e.preventDefault()}
+            aria-disabled="true"
+            className="flex h-10 w-full items-center justify-center gap-2 rounded border border-brand-gray px-5 text-base font-normal text-brand-gray transition"
+          >
+            <LockIcon
+              width={15}
+              height={15}
+              color={"black"}
+            />
+            <span className="leading-none">{t("login")}</span>
+            <span className="w-2" />
+          </Link>
+
+          <Link
+            href="/register"
+            onClick={onClose}
+            className="flex h-10 w-full items-center justify-center rounded bg-brand-blue px-5 text-base font-normal text-white transition hover:bg-brand-blue/85"
+          >
+            {t("register")}
+          </Link>
+        </div>
 
         <nav className="mt-10 flex flex-col gap-7">
           <Link

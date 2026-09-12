@@ -6,6 +6,9 @@ import { FiMenu } from "react-icons/fi";
 import { Link, usePathname } from "@/i18n/navigation";
 import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
+import { LockIcon } from "./LockIcon";
+import { Tooltip } from "antd";
+import { IoLockClosedOutline } from "react-icons/io5";
 
 export type NavItem = {
   key: string;
@@ -22,6 +25,8 @@ export default function NavBar({
   setMenuOpen: (open: boolean) => void;
 }) {
   const t = useTranslations("Navbar");
+  const tGlobal = useTranslations();
+
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -99,12 +104,68 @@ export default function NavBar({
             ),
           )}
 
-          <Link
-            href="/register"
-            className="rounded bg-brand-blue px-3 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-normal text-white transition hover:bg-brand-blue/85"
-          >
-            {t("register")}
-          </Link>
+          <div className="flex items-center gap-2">
+            <Tooltip title={t("comingSoon")}>
+              <span>
+                <Link
+                  href="http://104.207.74.50:3001"
+                  aria-disabled="true"
+                  tabIndex={-1}
+                  className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+                    darkText
+                      ? "border-brand-gray text-brand-gray"
+                      : "border-white text-white"
+                  }`}
+                >
+                  <LockIcon
+                    width={15}
+                    height={15}
+                    color={darkText ? "black" : "white"}
+                  />
+
+                  <span className="leading-none">{t("login")}</span>
+                </Link>
+              </span>
+            </Tooltip>
+
+            <Link
+              href="/register"
+              className="flex h-10 items-center justify-center rounded bg-brand-blue px-3 text-sm font-normal text-white transition hover:bg-brand-blue/85 sm:px-4 lg:px-5 lg:text-base"
+            >
+              {t("register")}
+            </Link>
+          </div>
+
+          {/* <div className="flex items-center gap-1">
+            <Tooltip title={t("comingSoon")}>
+              <span>
+                <Link
+                  href="http://104.207.74.50:3001"
+                  aria-disabled="true"
+                  tabIndex={-1}
+                  className={`pointer-events-none h-10 flex items-center gap-2 rounded border px-3 py-1.5 text-sm font-normal transition lg:px-5 lg:py-2.5 lg:text-base ${
+                    darkText
+                      ? "border-brand-gray text-brand-gray"
+                      : "border-white text-white"
+                  }`}
+                >
+                  <LockIcon
+                    width={15}
+                    height={15}
+                    color={darkText ? "black" : "white"}
+                  />
+                  <span className="leading-none! bg-red-200">{t("login")}</span>
+                </Link>
+              </span>
+            </Tooltip>
+
+            <Link
+              href="/register"
+              className="rounded bg-brand-blue px-3 h-10 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-normal text-white transition hover:bg-brand-blue/85"
+            >
+              {t("register")}
+            </Link>
+          </div> */}
         </div>
 
         <button

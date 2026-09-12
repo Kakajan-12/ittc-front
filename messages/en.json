@@ -23,7 +23,9 @@
     "flight": "Book a Flight",
     "hotel": "Book a Hotel",
     "news": "News",
-    "register": "Register"
+    "register": "Register",
+    "login":"Login",
+    "comingSoon":"Comming soon"
   },
   "Hero": {
     "title": "International Transport & Transit Corridors Conference 2026",
