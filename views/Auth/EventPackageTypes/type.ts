@@ -5,4 +5,5 @@ export type EventPackageType = T_ENTITY & {
   titleEn: string;
   titleTk: string;
   status: string;
+  state: "PUBLIC" | "HIDDEN";
 };

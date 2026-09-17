@@ -157,7 +157,7 @@ export default function ServicesCard({
                 service.eventPackageFeeId in feesMap &&
                 feesMap[service.eventPackageFeeId] && (
                   <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                    {localizedTitle(feesMap[service.eventPackageFeeId], locale)}
+                    +{localizedTitle(feesMap[service.eventPackageFeeId], locale)}
                   </p>
                 )}
             </div>

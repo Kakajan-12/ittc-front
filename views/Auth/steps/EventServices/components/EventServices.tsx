@@ -59,7 +59,11 @@ export default function EventServices() {
     queryFn: async () => {
       const res = await API_V2.EVENT_PACKAGE_TYPES.LIST({
         offset: 0,
-        limit: 100,
+        limit: 999,
+        filter: {
+          status: { op: "=", val: "ACTIVE" },
+          state: { op: "=", val: "PUBLIC" },
+        },
       });
       return res.rows;
     },
