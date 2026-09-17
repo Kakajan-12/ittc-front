@@ -65,6 +65,17 @@ export default function EventServices() {
     },
   });
 
+  // prettier-ignore
+  const {data: eventPackageFees,isLoading: isEventPackagesFeesLoading, isError: IsEventPackageFeeError} = useQuery({
+    queryKey: ["get-event-package-fees"],
+    queryFn: () => API_V2.EVENT_PACKAGE_FEES.LIST({ offset: 0, limit: 999})
+  });
+
+  const feesMap = useMemo(() => {
+    if (!eventPackageFees || !eventPackageFees.rows) return {};
+    return Object.fromEntries(eventPackageFees.rows.map((i) => [i.id, i]));
+  }, [eventPackageFees]);
+
   // Полный справочник: отмеченный пакет может лежать не в открытой вкладке —
   // и после возврата на шаг, и когда пользователь просто переключил тип
   const { data: allEventPackages } = useQuery({
@@ -159,6 +170,11 @@ export default function EventServices() {
     },
     enabled: !!selectedTypeId,
   });
+
+  // const {} = useQuery({
+  //   queryKey:['get-package-fees'],
+  //   queryFn: async ()=>API_V2
+  // })
 
   const packagesById = useMemo(() => {
     const map = new Map<number, EventPackages>();
@@ -311,6 +327,7 @@ export default function EventServices() {
         <div className="flex flex-col gap-4 mb-10">
           {eventPackageList?.map((pkg) => (
             <ServicesCard
+              feesMap={feesMap}
               key={pkg.id}
               service={pkg}
               selectedPackages={selectedPackages}

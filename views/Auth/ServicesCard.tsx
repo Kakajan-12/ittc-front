@@ -8,8 +8,10 @@ import { formatPrice } from "./servicesData";
 import { ArrowIcon } from "@/shared/ui/ArrowIcon";
 import { EventPackages } from "./EventPackages/type";
 import { localizedTitle } from "@/shared/lib/localization";
+import { T_EVENT_PACKAGE_FEE } from "../PackageFees/type";
 
 interface ServicesCardProps {
+  feesMap: { [k: string]: T_EVENT_PACKAGE_FEE };
   service: EventPackages;
   selectedPackages: Record<
     string,
@@ -33,6 +35,7 @@ interface ServicesCardProps {
 const MAX_QUANTITY = 99;
 
 export default function ServicesCard({
+  feesMap,
   service,
   selectedPackages,
   setSelectedPackages,
@@ -150,15 +153,13 @@ export default function ServicesCard({
 
           {!!service.eventPackageFeeId ? (
             <div className="flex gap-2 items-center ">
-              <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                {/* +{service.eventPackageFee.price}
-                {service.eventPackageFee.currency} */}
-                +{service.eventPackageFeeId}
-                {service.eventPackageFeeId}
-              </p>
-              <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                {/* {localizedTitle(service.eventPackageFee, locale)} */}
-              </p>
+              {feesMap &&
+                service.eventPackageFeeId in feesMap &&
+                feesMap[service.eventPackageFeeId] && (
+                  <p className="font-nexa text-[10px] text-[#9D9D9D]">
+                    {localizedTitle(feesMap[service.eventPackageFeeId], locale)}
+                  </p>
+                )}
             </div>
           ) : null}
         </div>
