@@ -121,7 +121,7 @@ function Home() {
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
           <SkeletonImage
-          src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
+            src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
             // src={`htts://api.event.oguzforum.com${eventData?.bannerImage}`}
             alt="bannerImage"
             fill
@@ -152,7 +152,7 @@ function Home() {
                   : null}
               </h1>
 
-              <p className="mt-1 flex flex-wrap items-center sm:gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
+              <p className="mt-1 flex flex-wrap items-center gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
                 <span>{t("date")}</span>
                 <span className="text-white hidden lg:block">|</span>
                 <span>{t("location")}</span>
