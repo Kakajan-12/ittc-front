@@ -63,15 +63,8 @@ export default function MobileMenu({
         <div className="flex flex-col gap-3 mt-4">
           <Link
             href="http://104.207.74.50:3001"
-            onClick={(e) => e.preventDefault()}
-            aria-disabled="true"
             className="flex h-10 w-full items-center justify-center gap-2 rounded border border-brand-gray px-5 text-base font-normal text-brand-gray transition"
           >
-            <LockIcon
-              width={15}
-              height={15}
-              color={"black"}
-            />
             <span className="leading-none">{t("login")}</span>
             <span className="w-2" />
           </Link>

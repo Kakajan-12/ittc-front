@@ -105,28 +105,38 @@ export default function NavBar({
           )}
 
           <div className="flex items-center gap-2">
-            <Tooltip title={t("comingSoon")}>
-              <span>
-                <Link
-                  href="http://104.207.74.50:3001"
-                  aria-disabled="true"
-                  tabIndex={-1}
-                  className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
-                    darkText
-                      ? "border-brand-gray text-brand-gray"
-                      : "border-white text-white"
-                  }`}
-                >
-                  <LockIcon
+            <Link
+              href="http://104.207.74.50:3001"
+              className={`flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+                darkText
+                  ? "border-brand-gray text-brand-gray"
+                  : "border-white text-white"
+              }`}
+            >
+              <span className="leading-none">{t("login")}</span>
+            </Link>
+            {/* <Tooltip title={t("comingSoon")}> */}
+            {/* <span>
+              <Link
+                href="http://104.207.74.50:3001"
+                // aria-disabled="true"
+                tabIndex={-1}
+                className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+                  darkText
+                    ? "border-brand-gray text-brand-gray"
+                    : "border-white text-white"
+                }`}
+              >
+                <LockIcon
                     width={15}
                     height={15}
                     color={darkText ? "black" : "white"}
                   />
 
-                  <span className="leading-none">{t("login")}</span>
-                </Link>
-              </span>
-            </Tooltip>
+                <span className="leading-none">{t("login")}</span>
+              </Link>
+            </span> */}
+            {/* </Tooltip> */}
 
             <Link
               href="/register"
