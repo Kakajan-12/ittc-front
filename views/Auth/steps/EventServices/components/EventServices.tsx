@@ -88,7 +88,7 @@ export default function EventServices() {
       const res = await API_V2.EVENT_PACKAGES.LIST({ offset: 0, limit: 100 });
       return res.rows;
     },
-  });
+  })
 
   // Пакеты, уже сохранённые в драфте: их подставляем при возврате на шаг,
   // если в этой сессии выбор ещё не делали
