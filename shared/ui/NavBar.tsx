@@ -107,30 +107,29 @@ export default function NavBar({
         {/* <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex"> */}
 
         <div className="hidden md:flex items-center gap-2">
-          <Tooltip title={t("comingSoon")}>
-            <span>
-              <Link
-                href="http://104.207.74.50:3001"
-                aria-disabled="true"
-                tabIndex={-1}
-                className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
-                  darkText
-                    ? "border-brand-gray text-brand-gray"
-                    : "border-white text-white"
-                }`}
-              >
-                <div className="flex justify-center items-center mb-1 gap-2">
-                  <LockIcon
+          {/* <Tooltip title={t("comingSoon")}> */}
+          <span>
+            <Link
+              href="https://event.oguzforum.com"
+              tabIndex={-1}
+              className={`flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+                darkText
+                  ? "border-brand-gray text-brand-gray"
+                  : "border-white text-white"
+              }`}
+            >
+              <div className="flex justify-center items-center mb-1 gap-2">
+                {/* <LockIcon
                     width={15}
                     height={15}
                     color={darkText ? "black" : "white"}
-                  />
+                  /> */}
 
-                  <span className="leading-none mt-1">{t("login")}</span>
-                </div>
-              </Link>
-            </span>
-          </Tooltip>
+                <span className="leading-none mt-1">{t("login")}</span>
+              </div>
+            </Link>
+          </span>
+          {/* </Tooltip> */}
 
           <Link
             href="/register"
