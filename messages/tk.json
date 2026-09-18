@@ -421,7 +421,8 @@
       "positionPlaceholder": "Wezipesi",
       "terms": "Men <terms>ulanyş şertlerini</terms> we <privacy>gizlinlik syýasatyny</privacy> kabul edýärin",
       "next": "Indiki",
-      "sending": "Iberilýär..."
+      "sending": "Iberilýär...",
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
     },
     "company": {
       "companyName": "Kompaniýanyň ady",
@@ -565,7 +566,8 @@
       "INVALID_EMAIL_CODE": "Kod nädogry, barlaň-da gaýtadan synanyşyň",
       "SEND_EMAIL_FAILED": "Kody ugratmak başartmady, gaýtadan synanyşyň",
       "VERIFY_EMAIL_FAILED": "Kody barlamak başartmady, gaýtadan synanyşyň",
-      "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň"
+      "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň",
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
     }
   }
 }

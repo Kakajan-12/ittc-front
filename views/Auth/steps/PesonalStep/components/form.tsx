@@ -6,7 +6,7 @@ import PhoneInput from "@/shared/ui/PhoneInput";
 import { usePersonalStepForm } from "../hook";
 import { useRouter } from "next/navigation";
 import { useErrorText } from "@/shared/lib/errorText";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_V2 } from "@/shared/api_v2";
 
 interface PersonalStepProps {

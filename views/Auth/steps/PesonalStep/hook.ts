@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { _Translator } from "next-intl";
+import { _Translator, useTranslations } from "next-intl";
 import { ZodError } from "zod";
 
 import { PersonalStepRequest, personalStepSchema } from "./validation";
@@ -134,6 +134,15 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         throw result.error;
       }
 
+      const emailExists = await API_V2.PERSONAL_STEP.CHECK_MAIL(
+        result.data.email,
+      );
+
+      if (emailExists) {
+        setError(t("EMAIL_ALREADY_EXISTS"));
+        return false;
+      }
+
       const payload: PersonalStepRequest = {
         firstName: result.data.firstName,
         lastName: result.data.lastName,
@@ -144,7 +153,6 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
-        // expiredAt: new Date(),
       };
 
       if (draftId) {
