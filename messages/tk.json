@@ -515,7 +515,8 @@
       "verifying": "Barlanýar...",
       "noCode": "Kod gelmedimi?",
       "resend": "Gaýtadan ibermek",
-      "resending": "Iberilýär..."
+      "resending": "Iberilýär...",
+      "error-otp": "Tassyklaýyş kody nädogry"
     },
     "success": {
       "title": "Arza iberildi",

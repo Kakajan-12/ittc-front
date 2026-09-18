@@ -42,7 +42,7 @@ export default function VerificationStep({
 
   return (
     <form
-      className="flex flex-col items-center gap-5 text-center mt-16"
+      className="flex flex-col items-center gap-5 text-center mt-16 "
       onSubmit={async (e) => {
         e.preventDefault();
         const ok = await handleSubmit();
@@ -64,7 +64,9 @@ export default function VerificationStep({
 
       <p className="font-nexa text-sm text-gray-400">{t("hint")}</p>
 
-      {error && <p className="font-nexa text-sm text-[#DE7A7A]">{error}</p>}
+      {error && (
+        <p className="font-nexa text-sm text-[#DE7A7A]">{t("error-otp")}</p>
+      )}
 
       <button
         type="submit"

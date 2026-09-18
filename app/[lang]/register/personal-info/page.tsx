@@ -10,7 +10,7 @@ export default function PersonalStep() {
   const [showTerms, setShowTerms] = useState(false);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col text-white">
+    <div className="flex min-h-0 flex-1 flex-col text-white mt-5">
       {" "}
       <PersonalStepForm onShowTerms={() => setShowTerms(true)} />
       <TermsModal open={showTerms} onClose={() => setShowTerms(false)} />

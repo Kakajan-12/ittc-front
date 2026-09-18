@@ -24,8 +24,8 @@
     "hotel": "Book a Hotel",
     "news": "News",
     "register": "Register",
-    "login":"Login",
-    "comingSoon":"Comming soon"
+    "login": "Login",
+    "comingSoon": "Comming soon"
   },
   "Hero": {
     "title": "International Transport & Transit Corridors Conference 2026",
@@ -513,7 +513,8 @@
       "verifying": "Verifying...",
       "noCode": "Didn't receive a code?",
       "resend": "Resend",
-      "resending": "Sending..."
+      "resending": "Sending...",
+      "error-otp": "Incorrect verification code"
     },
     "success": {
       "title": "Your request has been sent",

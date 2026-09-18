@@ -33,8 +33,6 @@ export default function PersonalStepForm({
     error,
   } = usePersonalStepForm({ t: tErrors });
 
-  // Галка живёт в самой форме, а не отдельным состоянием: иначе при возврате
-  // на шаг она сбрасывалась и затирала уже принятые условия
   const accepted =
     personalForm.privacyPolicyAccepted &&
     personalForm.termsAndConditionsAccepted;

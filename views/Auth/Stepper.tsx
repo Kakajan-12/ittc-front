@@ -50,13 +50,12 @@ export default function Stepper({ steps }: StepperProps) {
             key={i.key}
             aria-label={t(i.i18key)}
             aria-current={isActive ? "step" : undefined}
-            // disabled={isLocked}
+            disabled={isLocked}
             onClick={() => i.link && router.push(i.link)}
             style={{ flexGrow: tabWidth(isActive) }}
-            className={`relative h-10 min-w-0 basis-0`}
-            // ${
-            //   isLocked ? "cursor-not-allowed opacity-60" : "cursor-pointer"
-            // }
+            className={`relative h-10 min-w-0 basis-0 ${
+              isLocked ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            }`}
           >
             <StepTab
               variant={String(index) as TabVariant}

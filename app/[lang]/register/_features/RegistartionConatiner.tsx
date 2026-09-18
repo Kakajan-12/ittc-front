@@ -69,8 +69,8 @@ overflow: hidden; */
     <RegistrationContainerContext.Provider
       value={{ showSuccess, setShowSuccess }}
     >
-      <div className="flex justify-between lg:w-1/2 lg:pr-8 lg:py-8 items-start ">
-        <div className="relative lg:glass lg:min-h-0 flex h-full overflow-hidden min-h-0 w-full flex-col gap-4 rounded-2xl px-4 pb-6">
+      <div className="flex w-full justify-between lg:w-1/2 lg:pr-8 lg:py-8 items-start">
+        <div className="relative lg:glass lg:min-h-0 flex h-full overflow-hidden min-h-0 w-full flex-col gap-4 rounded-none lg:rounded-2xl px-4 pb-6">
           <StepHeader />
           <div className="flex flex-col gap-5 w-full items-center justify-center">
             <Link href="/" className="shrink-0">
@@ -87,8 +87,8 @@ overflow: hidden; */
               {t("platform")}
             </span>
           </div>
-          {!showSuccess && <Stepper steps={steps} />}
-          <div className="flex min-h-0 flex-1 flex-col sm:px-12 xl:px-20">
+          <Stepper steps={steps} />
+          <div className="flex min-h-0 flex-1 flex-col w-full sm:px-12 xl:px-20">
             <span className="border-b border-[#05518B]/80"></span>
             {children}
           </div>

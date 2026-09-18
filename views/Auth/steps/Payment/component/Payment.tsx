@@ -226,7 +226,7 @@ export default function PaymentForm() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex h-full min-h-0 flex-1 flex-col gap-6 overflow-y-auto pt-6">
+      <div className="flex h-full min-h-0 flex-1 flex-col gap-6 overflow-y-auto pt-2.5">
         {/* Promo code */}
         <div className="flex flex-col gap-2">
           <div className="flex items-start gap-3">
@@ -267,7 +267,7 @@ export default function PaymentForm() {
             </p>
           )}
           {promoError && (
-            <p className="font-nexa text-sm text-[#DE7A7A]">{promoError}</p>
+            <p className="font-nexa text-sm text-[#DE7A7A]">{t('invalidPromo')}</p>
           )}
         </div>
         {!isEventPackagesLoading && eventPackages && (

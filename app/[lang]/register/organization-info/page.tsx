@@ -2,7 +2,7 @@ import OrganizationStepForm from "@/views/Auth/steps/OrganizationStep/components
 
 export default function page() {
   return (
-    <div className="text-white h-full">
+    <div className="text-white h-full mt-5">
       <OrganizationStepForm />
     </div>
   );

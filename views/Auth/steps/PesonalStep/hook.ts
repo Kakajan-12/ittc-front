@@ -4,7 +4,6 @@ import { _Translator } from "next-intl";
 import { ZodError } from "zod";
 
 import { PersonalStepRequest, personalStepSchema } from "./validation";
-import { API } from "@/shared/api";
 import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";

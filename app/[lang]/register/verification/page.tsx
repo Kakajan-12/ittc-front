@@ -9,7 +9,7 @@ export default function VerificationPage() {
   const router = useRouter();
 
   if (showSuccess) {
-    return <SuccessModal plainBackdrop open onClose={() => router.push("/")} />;
+    return <SuccessModal inline open onClose={() => router.push("/")} />;
   }
 
   return (

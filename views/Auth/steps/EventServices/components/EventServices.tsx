@@ -260,7 +260,7 @@ export default function EventServices() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-1">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
         <div className="glass-btn shrink-0 rounded bg-white/10 p-3">
           <ConfigProvider
             theme={{
@@ -356,7 +356,7 @@ export default function EventServices() {
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-white/20 bg-white p-4 -mx-4 -mb-6 rounded-none lg:rounded-b-2xl">
+      <div className="shrink-0 border-t border-white/20 bg-white p-4 lg:-mx-16 xl:-mx-24 -mb-6 rounded-none lg:rounded-b-2xl">
         <div className="flex items-center justify-between gap-3">
           <span className="font-nexa text-sm text-[#9D9D9D] sm:text-base">
             {t("positions", { count: summary.positions })}
