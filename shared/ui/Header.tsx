@@ -44,7 +44,7 @@ function Header({ menuOpen = false }: { menuOpen?: boolean }) {
                 <span>info@oguzforum.com</span>
               </a>
             </li>
-            <li className=" flex items-center gap-2">
+            <li className=" flex items-center gap-2 z-50">
               <LangSwitcher isOpen={true} />
             </li>
           </ul>

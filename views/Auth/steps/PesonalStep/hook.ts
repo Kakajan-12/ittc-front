@@ -1,149 +1,16 @@
-// import { useCallback, useState } from "react";
-
-// import { PersonalStepRequest, personalStepSchema } from "./validation";
-// import { API } from "@/shared/api";
-// import { useMutation } from "@tanstack/react-query";
-// import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
-// import { ZodError } from "zod";
-// import { getErrorMessage } from "./dictionary";
-// import { _Translator } from "next-intl";
-// import { usePersistentState } from "@/shared/lib/usePersistentState";
-// import { STORAGE_KEYS } from "@/views/Auth/config";
-
-// type PersonalForm = Omit<
-//   PersonalStepRequest,
-//   "privacyPolicyAccepted" | "termsAndConditionsAccepted"
-// > & {
-//   privacyPolicyAccepted: boolean;
-//   termsAndConditionsAccepted: boolean;
-// };
-
-// const initialState: PersonalForm = {
-//   eventId: 1,
-//   firstName: "",
-//   lastName: "",
-//   patronymicName: "",
-//   email: "",
-//   phoneNumber: "",
-//   position: "",
-//   privacyPolicyAccepted: false,
-//   termsAndConditionsAccepted: false,
-// };
-
-// type UsePersonalStepFormProps = {
-//   t: _Translator<Record<string, any>, "Registration.personal">;
-//   id?: number;
-// };
-// export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
-//   const [personalForm, setPersonalForm] = useState<PersonalForm>(initialState);
-//   const [error, setError] = useState<string>("");
-//   const [storedDraftId, setStoredDraftId] = usePersistentState<number | null>(
-//     STORAGE_KEYS.draftId,
-//     null,
-//   );
-
-//   const draftId = id ?? storedDraftId;
-
-//   // const { data, isLoading } = useQuery({
-//   //   enabled: !!draftId,
-//   //   queryKey: ["personalStep", draftId],
-//   //   queryFn: () => API.PERSONAL_STEP.GET(Number(draftId)),
-//   // });
-
-//   const resetForm = useCallback(() => {
-//     setPersonalForm(initialState);
-//   }, []);
-
-//   const createMutation = useMutation({
-//     mutationFn: async (data: PersonalStepRequest) =>
-//       await API.PERSONAL_STEP.CREATE(data),
-//     onSuccess: async (response) => {
-//       setStoredDraftId(response.id);
-//       localStorage.setItem("eventDraft", JSON.stringify(response));
-//       resetForm();
-//       //   router.back();
-//     },
-//   });
-
-//   const editMutation = useMutation({
-//     mutationFn: (data: PersonalStepRequest) => {
-//       if (!draftId) {
-//         throw new Error("NO ID PROVIDED");
-//       }
-
-//       return API.PERSONAL_STEP.UPDATE(Number(draftId), data);
-//     },
-
-//     onSuccess: async (response) => {
-//       localStorage.setItem("eventDraft", JSON.stringify(response));
-//       //   router.back();
-//     },
-//   });
-
-//   const handleSubmit = useCallback(async () => {
-//     try {
-//       const result = personalStepSchema.safeParse(personalForm);
-
-//       if (!result.success) {
-//         throw result.error;
-//       }
-
-//       const payload: PersonalStepRequest = {
-//         firstName: result.data.firstName,
-//         lastName: result.data.lastName,
-//         patronymicName: result.data.patronymicName,
-//         email: result.data.email,
-//         phoneNumber: result.data.phoneNumber,
-//         position: result.data.position,
-//         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
-//         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
-//         eventId: result.data.eventId,
-//       };
-
-//       if (draftId) {
-//         await editMutation.mutateAsync(payload);
-//       } else {
-//         await createMutation.mutateAsync(payload);
-//       }
-//       return true;
-//     } catch (error) {
-//       if (error instanceof ZodError) {
-//         const firstError = error.issues[0];
-
-//         setError(
-//           getErrorMessage({
-//             t,
-//             errorCode: firstError.message as PERSONAL_STEP_ERROR_CODE,
-//           }),
-//         );
-//       }
-//     }
-//   }, [draftId, personalForm, editMutation, createMutation, t]);
-
-//   const isSubmitting = createMutation.isPending || editMutation.isPending;
-
-//   return {
-//     personalForm,
-//     setPersonalForm,
-//     resetForm,
-//     handleSubmit,
-//     isSubmitting,
-//     // isLoading,
-//     error,
-//   };
-// }
-
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { _Translator } from "next-intl";
+import { _Translator, useTranslations } from "next-intl";
 import { ZodError } from "zod";
 
 import { PersonalStepRequest, personalStepSchema } from "./validation";
-import { API } from "@/shared/api";
 import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { API_V2 } from "@/shared/api_v2";
+import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
+import type { RegistrationDraft } from "@/views/Auth/types";
 
 type PersonalForm = Omit<
   PersonalStepRequest,
@@ -154,7 +21,7 @@ type PersonalForm = Omit<
 };
 
 const initialState: PersonalForm = {
-  eventId: 1,
+  eventId: 4,
   firstName: "",
   lastName: "",
   patronymicName: "",
@@ -164,6 +31,32 @@ const initialState: PersonalForm = {
   privacyPolicyAccepted: false,
   termsAndConditionsAccepted: false,
 };
+
+/** Форму ещё не заполняли — можно подставить сохранённое в драфте */
+function isPristine(form: PersonalForm) {
+  return (
+    !form.firstName &&
+    !form.lastName &&
+    !form.patronymicName &&
+    !form.email &&
+    !form.phoneNumber &&
+    !form.position
+  );
+}
+
+function fromDraft(draft: RegistrationDraft): PersonalForm {
+  return {
+    eventId: draft.eventId ?? initialState.eventId,
+    firstName: draft.firstName ?? "",
+    lastName: draft.lastName ?? "",
+    patronymicName: draft.patronymicName ?? "",
+    email: draft.email ?? "",
+    phoneNumber: draft.phoneNumber ?? "",
+    position: draft.position ?? "",
+    privacyPolicyAccepted: !!draft.privacyPolicyAccepted,
+    termsAndConditionsAccepted: !!draft.termsAndConditionsAccepted,
+  };
+}
 
 type UsePersonalStepFormProps = {
   t: _Translator<Record<string, any>, "Registration.personal">;
@@ -185,21 +78,35 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
 
   const draftId = id ?? storedDraftId;
 
+  const draft = useRegistrationDraft();
+
   const resetForm = useCallback(() => {
     setPersonalForm(initialState);
     setError("");
   }, [setPersonalForm]);
 
+  // Возврат на шаг назад: поля заполняем из драфта. Введённое в этой сессии
+  // важнее — оно уже лежит в `sessionStorage`, поэтому подставляем только в
+  // нетронутую форму и только для того драфта, с которым идёт регистрация.
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    if (!draftId || draft?.id !== draftId) return;
+
+    hydrated.current = true;
+
+    setPersonalForm((prev) => (isPristine(prev) ? fromDraft(draft) : prev));
+  }, [draft, draftId, setPersonalForm]);
+
   const createMutation = useMutation({
     mutationFn: async (data: PersonalStepRequest) =>
-      await API.PERSONAL_STEP.CREATE(data),
+      await API_V2.PERSONAL_STEP.CREATE(data),
 
     onSuccess: async (response) => {
       setStoredDraftId(response.id);
 
-      localStorage.setItem("eventDraft", JSON.stringify(response));
-
-      resetForm();
+      saveDraft(response);
     },
   });
 
@@ -209,11 +116,11 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         throw new Error("NO ID PROVIDED");
       }
 
-      return API.PERSONAL_STEP.UPDATE(Number(draftId), data);
+      return API_V2.PERSONAL_STEP.UPDATE(Number(draftId), data);
     },
 
     onSuccess: async (response) => {
-      localStorage.setItem("eventDraft", JSON.stringify(response));
+      saveDraft(response);
     },
   });
 
@@ -225,6 +132,15 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
 
       if (!result.success) {
         throw result.error;
+      }
+
+      const emailExists = await API_V2.PERSONAL_STEP.CHECK_MAIL(
+        result.data.email,
+      );
+
+      if (emailExists) {
+        setError(t("EMAIL_ALREADY_EXISTS"));
+        return false;
       }
 
       const payload: PersonalStepRequest = {
@@ -248,14 +164,18 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
       return true;
     } catch (error) {
       if (error instanceof ZodError) {
-        const firstError = error.issues[0];
-
+        const code = error.issues[0].message;
         setError(
-          getErrorMessage({
-            t,
-            errorCode: firstError.message as PERSONAL_STEP_ERROR_CODE,
-          }),
+          t.has(code as PERSONAL_STEP_ERROR_CODE)
+            ? getErrorMessage({
+                t,
+                errorCode: code as PERSONAL_STEP_ERROR_CODE,
+              })
+            : code,
         );
+      } else {
+        // Иначе ошибка запроса уходила в никуда: шаг молча не переключался.
+        setError(error instanceof Error ? error.message : String(error));
       }
 
       return false;

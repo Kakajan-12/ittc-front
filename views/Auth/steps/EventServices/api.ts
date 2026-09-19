@@ -1,30 +1,27 @@
-import { createCrudApi, type T_API_RESPONSE } from "@/shared/api/crud";
+import { HTTP } from "@/shared/api_v2/http";
 import { RegistrationDraft } from "../../types";
 import { EventServices } from "./type";
-import { HTTP } from "@/shared/api/http";
+import { API_BASE } from "@/shared/api/config";
+import { createCrudApi, T_API_RESPONSE } from "@/shared/api_v2/crud";
 
 export const EVENT_SERVICES = createCrudApi<RegistrationDraft>({
-  resource: "registration-drafts",
-  searchFields: [],
-  orderByFields: [],
-  filterFields: [],
-  updatePath: (id) => `${id}/packages`,
+  resource: "registrationDraft",
 });
 
 export const EVENT_SERVICE_STEP_REQUEST = async ({
   draftId,
   payload,
 }: {
-  draftId: string;
+  draftId: number;
   payload: EventServices;
 }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    const resource = "registration-drafts";
+    const baseUrl = `https://api.event.oguzforum.com/api/v1`;
+    const resource = "registrationDraft";
 
-    const res = await HTTP.PATCH<T_API_RESPONSE<RegistrationDraft>>({
-      url: `${baseUrl}/${resource}/${draftId}/packages`,
-      body: { ...payload },
+    const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({
+      url: `${baseUrl}/${resource}/calculatePackageTotal`,
+      body: { fields: { ...payload, registrationDraftId: draftId } },
     });
     if (res.statusCode === 200 && res.data?.success) {
       return res.data.data;

@@ -5,6 +5,7 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const API_PROXY_TARGET =
   process.env.API_PROXY_TARGET ?? "https://api.event.oguzforum.com";
+// NEXT_PUBLIC_BACKEND_URL=https://api.event.oguzforum.com
 
 /** Whatever host the content API is deployed on may serve images. */
 const CONTENT_API_HOST = (() => {
@@ -35,7 +36,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.ittc.com",
+        hostname: "api.event.oguzforum.com",
         port: "",
         pathname: "/uploads/**",
       },

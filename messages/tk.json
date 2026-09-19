@@ -23,7 +23,9 @@
     "flight": "Uçar biletini bron etmek",
     "hotel": "Myhmanhana bron etmek",
     "news": "Habarlar",
-    "register": "Hasaba durmak"
+    "register": "Hasaba durmak",
+    "login": "Giriş",
+    "comingSoon": "Ýakyn wagtda"
   },
   "Hero": {
     "title": "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
@@ -272,7 +274,8 @@
       "positionPlaceholder": "Wezipesi",
       "terms": "Men <terms>ulanyş şertlerini</terms> we <privacy>gizlinlik syýasatyny</privacy> kabul edýärin",
       "next": "Indiki",
-      "sending": "Iberilýär..."
+      "sending": "Iberilýär...",
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
     },
     "company": {
       "companyName": "Kompaniýanyň ady",
@@ -366,7 +369,8 @@
       "verifying": "Barlanýar...",
       "noCode": "Kod gelmedimi?",
       "resend": "Gaýtadan ibermek",
-      "resending": "Iberilýär..."
+      "resending": "Iberilýär...",
+      "error-otp": "Tassyklaýyş kody nädogry"
     },
     "success": {
       "title": "Arza iberildi",
@@ -415,7 +419,8 @@
       "INVALID_EMAIL_CODE": "Kod nädogry, barlaň-da gaýtadan synanyşyň",
       "SEND_EMAIL_FAILED": "Kody ugratmak başartmady, gaýtadan synanyşyň",
       "VERIFY_EMAIL_FAILED": "Kody barlamak başartmady, gaýtadan synanyşyň",
-      "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň"
+      "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň",
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
     }
   }
 }

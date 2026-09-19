@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
+import { phoneErrorMessage } from "@/shared/lib/phone";
 
 export const personalStepSchema = z.object({
   eventId: z.number(),
@@ -11,19 +12,22 @@ export const personalStepSchema = z.object({
     .string()
     .min(2, PERSONAL_STEP_ERROR_CODE.SURNAME_IS_TOO_SMALL)
     .max(50, PERSONAL_STEP_ERROR_CODE.SURNAME_IS_TOO_BIG),
-  /**
-   * Необязательное поле. Пустое значение приводится к `null`: пустую строку
-   * бэкенд отклоняет ("patronymicName: Value is required").
-   */
   patronymicName: z
     .string()
     .nullable()
     .optional()
     .transform((value) => value?.trim() || null),
   email: z.email(PERSONAL_STEP_ERROR_CODE.EMAIL_IS_INVALID),
+  // Виджет хранит номер в E.164 ("+99361234567"); сообщение строится под
+  // страну — называет ожидаемое число цифр — поэтому идёт как есть, минуя
+  // PERSONAL_STEP_ERROR_CODE (см. `useErrorText`).
   phoneNumber: z
     .string()
-    .min(2, PERSONAL_STEP_ERROR_CODE.PHONE_NUMBER_IS_INVALID),
+    .trim()
+    .superRefine((value, ctx) => {
+      const message = phoneErrorMessage(value);
+      if (message) ctx.addIssue({ code: "custom", message });
+    }),
   position: z
     .string()
     .min(2, PERSONAL_STEP_ERROR_CODE.POSITION_IS_TOO_SMALL)

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ConfigProvider, Radio, type RadioChangeEvent } from "antd";
 import { useLocale, useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
@@ -11,12 +11,14 @@ import { PRINT } from "@/shared/lib/helpers";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
 import { RegistrationDraft } from "@/views/Auth/types";
 import { STORAGE_KEYS } from "@/views/Auth/config";
+import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
 import { formatPrice } from "@/views/Auth/servicesData";
-import { APPLY_PROMOCODE_REQUEST } from "@/views/Auth/Promocodes/api";
-import { findPromocode } from "@/views/Auth/Promocodes/utils";
-import { T_Promocode } from "@/views/Auth/Promocodes/type";
+// import { findPromocode } from "@/views/Auth/Promocodes/utils";
+// import { T_Promocode } from "@/views/Auth/Promocodes/type";
 import { usePayment } from "../hook";
 import { useRouter } from "next/navigation";
+import { API_V2 } from "@/shared/api_v2";
+import { T_PAYMENT } from "../type";
 
 export default function PaymentForm() {
   const t = useTranslations("Registration.payment");
@@ -25,12 +27,44 @@ export default function PaymentForm() {
   const router = useRouter();
   const [promoCode, setPromoCode] = useState("");
   const [promoError, setPromoError] = useState("");
-  const [appliedPromo, setAppliedPromo] = useState<T_Promocode | null>(null);
-  const [savedDraft, setSavedDraft] = useState<RegistrationDraft>();
+  const savedDraft = useRegistrationDraft();
   const [draftId] = usePersistentState<number | null>(
     STORAGE_KEYS.draftId,
     null,
   );
+
+  // const applyPromoCodeMutation = useMutation({
+  //   mutationFn: async (code: string): Promise<RegistrationDraft> => {
+  //     if (!draftId) throw new Error("NO_ID_PROVIDED");
+
+  //     return API_V2.PAYMENT.APPLY_PROMOCODE({
+  //       draftId,
+  //       payload: { promocodeCode: code } as T_PAYMENT,
+  //     });
+  //   },
+
+  //   onSuccess: (updatedDraft) => {
+  //     const draft = updatedDraft?.data ?? updatedDraft;
+
+  //     localStorage.setItem("eventDraft", JSON.stringify(draft));
+  //     setSavedDraft(draft);
+  //     setPromoCode(draft.promocodeCode ?? promoCode);
+  //     setPromoError("");
+  //   },
+
+  //   onError: (error) => {
+  //     setPromoError(error instanceof Error ? error.message : t("invalidPromo"));
+  //   },
+  // });
+
+  // const onApplyPromoCode = () => {
+  //   const code = promoCode.trim().toUpperCase();
+
+  //   if (!code) return;
+
+  //   setPromoError("");
+  //   applyPromoCodeMutation.mutate(code);
+  // };
 
   const {
     paymentMethodId: selectedPaymentMethodId,
@@ -38,28 +72,43 @@ export default function PaymentForm() {
     handleSubmit,
     isSubmitting,
     error: submitError,
-  } = usePayment({ t: tErrors, draft: savedDraft });
+  } = usePayment({ t: tErrors, draft: savedDraft ?? undefined });
+
+  const currentDraftId = draftId ?? savedDraft?.id ?? null;
+
+  const { data: draftPackages } = useQuery({
+    enabled: !!currentDraftId,
+    queryKey: ["draftPackages", currentDraftId],
+    queryFn: async () => {
+      const res = await API_V2.PAYMENT.DRAFT_PACKAGES_LIST({
+        draftId: currentDraftId!,
+      });
+      return res.rows;
+    },
+  });
+
+  const packageRows = draftPackages ?? savedDraft?.draftPackageRows ?? [];
 
   const {
     data: eventPackages,
     isLoading: isEventPackagesLoading,
     isError: IsEventPackagesError,
   } = useQuery({
-    enabled: !!savedDraft?.packages?.length,
-    queryKey: ["eventPackagesList", savedDraft?.packages],
+    enabled: !!packageRows.length,
+    queryKey: ["eventPackagesList", packageRows.map((i) => i.eventPackageId)],
     queryFn: async () => {
-      const res = await API.EVENT_PACKAGES.LIST({
+      const res = await API_V2.EVENT_PACKAGES.LIST({
         offset: 0,
         limit: 100,
-        filters: [
-          {
-            field: "id",
-            op: "in",
-            val: savedDraft?.packages?.map((i) => i.eventPackageId) ?? [],
-          },
-        ],
+        // filters: [
+        //   {
+        //     field: "id",
+        //     op: "in",
+        //     val: savedDraft?.packages?.map((i) => i.eventPackageId) ?? [],
+        //   },
+        // ],
       });
-      return res.items;
+      return res.rows;
     },
   });
 
@@ -70,88 +119,95 @@ export default function PaymentForm() {
   } = useQuery({
     queryKey: ["paymentMethod"],
     queryFn: async () => {
-      const res = await API.PAYMONT_METHOD.LIST({
+      const res = await API_V2.PAYMONT_METHOD.LIST({
         offset: 0,
         limit: 100,
-        filters: [{ field: "status", op: "eq", val: "ACTIVE" }],
+        filter: {
+          status: {
+            op: "=",
+            val: "ACTIVE",
+          },
+        },
       });
-      console.log("paymentMethod", res.items);
-      setSelectedPaymentMethodId(res.items[0].id);
-      return res.items;
+      return res.rows;
     },
   });
 
-  const {
-    data: promoCodesList,
-    isLoading: isPromocodesListLoading,
-    isError: IsPromocodesListError,
-  } = useQuery({
-    queryKey: ["promocodesList"],
-    queryFn: async () => {
-      const res = await API.PROMOCODE.LIST({
-        offset: 0,
-        limit: 100,
-        filters: [{ field: "status", op: "eq", val: "ACTIVE" }],
-      });
-      return res.items;
-    },
-  });
+  // Возврат на шаг назад: отмечаем способ из драфта, иначе первый доступный
+  useEffect(() => {
+    if (selectedPaymentMethodId !== null || !paymentMethod?.length) return;
+
+    const fromDraft = paymentMethod.find(
+      (method) => method.id === savedDraft?.paymentMethodId,
+    );
+
+    setSelectedPaymentMethodId(fromDraft?.id ?? paymentMethod[0].id);
+  }, [
+    paymentMethod,
+    savedDraft?.paymentMethodId,
+    selectedPaymentMethodId,
+    setSelectedPaymentMethodId,
+  ]);
+
+  // const applyPromoCode = useMutation({
+  //   mutationFn: (payload: T_PAYMENT): Promise<RegistrationDraft> => {
+  //     if (!draftId) {
+  //       throw new Error("NO ID PROVIDED");
+  //     }
+
+  //     return API_V2.PAYMENT.APPLY_PROMOCODE({
+  //       draftId: draftId,
+  //       payload,
+  //     });
+  //   },
+  //   onSuccess: (updated) => {
+  //     localStorage.setItem("eventDraft", JSON.stringify(updated));
+  //   },
+  // });
 
   const applyPromoCodeMutation = useMutation({
-    mutationFn: async (promo: T_Promocode) => {
+    mutationFn: async (promoCode: string) => {
       const id = draftId ?? savedDraft?.id;
       if (!id) throw new Error("NO ID PROVIDED");
 
-      const draft = await APPLY_PROMOCODE_REQUEST({
-        draftId: String(id),
-        code: promo.code,
+      const draft = await API_V2.PAYMENT.APPLY_PROMOCODE({
+        draftId: id,
+        code: promoCode,
       });
 
-      return { draft, promo };
+      return draft;
     },
-    onSuccess: ({ draft, promo }) => {
-      localStorage.setItem("eventDraft", JSON.stringify(draft));
-      setSavedDraft(draft);
-      setAppliedPromo(promo);
-      setPromoCode(promo.code);
+    onSuccess: (draft) => {
+      const saved = saveDraft(draft);
+      setPromoCode(saved?.promocodeCode ?? promoCode);
       setPromoError("");
     },
     onError: (error) => {
-      setAppliedPromo(null);
       setPromoError(error instanceof Error ? error.message : t("invalidPromo"));
     },
   });
 
-  const onApplyPromoCode = () => {
+  const handleApplyPromoCode = () => {
     setPromoError("");
 
-    const found = findPromocode(promoCodesList ?? [], promoCode);
-
-    if (!found) {
-      setAppliedPromo(null);
+    if (!promoCode.length) {
       setPromoError(t("invalidPromo"));
       return;
     }
 
-    applyPromoCodeMutation.mutate(found);
+    applyPromoCodeMutation.mutate(promoCode);
   };
 
+  // Промокод, применённый до ухода с шага, подставляем один раз: дальше поле
+  // принадлежит пользователю — он мог начать вводить другой код
+  const hydratedPromoCode = useRef(false);
+
   useEffect(() => {
-    const raw = localStorage.getItem("eventDraft");
-    if (!raw) return;
+    if (hydratedPromoCode.current || !savedDraft?.promocodeCode) return;
 
-    const parsed = JSON.parse(raw);
-    const draft: RegistrationDraft = parsed?.data ?? parsed;
-    setSavedDraft(draft);
-    if (draft?.promocodeCode) setPromoCode(draft.promocodeCode);
-  }, []);
-
-  const applied =
-    appliedPromo ??
-    (savedDraft?.promocodeId
-      ? (promoCodesList?.find((promo) => promo.id === savedDraft.promocodeId) ??
-        null)
-      : null);
+    hydratedPromoCode.current = true;
+    setPromoCode(savedDraft.promocodeCode);
+  }, [savedDraft?.promocodeCode]);
 
   const discountRows = [
     { currency: "TMT", amount: savedDraft?.discountAmountTmt ?? 0 },
@@ -163,8 +219,11 @@ export default function PaymentForm() {
     { currency: "USD", amount: savedDraft?.totalAmountUsd ?? 0 },
   ].filter((row) => row.amount > 0);
 
-  PRINT("savedDraftsss", savedDraft);
-  // PRINT("eventPackages", eventPackages);
+  const appliedPromoCode = savedDraft?.promocodeCode ?? null;
+  const appliedDiscount = discountRows
+    .map((row) => `${formatPrice(row.amount)} ${row.currency}`)
+    .join(" + ");
+
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
       <div className="flex h-full min-h-0 flex-1 flex-col gap-6 overflow-y-auto pt-2.5">
@@ -188,16 +247,10 @@ export default function PaymentForm() {
             </div>
             <button
               type="button"
-              onClick={onApplyPromoCode}
-              disabled={
-                !promoCode.length ||
-                isPromocodesListLoading ||
-                applyPromoCodeMutation.isPending
-              }
+              onClick={handleApplyPromoCode}
+              disabled={!promoCode.length || applyPromoCodeMutation.isPending}
               className={`glass h-12 shrink-0 rounded bg-white/14 px-8 font-nexa-bold text-sm leading-normal transition-colors ${
-                !!promoCode.length &&
-                !isPromocodesListLoading &&
-                !applyPromoCodeMutation.isPending
+                !!promoCode.length && !applyPromoCodeMutation.isPending
                   ? "text-white hover:bg-white/20"
                   : "cursor-not-allowed text-white/44"
               }`}
@@ -205,21 +258,16 @@ export default function PaymentForm() {
               {applyPromoCodeMutation.isPending ? t("loading") : t("apply")}
             </button>
           </div>
-          {applied && !promoError && (
+          {!promoError && appliedPromoCode && (
             <p className="font-nexa text-sm text-white/80">
-              {applied.discountType === "PERCENTAGE"
-                ? t("applied", {
-                    code: applied.code,
-                    discount: applied.discountValue,
-                  })
-                : t("appliedFixed", {
-                    code: applied.code,
-                    discount: formatPrice(applied.discountValue),
-                  })}
+              {t("appliedFixed", {
+                code: appliedPromoCode,
+                discount: appliedDiscount,
+              })}
             </p>
           )}
           {promoError && (
-            <p className="font-nexa text-sm text-[#DE7A7A]">{promoError}</p>
+            <p className="font-nexa text-sm text-[#DE7A7A]">{t('invalidPromo')}</p>
           )}
         </div>
         {!isEventPackagesLoading && eventPackages && (
@@ -229,13 +277,13 @@ export default function PaymentForm() {
             </h3>
 
             <ul className="mt-4 flex flex-col">
-              {savedDraft?.packages?.map((i) => {
+              {packageRows.map((i) => {
                 const found = eventPackages.find(
                   (k) => k.id === i.eventPackageId,
                 );
                 return (
                   <li
-                    key={i.id}
+                    key={i.eventPackageId}
                     className="flex items-start justify-between gap-3  py-3 first:border-t-0 first:pt-0"
                   >
                     <div className="min-w-0">
@@ -260,11 +308,7 @@ export default function PaymentForm() {
                 key={`discount-${row.currency}`}
                 className="flex items-center justify-between gap-3 py-3 font-nexa text-sm text-[#DE7A7A] sm:text-base"
               >
-                <span>
-                  {applied?.discountType === "PERCENTAGE"
-                    ? t("discount", { discount: applied.discountValue })
-                    : t("discountFixed")}
-                </span>
+                <span>{t("discountFixed")}</span>
                 <span className="font-nexa-regular">
                   −{formatPrice(row.amount)} {row.currency}
                 </span>
