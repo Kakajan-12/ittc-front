@@ -3,24 +3,26 @@
 import { useRef } from "react";
 import { useTranslations } from "next-intl";
 
-import {
-  type SessionDetails as SessionDetailsData,
-  type SessionPerson,
-} from "./agendaData";
+import type {
+  SessionModel,
+  SessionPersonModel,
+} from "@/shared/content/queries";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Scrollbar from "@/shared/ui/Scrollbar";
 import SpeakerCard from "../Speakers/SpeakerCard";
 
+type SessionDetailsData = NonNullable<SessionModel["details"]>;
+
 const CARD_WRAP =
   "w-full shrink-0 snap-start sm:w-[calc(50%-0.375rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5625rem)] xl:w-[calc(20%-0.6rem)]";
 
-function PersonCard({ person }: { person: SessionPerson }) {
+function PersonCard({ person }: { person: SessionPersonModel }) {
   return (
     <SpeakerCard
-      id={person.name}
+      id={`person-${person.id}`}
       name={person.name}
       description={person.description}
-      image={person.image}
+      image={person.image ?? undefined}
       className="w-full"
     />
   );
@@ -31,7 +33,7 @@ function PeopleCarousel({
   people,
 }: {
   title: string;
-  people: SessionPerson[];
+  people: SessionPersonModel[];
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +47,8 @@ function PeopleCarousel({
         ref={trackRef}
         className="flex gap-3 snap-x snap-mandatory overflow-x-auto scroll-smooth p-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
       >
-        {people.map((person, i) => (
-          <div key={`${person.name}-${i}`} className={CARD_WRAP}>
+        {people.map((person) => (
+          <div key={person.id} className={CARD_WRAP}>
             <PersonCard person={person} />
           </div>
         ))}
@@ -62,7 +64,7 @@ function PeopleGroup({
   people,
 }: {
   label: string;
-  people: SessionPerson[];
+  people: SessionPersonModel[];
 }) {
   return (
     <div className="flex flex-col gap-6">
@@ -71,8 +73,8 @@ function PeopleGroup({
         className="mb-0 gap-2 text-lg lg:text-lg xl:text-lg"
       />
       <div className="flex flex-col gap-3">
-        {people.map((person, i) => (
-          <PersonCard key={`${person.name}-${i}`} person={person} />
+        {people.map((person) => (
+          <PersonCard key={person.id} person={person} />
         ))}
       </div>
     </div>
@@ -91,20 +93,24 @@ function SessionDetails({
 
   return (
     <div className="flex flex-col gap-8 pt-10">
-      <p className="max-w-4xl text-base leading-6 font-roboto">{description}</p>
+      {description ? (
+        <p className="max-w-4xl text-base leading-6 font-roboto">
+          {description}
+        </p>
+      ) : null}
 
-      {keynote?.length || moderators?.length ? (
+      {keynote.length || moderators.length ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {keynote?.length ? (
+          {keynote.length ? (
             <PeopleGroup label={t("keynote")} people={keynote} />
           ) : null}
-          {moderators?.length ? (
+          {moderators.length ? (
             <PeopleGroup label={t("moderator")} people={moderators} />
           ) : null}
         </div>
       ) : null}
 
-      {speakers?.length ? (
+      {speakers.length ? (
         <PeopleCarousel title={t("speakers")} people={speakers} />
       ) : null}
 

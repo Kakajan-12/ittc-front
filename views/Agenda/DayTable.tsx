@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { SlLocationPin } from "react-icons/sl";
 
@@ -13,16 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type AgendaDay, type AgendaSession } from "./agendaData";
+import type { AgendaDayModel, SessionModel } from "@/shared/content/queries";
+import SessionIcon from "./SessionIcon";
 import SessionDetails from "./SessionDetails";
 
-function SessionLogos({
-  label,
-  logos,
-}: {
-  label: string;
-  logos: StaticImageData[];
-}) {
+function SessionLogos({ label, logos }: { label: string; logos: string[] }) {
   return (
     <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-2">
       <span className="text-base font-normal font-roboto text-brand-gray">
@@ -31,9 +26,11 @@ function SessionLogos({
       <div className="flex flex-col gap-2">
         {logos.map((logo, i) => (
           <Image
-            key={`${logo.src}-${i}`}
+            key={`${logo}-${i}`}
             src={logo}
             alt=""
+            width={120}
+            height={60}
             className="h-15 w-auto shrink-0 object-contain"
           />
         ))}
@@ -42,7 +39,7 @@ function SessionLogos({
   );
 }
 
-function SessionTime({ session }: { session: AgendaSession }) {
+function SessionTime({ session }: { session: SessionModel }) {
   return (
     <>
       {session.startTime} <br />
@@ -56,13 +53,11 @@ function SessionTime({ session }: { session: AgendaSession }) {
   );
 }
 
-function SessionTitle({ session }: { session: AgendaSession }) {
-  const Icon = session.icon;
-
+function SessionTitle({ session }: { session: SessionModel }) {
   return (
     <div className="flex items-center gap-5">
       <span className="flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-[#C3D1D9] text-brand-blue">
-        <Icon className="size-6" />
+        <SessionIcon icon={session.icon} className="size-6" />
       </span>
       <div className="flex flex-col gap-3 max-w-xl">
         <p className="text-lg font-semibold font-roboto">{session.title}</p>
@@ -79,19 +74,15 @@ function SessionTitle({ session }: { session: AgendaSession }) {
   );
 }
 
-function SessionSponsors({ session }: { session: AgendaSession }) {
+function SessionSponsors({ session }: { session: SessionModel }) {
   const t = useTranslations("Agenda");
 
-  return (
-    <>
-      {session.sponsors ? (
-        <SessionLogos label={t("sponsoredBy")} logos={session.sponsors} />
-      ) : null}
-    </>
-  );
+  if (!session.sponsors.length) return null;
+
+  return <SessionLogos label={t("sponsoredBy")} logos={session.sponsors} />;
 }
 
-function DayTable({ day }: { day: AgendaDay }) {
+function DayTable({ day }: { day: AgendaDayModel }) {
   const t = useTranslations("Agenda");
   const [openSession, setOpenSession] = useState<number | null>(null);
 
@@ -107,9 +98,10 @@ function DayTable({ day }: { day: AgendaDay }) {
       <TableBody>
         {day.sessions.map((session, i) => {
           const isOpen = openSession === i;
+
           if (session.details && isOpen) {
             return (
-              <TableRow key={`${day.id}-${i}`} className="shadow-faq py-5">
+              <TableRow key={session.id} className="shadow-faq py-5">
                 <TableCell colSpan={3} className="whitespace-normal py-5 px-7">
                   <div className="flex items-center gap-5">
                     <div className="w-60 shrink-0 text-lg font-semibold font-roboto pl-5">
@@ -134,7 +126,7 @@ function DayTable({ day }: { day: AgendaDay }) {
 
           return (
             <TableRow
-              key={`${day.id}-${i}`}
+              key={session.id}
               className="bg-white shadow-faq hover:bg-brand-blue/5 py-5 "
             >
               <TableCell className="w-71 pl-12 align-middle text-lg font-semibold font-roboto whitespace-normal">
@@ -145,7 +137,7 @@ function DayTable({ day }: { day: AgendaDay }) {
                 <SessionTitle session={session} />
               </TableCell>
 
-              {/* <TableCell className="py-5 pr-6 whitespace-normal">
+              <TableCell className="py-5 pr-6 whitespace-normal">
                 <div className="flex flex-col items-end gap-3">
                   <SessionSponsors session={session} />
                   {session.details ? (
@@ -158,7 +150,7 @@ function DayTable({ day }: { day: AgendaDay }) {
                     </button>
                   ) : null}
                 </div>
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           );
         })}

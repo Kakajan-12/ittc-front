@@ -14,8 +14,24 @@ import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
 import Button from "@/shared/ui/Button";
+import type {
+  NewsCardModel,
+  PartnerModel,
+  SpeakerModel,
+  SponsorModel,
+  StatModel,
+} from "@/shared/content/queries";
 
-function Home() {
+/** Content is fetched by the page (a server component) and passed in. */
+export type HomeProps = {
+  stats: StatModel[];
+  sponsors: SponsorModel[];
+  speakers: SpeakerModel[];
+  news: NewsCardModel[];
+  partners: PartnerModel[];
+};
+
+function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
   const t = useTranslations("Hero");
   const locale = useLocale();
   const brochurePath =
@@ -104,12 +120,12 @@ function Home() {
         <Timer />
       </div>
       <About />
-      <Results />
+      <Results stats={stats} />
       <Sponsorship />
-      <Sponsors />
-      <Speakers />
-      <News />
-      <Partners />
+      <Sponsors sponsors={sponsors} />
+      <Speakers speakers={speakers} />
+      <News news={news} />
+      <Partners partners={partners} />
     </>
   );
 }

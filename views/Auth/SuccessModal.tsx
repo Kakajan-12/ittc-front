@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 interface SuccessModalProps {
   open: boolean;
   onClose: () => void;
+  /** Extra line under the text — the visa form shows the application reference */
+  details?: string;
   /** Без затемнения — фон под модалкой остаётся чистым (экран регистрации) */
   plainBackdrop?: boolean;
 }
@@ -13,6 +15,7 @@ interface SuccessModalProps {
 export default function SuccessModal({
   open,
   onClose,
+  details,
   plainBackdrop = false,
 }: SuccessModalProps) {
   const t = useTranslations("Registration.success");
@@ -44,9 +47,17 @@ export default function SuccessModal({
           {t("title")}
         </h2>
 
-        <p className="mb-8 font-nexa text-xs lg:text-sm text-white">
+        <p className="mb-3 font-nexa text-xs lg:text-sm text-white">
           {t("text")}
         </p>
+
+        {details ? (
+          <p className="mb-8 font-nexa-bold text-sm lg:text-base font-bold text-white">
+            {details}
+          </p>
+        ) : (
+          <span className="mb-5" />
+        )}
 
         <button
           type="button"

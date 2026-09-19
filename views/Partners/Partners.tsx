@@ -4,33 +4,17 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import { SkeletonImage } from "@/components/ui/Skeleton";
+import type { PartnerModel } from "@/shared/content/queries";
 import "../Sponsors/Sponsors.css";
-import partner1 from "@/public/partners/1.png";
-import partner2 from "@/public/partners/2.png";
-import partner3 from "@/public/partners/3.png";
-import partner4 from "@/public/partners/4.png";
-import partner5 from "@/public/partners/5.png";
-import partner6 from "@/public/partners/6.png";
-import partner7 from "@/public/partners/7.png";
 
-const partnerData = [
-  { id: 1, name: "Partner 1", logo: partner1, category: "media" },
-  // { id: 2, name: "Partner 2", logo: partner2, category: "media" },
-  { id: 3, name: "Partner 3", logo: partner3, category: "knowledge" },
-  { id: 4, name: "Partner 4", logo: partner4, category: "media" },
-  { id: 5, name: "Partner 5", logo: partner5, category: "media" },
-  { id: 6, name: "Partner 6", logo: partner6, category: "media" },
-  { id: 7, name: "Partner 7", logo: partner7, category: "media" },
-];
-
-function formatCategoryLabel(label: string) {
+function formatLabel(label: string) {
   return label
     .split(/<br\s*\/?>/i)
     .map((part) => part.trim())
     .filter(Boolean);
 }
 
-function Partners() {
+function Partners({ partners }: { partners: PartnerModel[] }) {
   const t = useTranslations("Partner");
   const containerRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
@@ -60,7 +44,9 @@ function Partners() {
     observer.observe(group);
 
     return () => observer.disconnect();
-  }, []);
+  }, [partners.length]);
+
+  if (!partners.length) return null;
 
   return (
     <section className="overflow-x-hidden px-4 pb-10 lg:px-10 lg:pb-20">
@@ -77,10 +63,10 @@ function Partners() {
               className="marquee-group"
               aria-hidden={copyIndex > 0 || undefined}
             >
-              {partnerData.map((partner) => {
-                const categoryParts = formatCategoryLabel(
-                  t(`categories.${partner.category}`),
-                );
+              {partners.map((partner) => {
+                // The caption under the logo is the partner's role, which the
+                // CMS stores as the localized name.
+                const labelParts = formatLabel(partner.name);
 
                 return (
                   <div
@@ -89,16 +75,18 @@ function Partners() {
                   >
                     <div className="flex flex-col overflow-hidden rounded bg-white shadow-partner">
                       <div className="relative aspect-4/3 w-full">
-                        <SkeletonImage
-                          src={partner.logo}
-                          alt={copyIndex === 0 ? partner.name : ""}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                          className="object-contain py-2"
-                        />
+                        {partner.logo && (
+                          <SkeletonImage
+                            src={partner.logo}
+                            alt={copyIndex === 0 ? partner.name : ""}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                            className="object-contain py-2"
+                          />
+                        )}
                       </div>
                       <div className="border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
-                        {categoryParts.map((part, index) => (
+                        {labelParts.map((part, index) => (
                           <Fragment key={index}>
                             {index > 0 && <br />}
                             {part}

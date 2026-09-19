@@ -1,38 +1,19 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import CmsPageView from "@/views/Pages/CmsPageView";
+import { toLocale } from "@/shared/content/localize";
+import { getPage } from "@/shared/content/queries";
 
-import PageHeading from "@/shared/ui/PageHeading";
-import { useTranslations } from "next-intl";
+type PageProps = { params: Promise<{ lang: string }> };
 
-export default function TermsPage() {
-  const t = useTranslations("Terms");
-  const paragraphs = t.raw("paragraphs") as string[];
+export default async function TermsPage({ params }: PageProps) {
+  const { lang } = await params;
+  const locale = toLocale(lang);
+  const t = await getTranslations({ locale, namespace: "Terms" });
 
   return (
-    <main>
-      <PageHeading
-        title={t("title")}
-        homeLabel="Home"
-        crumbs={[{ label: t("title") }]}
-        image="/support.jpg"
-      />
-      <div className="px-4 lg:px-10 py-6 md:py-14 lg:py-20">
-        <div className="mx-auto space-y-6">
-          <p className="text-lg leading-relaxed text-brand-gray">
-            {t("description")}
-          </p>
-          {paragraphs.map((paragraph, index) => (
-            <p
-              key={index}
-              className="text-base leading-relaxed text-brand-gray"
-            >
-              {paragraph}
-            </p>
-          ))}
-          <p className="text-base leading-relaxed text-brand-gray">
-            {t("contact")} {t("email")}
-          </p>
-        </div>
-      </div>
-    </main>
+    <CmsPageView
+      page={await getPage("terms", locale)}
+      fallbackTitle={t("title")}
+    />
   );
 }

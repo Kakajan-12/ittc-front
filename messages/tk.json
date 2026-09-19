@@ -104,11 +104,6 @@
     "keynote": "Esasy çykyş",
     "moderator": "Moderator",
     "speakers": "Çykyş edýänler",
-    "phases": {
-      "before": "Maslahatdan öň",
-      "conference": "Maslahat günleri",
-      "after": "Maslahatdan soň"
-    },
     "columns": {
       "time": "Wagt",
       "session": "Sessiýa",
@@ -154,90 +149,20 @@
     "more": "Hemaýatkärlik mümkinçilikler barada giňişleýin maglumat"
   },
   "Sponsors": {
-    "title": "ITTC 2025 hemaýatkärleri",
-    "sponsors": {
-      "name1": "Bürünç derejeli hemaýatkär",
-      "name2": "Göwher derejeli hemaýatkär",
-      "name3": "Bürünç derejeli hemaýatkär",
-      "name4": "Platina derejeli hemaýatkär",
-      "name5": "Platina derejeli hemaýatkär",
-      "name6": "Bürünç derejeli hemaýatkär",
-      "name7": "Göwher derejeli hemaýatkär",
-      "name8": "Bürünç derejeli hemaýatkär"
-    }
+    "title": "ITTC 2025 hemaýatkärleri"
   },
   "Speakers": {
     "title": "Çykyş edýänler",
     "more": "Ähli çykyş edýänleriň barada giňişleýin maglumat",
     "placeholder": "Çykyş edýäniň gözlegi",
     "noResults": "\"{query}\" boýunça çykyş edýän tapylmady.",
-    "clear": "Gözlegi arassala",
-    "speakers": {
-      "1": {
-        "name": "Annaýew Batyr <br/> Amangeldiýewiç",
-        "description": "Türkmenistanyň Ministrler Kabinetiniň Başlygynyň ulag we aragatnaşyk toplumy boýunça orunbasary"
-      },
-      "2": {
-        "name": "Akmämmedow Mämmet <br/> Welmämmedowiç",
-        "description": "Türkmenistanyň demir ýol ulaglary ministri"
-      },
-      "3": {
-        "name": "Annadurdyýew Begenç <br/> Meretgeldiýewiç",
-        "description": "Türkmenistanyň awtomobil ulaglary ministri"
-      },
-      "4": {
-        "name": "Saburow Döwran <br/> Reýimbaýewiç",
-        "description": "“Türkmenhowaýollary” döwlet gullugynyň başlygy"
-      },
-      "5": {
-        "name": "Şanazarow Azat <br/> Hallyýewiç",
-        "description": "Türkmenistanyň Deňiz we derýa ulaglary döwlet gullugynyň başlygy"
-      },
-      "6": {
-        "name": "⁠Rahym Hanaýew <br/>",
-        "description": "Baş direktoryň täjirçilik boýunça orunbasary “Türkmenistanyň Ulag-logistika merkezi” AGPJ"
-      }
-    }
+    "clear": "Gözlegi arassala"
   },
   "Faq": {
     "title": "Sowallar",
     "placeholder": "Sowallary gözle",
     "noResults": "\"{query}\" boýunça sowal tapylmady.",
     "clear": "Gözlegi arassala",
-    "items": {
-      "1": {
-        "question": "ITTC 2026-a nädip hasaba durmaly?",
-        "answer": "ITTC 2026 maslahatyna hasaba durmak üçin resmi web-saýtymyz arkaly hasaba alyş tapgyryny tamamlaň. Arzaňyz kabul edilenden soň, size wekil ylalaşygy iberiler. Kömek üçin ýüz tutuň: info@ittc.tm"
-      },
-      "2": {
-        "question": "ITTC 2026 haçan we nirede geçiriler?",
-        "answer": "ITTC 2026 Türkmenistanyň Aşgabat şäherinde geçiriler. Takyk seneler we geçirilýän ýeri resmi web-saýtda yglan ediler we ähli hasaba alnan wekillere iberiler."
-      },
-      "3": {
-        "question": "Maslahata kim gatnaşyp biler?",
-        "answer": "Maslahat döwlet edaralarynyň wekilleri, pudak hünärmenleri, maýadarlar hem-de ulag, üstaşyr we logistika ulgamynda işleýän kompaniýalar üçin açykdyr. Köpçülikleýin habar beriş serişdeleriniň wekilleri öňünden akkreditasiýa bilen gatnaşyp bilerler."
-      },
-      "4": {
-        "question": "Gatnaşmak üçin töleg barmy?",
-        "answer": "Gatnaşmagyň şertleri, şol sanda mümkin bolan tölegler, hasaba alnandan soň berilýän wekil ylalaşygynda görkezilýär. Jikme-jiklikler üçin ylalaşygyňyza serediň ýa-da guramaçylar bilen habarlaşyň."
-      },
-      "5": {
-        "question": "Wiza goldawyny berýärsiňizmi?",
-        "answer": "Hawa. Türkmenistana giriş wizasy gerek bolan hasaba alnan wekillere resmi çakylyk haty we wiza resmileşdirmek boýunça görkezmeler berler."
-      },
-      "6": {
-        "question": "Gatnaşyjylar üçin ýaşaýyş jaýy guralarmy?",
-        "answer": "Guramaçylar maslahat berilýän myhmanhanalaryň sanawyny we hyzmatdaş nyrhlaryny berer. Ylalaşykda başgaça görkezilmedik bolsa, wekiller ýaşaýyş jaýyny özbaşdak bron edýärler."
-      },
-      "7": {
-        "question": "Maslahatyň maksatnamasyny nireden tapyp bilerin?",
-        "answer": "Mejlisleri, çykyş edýänleri we ugurdaş çäreleri öz içine alýan doly maksatnama resmi web-saýtda çap ediler we çäreden öň yzygiderli täzelenip durlar."
-      },
-      "8": {
-        "question": "Goşmaça maglumat üçin kime ýüz tutmaly?",
-        "answer": "Islendik goşmaça sorag üçin guramaçy topara info@ittc.tm e-poçtasy arkaly ýüz tutuň. Toparymyz size kömek etmäge şat bolar."
-      }
-    },
     "view": "Giňişleýin"
   },
   "News": {
@@ -255,11 +180,7 @@
     "readMore": "Giňişleýin"
   },
   "Partner": {
-    "title": "Hyzmatdaşlar",
-    "categories": {
-      "media": "Media <br/> hyzmatdaş",
-      "knowledge": "Bilim <br/> hyzmatdaşy"
-    }
+    "title": "Hyzmatdaşlar"
   },
   "Footer": {
     "title": "Teswirler arasynda",
@@ -283,80 +204,13 @@
     "copyright": "Ähli hukuklar goralan"
   },
   "Cookie": {
-    "title": "Cookie syasaty",
-    "description": "Cookie faýllaryny jogapkärli ulanmak arkaly tejribenizi kämilleşdirmek.",
-    "text": "Biz web sahypamyzdaky tejribenizi gowulandurmak we sahypanyň trafigini seljermek üçin kuki faýllaryny ulanýarys. Web sahypany ulanmagy dowam etdirmek bilen, siz biziň Kuki syasatymyz bilen ylalaşýarsyňyz."
+    "title": "Cookie syasaty"
   },
   "Privacy": {
-    "title": "Gizlinlik syasaty",
-    "description": "Maglumatlaryňyzy aç-açanlyk, howpsuzlyk we üns bilen goramak.",
-    "sections": [
-      {
-        "title": "1. Umumy düzgünler",
-        "body": "Bu Gizlinlik syasaty oguzforum.com web sahypasynyň (mundan beýläk — \"Sahypa\") ulanyjylarynyň şahsy maglumatlaryny işlemegiň we goramagyň tertibini kesgitleýär we Sahypany ulanmak wagtynda Sahypanyň dolandyryşy tarapyndan ulanyjy hakda alnyp bilinjek ähli maglumatlara degişlidir."
-      },
-      {
-        "title": "2. Maglumatlary ýygnamak",
-        "body": "Biz aşakdaky maglumatlary ýygnap bileris:",
-        "items": [
-          "Ulanyjy tarapyndan berlen şahsy maglumatlar (ady, e-poçta salgysy, telefon belgisi we ş.m.);",
-          "Sahypany ulanmak maglumatlary (IP salgy, brauzeriň görnüşi, enjam barada maglumat we ş.m.)."
-        ]
-      },
-      {
-        "title": "3. Maglumatlary ulanmak",
-        "body": "Ýygnalýan maglumatlar şular üçin ulanylýar:",
-        "items": [
-          "Sahypanyň işini we ulanyjy tejribesini gowulandyrmak;",
-          "Ulanyjylar bilen aragatnaşyk saklamak we soraglara jogap bermek."
-        ]
-      },
-      {
-        "title": "4. Üçünji taraplar bilen paýlaşmak",
-        "body": "Biz ulanyjylaryň şahsy maglumatlaryny olaryň razylygy bolmazdan üçünji taraplara geçirmeýäris, kanun tarapyndan talap edilýän ýa-da hyzmatlary üpjün etmek üçin zerur bolan ýagdaýlardan başga."
-      },
-      {
-        "title": "5. Maglumatlaryň howpsuzlygy",
-        "body": "Sahypanyň dolandyryşy ulanyjylaryň şahsy maglumatlaryny rugsatsyz giriş, üýtgetmek, açmak ýa-da ýok etmekden goramak üçin ähli makul guramaçylyk we tehniki çäreleri görýär."
-      },
-      {
-        "title": "6. Maglumatlary saklamak",
-        "body": "Maglumatlaryňyz diňe hyzmatlarymyzy üpjün etmek ýa-da kanuny talaplary ýerine ýetirmek üçin zerur bolan möhletde saklanýar."
-      },
-      {
-        "title": "7. Ulanyjynyň hukuklary",
-        "body": "Siziň şu hukuklaryňyz bar:",
-        "items": [
-          "Öz maglumatlaryňyza girmegi soramak.",
-          "Öz maglumatlaryňyzy düzetmek ýa-da pozmak.",
-          "Maglumatlary işlemäge razylygy islendik wagt yzyna almak."
-        ]
-      },
-      {
-        "title": "8. Syýasatyň täzelenmeleri",
-        "body": "Biz bu syýasaty täzeläp bileris. Ähli üýtgeşmeler güýje girýän senesi bilen web sahypasynda çap ediler."
-      },
-      {
-        "title": "9. Habarlaşmak",
-        "body": "Bu gizlinlik syýasaty barada soraglaryňyz bolsa, biziň bilen habarlaşyň:",
-        "items": ["+99361480080", "info@oguzforum.com"]
-      }
-    ]
+    "title": "Gizlinlik syasaty"
   },
   "Terms": {
-    "title": "Ulanyş şertleri",
-    "description": "Web sahypamyzy adalatly we kanuny ulanmak üçin düşnükli şertler.",
-    "paragraphs": [
-      "Oguz forum | expo sahypasyna hoş geldiňiz. Bu web sahypa girip we ony ulanyp, siz şu Ulanyş şertlerini berjaý etmäge razy bolýarsyňyz. Eger şu şertleriň islendik bölegi bilen razy bolmasaňyz, web sahypany ulanmagy bes ediň.",
-      "Bu web sahypada berlen mazmun diňe umumy maglumat maksatlary üçin niýetlenendir. Ähli maglumatlaryň takyk we täzelenen bolmagyny üpjün etmek üçin makul tagallalary etsek-de, biz web sahypadaky islendik mazmunyň dolulygy, takyklygy, ygtybarlylygy ýa-da elýeterliligi barada hiç hili kepillik bermeýäris.",
-      "Bu web sahypada çap edilen ähli materiallar, şol sanda tekstler, grafika, suratlar, logotipler, resminamalar we beýleki mazmun, Oguz forum | expo-nyň eýeçiligidir ýa-da degişli rugsat bilen ulanylýar we degişli intellektual eýeçilik kanunlary bilen goralýar. Bu web sahypanyň hiç bir bölegi öňünden ýazmaça razylyk bolmazdan göçürilip, köpeldilip, paýlanylyp ýa-da täjirçilik maksatlary üçin ulanylyp bilinmez.",
-      "Siz bu web sahypany diňe kanuny maksatlar üçin we onuň işine, howpsuzlygyna ýa-da elýeterliligine päsgel bermeýän görnüşde ulanmaga razy bolýarsyňyz. Web sahypa, onuň ulgamlaryna ýa-da degişli hyzmatlaryna rugsatsyz girmäge synanyşmak doly gadagandyr.",
-      "Bu web sahypa üçünji tarap web sahypalaryna baglanyşyklary öz içine alyp biler. Beýle baglanyşyklar diňe amatlylyk üçin berilýär we biz islendik daşarky web sahypalaryň mazmuny, syýasaty ýa-da tejribesi üçin jogapkär däldiris.",
-      "Degişli kanun tarapyndan rugsat berlen iň ýokary derejede, Oguz forum | expo bu web sahypany ýa-da onda saklanýan islendik maglumaty ulanmakdan ýa-da ulanyp bilmezlikden ýüze çykýan islendik göni, gytaklaýyn, tötänleýin, netijeli ýa-da ýörite zyýan üçin jogapkär bolmaz.",
-      "Biz şu Ulanyş şertlerini islendik wagt öňünden duýdurmazdan täzelemäge ýa-da üýtgetmäge hukugy özümizde saklaýarys. Islendik üýtgeşmeden soň web sahypany ulanmagy dowam etdirmek üýtgedilen şertleriň kabul edilýändigini aňladýar."
-    ],
-    "contact": "Şu Ulanyş şertleri barada soraglaryňyz bolsa, biziň bilen şu salgy boýunça habarlaşyň:",
-    "email": "info@oguzforum.com"
+    "title": "Ulanyş şertleri"
   },
   "Common": {
     "optional": "(hökman däl)",
@@ -388,7 +242,6 @@
       "hidePassword": "Paroly gizle",
       "submit": "Girmek",
       "to-platform": "Platforma geçiň",
-
       "submitting": "Girilýär…",
       "forgotId": "ID-ňizi unutdyňyzmy?",
       "errors": {
