@@ -1,5 +1,5 @@
 export type T_PAYMENT = {
-  paymentMethodId: number | null;
+  paymentMethodId?: number | null;
   promocodeId?: number | null;
   promocodeCode?: string | null;
   subtotalUsd?: number;

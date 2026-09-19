@@ -1,10 +1,18 @@
 import React from "react";
+import { getTranslations } from "next-intl/server";
 import PageHeading from "@/shared/ui/PageHeading";
-import { useTranslations } from "next-intl";
 import Agenda from "@/views/Agenda/Agenda";
+import { toLocale } from "@/shared/content/localize";
+import { getAgenda } from "@/shared/content/queries";
 
-export default function AgendaPage() {
-  const t = useTranslations("Agenda");
+type PageProps = { params: Promise<{ lang: string }> };
+
+export default async function AgendaPage({ params }: PageProps) {
+  const { lang } = await params;
+  const locale = toLocale(lang);
+  const t = await getTranslations({ locale, namespace: "Agenda" });
+  const phases = await getAgenda(locale);
+
   return (
     <main>
       <PageHeading
@@ -14,7 +22,7 @@ export default function AgendaPage() {
         image="/agenda.webp"
         objectPosition="top"
       />
-      <Agenda />
+      <Agenda phases={phases} />
     </main>
   );
 }

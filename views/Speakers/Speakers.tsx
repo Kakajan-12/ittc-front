@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import SpeakerCard from "./SpeakerCard";
-import { speakersData } from "./speakersData";
+import type { SpeakerModel } from "@/shared/content/queries";
 
 function useSlidesPerView(onResize: () => void) {
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -24,7 +24,7 @@ function useSlidesPerView(onResize: () => void) {
   return slidesPerView;
 }
 
-function Speakers() {
+function Speakers({ speakers }: { speakers: SpeakerModel[] }) {
   const t = useTranslations("Speakers");
   const trackRef = useRef<HTMLDivElement>(null);
   const [activePage, setActivePage] = useState(0);
@@ -35,7 +35,7 @@ function Speakers() {
   }, []);
 
   const slidesPerView = useSlidesPerView(resetCarousel);
-  const pageCount = Math.ceil(speakersData.length / slidesPerView);
+  const pageCount = Math.ceil(speakers.length / slidesPerView);
   const currentPage = Math.min(activePage, pageCount - 1);
 
   const goToPage = (page: number) => {
@@ -49,6 +49,8 @@ function Speakers() {
     if (!track) return;
     setActivePage(Math.round(track.scrollLeft / track.clientWidth));
   };
+
+  if (!speakers.length) return null;
 
   return (
     <section className="pt-15 lg:pt-20">
@@ -64,13 +66,13 @@ function Speakers() {
 
         {/* desktop / tablet grid */}
         <div className="mt-8 hidden gap-4 lg:grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {speakersData.map((speaker, i) => (
+          {speakers.map((speaker) => (
             <SpeakerCard
-              key={i}
+              key={speaker.id}
               id={`speaker-${speaker.id}`}
-              name={t(`speakers.${speaker.id}.name`)}
-              description={t(`speakers.${speaker.id}.description`)}
-              image={speaker.image}
+              name={speaker.name}
+              description={speaker.description}
+              image={speaker.image ?? undefined}
             />
           ))}
         </div>
@@ -82,16 +84,16 @@ function Speakers() {
             onScroll={handleScroll}
             className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden"
           >
-            {speakersData.map((speaker, i) => (
+            {speakers.map((speaker) => (
               <div
-                key={i}
+                key={speaker.id}
                 className="w-2/3 sm:w-1/2 shrink-0 snap-start pl-0.5 pr-2 py-1 "
               >
                 <SpeakerCard
                   id={`speaker-${speaker.id}`}
-                  name={t(`speakers.${speaker.id}.name`)}
-                  description={t(`speakers.${speaker.id}.description`)}
-                  image={speaker.image}
+                  name={speaker.name}
+                  description={speaker.description}
+                  image={speaker.image ?? undefined}
                 />
               </div>
             ))}

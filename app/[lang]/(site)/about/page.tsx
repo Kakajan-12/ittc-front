@@ -1,8 +1,8 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import PageHeading from "@/shared/ui/PageHeading";
 import Results from "@/views/Home/Results";
+import { toLocale } from "@/shared/content/localize";
+import { getStats } from "@/shared/content/queries";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import { FaPlay } from "react-icons/fa";
 import { SkeletonImage } from "@/components/ui/Skeleton";
@@ -16,10 +16,13 @@ import card7 from "@/public/about/7.svg";
 import card8 from "@/public/about/8.svg";
 import SectionCard from "@/views/About/SectionCard";
 
-const sectionIds = ["1", "2", "3", "4", "5", "6", "7", "8"] as const;
+type PageProps = { params: Promise<{ lang: string }> };
 
-function AboutPage() {
-  const t = useTranslations("About");
+async function AboutPage({ params }: PageProps) {
+  const { lang } = await params;
+  const locale = toLocale(lang);
+  const t = await getTranslations({ locale, namespace: "About" });
+  const stats = await getStats(locale);
 
   return (
     <main className="flex flex-col">
@@ -59,7 +62,7 @@ function AboutPage() {
             </button>
           </div>
         </div>
-        <Results className=" hidden lg:block" />
+        <Results stats={stats} className=" hidden lg:block" />
         <SectionHeading
           title={t("section.title")}
           className="px-4 lg:px-10 mt-4 lg:mt-18 text-3xl font-bold font-roboto"

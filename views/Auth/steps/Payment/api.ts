@@ -1,35 +1,84 @@
-import { createCrudApi, type T_API_RESPONSE } from "@/shared/api/crud";
-import { HTTP } from "@/shared/api/http";
+import { HTTP } from "@/shared/api_v2/http";
 import { RegistrationDraft } from "../../types";
 import { T_PAYMENT } from "./type";
+import {
+  createCrudApi,
+  T_API_ERROR,
+  T_API_RESPONSE,
+} from "@/shared/api_v2/crud";
+import { PACKAGES } from "../../Packages/api";
 
-export const PAYMENT = createCrudApi<RegistrationDraft>({
-  resource: "registration-drafts",
-  searchFields: [],
-  orderByFields: [],
-  filterFields: [],
-  updatePath: (id) => `${id}/payment-method`,
-});
+const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
+const resource = "registrationDraft";
 
-/**
- * Шаг 4 — оплата: пишем в черновик способ оплаты вместе с итогами, которые
- * бэкенд посчитал на предыдущих шагах. Путь в единственном числе:
- * `payment-methods` — это справочник способов, а не поле черновика.
- */
+export const PAYMENT = {
+  ...createCrudApi<RegistrationDraft>({
+    resource: resource,
+  }),
+  // Пакеты, выбранные конкретным драфтом (registrationDraftPackage)
+  DRAFT_PACKAGES_LIST: ({
+    draftId,
+    offset = 0,
+    limit = 100,
+  }: {
+    draftId: number;
+    offset?: number;
+    limit?: number;
+  }) =>
+    PACKAGES.LIST({
+      offset,
+      limit,
+      filter: {
+        registrationDraftId: { op: "=", val: draftId },
+      },
+    }),
+
+  APPLY_PROMOCODE: async ({
+    draftId,
+    code,
+  }: {
+    draftId: number;
+    code: string;
+  }) => {
+    const res = await HTTP.POST<T_API_RESPONSE<any> | T_API_ERROR>({
+      url: `${BASE_URL}/${resource}/applyPromoCode`,
+      body: {
+        fields: {
+          registrationDraftId: draftId,
+          code,
+        },
+      },
+    });
+
+    if (res.statusCode === 200 && !!res.data && res.data.success) {
+      return res.data.data;
+    } else if (!!res.data && res.statusCode === 200 && !res.data.success) {
+      throw new Error(res.data.errorCode);
+    } else {
+      throw new Error("UNKNOWN_ERROR");
+    }
+  },
+};
+
 export const PAYMENT_STEP_REQUEST = async ({
   draftId,
   payload,
 }: {
-  draftId: string;
+  draftId: number;
   payload: T_PAYMENT;
 }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    const resource = "registration-drafts";
-
-    const res = await HTTP.PATCH<T_API_RESPONSE<RegistrationDraft>>({
-      url: `${baseUrl}/${resource}/${draftId}/payment-method`,
-      body: { ...payload },
+    const baseUrl = `https://api.event.oguzforum.com/api/v1`;
+    const resource = "registrationDraft";
+    // /payment-method
+    const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({
+      url: `${baseUrl}/${resource}/update`,
+      body: {
+        fields: {
+          ...payload,
+          id: draftId,
+        },
+      },
     });
 
     if (res.statusCode === 200 && res.data?.success) {
@@ -40,7 +89,32 @@ export const PAYMENT_STEP_REQUEST = async ({
           "FETCH FAILED",
       );
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     throw error;
   }
+};
+
+export const APPLY_PROMOCODE_REQUEST = async ({
+  draftId,
+  code,
+}: {
+  draftId: string;
+  code: string;
+}) => {
+  const baseUrl = BASE_URL;
+  const resource = "registrationDrafts";
+
+  const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({
+    url: `${baseUrl}/${resource}/${draftId}/apply-promocode`,
+    body: { code },
+  });
+
+  if ((res.statusCode === 200 || res.statusCode === 201) && res.data?.success) {
+    return res.data.data;
+  }
+
+  throw new Error(
+    (res.data && "message" in res.data && res.data.message) ||
+      "APPLY_PROMOCODE_FAILED",
+  );
 };

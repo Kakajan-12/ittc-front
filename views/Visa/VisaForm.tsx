@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useLocale } from "next-intl";
 import { Input } from "@/shared/ui/Input";
 import { SelectField } from "@/shared/ui/SelectField";
 import { DateField } from "@/shared/ui/DateField";
@@ -11,14 +12,58 @@ import { UploadField } from "@/shared/ui/UploadField";
 import { VISA_SCHEMA } from "./schema";
 import { VISA_ERROR_CODE, VISA_ERROR_MESSAGE } from "./types";
 import { useErrorText } from "@/shared/lib/errorText";
-
-/** Where the application is sent */
-const VISA_EMAIL = "visa@ittc-tm.com";
+import { submitVisaApplication } from "@/shared/content/submit";
 
 /** Flat field list in page order, with the section each field belongs to */
 const FIELDS = SECTIONS.flatMap((section) =>
   (section.fields ?? []).map((field) => ({ ...field, section: section.title })),
 );
+
+/**
+ * The API rejects with the same codes the client validates against, so a
+ * server-side failure can be shown under the field that caused it.
+ */
+const FIELD_BY_ERROR_CODE: Partial<Record<VISA_ERROR_CODE, string>> = {
+  [VISA_ERROR_CODE.NAME_IS_TOO_SMALL]: "firstName",
+  [VISA_ERROR_CODE.NAME_IS_TOO_BIG]: "firstName",
+  [VISA_ERROR_CODE.SURNAME_IS_TOO_SMALL]: "surname",
+  [VISA_ERROR_CODE.SURNAME_IS_TOO_BIG]: "surname",
+  [VISA_ERROR_CODE.GENDER_IS_REQUIRED]: "gender",
+  [VISA_ERROR_CODE.MARITAL_STATUS_IS_REQUIRED]: "maritalStatus",
+  [VISA_ERROR_CODE.BIRTH_DATE_IS_REQUIRED]: "birthDate",
+  [VISA_ERROR_CODE.BIRTH_DATE_IS_IN_FUTURE]: "birthDate",
+  [VISA_ERROR_CODE.SURNAME_OF_BIRTH_IS_TOO_SMALL]: "surnameOfBirth",
+  [VISA_ERROR_CODE.SURNAME_OF_BIRTH_IS_TOO_BIG]: "surnameOfBirth",
+  [VISA_ERROR_CODE.CITIZENSHIP_IS_REQUIRED]: "citizenship",
+  [VISA_ERROR_CODE.COUNTRY_IS_REQUIRED]: "country",
+  [VISA_ERROR_CODE.PLACE_OF_BIRTH_IS_TOO_SMALL]: "placeOfBirth",
+  [VISA_ERROR_CODE.ADDRESS_IS_TOO_SMALL]: "address",
+  [VISA_ERROR_CODE.EMAIL_IS_INVALID]: "email",
+  [VISA_ERROR_CODE.PHONE_IS_TOO_SMALL]: "phone",
+  [VISA_ERROR_CODE.RESIDENTIAL_ADDRESS_IS_TOO_SMALL]: "residentialAddress",
+  [VISA_ERROR_CODE.PASSPORT_TYPE_IS_REQUIRED]: "passportType",
+  [VISA_ERROR_CODE.PASSPORT_NUMBER_IS_INVALID]: "passportNumber",
+  [VISA_ERROR_CODE.DATE_ISSUE_IS_REQUIRED]: "dateIssue",
+  [VISA_ERROR_CODE.DATE_ISSUE_IS_IN_FUTURE]: "dateIssue",
+  [VISA_ERROR_CODE.EXPIRY_IS_REQUIRED]: "expiry",
+  [VISA_ERROR_CODE.EXPIRY_IS_TOO_SOON]: "expiry",
+  [VISA_ERROR_CODE.PLACE_OF_ISSUE_IS_REQUIRED]: "placeOfIssue",
+  [VISA_ERROR_CODE.EDUCATION_IS_TOO_SMALL]: "education",
+  [VISA_ERROR_CODE.SPECIALITY_IS_TOO_SMALL]: "speciality",
+  [VISA_ERROR_CODE.PLACE_OF_EDUCATION_IS_TOO_SMALL]: "placeOfEducation",
+  [VISA_ERROR_CODE.PLACE_OF_WORK_IS_TOO_SMALL]: "placeOfWork",
+  [VISA_ERROR_CODE.POSITION_IS_TOO_SMALL]: "position",
+  [VISA_ERROR_CODE.EXPERIENCE_IS_INVALID]: "experience",
+};
+
+/** Codes the API raises that the form has no field for. */
+const GENERAL_ERROR_MESSAGE: Record<string, string> = {
+  PHOTO_IS_REQUIRED: "Attach a photo",
+  PASSPORT_SCAN_IS_REQUIRED: "Attach a passport scan",
+  DUPLICATE_APPLICATION:
+    "An application for this passport has already been submitted",
+  DATABASE_UNAVAILABLE: "The service is temporarily unavailable, try again later",
+};
 
 /** Uploads live outside `values` — they hold `File`s, not strings */
 const UPLOADS = SECTIONS.flatMap((section) => section.uploads ?? []);
@@ -38,28 +83,25 @@ const labelFor = (fieldId: string, value: string) => {
   return typeof option === "string" ? option : option.label;
 };
 
-const buildMessage = (values: Record<string, string>) => {
-  const lines: string[] = [];
-  let currentSection = "";
+/** Selects hold country codes; the officer reading the application wants names. */
+const COUNTRY_FIELDS = new Set(["citizenship", "country", "placeOfIssue"]);
 
-  for (const field of FIELDS) {
-    const value = (values[field.id] ?? "").trim();
-    if (!value) continue;
-
-    if (field.section !== currentSection) {
-      currentSection = field.section;
-      lines.push(`${lines.length ? "\n" : ""}${currentSection}`);
-    }
-    lines.push(`${field.label}: ${labelFor(field.id, value)}`);
-  }
-
-  return lines.join("\n");
-};
+const toApiValues = (values: Record<string, string>) =>
+  Object.fromEntries(
+    Object.entries(values).map(([id, value]) => [
+      id,
+      COUNTRY_FIELDS.has(id) ? labelFor(id, value) : value,
+    ]),
+  );
 
 export default function VisaForm() {
   // Сообщения телефона приходят ключом перевода — см. shared/lib/phone
   const errorText = useErrorText();
+  const locale = useLocale();
   const [sent, setSent] = useState(false);
+  const [reference, setReference] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const [values, setValues] = useState<Record<string, string>>(EMPTY_VALUES);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<Record<string, File | null>>({});
@@ -77,8 +119,12 @@ export default function VisaForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue(e.target.name, e.target.value);
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (submitting) return;
+
+    setFormError(null);
 
     const result = VISA_SCHEMA.safeParse(values);
 
@@ -115,31 +161,38 @@ export default function VisaForm() {
     }
 
     setErrors({});
+    setSubmitting(true);
 
-    const data = result.data;
-    const applicant = [data.firstName, data.surname]
-      .filter(Boolean)
-      .join(" ")
-      .trim();
+    try {
+      const application = await submitVisaApplication(
+        toApiValues(values),
+        files,
+        locale,
+      );
 
-    const subject = `Visa application${applicant ? ` — ${applicant}` : ""}`;
-    const body = buildMessage(values);
+      setReference(application.reference);
+      setSent(true);
+    } catch (error) {
+      const code = (error as Error).message;
+      const fieldId = FIELD_BY_ERROR_CODE[code as VISA_ERROR_CODE];
 
-    // TODO: send to API — for now the application only goes to the console
-    console.group("Visa application");
-    console.log("subject:", subject);
-    console.log("to:", VISA_EMAIL);
-    console.table(data);
-    console.log(
-      "files:",
-      Object.fromEntries(
-        Object.entries(files).map(([id, file]) => [id, file?.name ?? null]),
-      ),
-    );
-    console.log("message:\n" + body);
-    console.groupEnd();
+      if (fieldId) {
+        // The server disagreed about one field — point at it, as the client
+        // validation would have.
+        setErrors({ [fieldId]: VISA_ERROR_MESSAGE[code as VISA_ERROR_CODE] });
 
-    setSent(true);
+        const el = document.getElementById(fieldId);
+        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+        el?.focus({ preventScroll: true });
+      } else {
+        setFormError(
+          GENERAL_ERROR_MESSAGE[code] ??
+            "Could not send the application. Please try again.",
+        );
+      }
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -250,16 +303,27 @@ export default function VisaForm() {
             </p>
           )}
 
+          {formError && (
+            <p role="alert" className="text-sm text-[#DE7A7A]">
+              {formError}
+            </p>
+          )}
+
           <button
             type="submit"
-            className="self-start rounded bg-brand-blue px-8 py-3 font-semibold text-white transition-opacity hover:opacity-90"
+            disabled={submitting}
+            className="self-start rounded bg-brand-blue px-8 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Submit application
+            {submitting ? "Sending…" : "Submit application"}
           </button>
         </div>
       </form>
 
-      <SuccessModal open={sent} onClose={() => setSent(false)} />
+      <SuccessModal
+        open={sent}
+        onClose={() => setSent(false)}
+        details={reference ? `Reference: ${reference}` : undefined}
+      />
     </div>
   );
 }

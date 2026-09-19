@@ -8,6 +8,7 @@ import "./globals.css";
 import QueryProviders from "@/providers/query";
 import AntProviders from "@/providers/antDesign";
 import AuthStorageCleanup from "@/views/Auth/AuthStorageCleanup";
+import AuthInitializer from "@/views/Auth/AuthInitializer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -52,9 +53,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <QueryProviders>
           <AntProviders>
             <NextIntlClientProvider messages={messages}>
-              {/* Уход с /register стирает заполненную форму */}
-              <AuthStorageCleanup />
-              {children}
+              <AuthInitializer>
+                {/* Уход с /register стирает заполненную форму */}
+                <AuthStorageCleanup />
+                {children}
+              </AuthInitializer>
             </NextIntlClientProvider>
           </AntProviders>
         </QueryProviders>

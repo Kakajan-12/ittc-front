@@ -46,7 +46,7 @@ export function useEventServices({ t, id }: UseEventServicesProps) {
       }
 
       return EVENT_SERVICE_STEP_REQUEST({
-        draftId: String(draftId),
+        draftId: draftId,
         payload,
       });
     },

@@ -3,10 +3,18 @@
 import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import CountUp from "@/components/CountUp";
-import { resultsData } from "./resultsData";
+import type { StatModel } from "@/shared/content/queries";
 
-function Results({ className }: { className?: string }) {
+function Results({
+  stats,
+  className,
+}: {
+  stats: StatModel[];
+  className?: string;
+}) {
   const t = useTranslations("Results");
+
+  if (!stats.length) return null;
 
   return (
     <section className="relative isolate overflow-hidden bg-brand-blue-dark text-white ">
@@ -20,21 +28,22 @@ function Results({ className }: { className?: string }) {
         <SectionHeading title={t("title")} />
 
         <dl className="mt-8 grid grid-cols-2 gap-x-3 lg:gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
-          {resultsData.map(({ key, value }) => (
-            <div key={key} className="relative">
+          {stats.map((stat) => (
+            <div key={stat.key} className="relative">
               <span className="relative font-capitana text-4xl leading-none sm:text-5xl lg:text-6xl">
                 +
                 <CountUp
                   from={0}
-                  to={value}
+                  to={stat.value}
                   separator=","
                   direction="up"
                   duration={1}
                   delay={0}
                 />
+                {stat.suffix}
               </span>
               <dt className="relative mt-3 text-base font-capitana text-results">
-                {t(key)}
+                {stat.label}
               </dt>
             </div>
           ))}

@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
 import PhoneInput from "@/shared/ui/PhoneInput";
 import { usePersonalStepForm } from "../hook";
 import { useRouter } from "next/navigation";
+import { useErrorText } from "@/shared/lib/errorText";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { API_V2 } from "@/shared/api_v2";
 
 interface PersonalStepProps {
   onShowTerms: () => void;
@@ -18,8 +20,8 @@ export default function PersonalStepForm({
 }: PersonalStepProps) {
   const t = useTranslations("Registration.personal");
   const tErrors = useTranslations("Registration.errors");
-  const [accepted, setAccepted] = useState(false);
   const router = useRouter();
+  const errorText = useErrorText();
 
   const {
     setPersonalForm,
@@ -31,13 +33,9 @@ export default function PersonalStepForm({
     error,
   } = usePersonalStepForm({ t: tErrors });
 
-  useEffect(() => {
-    setPersonalForm((prev) => ({ ...prev, privacyPolicyAccepted: accepted }));
-    setPersonalForm((prev) => ({
-      ...prev,
-      termsAndConditionsAccepted: accepted,
-    }));
-  }, [accepted]);
+  const accepted =
+    personalForm.privacyPolicyAccepted &&
+    personalForm.termsAndConditionsAccepted;
 
   return (
     <div className="flex min-h-0 h-full w-full flex-1 flex-col">
@@ -65,6 +63,7 @@ export default function PersonalStepForm({
           required
           placeholder={t("surnamePlaceholder")}
         />
+
         <Field
           id="patronymic"
           label={t("patronymic")}
@@ -78,6 +77,7 @@ export default function PersonalStepForm({
             }))
           }
         />
+
         <Field
           id="position"
           label={t("position")}
@@ -89,6 +89,7 @@ export default function PersonalStepForm({
           }
           required
         />
+
         <Field
           id="email"
           label={t("email")}
@@ -120,7 +121,13 @@ export default function PersonalStepForm({
             id="accept-terms"
             type="checkbox"
             checked={accepted}
-            onChange={(e) => setAccepted(e.target.checked)}
+            onChange={(e) =>
+              setPersonalForm((prev) => ({
+                ...prev,
+                privacyPolicyAccepted: e.target.checked,
+                termsAndConditionsAccepted: e.target.checked,
+              }))
+            }
             className="mt-0.5 size-4 accent-brand-blue rounded"
           />
           <span>
@@ -147,7 +154,9 @@ export default function PersonalStepForm({
           </span>
         </label>
 
-        {error && <p className="font-nexa text-sm text-[#DE7A7A]">{error}</p>}
+        {error && (
+          <p className="font-nexa text-sm text-[#DE7A7A]">{errorText(error)}</p>
+        )}
       </div>
 
       <button

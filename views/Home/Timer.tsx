@@ -3,20 +3,26 @@
 import { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
-const TARGET = Date.UTC(2026, 10, 24, 4, 0, 0);
+interface DateProps {
+  eventsStart: Date | null;
+}
 
 function subscribe(onChange: () => void) {
   const id = setInterval(onChange, 1000);
   return () => clearInterval(id);
 }
 
-// Seconds left is stable within a tick, so it is a valid store snapshot.
-const getSecondsLeft = () =>
-  Math.max(0, Math.floor((TARGET - Date.now()) / 1000));
 const getServerSnapshot = () => null;
 
-function Timer() {
+function Timer({ eventsStart }: DateProps) {
   const t = useTranslations("Timer");
+
+  const getSecondsLeft = () => {
+    if (!eventsStart) return 0;
+
+    return Math.max(0, Math.floor((eventsStart.getTime() - Date.now()) / 1000));
+  };
+
   const total = useSyncExternalStore(
     subscribe,
     getSecondsLeft,
@@ -39,25 +45,30 @@ function Timer() {
       value: total === null ? null : Math.floor(total / 60) % 60,
       pad: 2,
     },
-    { key: "seconds", value: total === null ? null : total % 60, pad: 2 },
+    {
+      key: "seconds",
+      value: total === null ? null : total % 60,
+      pad: 2,
+    },
   ] as const;
 
   return (
-    <div className="absolute -bottom-15 left-0 right-0 rounded-3xl bg-brand-blue-dark z-10 mx-auto w-fit overflow-hidden">
-      <div className="absolute inset-0 bg-black/30 -z-10" />
+    <div className="absolute -bottom-15 left-0 right-0 z-10 mx-auto w-fit overflow-hidden rounded-3xl bg-brand-blue-dark">
+      <div className="absolute inset-0 -z-10 bg-black/30" />
 
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-20 bg-[url('/pattern.svg')] bg-repeat bg-size-[680px] opacity-20"
       />
 
-      <div className="relative z-30 flex h-full items-center justify-center gap-6 sm:gap-12 lg:gap-30 py-6 px-5 sm:px-10 md:px-15 text-white">
+      <div className="relative z-30 flex h-full items-center justify-center gap-6 px-5 py-6 text-white sm:gap-12 sm:px-10 md:px-15 lg:gap-30">
         {units.map(({ key, value, pad }) => (
           <div key={key} className="flex flex-col items-center gap-3">
-            <span className="font-capitana text-3xl sm:text-4xl lg:text-5xl font-bold tabular-nums leading-none">
+            <span className="font-capitana text-3xl font-bold leading-none tabular-nums sm:text-4xl lg:text-5xl">
               {String(value ?? 0).padStart(pad, "0")}
             </span>
-            <span className="font-roboto font-medium text-xs sm:text-base text-white/70">
+
+            <span className="font-roboto text-xs font-medium text-white/70 sm:text-base">
               {t(key)}
             </span>
           </div>

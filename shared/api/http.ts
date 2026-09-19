@@ -40,7 +40,7 @@ function buildHeaders({
   token?: string;
   isFormData?: boolean;
 }) {
-  // const accessToken = token ?? API.AUTH.TOKEN.GET() ?? undefined;
+
 
   return {
     ...(isFormData
@@ -49,11 +49,11 @@ function buildHeaders({
           "Content-Type": "application/json",
         }),
 
-    // ...(accessToken
-    // ? {
-    //     Authorization: `Bearer ${accessToken}`,
-    //   }
-    // : {}),
+    ...(token
+      ? {
+          Authorization: `Bearer ${token}`,
+        }
+      : {}),
 
     ...(headers ?? {}),
   };

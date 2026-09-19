@@ -13,11 +13,31 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
-import Button from "@/shared/ui/Button";
+import { useQuery } from "@tanstack/react-query";
+import { EVENT_QUERY_KEYS } from "@/shared/event/query-keys";
+import { EVENTS } from "@/shared/event/api";
+import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
+import { T_LOCALE } from "@/shared/lib/types";
+import type {
+  NewsCardModel,
+  PartnerModel,
+  SpeakerModel,
+  SponsorModel,
+  StatModel,
+} from "@/shared/content/queries";
 
-function Home() {
+/** Content is fetched by the page (a server component) and passed in. */
+export type HomeProps = {
+  stats: StatModel[];
+  sponsors: SponsorModel[];
+  speakers: SpeakerModel[];
+  news: NewsCardModel[];
+  partners: PartnerModel[];
+};
+
+function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
   const t = useTranslations("Hero");
-  const locale = useLocale();
+  const locale = useLocale() as T_LOCALE;
   const brochurePath =
     locale === "ru" || locale === "tk"
       ? "/documents/Brochure ITTC 2026 ру 001.pdf"
@@ -39,12 +59,20 @@ function Home() {
     { key: "faq", href: "/faq" },
   ] as const;
 
+  /** Hero banner, title and countdown come from the registration platform. */
+  const { data: eventData } = useQuery({
+    queryKey: [EVENT_QUERY_KEYS.GET_BY_ID],
+    queryFn: () => EVENTS.GET(1),
+  });
+
+  const bannerSrc = getMediaUrl(eventData?.bannerImage) || "/main.jpg";
+
   return (
     <>
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
           <SkeletonImage
-            src="/main.jpg"
+            src={bannerSrc}
             alt=""
             fill
             priority
@@ -57,10 +85,17 @@ function Home() {
           <div className="px-4 lg:px-10 py-24 lg:py-30">
             <div className="max-w-2xl lg:max-w-3xl 2xl:max-w-4xl">
               <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
-                {t("title")}
+                {eventData
+                  ? getLocalizedTitle({
+                      titleEn: eventData.titleEn,
+                      titleRu: eventData.titleRu,
+                      titleTk: eventData.titleTk,
+                      locale,
+                    })
+                  : t("title")}
               </h1>
 
-              <p className="mt-1 flex flex-wrap items-center sm:gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
+              <p className="mt-1 flex flex-wrap items-center gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
                 <span>{t("date")}</span>
                 <span className="text-white hidden lg:block">|</span>
                 <span>{t("location")}</span>
@@ -101,15 +136,19 @@ function Home() {
             </div>
           </div>
         </section>
-        <Timer />
+        <Timer
+          eventsStart={
+            eventData?.eventStartsAt ? new Date(eventData.eventStartsAt) : null
+          }
+        />
       </div>
       <About />
-      <Results />
+      <Results stats={stats} />
       <Sponsorship />
-      <Sponsors />
-      <Speakers />
-      <News />
-      <Partners />
+      <Sponsors sponsors={sponsors} />
+      <Speakers speakers={speakers} />
+      <News news={news} />
+      <Partners partners={partners} />
     </>
   );
 }

@@ -1,9 +1,12 @@
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
 
-import { usePersistentState } from "@/shared/lib/usePersistentState";
+import {
+  clearPersisted,
+  usePersistentState,
+} from "@/shared/lib/usePersistentState";
 import {
   OTP_LENGTH,
   RESEND_COUNTDOWN_SECONDS,
@@ -11,9 +14,9 @@ import {
 } from "@/views/Auth/config";
 
 import {
-  COMPLETE_REGISTRATION_REQUEST,
-  SEND_EMAIL_REQUEST,
-  VERIFY_EMAIL_REQUEST,
+  // COMPLETE_REGISTRATION_REQUEST,
+  SEND_OTP,
+  VERIFY_OTP,
 } from "./api";
 
 import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
@@ -21,29 +24,9 @@ import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
 import { verificationSchema } from "./validation";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
-import type { RegistrationDraft } from "../../types";
+import { useRegistrationDraft } from "@/views/Auth/draft";
 
 const initialCode = () => Array<string>(OTP_LENGTH).fill("");
-
-function subscribeToDraft(onChange: () => void) {
-  const handleStorage = (event: StorageEvent) => {
-    if (event.key === "eventDraft") onChange();
-  };
-
-  window.addEventListener("storage", handleStorage);
-  return () => window.removeEventListener("storage", handleStorage);
-}
-
-function getDraftEmail() {
-  try {
-    const rawDraft = localStorage.getItem("eventDraft");
-    if (!rawDraft) return "";
-
-    return (JSON.parse(rawDraft) as RegistrationDraft).email ?? "";
-  } catch {
-    return "";
-  }
-}
 
 type UseVerificationStepProps = {
   t: _Translator<Record<string, any>, "Registration.errors">;
@@ -59,13 +42,10 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const draftId = id ?? storedDraftId;
 
   const [code, setCode] = useState<string[]>(initialCode);
+  const [revId, setRevId] = useState<number | null>(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
-  const email = useSyncExternalStore(
-    subscribeToDraft,
-    getDraftEmail,
-    () => "",
-  );
+  const email = useRegistrationDraft()?.email ?? "";
 
   useEffect(() => {
     if (resendCountdown <= 0) return;
@@ -78,17 +58,19 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   }, [resendCountdown]);
 
   const sendMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (payload: { email: string; lang: "en" }) => {
       if (!draftId) {
         throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
       }
 
-      return SEND_EMAIL_REQUEST({
+      return SEND_OTP({
         draftId,
+        payload,
       });
     },
 
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setRevId(data.revId);
       setCode(initialCode());
       setResendCountdown(RESEND_COUNTDOWN_SECONDS);
     },
@@ -100,30 +82,33 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
         throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
       }
 
-      return VERIFY_EMAIL_REQUEST({
+      return VERIFY_OTP({
         draftId,
         payload,
       });
     },
   });
 
-  const completeMutation = useMutation({
-    mutationFn: async (): Promise<T_COMPLETED_REGISTRATION> => {
-      if (!draftId) {
-        throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
-      }
+  // const completeMutation = useMutation({
+  //   mutationFn: async (): Promise<T_COMPLETED_REGISTRATION> => {
+  //     if (!draftId) {
+  //       throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
+  //     }
 
-      return COMPLETE_REGISTRATION_REQUEST({
-        draftId,
-      });
-    },
-  });
+  //     return COMPLETE_REGISTRATION_REQUEST({
+  //       draftId,
+  //     });
+  //   },
+  //   onSuccess: () => {
+  //     clearPersisted([STORAGE_KEYS.draftId]);
+  //   },
+  // });
 
   const sendCode = useCallback(async (): Promise<boolean> => {
     try {
       setError("");
 
-      await sendMutation.mutateAsync();
+      await sendMutation.mutateAsync({ email, lang: "en" });
 
       return true;
     } catch (error) {
@@ -162,11 +147,16 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
         throw result.error;
       }
 
+      if (!revId) {
+        throw new Error(VERIFICATION_ERROR_CODE.SEND_EMAIL_FAILED);
+      }
+
       await verifyMutation.mutateAsync({
         otp: result.data.otp,
+        revId,
       });
 
-      await completeMutation.mutateAsync();
+      // await completeMutation.mutateAsync();
 
       return true;
     } catch (error) {
@@ -192,8 +182,8 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [code, verifyMutation, completeMutation, t]);
-
+  }, [code, revId, verifyMutation, t]);
+  // completeMutation
   return {
     draftId,
     email,
@@ -208,9 +198,10 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     isResending: sendMutation.isPending,
     resendCountdown,
 
-    isSubmitting: verifyMutation.isPending || completeMutation.isPending,
+    isSubmitting: verifyMutation.isPending,
+    // || completeMutation.isPending,
 
-    completed: completeMutation.data,
+    // completed: completeMutation.data,
 
     error,
   };

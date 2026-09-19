@@ -3,10 +3,12 @@ import { useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import NewsCard from "./NewsCard";
-import { newsData, NewsItem } from "./newsData";
+import type { NewsCardModel } from "@/shared/content/queries";
 
-function News() {
+function News({ news }: { news: NewsCardModel[] }) {
   const t = useTranslations("News");
+
+  if (!news.length) return null;
 
   return (
     <section className="py-15 lg:py-20">
@@ -17,14 +19,15 @@ function News() {
         </div>
 
         <div className="lg:mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {newsData.slice(0, 3).map((news: NewsItem) => (
+          {news.slice(0, 3).map((item) => (
             <NewsCard
-              key={news.id}
-              id={`news-${news.id}`}
-              tag={news.tag}
-              title={news.title}
-              date={news.date}
-              href={`/news/${news.id}`}
+              key={item.id}
+              id={`news-${item.id}`}
+              tag={item.tag}
+              title={item.title}
+              date={item.date}
+              image={item.image}
+              href={`/news/${item.slug}`}
               more={t("details")}
             />
           ))}

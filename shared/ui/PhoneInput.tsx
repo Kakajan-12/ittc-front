@@ -21,13 +21,13 @@ type PhoneInputProps = {
   className?: string;
   required?: boolean;
   error?: string;
+  onChangeValidity?: ((isValid: boolean) => void) | undefined;
 };
 
 export default function PhoneInput({
   id = "phone",
   name = "phone",
   label,
-  /** По умолчанию — подпись поля */
   placeholder,
   value = "",
   onChange,
@@ -35,6 +35,7 @@ export default function PhoneInput({
   className,
   required = true,
   error,
+  onChangeValidity,
 }: PhoneInputProps) {
   const t = useTranslations("Common");
   const [focused, setFocused] = useState(false);
@@ -58,8 +59,7 @@ export default function PhoneInput({
           onChangeNumber={onChange}
           loadUtils={loadPhoneUtils}
           showFlags={false}
-          // OFF — иначе библиотека подменяет плейсхолдер образцом номера
-          // выбранной страны, а в поле должна оставаться подпись
+          onChangeValidity={onChangeValidity}
           placeholderNumberPolicy="OFF"
           classNames={{
             container: "auth-phone",

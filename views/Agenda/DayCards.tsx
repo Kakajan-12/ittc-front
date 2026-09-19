@@ -1,20 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { IoIosPin } from "react-icons/io";
 
-import { type AgendaDay } from "./agendaData";
+import type { AgendaDayModel } from "@/shared/content/queries";
+import SessionIcon from "./SessionIcon";
 import SessionDetails from "./SessionDetails";
 
-function CardLogos({
-  label,
-  logos,
-}: {
-  label: string;
-  logos: StaticImageData[];
-}) {
+function CardLogos({ label, logos }: { label: string; logos: string[] }) {
   return (
     <div className="mt-5 flex flex-col items-start gap-1">
       <span className="text-sm font-normal font-roboto text-brand-gray">
@@ -23,9 +18,11 @@ function CardLogos({
       <div className="flex gap-2">
         {logos.map((logo, i) => (
           <Image
-            key={`${logo.src}-${i}`}
+            key={`${logo}-${i}`}
             src={logo}
             alt=""
+            width={96}
+            height={48}
             className="h-12 w-auto object-contain"
           />
         ))}
@@ -34,22 +31,22 @@ function CardLogos({
   );
 }
 
-function DayCards({ day }: { day: AgendaDay }) {
+function DayCards({ day }: { day: AgendaDayModel }) {
   const t = useTranslations("Agenda");
   const [openSession, setOpenSession] = useState<number | null>(null);
 
   return (
     <div className="flex flex-col gap-10 pt-6">
       {day.sessions.map((session, i) => {
-        const Icon = session.icon;
         const isOpen = openSession === i;
+
         return (
           <div
-            key={`${day.id}-${i}`}
+            key={session.id}
             className="relative rounded bg-white px-4 pt-8.5 pb-4 shadow-faq"
           >
             <span className="absolute -top-6 left-5 flex size-12 items-center justify-center rounded-full border-2 border-[#C3D1D9] bg-white text-brand-blue">
-              <Icon className="size-6" />
+              <SessionIcon icon={session.icon} className="size-6" />
             </span>
 
             <p className="text-lg font-semibold font-roboto">
@@ -68,7 +65,7 @@ function DayCards({ day }: { day: AgendaDay }) {
               </p>
             ) : null}
 
-            {session.sponsors ? (
+            {session.sponsors.length ? (
               <CardLogos label={t("sponsoredBy")} logos={session.sponsors} />
             ) : null}
 

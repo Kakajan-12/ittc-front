@@ -4,19 +4,24 @@ import { useTranslations } from "next-intl";
 import { IoCalendarOutline } from "react-icons/io5";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { agendaData } from "./agendaData";
+import type { AgendaPhaseModel } from "@/shared/content/queries";
 import DayCards from "./DayCards";
 import DayTable from "./DayTable";
 
-function Agenda() {
+function Agenda({ phases }: { phases: AgendaPhaseModel[] }) {
   const t = useTranslations("Agenda");
+
+  if (!phases.length) return null;
+
+  const defaultPhase =
+    phases.find((phase) => phase.id === "conference")?.id ?? phases[0].id;
 
   return (
     <section className="px-4 py-10 lg:px-10 lg:py-16">
-      <Tabs defaultValue="conference" className="gap-8">
+      <Tabs defaultValue={defaultPhase} className="gap-8">
         {/* phases */}
         <TabsList className="grid h-auto gap-4 rounded-none bg-transparent p-0 group-data-horizontal/tabs:h-auto grid-cols-3">
-          {agendaData.map((phase) => (
+          {phases.map((phase) => (
             <TabsTrigger
               key={phase.id}
               value={phase.id}
@@ -27,7 +32,7 @@ function Agenda() {
               </span>
               <span className="flex flex-col gap-0.5">
                 <span className="text-sm lg:text-lg font-semibold font-roboto whitespace-pre-wrap group-data-active/tab:text-white">
-                  {t(`phases.${phase.id}`)}
+                  {phase.title}
                 </span>
                 <span className="text-sm lg:text-base font-medium font-roboto text-brand-blue group-data-active/tab:text-white/90">
                   {t("daysCount", { count: phase.days.length })}
@@ -38,7 +43,7 @@ function Agenda() {
         </TabsList>
 
         {/* days + sessions */}
-        {agendaData.map((phase) => (
+        {phases.map((phase) => (
           <TabsContent key={phase.id} value={phase.id}>
             <Tabs defaultValue={phase.days[0]?.id} className="gap-6">
               <TabsList
@@ -52,9 +57,9 @@ function Agenda() {
                     className="-mb-px h-auto max-w-56 w-full flex-none flex-col items-center gap-1 rounded-none border-b-[3px] border-transparent px-2 pb-4 after:hidden data-active:border-b-brand-blue data-active:text-brand-blue"
                   >
                     <span className="text-base lg:text-2xl font-semibold font-roboto tracking-wide uppercase">
-                      {t("day", {
+                      {/* {t("day", {
                         number: String(day.number).padStart(2, "0"),
-                      })}
+                      })} */}
                     </span>
                     <span className="text-sm lg:text-lg font-normal font-roboto">
                       {day.date}

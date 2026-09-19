@@ -7,6 +7,7 @@ function NewsCard({
   tag,
   title,
   date,
+  image,
   href,
   more,
 }: {
@@ -14,6 +15,8 @@ function NewsCard({
   tag: string;
   title: string;
   date: string;
+  /** Cover from the CMS; the placeholder keeps the grid intact without one */
+  image?: string | null;
   href: string;
   more: string;
 }) {
@@ -24,13 +27,15 @@ function NewsCard({
       className="flex flex-col overflow-hidden rounded bg-white sponsorShadow"
     >
       <div className="relative aspect-video w-full bg-[#D9D9D9]">
-        <SkeletonImage
-          src="/news.png"
-          alt=""
-          fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover"
-        />
+        {image && (
+          <SkeletonImage
+            src={image}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1 lg:gap-2 p-3">

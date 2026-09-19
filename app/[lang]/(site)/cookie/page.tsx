@@ -1,29 +1,19 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import CmsPageView from "@/views/Pages/CmsPageView";
+import { toLocale } from "@/shared/content/localize";
+import { getPage } from "@/shared/content/queries";
 
-import PageHeading from "@/shared/ui/PageHeading";
-import { useTranslations } from "next-intl";
+type PageProps = { params: Promise<{ lang: string }> };
 
-export default function CookiePage() {
-  const t = useTranslations("Cookie");
+export default async function CookiePage({ params }: PageProps) {
+  const { lang } = await params;
+  const locale = toLocale(lang);
+  const t = await getTranslations({ locale, namespace: "Cookie" });
 
   return (
-    <main>
-      <PageHeading
-        title={t("title")}
-        homeLabel="Home"
-        crumbs={[{ label: t("title") }]}
-        image="/support.jpg"
-      />
-      <div className="px-4 lg:px-10 py-6 md:py-14 lg:py-20">
-        <div className="mx-auto space-y-6">
-          <p className="text-lg leading-relaxed text-brand-gray">
-            {t("description")}
-          </p>
-          <p className="text-base leading-relaxed text-brand-gray">
-            {t("text")}
-          </p>
-        </div>
-      </div>
-    </main>
+    <CmsPageView
+      page={await getPage("cookie", locale)}
+      fallbackTitle={t("title")}
+    />
   );
 }

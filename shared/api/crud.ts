@@ -1,3 +1,4 @@
+import { API_BASE } from "@/shared/api/config";
 import { HTTP } from "@/shared/api/http";
 
 export type T_SORT_ORDER = "asc" | "desc";
@@ -44,7 +45,7 @@ export type T_CRUD_CONFIG<
   updatePath?: (id: number) => string;
 };
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const BASE_URL = API_BASE;
 
 export function createCrudApi<
   T extends {
