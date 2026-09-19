@@ -1,4 +1,5 @@
 import { HTTP } from "@/shared/api_v2/http";
+import { API_BASE } from "@/shared/api/config";
 
 export type T_API_SUCCESS<T> = {
   success: true;
@@ -52,12 +53,10 @@ export type T_API_FILTER<T extends Record<string, any>> = Partial<{
 // here we procide MORE FIELDS WE WANT TO USE IN ORDER BY
 export type T_COMMON_ORDER_BY = { id?: T_SORT_ORDER };
 
-const BASE_URL = "https://api.event.oguzforum.com/api/v1";
-
 export function createCrudApi<
   T extends { id: number; createdAt: Date; updatedAt: Date },
 >({ resource }: { resource: string }) {
-  const baseUrl = `${BASE_URL}/${resource}`;
+  const baseUrl = `${API_BASE}/${resource}`;
 
   return {
     LIST: async ({

@@ -5,8 +5,9 @@ import {
 } from "@/shared/api_v2/crud";
 import { RegistrationDraft } from "../../types";
 import { HTTP } from "@/shared/api_v2/http";
+import { API_BASE } from "@/shared/api/config";
 
-const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
+const BASE_URL = API_BASE;
 
 export const PERSONAL_STEP = {
   ...createCrudApi<RegistrationDraft>({

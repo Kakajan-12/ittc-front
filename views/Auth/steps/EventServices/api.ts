@@ -16,11 +16,10 @@ export const EVENT_SERVICE_STEP_REQUEST = async ({
   payload: EventServices;
 }) => {
   try {
-    const baseUrl = `https://api.event.oguzforum.com/api/v1`;
     const resource = "registrationDraft";
 
     const res = await HTTP.POST<T_API_RESPONSE<RegistrationDraft>>({
-      url: `${baseUrl}/${resource}/calculatePackageTotal`,
+      url: `${API_BASE}/${resource}/calculatePackageTotal`,
       body: { fields: { ...payload, registrationDraftId: draftId } },
     });
     if (res.statusCode === 200 && res.data?.success) {
