@@ -1,30 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { API_V2 } from "@/shared/api_v2";
 
+import { ensureAnonToken } from "@/shared/auth/anonToken";
+
+/**
+ * Warms up the anonymous session token so the first real request does not pay
+ * for it. Never gates rendering: the API layer awaits the token on its own, so
+ * holding children back only cost us server-rendered markup on every page.
+ */
 export default function AuthInitializer({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["anonToken"],
-    queryFn: API_V2.PERSONAL_STEP.GET_ANON_TOKEN,
-  });
-
   useEffect(() => {
-    if (data?.token) {
-      localStorage.setItem("getAnonymToken", data.token);
-    }
-  }, [data?.token]);
-
-  if (isLoading || !data?.token) return null;
-
-  if (isError) {
-    refetch();
-  }
+    void ensureAnonToken();
+  }, []);
 
   return <>{children}</>;
 }

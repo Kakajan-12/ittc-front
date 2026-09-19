@@ -5,13 +5,14 @@ import { HTTP } from "../api/http";
 import { API_BASE } from "../api/config";
 import { T_EVENT } from "./type";
 import { PRINT } from "../lib/helpers";
+import { ensureAnonToken } from "../auth/anonToken";
 
 export const EVENTS = {
   GET: async (id: number) => {
     // PRINT(localStorage.getItem('accessToken'))
     const res = await HTTP.POST<T_API_RESPONSE<T_EVENT>>({
       url: `${API_BASE}/event/get`,
-      token: localStorage.getItem('getAnonymToken') ?? '',
+      token: (await ensureAnonToken()) ?? "",
       body: {
         fields: {
           id: 4,

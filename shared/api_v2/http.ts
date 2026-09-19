@@ -1,4 +1,5 @@
 import { API_V2 } from ".";
+import { ensureAnonToken } from "../auth/anonToken";
 
 type T_HTTP_HEADERS = Record<string, string>;
 
@@ -31,7 +32,7 @@ async function readResponseBody(response: Response) {
   }
 }
 
-function buildHeaders({
+async function buildHeaders({
   headers,
   token,
   isFormData,
@@ -40,11 +41,9 @@ function buildHeaders({
   token?: string;
   isFormData?: boolean;
 }) {
-  const accessToken =
-    token ??
-    (typeof window !== "undefined"
-      ? localStorage.getItem("getAnonymToken")
-      : null);
+  // Waits for the anonymous session instead of assuming something fetched it
+  // first — that assumption is what used to block the whole app from rendering.
+  const accessToken = token ?? (await ensureAnonToken());
   return {
     ...(isFormData
       ? {}
@@ -79,7 +78,7 @@ export const HTTP = {
 
       const response = await fetch(url, {
         method: "POST",
-        headers: buildHeaders({
+        headers: await buildHeaders({
           headers,
           token,
           isFormData,
@@ -122,7 +121,7 @@ export const HTTP = {
 
       const response = await fetch(`${url}${query}`, {
         method: "GET",
-        headers: buildHeaders({
+        headers: await buildHeaders({
           headers: {
             Accept: "application/json",
             ...(headers ?? {}),
@@ -163,7 +162,7 @@ export const HTTP = {
 
       const response = await fetch(url, {
         method: "PUT",
-        headers: buildHeaders({
+        headers: await buildHeaders({
           headers,
           token,
           isFormData,
@@ -204,7 +203,7 @@ export const HTTP = {
 
       const response = await fetch(url, {
         method: "PATCH",
-        headers: buildHeaders({
+        headers: await buildHeaders({
           headers,
           token,
           isFormData,
@@ -245,7 +244,7 @@ export const HTTP = {
 
       const response = await fetch(url, {
         method: "DELETE",
-        headers: buildHeaders({
+        headers: await buildHeaders({
           headers,
           token,
           isFormData,
