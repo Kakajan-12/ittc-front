@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { FiMenu } from "react-icons/fi";
 import { Link, usePathname } from "@/i18n/navigation";
 import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
-import { LockIcon } from "./LockIcon";
-import { Tooltip } from "antd";
+import { portalLoginUrl } from "@/shared/config/portal";
 import { IoLockClosedOutline } from "react-icons/io5";
 
 export type NavItem = {
@@ -26,6 +25,7 @@ export default function NavBar({
 }) {
   const t = useTranslations("Navbar");
   const tGlobal = useTranslations();
+  const locale = useLocale();
 
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -107,30 +107,16 @@ export default function NavBar({
         {/* <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex"> */}
 
         <div className="hidden md:flex items-center gap-2">
-          <Tooltip title={t("comingSoon")}>
-            <span>
-              <Link
-                href="http://104.207.74.50:3001"
-                aria-disabled="true"
-                tabIndex={-1}
-                className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
-                  darkText
-                    ? "border-brand-gray text-brand-gray"
-                    : "border-white text-white"
-                }`}
-              >
-                <div className="flex justify-center items-center mb-1 gap-2">
-                  <LockIcon
-                    width={15}
-                    height={15}
-                    color={darkText ? "black" : "white"}
-                  />
-
-                  <span className="leading-none mt-1">{t("login")}</span>
-                </div>
-              </Link>
-            </span>
-          </Tooltip>
+          <Link
+            href={portalLoginUrl(locale)}
+            className={`flex h-10 items-center justify-center rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+              darkText
+                ? "border-brand-gray text-brand-gray hover:bg-brand-gray/10"
+                : "border-white text-white hover:bg-white/15"
+            }`}
+          >
+            <span className="leading-none">{t("login")}</span>
+          </Link>
 
           <Link
             href="/register"

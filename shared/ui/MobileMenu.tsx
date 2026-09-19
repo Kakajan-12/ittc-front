@@ -4,8 +4,9 @@ import { IoClose } from "react-icons/io5";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
 import { IoLockClosedOutline } from "react-icons/io5";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { LockIcon } from "./LockIcon";
+import { portalLoginUrl } from "@/shared/config/portal";
 
 export default function MobileMenu({
   open,
@@ -20,6 +21,7 @@ export default function MobileMenu({
 }) {
   const pathname = usePathname();
   const t = useTranslations("Navbar");
+  const locale = useLocale();
 
   // "#" — заглушка (раздел ещё не готов), такие ссылки активными не считаем
   const isActive = (href: string) =>
@@ -62,7 +64,7 @@ export default function MobileMenu({
 
         <div className="flex flex-col gap-3 mt-4">
           <Link
-            href="http://104.207.74.50:3001"
+            href={portalLoginUrl(locale)}
             className="flex h-10 w-full items-center justify-center gap-2 rounded border border-brand-gray px-5 text-base font-normal text-brand-gray transition"
           >
             <span className="leading-none">{t("login")}</span>

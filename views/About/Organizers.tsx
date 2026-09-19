@@ -30,7 +30,7 @@ function Organizers() {
             >
               <div className="relative h-full w-full">
                 <SkeletonImage
-                  src={`/logos/${key}.svg`}
+                  src={`/logos/${key}.webp`}
                   alt={t(name)}
                   fill
                   sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
