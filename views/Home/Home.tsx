@@ -13,16 +13,11 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
-import Button from "@/shared/ui/Button";
-import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { EVENT_QUERY_KEYS } from "@/shared/event/query-keys";
-import { API } from "@/shared/api";
 import { EVENTS } from "@/shared/event/api";
 import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
 import { T_LOCALE } from "@/shared/lib/types";
-import { API_V2 } from "@/shared/api_v2";
-import { Image } from "antd";
 import type {
   NewsCardModel,
   PartnerModel,
@@ -64,95 +59,27 @@ function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
     { key: "faq", href: "/faq" },
   ] as const;
 
-  const {
-    data: eventData,
-    isLoading: isEventDataLoading,
-    isError: IsEventDataError,
-  } = useQuery({
+  /** Hero banner, title and countdown come from the registration platform. */
+  const { data: eventData } = useQuery({
     queryKey: [EVENT_QUERY_KEYS.GET_BY_ID],
-    queryFn: async () => {
-      const res = await EVENTS.GET(1);
-      // setEventData(res)
-      // console.log(res);
-      return res;
-    },
-  });
-  const {
-    data: countries,
-    isLoading: isCountriesLoading,
-    isError: IsCountriesError,
-  } = useQuery({
-    queryKey: ["countries"],
-    queryFn: async () => {
-      const res = await API_V2.COUNTRIES.LIST({
-        offset: 0,
-        limit: 10,
-      });
-
-      console.log(res.rows);
-      return res;
-    },
+    queryFn: () => EVENTS.GET(1),
   });
 
-  // useEffect(() => {
-  //   const s = [2, 6, 10, 8];
-
-  //   function getDoubleArray(doubleS: Array<number>, myN: number) {
-  //     let myA = [];
-  //     for (let i = 0; i < doubleS.length; i++) {
-  //       myA.push(doubleS[i] * myN);
-  //     }
-  //     const twoArray = doubleS
-  //       .concat(myA)
-  //       .reverse()
-  //       .filter((i) => i >= 10);
-
-  //     // reduce((acc, current) => {
-  //     //   acc += current;
-  //     //   return acc;
-  //     // }, 0);
-
-  //     // let sum = 0;
-  //     // for (let i = 0; i < twoArray.length; i++) {
-  //     //   sum += twoArray[i];
-  //     // }
-
-  //     return twoArray;
-  //   }
-  //   const found = [
-  //     { name: "al", age: 30 },
-
-  //     {
-  //       name: "bl",
-  //       age: 35,
-  //     },
-  //   ].find((i) => i.age === 35);
-
-  //   const o = getDoubleArray(s, 5);
-  //   console.log(found);
-  // }, []);
+  const bannerSrc = getMediaUrl(eventData?.bannerImage) || "/main.jpg";
 
   return (
     <>
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
           <SkeletonImage
-            src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
-            // src={`htts://api.event.oguzforum.com${eventData?.bannerImage}`}
-            alt="bannerImage"
+            src={bannerSrc}
+            alt=""
             fill
             priority
             sizes="100vw"
             className="-z-10 object-cover object-center"
             skeletonClassName="-z-10"
           />
-          {/* <Image
-            preview={false}
-            width={100}
-            height={100}
-            className="-z-10 object-cover object-center"
-            src={"https://api.event.oguzforum.com" + eventData?.bannerImage}
-          /> */}
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
           <div className="px-4 lg:px-10 py-24 lg:py-30">
@@ -160,12 +87,12 @@ function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
               <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
                 {eventData
                   ? getLocalizedTitle({
-                      titleEn: eventData?.titleEn,
-                      titleRu: eventData?.titleRu,
-                      titleTk: eventData?.titleTk,
+                      titleEn: eventData.titleEn,
+                      titleRu: eventData.titleRu,
+                      titleTk: eventData.titleTk,
                       locale,
                     })
-                  : null}
+                  : t("title")}
               </h1>
 
               <p className="mt-1 flex flex-wrap items-center gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
