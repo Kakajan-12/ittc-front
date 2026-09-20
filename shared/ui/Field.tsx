@@ -49,7 +49,8 @@ export default function Field({
           required={required}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
-          className={`input-style field-input ${className ?? ""}`}
+          className={`input-style field-input ${className ?? ""}
+          `}
           // место под иконку справа — иначе текст уедет под неё
           style={suffix ? { paddingRight: 48 } : undefined}
         />

@@ -1,5 +1,5 @@
 import { type T_API_RESPONSE } from "@/shared/api/crud";
-import { T_COMPLETED_REGISTRATION, T_SEND_OTP, T_VERIFY_EMAIL } from "./type";
+import { T_SEND_OTP, T_VERIFY_EMAIL } from "./type";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { HTTP } from "@/shared/api_v2/http";
 import { T_API_ERROR } from "@/shared/api_v2/crud";
@@ -7,21 +7,24 @@ import { T_API_ERROR } from "@/shared/api_v2/crud";
 const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
 const RESOURCE = "registrationDraft";
 
-export const SEND_OTP = async ({
-  draftId,
-  payload,
-}: {
-  draftId: number;
-  payload: { email: string; lang: "ru" | "tk" | "en" };
+// prettier-ignore
+export const RESEND_OTP = async ({revId,lang}: {revId: number; lang?: "ru" | "tk" | "en"}) => {
+  const res = await HTTP.POST<T_API_RESPONSE<T_SEND_OTP> | T_API_ERROR>({ url: `${BASE_URL}/${RESOURCE}/resendOtp`, body: { fields: { revId, lang } }});
+  if (res.statusCode === 200 && !!res.data && res.data.success) {
+    return res.data.data;
+  } else if (!!res.data && res.statusCode === 200 && !res.data.success) {
+    throw new Error(res.data.errorCode);
+  } else {
+    throw new Error("UNKNOWN_ERROR");
+  }
+};
+
+// prettier-ignore
+export const SEND_OTP = async ({draftId, payload}: {draftId: number;payload: { email: string; lang: "ru" | "tk" |"en" };
 }) => {
   const res = await HTTP.POST<T_API_RESPONSE<T_SEND_OTP> | T_API_ERROR>({
     url: `${BASE_URL}/${RESOURCE}/sendOtp`,
-    body: {
-      fields: {
-        ...payload,
-        registrationDraftId: draftId,
-      },
-    },
+    body: { fields: {...payload, registrationDraftId: draftId}},
   });
 
   if (res.statusCode === 200 && !!res.data && res.data.success) {

@@ -5,10 +5,12 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const API_PROXY_TARGET =
   process.env.API_PROXY_TARGET ?? "https://api.event.oguzforum.com";
-// NEXT_PUBLIC_BACKEND_URL=https://api.event.oguzforum.com
 
 const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
+
+  allowedDevOrigins: ["192.168.1.108"],
+
   async rewrites() {
     return [
       {
@@ -17,6 +19,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
   images: {
     unoptimized: true,
     remotePatterns: [

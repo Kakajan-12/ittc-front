@@ -1,44 +1,29 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import OtpInput from "@/shared/ui/OtpInput";
 import { OTP_LENGTH } from "../../../config";
 import { useVerificationStep } from "../hook";
+import { ResendButton } from "./ResendButton";
 
-interface VerificationStepProps {
-  id?: number;
-  onCompleted?: () => void;
-}
+// prettier-ignore
+interface VerificationStepProps { id?: number; onCompleted?: () => void}
 
-export default function VerificationStep({
-  id,
-  onCompleted,
-}: VerificationStepProps) {
+//prettier-ignore
+export default function VerificationStep({ id, onCompleted}: VerificationStepProps) {
   const t = useTranslations("Registration.verification");
   const tErrors = useTranslations("Registration.errors");
 
   const {
-    draftId,
     email,
     code,
     setCode,
-    sendCode,
     handleSubmit,
-    handleResend,
     isSubmitting,
-    isResending,
-    resendCountdown,
     error,
   } = useVerificationStep({ t: tErrors, id });
 
-  const sent = useRef(false);
 
-  useEffect(() => {
-    if (sent.current || !draftId) return;
-    sent.current = true;
-    void sendCode();
-  }, [draftId, sendCode]);
 
   return (
     <form
@@ -50,9 +35,8 @@ export default function VerificationStep({
       }}
     >
       <div className="flex flex-col gap-2">
-        <h2 className="font-nexa-bold text-2xl font-bold text-white">
-          {t("title")}
-        </h2>
+        {/* prettier-ignore */}
+        <h2 className="font-nexa-bold text-2xl font-bold text-white">{t("title")}</h2>
         <p className="font-nexa text-sm text-[#CCCBCBA8]">
           {t("sentTo")}
           <br />
@@ -61,7 +45,6 @@ export default function VerificationStep({
       </div>
 
       <OtpInput value={code} onChange={setCode} />
-
       <p className="font-nexa text-sm text-gray-400">{t("hint")}</p>
 
       {error && (
@@ -76,20 +59,7 @@ export default function VerificationStep({
         {isSubmitting ? t("verifying") : t("verify")}
       </button>
 
-      {/* На бэкенде не разрешено отправлять ОТП на почту дважды, надо ли добавлять */}
-      {/* {resendCountdown === 0 && (
-        <p className="font-nexa-regular text-sm text-white">
-          {t("noCode")}{" "}
-          <button
-            type="button"
-            onClick={() => void handleResend()}
-            disabled={isResending}
-            className="font-nexa-regular text-brand-blue hover:underline disabled:opacity-60"
-          >
-            {isResending ? t("resending") : t("resend")}
-          </button>
-        </p>
-      )} */}
+      <ResendButton  />
     </form>
   );
 }

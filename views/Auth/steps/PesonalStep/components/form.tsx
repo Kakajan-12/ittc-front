@@ -11,7 +11,6 @@ import { API_V2 } from "@/shared/api_v2";
 
 interface PersonalStepProps {
   onShowTerms: () => void;
-  // setCurrentStepIndex: Dispatch<SetStateAction<number>>;
 }
 
 export default function PersonalStepForm({
@@ -26,7 +25,6 @@ export default function PersonalStepForm({
   const {
     setPersonalForm,
     resetForm,
-    // isLoading,
     personalForm,
     handleSubmit,
     isSubmitting,
@@ -39,7 +37,7 @@ export default function PersonalStepForm({
 
   return (
     <div className="flex min-h-0 h-full w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto pt-2.5 pr-1">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scrollbar-none pt-2.5 pr-1">
         <Field
           id="name"
           label={t("name")}
@@ -115,7 +113,6 @@ export default function PersonalStepForm({
           }
         />
 
-        {/* Terms */}
         <label className="flex items-start gap-2 text-sm text-white">
           <input
             id="accept-terms"

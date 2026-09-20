@@ -26,16 +26,6 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
   const [countryQuery, setCountryQuery] = useState("");
   const debouncedQuery = useDebouncedValue(countryQuery, 800);
 
-  type SelectOption = {
-    value: string;
-    label: string;
-  };
-
-  type SelectGroup = {
-    label: string;
-    options: SelectOption[];
-  };
-
   const { data: countries, isLoading: isLoadingCountries } = useQuery({
     queryKey: ["countries", debouncedQuery, locale],
     queryFn: async () => {
@@ -130,11 +120,14 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
               : undefined
           }
           onChange={(countryId) =>
-            setOrganizationForm((prev) => ({ ...prev, countryId: +countryId }))
+            setOrganizationForm((prev) => ({
+              ...prev,
+              countryId: +countryId,
+            }))
           }
           placeholder={t("companyCountryPlaceholder")}
-          // styles
           loading={isLoadingCountries}
+          notFoundContent={t("noCountriesFound")}
           showSearch={{
             filterOption: (input, option) =>
               String(option?.label ?? "")
@@ -156,25 +149,29 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
               color: "#fff",
               fontFamily: "inherit",
               fontSize: 16,
+              height: 44,
             },
+            // selector: {
+            //   height: 44,
+            //   minHeight: 44,
+            // },
             placeholder: {
               color: "#97b4d1",
               fontFamily: "inherit",
               fontSize: 16,
               opacity: 0.8,
-              fontWeight:300
+              fontWeight: 300,
             },
             suffix: {
               color: "#97b4d1",
               opacity: 0.8,
             },
-
             clear: {
               color: "#97b4d1",
               opacity: 0.8,
             },
           }}
-          className="w-full h-13 rounded-[4px]! bg-transparent! text-white! border-[#7892ac]! [&_.ant-select-arrow]:!text-[#97b4d1]"
+          className="w-full h-11! rounded-[4px]! bg-transparent! text-white! border-[#7892ac]! [&_.ant-select-arrow]:!text-[#97b4d1]"
         />
 
         {/* <Select
@@ -205,7 +202,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           onLoadMore={fetchNextPage}
           hasNextPage={hasNextPage}
           isLoadingMore={isFetchingNextPage}
-        /> */}
+        />  */}
 
         <Field
           id="city"

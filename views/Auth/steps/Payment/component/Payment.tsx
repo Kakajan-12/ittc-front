@@ -6,19 +6,13 @@ import { useLocale, useTranslations } from "next-intl";
 import Field from "@/shared/ui/Field";
 import { localizedSubtitle, localizedTitle } from "@/shared/lib/localization";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { API } from "@/shared/api";
-import { PRINT } from "@/shared/lib/helpers";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
-import { RegistrationDraft } from "@/views/Auth/types";
 import { STORAGE_KEYS } from "@/views/Auth/config";
 import { saveDraft, useRegistrationDraft } from "@/views/Auth/draft";
 import { formatPrice } from "@/views/Auth/servicesData";
-// import { findPromocode } from "@/views/Auth/Promocodes/utils";
-// import { T_Promocode } from "@/views/Auth/Promocodes/type";
 import { usePayment } from "../hook";
 import { useRouter } from "next/navigation";
 import { API_V2 } from "@/shared/api_v2";
-import { T_PAYMENT } from "../type";
 
 export default function PaymentForm() {
   const t = useTranslations("Registration.payment");
@@ -28,51 +22,10 @@ export default function PaymentForm() {
   const [promoCode, setPromoCode] = useState("");
   const [promoError, setPromoError] = useState("");
   const savedDraft = useRegistrationDraft();
-  const [draftId] = usePersistentState<number | null>(
-    STORAGE_KEYS.draftId,
-    null,
-  );
-
-  // const applyPromoCodeMutation = useMutation({
-  //   mutationFn: async (code: string): Promise<RegistrationDraft> => {
-  //     if (!draftId) throw new Error("NO_ID_PROVIDED");
-
-  //     return API_V2.PAYMENT.APPLY_PROMOCODE({
-  //       draftId,
-  //       payload: { promocodeCode: code } as T_PAYMENT,
-  //     });
-  //   },
-
-  //   onSuccess: (updatedDraft) => {
-  //     const draft = updatedDraft?.data ?? updatedDraft;
-
-  //     localStorage.setItem("eventDraft", JSON.stringify(draft));
-  //     setSavedDraft(draft);
-  //     setPromoCode(draft.promocodeCode ?? promoCode);
-  //     setPromoError("");
-  //   },
-
-  //   onError: (error) => {
-  //     setPromoError(error instanceof Error ? error.message : t("invalidPromo"));
-  //   },
-  // });
-
-  // const onApplyPromoCode = () => {
-  //   const code = promoCode.trim().toUpperCase();
-
-  //   if (!code) return;
-
-  //   setPromoError("");
-  //   applyPromoCodeMutation.mutate(code);
-  // };
-
-  const {
-    paymentMethodId: selectedPaymentMethodId,
-    setPaymentMethodId: setSelectedPaymentMethodId,
-    handleSubmit,
-    isSubmitting,
-    error: submitError,
-  } = usePayment({ t: tErrors, draft: savedDraft ?? undefined });
+  //prettier-ignore
+  const [draftId] = usePersistentState<number | null>(STORAGE_KEYS.draftId,null);
+  //prettier-ignore
+  const { paymentMethodId: selectedPaymentMethodId, setPaymentMethodId: setSelectedPaymentMethodId, handleSubmit, isSubmitting, error: submitError} = usePayment({ t: tErrors, draft: savedDraft ?? undefined });
 
   const currentDraftId = draftId ?? savedDraft?.id ?? null;
 
@@ -89,34 +42,25 @@ export default function PaymentForm() {
 
   const packageRows = draftPackages ?? savedDraft?.draftPackageRows ?? [];
 
-  const {
-    data: eventPackages,
-    isLoading: isEventPackagesLoading,
-    isError: IsEventPackagesError,
-  } = useQuery({
+  const { data: eventPackages, isLoading: isEventPackagesLoading } = useQuery({
     enabled: !!packageRows.length,
     queryKey: ["eventPackagesList", packageRows.map((i) => i.eventPackageId)],
     queryFn: async () => {
       const res = await API_V2.EVENT_PACKAGES.LIST({
         offset: 0,
         limit: 100,
-        // filters: [
-        //   {
-        //     field: "id",
-        //     op: "in",
-        //     val: savedDraft?.packages?.map((i) => i.eventPackageId) ?? [],
-        //   },
-        // ],
+        filter: {
+          status: {
+            op: "=",
+            val: "ACTIVE",
+          },
+        },
       });
       return res.rows;
     },
   });
 
-  const {
-    data: paymentMethod,
-    isLoading: isPaymentMethodLoading,
-    isError: IsPaymentMethodError,
-  } = useQuery({
+  const { data: paymentMethod, isLoading: isPaymentMethodLoading } = useQuery({
     queryKey: ["paymentMethod"],
     queryFn: async () => {
       const res = await API_V2.PAYMONT_METHOD.LIST({
@@ -148,22 +92,6 @@ export default function PaymentForm() {
     selectedPaymentMethodId,
     setSelectedPaymentMethodId,
   ]);
-
-  // const applyPromoCode = useMutation({
-  //   mutationFn: (payload: T_PAYMENT): Promise<RegistrationDraft> => {
-  //     if (!draftId) {
-  //       throw new Error("NO ID PROVIDED");
-  //     }
-
-  //     return API_V2.PAYMENT.APPLY_PROMOCODE({
-  //       draftId: draftId,
-  //       payload,
-  //     });
-  //   },
-  //   onSuccess: (updated) => {
-  //     localStorage.setItem("eventDraft", JSON.stringify(updated));
-  //   },
-  // });
 
   const applyPromoCodeMutation = useMutation({
     mutationFn: async (promoCode: string) => {
@@ -267,7 +195,9 @@ export default function PaymentForm() {
             </p>
           )}
           {promoError && (
-            <p className="font-nexa text-sm text-[#DE7A7A]">{t('invalidPromo')}</p>
+            <p className="font-nexa text-sm text-[#DE7A7A]">
+              {t("invalidPromo")}
+            </p>
           )}
         </div>
         {!isEventPackagesLoading && eventPackages && (
@@ -404,10 +334,7 @@ export default function PaymentForm() {
         type="button"
         onClick={async () => {
           const ok = await handleSubmit();
-
-          if (ok) {
-            router.push("verification");
-          }
+          if (ok) router.push("verification") 
         }}
         disabled={isSubmitting}
         className="mt-5 h-12 w-full shrink-0 rounded bg-[#0071BB] font-nexa-bold text-base font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"

@@ -1,26 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
+import { usePersistentState } from "@/shared/lib/usePersistentState";
 
-import {
-  clearPersisted,
-  usePersistentState,
-} from "@/shared/lib/usePersistentState";
-import {
-  OTP_LENGTH,
-  RESEND_COUNTDOWN_SECONDS,
-  STORAGE_KEYS,
-} from "@/views/Auth/config";
-
-import {
-  // COMPLETE_REGISTRATION_REQUEST,
-  SEND_OTP,
-  VERIFY_OTP,
-} from "./api";
-
-import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
-
+// prettier-ignore
+import { OTP_LENGTH, STORAGE_KEYS } from "@/views/Auth/config";
+import { VERIFY_OTP } from "./api";
+import { C_SENT_INFO_KEY, T_SEND_OTP, T_VERIFY_EMAIL } from "./type";
 import { verificationSchema } from "./validation";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
@@ -34,130 +21,53 @@ type UseVerificationStepProps = {
 };
 
 export function useVerificationStep({ t, id }: UseVerificationStepProps) {
+  // prettier-ignore
   const [storedDraftId] = usePersistentState<number | null>(
     STORAGE_KEYS.draftId,
     null,
   );
 
   const draftId = id ?? storedDraftId;
-
   const [code, setCode] = useState<string[]>(initialCode);
-  const [revId, setRevId] = useState<number | null>(null);
-  const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
   const email = useRegistrationDraft()?.email ?? "";
 
-  useEffect(() => {
-    if (resendCountdown <= 0) return;
-
-    const timer = setTimeout(() => {
-      setResendCountdown((value) => value - 1);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [resendCountdown]);
-
-  const sendMutation = useMutation({
-    mutationFn: async (payload: { email: string; lang: "en" }) => {
-      if (!draftId) {
-        throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
-      }
-
-      return SEND_OTP({
-        draftId,
-        payload,
-      });
-    },
-
-    onSuccess: (data) => {
-      setRevId(data.revId);
-      setCode(initialCode());
-      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
-    },
-  });
-
+  //--------------------------------------------------------------
+  // VERIFY OTP
+  //--------------------------------------------------------------
   const verifyMutation = useMutation({
-    mutationFn: async (payload: T_VERIFY_EMAIL) => {
-      if (!draftId) {
-        throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
-      }
-
-      return VERIFY_OTP({
-        draftId,
-        payload,
-      });
+    mutationFn: async ({
+      draftId,
+      payload,
+    }: {
+      draftId: number;
+      payload: T_VERIFY_EMAIL;
+    }) => {
+      return VERIFY_OTP({ draftId, payload });
     },
   });
-
-  // const completeMutation = useMutation({
-  //   mutationFn: async (): Promise<T_COMPLETED_REGISTRATION> => {
-  //     if (!draftId) {
-  //       throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
-  //     }
-
-  //     return COMPLETE_REGISTRATION_REQUEST({
-  //       draftId,
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     clearPersisted([STORAGE_KEYS.draftId]);
-  //   },
-  // });
-
-  const sendCode = useCallback(async (): Promise<boolean> => {
-    try {
-      setError("");
-
-      await sendMutation.mutateAsync({ email, lang: "en" });
-
-      return true;
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(
-          isErrorCode(error.message)
-            ? getErrorMessage({
-                t,
-                errorCode: error.message,
-              })
-            : error.message,
-        );
-      }
-
-      return false;
-    }
-  }, [sendMutation, t]);
-
-  const handleResend = useCallback(async (): Promise<boolean> => {
-    if (resendCountdown > 0 || sendMutation.isPending) {
-      return false;
-    }
-
-    return sendCode();
-  }, [resendCountdown, sendMutation.isPending, sendCode]);
 
   const handleSubmit = useCallback(async (): Promise<boolean> => {
     try {
       setError("");
+      if (!draftId) throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
 
-      const result = verificationSchema.safeParse({
-        otp: code.join(""),
-      });
+      const result = verificationSchema.safeParse({ otp: code.join("") });
+      if (!result.success) throw result.error;
 
-      if (!result.success) {
-        throw result.error;
-      }
-
-      if (!revId) {
-        throw new Error(VERIFICATION_ERROR_CODE.SEND_EMAIL_FAILED);
-      }
+      const sentInfo = getSentInfo();
+      if (!sentInfo) throw new Error(VERIFICATION_ERROR_CODE.SEND_EMAIL_FAILED);
 
       await verifyMutation.mutateAsync({
-        otp: result.data.otp,
-        revId,
+        draftId,
+        payload: {
+          otp: result.data.otp,
+          revId: sentInfo.revId,
+        },
       });
 
-      // await completeMutation.mutateAsync();
-
+      sessionStorage.removeItem(C_SENT_INFO_KEY);
+      setCode(initialCode());
       return true;
     } catch (error) {
       if (error instanceof ZodError) {
@@ -182,29 +92,43 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [code, revId, verifyMutation, t]);
-  // completeMutation
+  }, [code, verifyMutation, t]);
+
+  //--------------------------------------------------------------
+  // EXPORT
+  //--------------------------------------------------------------
+
   return {
     draftId,
     email,
-
     code,
     setCode,
-
-    sendCode,
-    handleResend,
     handleSubmit,
-
-    isResending: sendMutation.isPending,
-    resendCountdown,
-
     isSubmitting: verifyMutation.isPending,
-    // || completeMutation.isPending,
-
-    // completed: completeMutation.data,
-
     error,
   };
+}
+
+function getSentInfo(): T_SEND_OTP | null {
+  if (typeof window === "undefined") return null;
+
+  const value = sessionStorage.getItem(C_SENT_INFO_KEY);
+
+  if (!value) return null;
+
+  try {
+    const parsed = JSON.parse(value) as T_SEND_OTP;
+
+    if (typeof parsed.revId !== "number") {
+      sessionStorage.removeItem(C_SENT_INFO_KEY);
+      return null;
+    }
+
+    return parsed;
+  } catch {
+    sessionStorage.removeItem(C_SENT_INFO_KEY);
+    return null;
+  }
 }
 
 function isErrorCode(message: string): message is VERIFICATION_ERROR_CODE {

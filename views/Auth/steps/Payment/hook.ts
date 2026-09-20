@@ -2,18 +2,17 @@ import { useCallback, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ZodError } from "zod";
 import { _Translator } from "next-intl";
-
 import { usePersistentState } from "@/shared/lib/usePersistentState";
-import { STORAGE_KEYS } from "@/views/Auth/config";
+import { RESEND_COUNTDOWN_SECONDS, STORAGE_KEYS } from "@/views/Auth/config";
 import { saveDraft } from "@/views/Auth/draft";
 import { RegistrationDraft } from "../../types";
-// import { PAYMENT_STEP_REQUEST } from "./api";
 import { T_PAYMENT } from "./type";
 import { paymentSchema } from "./validation";
 import { PAYMENT_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { PAYMENT_STEP_REQUEST } from "./api";
-import { API_V2 } from "@/shared/api_v2";
+import { SEND_OTP } from "../VerificationStep/api";
+import { C_SENT_INFO_KEY, T_SENT_INFO } from "../VerificationStep/type";
 
 type UsePaymentProps = {
   t: _Translator<Record<string, any>, "Registration.errors">;
@@ -22,14 +21,10 @@ type UsePaymentProps = {
 };
 
 export function usePayment({ t, id, draft }: UsePaymentProps) {
-  const [storedDraftId] = usePersistentState<number | null>(
-    STORAGE_KEYS.draftId,
-    null,
-  );
+  // prettier-ignore
+  const [storedDraftId] = usePersistentState<number | null>(STORAGE_KEYS.draftId,null);
   const draftId = id ?? draft?.id ?? storedDraftId;
-
   const [paymentMethodId, setPaymentMethodId] = useState<number | null>(null);
-
   const [error, setError] = useState<string>("");
 
   const resetForm = useCallback(() => {
@@ -37,25 +32,23 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
     setError("");
   }, []);
 
-  const editMutation = useMutation({
-    mutationFn: (payload: T_PAYMENT): Promise<RegistrationDraft> => {
-      if (!draftId) {
-        throw new Error("NO ID PROVIDED");
-      }
-
-      return PAYMENT_STEP_REQUEST({
-        draftId: draftId,
-        payload,
-      });
+  const submitMutation = useMutation({
+    // prettier-ignore
+    mutationFn: ({ draftId, payload}: { draftId: number; payload: T_PAYMENT}): Promise<RegistrationDraft> => {
+      return PAYMENT_STEP_REQUEST({ draftId, payload });
     },
-    onSuccess: (updated) => {
+    onSuccess: async (updated) => {
       saveDraft(updated);
+      // prettier-ignore
+      const res = await SEND_OTP({ draftId: updated.id, payload: {email: updated.email,lang: "en"}});
+      sessionStorage.setItem(C_SENT_INFO_KEY, JSON.stringify(res));
     },
   });
 
   const handleSubmit = useCallback(async (): Promise<boolean> => {
     try {
       setError("");
+      if (!draftId) throw new Error("NO ID PROVIDED");
 
       const result = paymentSchema.safeParse({
         paymentMethodId,
@@ -69,9 +62,7 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
         totalAmountTmt: draft?.totalAmountTmt ?? 0,
       });
 
-      if (!result.success) {
-        throw result.error;
-      }
+      if (!result.success) throw result.error;
 
       const payload: T_PAYMENT = {
         paymentMethodId: result.data.paymentMethodId,
@@ -85,9 +76,9 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
         totalAmountTmt: result.data.totalAmountTmt,
       };
 
-      await editMutation.mutateAsync(payload);
-
+      await submitMutation.mutateAsync({ draftId, payload });
       return true;
+      
     } catch (error) {
       if (error instanceof ZodError) {
         const firstError = error.issues[0];
@@ -104,9 +95,9 @@ export function usePayment({ t, id, draft }: UsePaymentProps) {
 
       return false;
     }
-  }, [paymentMethodId, editMutation, draft, t]);
+  }, [paymentMethodId, submitMutation, draft, t]);
 
-  const isSubmitting = editMutation.isPending;
+  const isSubmitting = submitMutation.isPending;
 
   return {
     paymentMethodId,
