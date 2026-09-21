@@ -8,12 +8,17 @@ import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
 import { portalLoginUrl } from "@/shared/config/portal";
 
-export type NavItem = {
-  key: string;
-  label: string;
-  href: string;
-  children?: { label: string; href: string }[];
-};
+export type NavChild = { label: string; href: string };
+
+/**
+ * Пункт меню — либо ссылка, либо группа. У группы нет href: её заголовок по ТЗ
+ * не кликабельный, он только раскрывает вложенный список. Отсутствие поля не
+ * даёт снова превратить заголовок в ссылку — в том числе на несуществующий
+ * маршрут, как было с "/travel".
+ */
+export type NavItem =
+  | { key: string; label: string; href: string; children?: undefined }
+  | { key: string; label: string; children: NavChild[] };
 
 export default function NavBar({
   menuOpen,
@@ -44,7 +49,6 @@ export default function NavBar({
     {
       key: "about",
       label: t("about"),
-      href: "/about",
       children: [
         { label: t("about"), href: "/about" },
         { label: t("agenda"), href: "/agenda" },
@@ -56,7 +60,6 @@ export default function NavBar({
     {
       key: "travel",
       label: t("travel"),
-      href: "/travel",
       children: [
         { label: t("visa"), href: "#" },
         { label: t("flight"), href: "#" },

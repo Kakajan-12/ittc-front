@@ -94,19 +94,18 @@ export default function MobileMenu({
           {items.map((item) =>
             item.children ? (
               <div key={item.key} className="flex flex-col gap-5">
-                <Link
-                  href={item.href}
-                  onClick={onClose}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={`text-base font-roboto transition hover:text-brand-blue ${
-                    isActive(item.href)
-                      ? "font-semibold text-brand-blue"
-                      : "text-black"
-                  }`}
+                {/* Заголовок группы не кликабельный — как и на десктопе,
+                    где это button, раскрывающий список. */}
+                <h2
+                  id={`mobile-nav-${item.key}`}
+                  className="text-base font-roboto text-black"
                 >
                   {item.label}
-                </Link>
-                <ul className="flex flex-col gap-6 pl-2.5 text-brand-gray">
+                </h2>
+                <ul
+                  aria-labelledby={`mobile-nav-${item.key}`}
+                  className="flex flex-col gap-6 pl-2.5 text-brand-gray"
+                >
                   {item.children.map((child, index) => {
                     const active = isActive(child.href);
                     return (
