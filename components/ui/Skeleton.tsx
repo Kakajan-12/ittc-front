@@ -3,7 +3,6 @@
 import Image, { type ImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { PRINT } from "@/shared/lib/helpers";
 
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -55,8 +54,6 @@ function SkeletonImage({
 
   // src ещё не пришёл (например, данные грузятся) — next/image требует непустой src.
   const hasSrc = Boolean(src);
-
-  PRINT(src)
 
   const image = hasSrc ? (
     <Image
