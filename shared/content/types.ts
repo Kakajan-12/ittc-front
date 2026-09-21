@@ -180,3 +180,21 @@ export type AgendaPhase = Entity & {
   days: AgendaDay[];
   order: number;
 };
+
+/** Site-wide values that cannot repeat; one record, not localised. */
+export type SiteSettings = {
+  id: number;
+  partnerUrl: string;
+};
+
+export type ContactType = "PHONE" | "EMAIL";
+
+/** Phones and e-mails; the footer lists them, the header takes the first. */
+export type Contact = Entity & {
+  type: ContactType;
+  value: string;
+  labelEn: string | null;
+  labelRu: string | null;
+  labelTk: string | null;
+  order: number;
+};

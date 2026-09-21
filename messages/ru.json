@@ -24,8 +24,7 @@
     "hotel": "Забронировать отель",
     "news": "Новости",
     "register": "Регистрация",
-    "login": "Войти",
-    "comingSoon": "Скоро будет доступно"
+    "login": "Войти"
   },
   "Hero": {
     "title": "Международная конференция по транспортным и транзитным коридорам 2026",
@@ -279,8 +278,6 @@
     "company": {
       "companyName": "Название компании",
       "companyNamePlaceholder": "Название компании",
-      "position": "Должность",
-      "positionPlaceholder": "Должность",
       "companyWebsite": "Сайт компании",
       "companyWebsitePlaceholder": "Сайт компании",
       "companyAddress": "Адрес компании",

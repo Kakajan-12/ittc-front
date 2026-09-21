@@ -9,6 +9,8 @@ import type {
   News,
   Partner,
   Speaker,
+  Contact,
+  SiteSettings,
   Sponsor,
   StatCounter,
   StaticPage,
@@ -331,4 +333,82 @@ export async function getAgenda(locale: Locale): Promise<AgendaPhaseModel[]> {
       ),
     })),
   }));
+}
+
+// -- site settings and contacts ----------------------------------------------
+
+export type ContactModel = {
+  id: number;
+  value: string;
+  /** Ready for href: `tel:` for phones, `mailto:` for e-mails. */
+  href: string;
+  /** Optional caption, shown when there is more than one of a kind. */
+  label: string | null;
+};
+
+export type SiteContactsModel = {
+  phones: ContactModel[];
+  emails: ContactModel[];
+  partnerUrl: string;
+};
+
+/**
+ * Header and footer render on every page, so a content API hiccup must not
+ * blank out the contacts — these are the values the site shipped with.
+ */
+const CONTACTS_FALLBACK: SiteContactsModel = {
+  phones: [
+    { id: 0, value: "+99361 480 080", href: "tel:+99361480080", label: null },
+  ],
+  emails: [
+    {
+      id: 0,
+      value: "info@oguzforum.com",
+      href: "mailto:info@oguzforum.com",
+      label: null,
+    },
+  ],
+  partnerUrl: "https://oguzforum.com",
+};
+
+/** `tel:` ignores spaces and dashes; browsers dial what is left. */
+function telHref(phone: string): string {
+  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
+
+function toContactModel(contact: Contact, locale: Locale): ContactModel {
+  return {
+    id: contact.id,
+    value: contact.value,
+    href:
+      contact.type === "PHONE"
+        ? telHref(contact.value)
+        : `mailto:${contact.value}`,
+    label: localizedOrNull(contact, "label", locale),
+  };
+}
+
+export async function getSiteContacts(
+  locale: Locale,
+): Promise<SiteContactsModel> {
+  const [contacts, settings] = await Promise.all([
+    safeContentList<Contact>("contacts", {
+      limit: 50,
+      orderBy: "order",
+      orderDirection: "asc",
+    }),
+    safeContentGet<SiteSettings>("settings"),
+  ]);
+
+  if (!contacts.length && !settings) return CONTACTS_FALLBACK;
+
+  const models = contacts.map((contact) => toContactModel(contact, locale));
+  const phones = models.filter((_, i) => contacts[i].type === "PHONE");
+  const emails = models.filter((_, i) => contacts[i].type === "EMAIL");
+
+  return {
+    phones: phones.length ? phones : CONTACTS_FALLBACK.phones,
+    emails: emails.length ? emails : CONTACTS_FALLBACK.emails,
+    partnerUrl: settings?.partnerUrl ?? CONTACTS_FALLBACK.partnerUrl,
+  };
 }

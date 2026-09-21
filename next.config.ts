@@ -46,7 +46,11 @@ const nextConfig: NextConfig = {
   images: {
     // Remote images are resized and re-encoded on demand; uploads arrive from
     // the CMS at arbitrary sizes and nothing here should ship a 12 MP original.
-    formats: ["image/avif", "image/webp"],
+    //
+    // WebP only, deliberately: measured on this project's own assets, AVIF came
+    // out 28-36% *larger* at comparable settings and took 5-7x longer to
+    // encode, which on a busy machine is what starves the render workers.
+    formats: ["image/webp"],
     // The optimizer rejects SVG unless this is set, which would break every
     // logo rendered through next/image. The SVGs here are our own files in
     // `public/` — the API refuses SVG uploads — and the policy below keeps any

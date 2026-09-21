@@ -24,8 +24,7 @@
     "hotel": "Myhmanhana bron etmek",
     "news": "Habarlar",
     "register": "Hasaba durmak",
-    "login": "Giriş",
-    "comingSoon": "Ýakyn wagtda"
+    "login": "Giriş"
   },
   "Hero": {
     "title": "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
@@ -164,8 +163,7 @@
     "title": "Sowallar",
     "placeholder": "Sowallary gözle",
     "noResults": "\"{query}\" boýunça sowal tapylmady.",
-    "clear": "Gözlegi arassala",
-    "view": "Giňişleýin"
+    "clear": "Gözlegi arassala"
   },
   "News": {
     "title": "Habarlar",

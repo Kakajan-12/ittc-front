@@ -7,6 +7,7 @@ import { SlSocialLinkedin } from "react-icons/sl";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import type { SiteContactsModel } from "@/shared/content/queries";
 import FooterAccordion from "@/shared/ui/FooterAccordion";
 
 const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
@@ -40,7 +41,11 @@ type FooterLinkConfig = {
   icon?: React.ReactNode;
 };
 
-const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
+type FooterSectionConfig = { titleKey: string; links: FooterLinkConfig[] };
+
+/** Contacts come from the admin panel, the rest are routes that live in code. */
+function buildSections(contacts: SiteContactsModel): FooterSectionConfig[] {
+  return [
   {
     titleKey: "info",
     links: [
@@ -61,19 +66,21 @@ const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
   {
     titleKey: "contact",
     links: [
-      {
-        label: "+99361 480 080",
-        href: "tel:+99361 480 080",
+      // Every configured contact, not just the one the header has room for.
+      ...contacts.phones.map((phone) => ({
+        label: phone.label ? `${phone.label}: ${phone.value}` : phone.value,
+        href: phone.href,
         icon: <LuPhone />,
-      },
-      {
-        label: "info@oguzforum.com",
-        href: "mailto:info@oguzforum.com",
+      })),
+      ...contacts.emails.map((email) => ({
+        label: email.label ? `${email.label}: ${email.value}` : email.value,
+        href: email.href,
         icon: <LuMail />,
-      },
+      })),
     ],
   },
-];
+  ];
+}
 
 function FooterLink({ href, label, icon }: FooterLinkItem) {
   return (
@@ -106,8 +113,13 @@ function FooterSection({
   );
 }
 
-export default function Footer() {
+export default function Footer({
+  contacts,
+}: {
+  contacts: SiteContactsModel;
+}) {
   const t = useTranslations("Footer");
+  const sections = buildSections(contacts);
   return (
     <footer className="bg-gradient-footer relative bg-brand-blue-dark font-proxima-nova">
       <div className="absolute inset-0 bg-linear-to-r from-transparent via-brand-blue-dark/60 to-brand-blue-dark z-20" />
@@ -139,7 +151,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="hidden md:flex flex-col gap-6 md:gap-10 lg:gap-30 md:flex-row justify-center">
-            {SECTIONS.map((section) => (
+            {sections.map((section) => (
               <FooterSection
                 key={section.titleKey}
                 title={t(section.titleKey)}
@@ -154,7 +166,7 @@ export default function Footer() {
 
           <div className="md:hidden">
             <FooterAccordion
-              sections={SECTIONS.map((section) => ({
+              sections={sections.map((section) => ({
                 key: section.titleKey,
                 title: t(section.titleKey),
                 links: section.links.map((link) => ({

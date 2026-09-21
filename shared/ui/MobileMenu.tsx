@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { NavItem } from "@/shared/ui/NavBar";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { useLocale, useTranslations } from "next-intl";
-import { LockIcon } from "./LockIcon";
 import { portalLoginUrl } from "@/shared/config/portal";
 
 export default function MobileMenu({
