@@ -61,25 +61,7 @@ export default function MobileMenu({
           <IoClose className="size-7 text-brand-blue" />
         </button>
 
-        <div className="flex flex-col gap-3 mt-4">
-          <Link
-            href={portalLoginUrl(locale)}
-            className="flex h-10 w-full items-center justify-center gap-2 rounded border border-brand-gray px-5 text-base font-normal text-brand-gray transition"
-          >
-            <span className="leading-none">{t("login")}</span>
-            <span className="w-2" />
-          </Link>
-
-          <Link
-            href="/register"
-            onClick={onClose}
-            className="flex h-10 w-full items-center justify-center rounded bg-brand-blue px-5 text-base font-normal text-white transition hover:bg-brand-blue/85"
-          >
-            {t("register")}
-          </Link>
-        </div>
-
-        <nav className="mt-10 flex flex-col gap-7">
+        <nav className="mt-4 flex flex-col gap-7">
           <Link
             href="/"
             onClick={onClose}
@@ -160,6 +142,27 @@ export default function MobileMenu({
             ),
           )}
         </nav>
+
+        {/* mt-auto прижимает кнопки к низу панели, когда меню короче экрана;
+            когда пунктов много — они просто идут за навигацией и скроллятся
+            вместе с ней. shrink-0 не даёт flex-контейнеру их сплющить. */}
+        <div className="mt-auto flex shrink-0 flex-col gap-3 pt-10">
+          <Link
+            href={portalLoginUrl(locale)}
+            className="flex h-10 w-full items-center justify-center gap-2 rounded border border-brand-gray px-5 text-base font-normal text-brand-gray transition"
+          >
+            <span className="leading-none">{t("login")}</span>
+            <span className="w-2" />
+          </Link>
+
+          <Link
+            href="/register"
+            onClick={onClose}
+            className="flex h-10 w-full items-center justify-center rounded bg-brand-blue px-5 text-base font-normal text-white transition hover:bg-brand-blue/85"
+          >
+            {t("register")}
+          </Link>
+        </div>
       </div>
     </div>
   );
