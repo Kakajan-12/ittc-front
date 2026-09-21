@@ -21,7 +21,6 @@ export default function CmsPageView({
     <main>
       <PageHeading
         title={title}
-        homeLabel="Home"
         crumbs={[{ label: title }]}
         image={page?.cover ?? image}
       />

@@ -24,7 +24,9 @@
     "hotel": "Myhmanhana bron etmek",
     "news": "Habarlar",
     "register": "Hasaba durmak",
-    "login": "Giriş"
+    "login": "Giriş",
+    "breadcrumb": "Nawigasiýa zynjyry",
+    "closeMenu": "Menýuny ýapmak"
   },
   "Hero": {
     "agenda": "Maksatnama",
@@ -39,7 +41,8 @@
     "days": "Gün",
     "hours": "Sagat",
     "minutes": "Minut",
-    "seconds": "Sekunt"
+    "seconds": "Sekunt",
+    "started": "ITTC 2026"
   },
   "About": {
     "title": "Çäre barada",
@@ -112,7 +115,177 @@
     "title": "Broşýura"
   },
   "Visa": {
-    "title": "Wiza almak üçin ýüz tutmak"
+    "title": "Wiza almak üçin ýüz tutmak",
+    "sections": {
+      "personal": "Şahsy maglumatlar",
+      "contact": "Habarlaşmak we salgy",
+      "passport": "Pasport maglumatlary",
+      "work": "Iş we bilim"
+    },
+    "uploads": {
+      "photo": "Surat (5:6)",
+      "passportScan": "Pasportyň nusgasy"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Ady",
+        "placeholder": "John"
+      },
+      "surname": {
+        "label": "Familiýasy",
+        "placeholder": "Doe"
+      },
+      "gender": {
+        "label": "Jynsy",
+        "placeholder": "Jynsy saýlaň*"
+      },
+      "maritalStatus": {
+        "label": "Maşgala ýagdaýy",
+        "placeholder": "Maşgala ýagdaýyny saýlaň*"
+      },
+      "birthDate": {
+        "label": "Doglan senesi",
+        "placeholder": "Doglan senesi*"
+      },
+      "surnameOfBirth": {
+        "label": "Doglandaky familiýasy",
+        "placeholder": "Gyzlyk familiýasy (tapawutly bolsa)"
+      },
+      "citizenship": {
+        "label": "Raýatlygy",
+        "placeholder": "Raýatlyk ýurduny saýlaň*"
+      },
+      "country": {
+        "label": "Doglan ýurdy",
+        "placeholder": "Doglan ýurduny saýlaň*"
+      },
+      "placeOfBirth": {
+        "label": "Doglan ýeri (şäher)",
+        "placeholder": "Şäheri ýazyň*"
+      },
+      "address": {
+        "label": "Öý salgysy",
+        "placeholder": "Köçe, jaý, öý*"
+      },
+      "email": {
+        "label": "E-poçta salgysy"
+      },
+      "phone": {
+        "label": "Telefon belgisi",
+        "placeholder": "Ykjam telefon belgisi"
+      },
+      "residentialAddress": {
+        "label": "Meýilleşdirilen ýaşaýyş salgysy",
+        "placeholder": "Bolýan wagtyňyzdaky salgy"
+      },
+      "passportType": {
+        "label": "Pasportyň görnüşi",
+        "placeholder": "Pasportyň görnüşini saýlaň*"
+      },
+      "passportNumber": {
+        "label": "Pasport belgisi",
+        "placeholder": "AB 123456"
+      },
+      "dateIssue": {
+        "label": "Berlen senesi",
+        "placeholder": "Berlen senesi*"
+      },
+      "expiry": {
+        "label": "Hereket ediş möhleti",
+        "placeholder": "Hereket ediş möhleti*"
+      },
+      "placeOfIssue": {
+        "label": "Berlen ýeri",
+        "placeholder": "Ýurdy saýlaň*"
+      },
+      "education": {
+        "label": "Bilimi",
+        "placeholder": "Ýokary bilim"
+      },
+      "speciality": {
+        "label": "Hünäri",
+        "placeholder": "Informatika"
+      },
+      "placeOfEducation": {
+        "label": "Okan ýeri",
+        "placeholder": "Harward uniwersiteti"
+      },
+      "placeOfWork": {
+        "label": "Iş ýeri (kompaniýa)",
+        "placeholder": "Tech Corp"
+      },
+      "position": {
+        "label": "Wezipesi",
+        "placeholder": "Programma inženeri"
+      },
+      "experience": {
+        "label": "Iş tejribesi",
+        "placeholder": "Näçe ýyl"
+      }
+    },
+    "options": {
+      "gender": {
+        "Male": "Erkek",
+        "Female": "Aýal"
+      },
+      "maritalStatus": {
+        "Single": "Boýdak",
+        "Married": "Maşgalaly",
+        "Divorced": "Aýrylyşan",
+        "Widowed": "Dul",
+        "Separated": "Aýry ýaşaýan"
+      },
+      "passportType": {
+        "Ordinary": "Adaty",
+        "Military": "Harby"
+      }
+    },
+    "form": {
+      "submit": "Arzany ibermek",
+      "sending": "Iberilýär…",
+      "checkFields": "Bellenen meýdanlary barlaň",
+      "sendFailed": "Arzany ibermek başartmady. Gaýtadan synanyşyň.",
+      "reference": "Arzanyň belgisi: {code}"
+    },
+    "general": {
+      "PHOTO_IS_REQUIRED": "Surat goşuň",
+      "PASSPORT_SCAN_IS_REQUIRED": "Pasportyň nusgasyny goşuň",
+      "DUPLICATE_APPLICATION": "Bu pasport boýunça arza eýýäm berlipdir",
+      "DATABASE_UNAVAILABLE": "Hyzmat wagtlaýyn elýeterli däl, soňra synanyşyň",
+      "FILE_IS_REQUIRED": "Faýl ýükläň"
+    },
+    "errors": {
+      "NAME_IS_TOO_SMALL": "At azyndan 2 harpdan ybarat bolmaly",
+      "NAME_IS_TOO_BIG": "At 50 harpdan uzyn bolmaly däl",
+      "SURNAME_IS_TOO_SMALL": "Familiýa azyndan 2 harpdan ybarat bolmaly",
+      "SURNAME_IS_TOO_BIG": "Familiýa 50 harpdan uzyn bolmaly däl",
+      "GENDER_IS_REQUIRED": "Jynsy saýlaň",
+      "MARITAL_STATUS_IS_REQUIRED": "Maşgala ýagdaýyny saýlaň",
+      "BIRTH_DATE_IS_REQUIRED": "Doglan senäňizi saýlaň",
+      "BIRTH_DATE_IS_IN_FUTURE": "Doglan senesi geljekde bolup bilmez",
+      "SURNAME_OF_BIRTH_IS_TOO_SMALL": "Doglandaky familiýa azyndan 2 harpdan ybarat bolmaly",
+      "SURNAME_OF_BIRTH_IS_TOO_BIG": "Doglandaky familiýa 50 harpdan uzyn bolmaly däl",
+      "CITIZENSHIP_IS_REQUIRED": "Raýatlyk ýurduny saýlaň",
+      "COUNTRY_IS_REQUIRED": "Doglan ýurduny saýlaň",
+      "PLACE_OF_BIRTH_IS_TOO_SMALL": "Doglan şäheriňizi ýazyň",
+      "ADDRESS_IS_TOO_SMALL": "Öý salgyňyzy ýazyň",
+      "EMAIL_IS_INVALID": "Dogry e-poçta salgysyny ýazyň",
+      "PHONE_IS_TOO_SMALL": "Dogry telefon belgisini ýazyň",
+      "RESIDENTIAL_ADDRESS_IS_TOO_SMALL": "Meýilleşdirilen ýaşaýyş salgyňyzy ýazyň",
+      "PASSPORT_TYPE_IS_REQUIRED": "Pasportyň görnüşini saýlaň",
+      "PASSPORT_NUMBER_IS_INVALID": "Dogry pasport belgisini ýazyň (6–20 harp ýa-da san)",
+      "DATE_ISSUE_IS_REQUIRED": "Pasportyň berlen senesini saýlaň",
+      "DATE_ISSUE_IS_IN_FUTURE": "Berlen senesi geljekde bolup bilmez",
+      "EXPIRY_IS_REQUIRED": "Pasportyň hereket ediş möhletini saýlaň",
+      "EXPIRY_IS_TOO_SOON": "Pasport ýene azyndan 6 aý hereket etmeli",
+      "PLACE_OF_ISSUE_IS_REQUIRED": "Berlen ýerini saýlaň",
+      "EDUCATION_IS_TOO_SMALL": "Bilimiňizi ýazyň",
+      "SPECIALITY_IS_TOO_SMALL": "Hünäriňizi ýazyň",
+      "PLACE_OF_EDUCATION_IS_TOO_SMALL": "Okan ýeriňizi ýazyň",
+      "PLACE_OF_WORK_IS_TOO_SMALL": "Iş ýeriňizi ýazyň",
+      "POSITION_IS_TOO_SMALL": "Wezipäňizi ýazyň",
+      "EXPERIENCE_IS_INVALID": "Iş tejribesi 0-dan 70-e çenli san bolmaly"
+    }
   },
   "Flight": {
     "title": "Uçar biletini bron etmek"
@@ -214,7 +387,15 @@
     "selectPlaceholder": "Saýlaň",
     "loading": "Ýüklenýär...",
     "search": "Gözleg",
-    "notFound": "Hiç zat tapylmady"
+    "notFound": "Hiç zat tapylmady",
+    "comingSoon": "Ýakynda",
+    "previousPage": "Öňki sahypa",
+    "nextPage": "Indiki sahypa",
+    "back": "Yza",
+    "removeFile": "Faýly aýyrmak",
+    "page": "{number}-nji sahypa",
+    "upload": "Ýükle",
+    "replace": "Çalyş"
   },
   "Errors": {
     "phoneRequired": "Telefon belgiňizi giriziň",

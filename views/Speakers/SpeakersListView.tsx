@@ -39,7 +39,6 @@ export default function SpeakersListView({
     <main>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/speakers.jpg"
         objectPosition="top"

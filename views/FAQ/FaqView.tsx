@@ -34,7 +34,6 @@ export default function FaqView({ items }: { items: FaqModel[] }) {
     <>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/faq.jpg"
         objectPosition="top"

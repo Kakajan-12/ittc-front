@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Input } from "@/shared/ui/Input";
 import { SelectField } from "@/shared/ui/SelectField";
 import { DateField } from "@/shared/ui/DateField";
@@ -12,12 +12,11 @@ import { UploadField } from "@/shared/ui/UploadField";
 import { VISA_SCHEMA } from "./schema";
 import { VISA_ERROR_CODE, VISA_ERROR_MESSAGE } from "./types";
 import { useErrorText } from "@/shared/lib/errorText";
+import type { SelectFieldOption } from "@/shared/ui/SelectField";
 import { submitVisaApplication } from "@/shared/content/submit";
 
-/** Flat field list in page order, with the section each field belongs to */
-const FIELDS = SECTIONS.flatMap((section) =>
-  (section.fields ?? []).map((field) => ({ ...field, section: section.title })),
-);
+/** Flat field list in page order */
+const FIELDS = SECTIONS.flatMap((section) => section.fields ?? []);
 
 /**
  * The API rejects with the same codes the client validates against, so a
@@ -56,13 +55,15 @@ const FIELD_BY_ERROR_CODE: Partial<Record<VISA_ERROR_CODE, string>> = {
   [VISA_ERROR_CODE.EXPERIENCE_IS_INVALID]: "experience",
 };
 
-/** Codes the API raises that the form has no field for. */
-const GENERAL_ERROR_MESSAGE: Record<string, string> = {
-  PHOTO_IS_REQUIRED: "Attach a photo",
-  PASSPORT_SCAN_IS_REQUIRED: "Attach a passport scan",
-  DUPLICATE_APPLICATION:
-    "An application for this passport has already been submitted",
-  DATABASE_UNAVAILABLE: "The service is temporarily unavailable, try again later",
+/**
+ * Codes the API raises that the form has no field for. Values are translation
+ * keys; the component resolves them against the page language.
+ */
+const GENERAL_ERROR_KEY: Record<string, string> = {
+  PHOTO_IS_REQUIRED: "general.PHOTO_IS_REQUIRED",
+  PASSPORT_SCAN_IS_REQUIRED: "general.PASSPORT_SCAN_IS_REQUIRED",
+  DUPLICATE_APPLICATION: "general.DUPLICATE_APPLICATION",
+  DATABASE_UNAVAILABLE: "general.DATABASE_UNAVAILABLE",
 };
 
 /** Uploads live outside `values` — they hold `File`s, not strings */
@@ -96,6 +97,7 @@ const toApiValues = (values: Record<string, string>) =>
 
 export default function VisaForm() {
   // Сообщения телефона приходят ключом перевода — см. shared/lib/phone
+  const t = useTranslations("Visa");
   const errorText = useErrorText();
   const locale = useLocale();
   const [sent, setSent] = useState(false);
@@ -105,6 +107,26 @@ export default function VisaForm() {
   const [values, setValues] = useState<Record<string, string>>(EMPTY_VALUES);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [files, setFiles] = useState<Record<string, File | null>>({});
+
+  /** Не у каждого поля есть подсказка — у почты, например, её нет. */
+  const placeholderFor = (id: string) => {
+    const key = `fields.${id}.placeholder`;
+    return t.has(key) ? t(key) : undefined;
+  };
+
+  /**
+   * Переводится только надпись. Значение уходит на сервер как есть ("Male"),
+   * иначе выбор пользователя зависел бы от языка страницы.
+   */
+  const optionsFor = (field: {
+    id: string;
+    options?: SelectFieldOption[];
+  }): SelectFieldOption[] =>
+    field.options?.map((option) =>
+      typeof option === "string"
+        ? { value: option, label: t(`options.${field.id}.${option}`) }
+        : option,
+    ) ?? [];
 
   const setFile = (id: string, file: File | null) => {
     setFiles((prev) => ({ ...prev, [id]: file }));
@@ -132,7 +154,7 @@ export default function VisaForm() {
     const uploadErrors: Record<string, string> = {};
     for (const upload of UPLOADS) {
       if (!upload.optional && !files[upload.id]) {
-        uploadErrors[upload.id] = "Upload a file";
+        uploadErrors[upload.id] = "Visa.general.FILE_IS_REQUIRED";
       }
     }
 
@@ -185,10 +207,8 @@ export default function VisaForm() {
         el?.scrollIntoView({ behavior: "smooth", block: "center" });
         el?.focus({ preventScroll: true });
       } else {
-        setFormError(
-          GENERAL_ERROR_MESSAGE[code] ??
-            "Could not send the application. Please try again.",
-        );
+        const key = GENERAL_ERROR_KEY[code];
+        setFormError(key ? t(key) : t("form.sendFailed"));
       }
     } finally {
       setSubmitting(false);
@@ -209,7 +229,7 @@ export default function VisaForm() {
             className="scroll-mt-28 flex flex-col gap-6"
           >
             <h2 className="text-xl font-bold text-brand-dark-gray">
-              {section.title}
+              {t(`sections.${section.id}`)}
             </h2>
 
             {section.uploads && (
@@ -219,7 +239,7 @@ export default function VisaForm() {
                     key={upload.id}
                     id={upload.id}
                     name={upload.id}
-                    title={upload.title}
+                    title={t(`uploads.${upload.id}`)}
                     aspect={upload.aspect}
                     width={upload.width}
                     sample={upload.sample}
@@ -240,9 +260,9 @@ export default function VisaForm() {
                     key={field.id}
                     id={field.id}
                     name={field.id}
-                    label={field.label}
-                    placeholder={field.placeholder}
-                    options={field.options}
+                    label={t(`fields.${field.id}.label`)}
+                    placeholder={placeholderFor(field.id)}
+                    options={optionsFor(field)}
                     required={!field.optional}
                     value={values[field.id] || null}
                     onValueChange={(value) => setValue(field.id, value ?? "")}
@@ -253,8 +273,8 @@ export default function VisaForm() {
                     key={field.id}
                     id={field.id}
                     name={field.id}
-                    label={field.label}
-                    placeholder={field.placeholder}
+                    label={t(`fields.${field.id}.label`)}
+                    placeholder={placeholderFor(field.id)}
                     notFuture={field.notFuture}
                     notPast={field.notPast}
                     minMonthsAhead={field.minMonthsAhead}
@@ -270,8 +290,8 @@ export default function VisaForm() {
                     key={field.id}
                     id={field.id}
                     name={field.id}
-                    label={field.label}
-                    placeholder={field.placeholder}
+                    label={t(`fields.${field.id}.label`)}
+                    placeholder={placeholderFor(field.id)}
                     value={values[field.id]}
                     onChange={(phone) => setValue(field.id, phone)}
                     required={!field.optional}
@@ -283,8 +303,8 @@ export default function VisaForm() {
                     id={field.id}
                     name={field.id}
                     type={field.type}
-                    label={field.label}
-                    placeholder={field.placeholder}
+                    label={t(`fields.${field.id}.label`)}
+                    placeholder={placeholderFor(field.id)}
                     required={!field.optional}
                     value={values[field.id]}
                     onChange={handleChange}
@@ -299,7 +319,7 @@ export default function VisaForm() {
         <div className="flex flex-col gap-3">
           {Object.values(errors).some(Boolean) && (
             <p role="alert" className="text-sm text-[#DE7A7A]">
-              Please check the highlighted fields
+              {t("form.checkFields")}
             </p>
           )}
 
@@ -314,7 +334,7 @@ export default function VisaForm() {
             disabled={submitting}
             className="self-start rounded bg-brand-blue px-8 py-3 font-semibold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {submitting ? "Sending…" : "Submit application"}
+            {t(submitting ? "form.sending" : "form.submit")}
           </button>
         </div>
       </form>
@@ -322,7 +342,7 @@ export default function VisaForm() {
       <SuccessModal
         open={sent}
         onClose={() => setSent(false)}
-        details={reference ? `Reference: ${reference}` : undefined}
+        details={reference ? t("form.reference", { code: reference }) : undefined}
       />
     </div>
   );

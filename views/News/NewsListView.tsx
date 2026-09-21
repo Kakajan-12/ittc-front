@@ -27,6 +27,7 @@ function getPageList(current: number, total: number): (number | "dots")[] {
  */
 export default function NewsListView({ news }: { news: NewsCardModel[] }) {
   const t = useTranslations("News");
+  const tCommon = useTranslations("Common");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const topRef = useRef<HTMLDivElement>(null);
@@ -57,7 +58,6 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
     <main>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/news.webp"
       />
@@ -122,7 +122,7 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
               type="button"
               onClick={() => goTo(currentPage - 1)}
               disabled={currentPage === 1}
-              aria-label="Previous page"
+              aria-label={tCommon("previousPage")}
               className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
             >
               <FiChevronLeft size={18} />
@@ -140,7 +140,7 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
                 <button
                   key={p}
                   type="button"
-                  aria-label={`Page ${p}`}
+                  aria-label={tCommon("page", { number: p })}
                   aria-current={p === currentPage ? "page" : undefined}
                   onClick={() => goTo(p)}
                   className={`size-9 rounded-sm border text-sm font-medium transition-colors ${
@@ -158,7 +158,7 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
               type="button"
               onClick={() => goTo(currentPage + 1)}
               disabled={currentPage === totalPages}
-              aria-label="Next page"
+              aria-label={tCommon("nextPage")}
               className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
             >
               <FiChevronRight size={18} />

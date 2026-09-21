@@ -24,7 +24,9 @@
     "hotel": "Забронировать отель",
     "news": "Новости",
     "register": "Регистрация",
-    "login": "Войти"
+    "login": "Войти",
+    "breadcrumb": "Навигационная цепочка",
+    "closeMenu": "Закрыть меню"
   },
   "Hero": {
     "agenda": "Программа",
@@ -39,7 +41,8 @@
     "days": "Дней",
     "hours": "Часов",
     "minutes": "Минут",
-    "seconds": "Секунд"
+    "seconds": "Секунд",
+    "started": "ITTC 2026"
   },
   "About": {
     "title": "О мероприятии",
@@ -112,7 +115,177 @@
     "title": "Брошюра"
   },
   "Visa": {
-    "title": "Подать заявку на визу"
+    "title": "Подать заявку на визу",
+    "sections": {
+      "personal": "Личные данные",
+      "contact": "Контакты и адрес",
+      "passport": "Паспортные данные",
+      "work": "Работа и образование"
+    },
+    "uploads": {
+      "photo": "Фотография (5:6)",
+      "passportScan": "Скан паспорта"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Имя",
+        "placeholder": "John"
+      },
+      "surname": {
+        "label": "Фамилия",
+        "placeholder": "Doe"
+      },
+      "gender": {
+        "label": "Пол",
+        "placeholder": "Выберите пол*"
+      },
+      "maritalStatus": {
+        "label": "Семейное положение",
+        "placeholder": "Выберите семейное положение*"
+      },
+      "birthDate": {
+        "label": "Дата рождения",
+        "placeholder": "Дата рождения*"
+      },
+      "surnameOfBirth": {
+        "label": "Фамилия при рождении",
+        "placeholder": "Девичья фамилия (если отличается)"
+      },
+      "citizenship": {
+        "label": "Гражданство",
+        "placeholder": "Выберите страну гражданства*"
+      },
+      "country": {
+        "label": "Страна рождения",
+        "placeholder": "Выберите страну рождения*"
+      },
+      "placeOfBirth": {
+        "label": "Место рождения (город)",
+        "placeholder": "Укажите город*"
+      },
+      "address": {
+        "label": "Домашний адрес",
+        "placeholder": "Улица, дом, квартира*"
+      },
+      "email": {
+        "label": "Электронная почта"
+      },
+      "phone": {
+        "label": "Номер телефона",
+        "placeholder": "Мобильный номер"
+      },
+      "residentialAddress": {
+        "label": "Планируемый адрес проживания",
+        "placeholder": "Адрес на время пребывания"
+      },
+      "passportType": {
+        "label": "Тип паспорта",
+        "placeholder": "Выберите тип паспорта*"
+      },
+      "passportNumber": {
+        "label": "Номер паспорта",
+        "placeholder": "AB 123456"
+      },
+      "dateIssue": {
+        "label": "Дата выдачи",
+        "placeholder": "Дата выдачи*"
+      },
+      "expiry": {
+        "label": "Действителен до",
+        "placeholder": "Действителен до*"
+      },
+      "placeOfIssue": {
+        "label": "Место выдачи",
+        "placeholder": "Выберите страну*"
+      },
+      "education": {
+        "label": "Образование",
+        "placeholder": "Высшее"
+      },
+      "speciality": {
+        "label": "Специальность",
+        "placeholder": "Информатика"
+      },
+      "placeOfEducation": {
+        "label": "Учебное заведение",
+        "placeholder": "Гарвардский университет"
+      },
+      "placeOfWork": {
+        "label": "Место работы (компания)",
+        "placeholder": "Tech Corp"
+      },
+      "position": {
+        "label": "Должность",
+        "placeholder": "Инженер-программист"
+      },
+      "experience": {
+        "label": "Стаж",
+        "placeholder": "Количество лет"
+      }
+    },
+    "options": {
+      "gender": {
+        "Male": "Мужской",
+        "Female": "Женский"
+      },
+      "maritalStatus": {
+        "Single": "Холост / не замужем",
+        "Married": "Женат / замужем",
+        "Divorced": "В разводе",
+        "Widowed": "Вдовец / вдова",
+        "Separated": "Проживают раздельно"
+      },
+      "passportType": {
+        "Ordinary": "Обычный",
+        "Military": "Военный"
+      }
+    },
+    "form": {
+      "submit": "Отправить заявку",
+      "sending": "Отправка…",
+      "checkFields": "Проверьте отмеченные поля",
+      "sendFailed": "Не удалось отправить заявку. Попробуйте ещё раз.",
+      "reference": "Номер заявки: {code}"
+    },
+    "general": {
+      "PHOTO_IS_REQUIRED": "Прикрепите фотографию",
+      "PASSPORT_SCAN_IS_REQUIRED": "Прикрепите скан паспорта",
+      "DUPLICATE_APPLICATION": "Заявка с этим паспортом уже подана",
+      "DATABASE_UNAVAILABLE": "Сервис временно недоступен, попробуйте позже",
+      "FILE_IS_REQUIRED": "Загрузите файл"
+    },
+    "errors": {
+      "NAME_IS_TOO_SMALL": "Имя должно быть не короче 2 символов",
+      "NAME_IS_TOO_BIG": "Имя должно быть не длиннее 50 символов",
+      "SURNAME_IS_TOO_SMALL": "Фамилия должна быть не короче 2 символов",
+      "SURNAME_IS_TOO_BIG": "Фамилия должна быть не длиннее 50 символов",
+      "GENDER_IS_REQUIRED": "Выберите пол",
+      "MARITAL_STATUS_IS_REQUIRED": "Выберите семейное положение",
+      "BIRTH_DATE_IS_REQUIRED": "Укажите дату рождения",
+      "BIRTH_DATE_IS_IN_FUTURE": "Дата рождения не может быть в будущем",
+      "SURNAME_OF_BIRTH_IS_TOO_SMALL": "Фамилия при рождении должна быть не короче 2 символов",
+      "SURNAME_OF_BIRTH_IS_TOO_BIG": "Фамилия при рождении должна быть не длиннее 50 символов",
+      "CITIZENSHIP_IS_REQUIRED": "Выберите страну гражданства",
+      "COUNTRY_IS_REQUIRED": "Выберите страну рождения",
+      "PLACE_OF_BIRTH_IS_TOO_SMALL": "Укажите город рождения",
+      "ADDRESS_IS_TOO_SMALL": "Укажите домашний адрес",
+      "EMAIL_IS_INVALID": "Укажите корректный адрес почты",
+      "PHONE_IS_TOO_SMALL": "Укажите корректный номер телефона",
+      "RESIDENTIAL_ADDRESS_IS_TOO_SMALL": "Укажите планируемый адрес проживания",
+      "PASSPORT_TYPE_IS_REQUIRED": "Выберите тип паспорта",
+      "PASSPORT_NUMBER_IS_INVALID": "Укажите корректный номер паспорта (6–20 букв или цифр)",
+      "DATE_ISSUE_IS_REQUIRED": "Укажите дату выдачи паспорта",
+      "DATE_ISSUE_IS_IN_FUTURE": "Дата выдачи не может быть в будущем",
+      "EXPIRY_IS_REQUIRED": "Укажите срок действия паспорта",
+      "EXPIRY_IS_TOO_SOON": "Паспорт должен быть действителен ещё не менее 6 месяцев",
+      "PLACE_OF_ISSUE_IS_REQUIRED": "Укажите место выдачи",
+      "EDUCATION_IS_TOO_SMALL": "Укажите образование",
+      "SPECIALITY_IS_TOO_SMALL": "Укажите специальность",
+      "PLACE_OF_EDUCATION_IS_TOO_SMALL": "Укажите учебное заведение",
+      "PLACE_OF_WORK_IS_TOO_SMALL": "Укажите место работы",
+      "POSITION_IS_TOO_SMALL": "Укажите должность",
+      "EXPERIENCE_IS_INVALID": "Стаж должен быть числом от 0 до 70"
+    }
   },
   "Flight": {
     "title": "Забронировать авиабилет"
@@ -214,7 +387,15 @@
     "selectPlaceholder": "Выберите вариант",
     "loading": "Загрузка...",
     "search": "Поиск",
-    "notFound": "Ничего не найдено"
+    "notFound": "Ничего не найдено",
+    "comingSoon": "Скоро",
+    "previousPage": "Предыдущая страница",
+    "nextPage": "Следующая страница",
+    "back": "Назад",
+    "removeFile": "Удалить файл",
+    "page": "Страница {number}",
+    "upload": "Загрузить",
+    "replace": "Заменить"
   },
   "Errors": {
     "phoneRequired": "Введите номер телефона",

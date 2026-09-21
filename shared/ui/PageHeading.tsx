@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "@/i18n/navigation";
 import { SkeletonImage } from "@/components/ui/Skeleton";
@@ -8,23 +9,25 @@ export default function PageHeading({
   title,
   crumbs = [],
   image = "/heading.webp",
-  homeLabel = "Home",
-  сlassName = "",
+  className = "",
   objectPosition = "center",
 }: {
   title: string;
-  /** Trail after "Home". The last item is rendered as the current page. */
+  /** Trail after the home link. The last item is rendered as the current page. */
   crumbs?: Crumb[];
   image?: string;
-  homeLabel?: string;
-  сlassName?: string;
+  className?: string;
   objectPosition?: string;
 }) {
-  const trail: Crumb[] = [{ label: homeLabel, href: "/" }, ...crumbs];
+  const t = useTranslations("Navbar");
+
+  // Первая крошка всегда одна и та же, поэтому берётся здесь, а не приходит
+  // пропом: раньше все двенадцать страниц передавали английское "Home".
+  const trail: Crumb[] = [{ label: t("home"), href: "/" }, ...crumbs];
 
   return (
     <section
-      className={`relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px] ${сlassName}`}
+      className={`relative flex min-h-[300px] w-full items-end overflow-hidden lg:min-h-[460px] xl:min-h-[560px] ${className}`}
     >
       <SkeletonImage
         src={image}
@@ -42,7 +45,7 @@ export default function PageHeading({
           {title}
         </h2>
 
-        <nav aria-label="Breadcrumb" className="mt-1 lg:mt-3">
+        <nav aria-label={t("breadcrumb")} className="mt-1 lg:mt-3">
           <ol className="flex flex-wrap items-center gap-3.5 font-roboto text-sm text-white lg:text-base">
             {trail.map((crumb, i) => {
               const isLast = i === trail.length - 1;

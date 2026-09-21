@@ -55,7 +55,7 @@ export default function MobileMenu({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Close menu"
+          aria-label={t("closeMenu")}
           className="self-end text-brand-blue transition hover:text-brand-blue/70"
         >
           <IoClose className="size-7 text-brand-blue" />

@@ -9,7 +9,6 @@ export default function VisaPage() {
     <main>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
       />
       <VisaForm />

@@ -12,7 +12,6 @@ function OfficialSupportPage() {
     <main className="flex flex-col">
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/support.jpg"
         objectPosition="top"

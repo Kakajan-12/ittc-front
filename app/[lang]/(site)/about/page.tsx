@@ -28,7 +28,6 @@ async function AboutPage({ params }: PageProps) {
     <main className="flex flex-col">
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/about/main.jpg"
       />

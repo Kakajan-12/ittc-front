@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { Upload } from "antd";
 import type { UploadProps } from "antd";
 import { CloudUpload, X } from "lucide-react";
@@ -45,6 +46,7 @@ export const UploadField = ({
   error,
   className = "",
 }: UploadFieldProps) => {
+  const t = useTranslations("Common");
   const [internal, setInternal] = React.useState<File | null>(null);
   const [localError, setLocalError] = React.useState("");
 
@@ -125,7 +127,7 @@ export const UploadField = ({
           <span className="visa-upload-cta">
             <CloudUpload size={32} strokeWidth={1.75} />
             <span className="visa-upload-cta-text">
-              {file ? "Replace" : "Upload"}
+              {t(file ? "replace" : "upload")}
             </span>
           </span>
 
@@ -133,7 +135,7 @@ export const UploadField = ({
             <button
               type="button"
               onClick={remove}
-              aria-label="Remove file"
+              aria-label={t("removeFile")}
               className="visa-upload-remove"
             >
               <X size={16} />

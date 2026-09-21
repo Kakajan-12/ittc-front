@@ -24,7 +24,9 @@
     "hotel": "Book a Hotel",
     "news": "News",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "breadcrumb": "Breadcrumb",
+    "closeMenu": "Close menu"
   },
   "Hero": {
     "agenda": "Agenda",
@@ -39,7 +41,8 @@
     "days": "Days",
     "hours": "Hours",
     "minutes": "Minutes",
-    "seconds": "Seconds"
+    "seconds": "Seconds",
+    "started": "ITTC 2026"
   },
   "About": {
     "title": "About the event",
@@ -154,7 +157,177 @@
     "clear": "Clear search"
   },
   "Visa": {
-    "title": "Apply for Visa"
+    "title": "Apply for Visa",
+    "sections": {
+      "personal": "Personal information",
+      "contact": "Contact details and address",
+      "passport": "Passport details",
+      "work": "Work and education"
+    },
+    "uploads": {
+      "photo": "Photograph (5:6)",
+      "passportScan": "Passport scan"
+    },
+    "fields": {
+      "firstName": {
+        "label": "Name",
+        "placeholder": "John"
+      },
+      "surname": {
+        "label": "Surname",
+        "placeholder": "Doe"
+      },
+      "gender": {
+        "label": "Gender",
+        "placeholder": "Select gender*"
+      },
+      "maritalStatus": {
+        "label": "Marital status",
+        "placeholder": "Select marital status*"
+      },
+      "birthDate": {
+        "label": "Date of birth",
+        "placeholder": "Date of birth*"
+      },
+      "surnameOfBirth": {
+        "label": "Surname at birth",
+        "placeholder": "Maiden name (if different)"
+      },
+      "citizenship": {
+        "label": "Citizenship",
+        "placeholder": "Select country of citizenship*"
+      },
+      "country": {
+        "label": "Country of birth",
+        "placeholder": "Select country of birth*"
+      },
+      "placeOfBirth": {
+        "label": "Place of birth (city)",
+        "placeholder": "Enter city*"
+      },
+      "address": {
+        "label": "Home address",
+        "placeholder": "Street, building, apartment*"
+      },
+      "email": {
+        "label": "Email address"
+      },
+      "phone": {
+        "label": "Phone number",
+        "placeholder": "Mobile number"
+      },
+      "residentialAddress": {
+        "label": "Planned address of stay",
+        "placeholder": "Address during the stay"
+      },
+      "passportType": {
+        "label": "Passport type",
+        "placeholder": "Select passport type*"
+      },
+      "passportNumber": {
+        "label": "Passport number",
+        "placeholder": "AB 123456"
+      },
+      "dateIssue": {
+        "label": "Date of issue",
+        "placeholder": "Date of issue*"
+      },
+      "expiry": {
+        "label": "Valid until",
+        "placeholder": "Valid until*"
+      },
+      "placeOfIssue": {
+        "label": "Place of issue",
+        "placeholder": "Select country*"
+      },
+      "education": {
+        "label": "Education",
+        "placeholder": "Bachelor's degree"
+      },
+      "speciality": {
+        "label": "Speciality",
+        "placeholder": "Computer science"
+      },
+      "placeOfEducation": {
+        "label": "Place of education",
+        "placeholder": "Harvard University"
+      },
+      "placeOfWork": {
+        "label": "Place of work (company)",
+        "placeholder": "Tech Corp"
+      },
+      "position": {
+        "label": "Position",
+        "placeholder": "Software engineer"
+      },
+      "experience": {
+        "label": "Experience",
+        "placeholder": "Years of experience"
+      }
+    },
+    "options": {
+      "gender": {
+        "Male": "Male",
+        "Female": "Female"
+      },
+      "maritalStatus": {
+        "Single": "Single",
+        "Married": "Married",
+        "Divorced": "Divorced",
+        "Widowed": "Widowed",
+        "Separated": "Separated"
+      },
+      "passportType": {
+        "Ordinary": "Ordinary",
+        "Military": "Military"
+      }
+    },
+    "form": {
+      "submit": "Submit application",
+      "sending": "Sending…",
+      "checkFields": "Please check the highlighted fields",
+      "sendFailed": "Could not send the application. Please try again.",
+      "reference": "Reference: {code}"
+    },
+    "general": {
+      "PHOTO_IS_REQUIRED": "Attach a photograph",
+      "PASSPORT_SCAN_IS_REQUIRED": "Attach a passport scan",
+      "DUPLICATE_APPLICATION": "An application for this passport has already been submitted",
+      "DATABASE_UNAVAILABLE": "The service is temporarily unavailable, try again later",
+      "FILE_IS_REQUIRED": "Upload a file"
+    },
+    "errors": {
+      "NAME_IS_TOO_SMALL": "Name must be at least 2 characters",
+      "NAME_IS_TOO_BIG": "Name must be at most 50 characters",
+      "SURNAME_IS_TOO_SMALL": "Surname must be at least 2 characters",
+      "SURNAME_IS_TOO_BIG": "Surname must be at most 50 characters",
+      "GENDER_IS_REQUIRED": "Select gender",
+      "MARITAL_STATUS_IS_REQUIRED": "Select marital status",
+      "BIRTH_DATE_IS_REQUIRED": "Select date of birth",
+      "BIRTH_DATE_IS_IN_FUTURE": "Date of birth cannot be in the future",
+      "SURNAME_OF_BIRTH_IS_TOO_SMALL": "Surname at birth must be at least 2 characters",
+      "SURNAME_OF_BIRTH_IS_TOO_BIG": "Surname at birth must be at most 50 characters",
+      "CITIZENSHIP_IS_REQUIRED": "Select country of citizenship",
+      "COUNTRY_IS_REQUIRED": "Select country of birth",
+      "PLACE_OF_BIRTH_IS_TOO_SMALL": "Enter city of birth",
+      "ADDRESS_IS_TOO_SMALL": "Enter your home address",
+      "EMAIL_IS_INVALID": "Enter a valid email address",
+      "PHONE_IS_TOO_SMALL": "Enter a valid phone number",
+      "RESIDENTIAL_ADDRESS_IS_TOO_SMALL": "Enter the planned address of stay",
+      "PASSPORT_TYPE_IS_REQUIRED": "Select passport type",
+      "PASSPORT_NUMBER_IS_INVALID": "Enter a valid passport number (6–20 letters or digits)",
+      "DATE_ISSUE_IS_REQUIRED": "Select the passport date of issue",
+      "DATE_ISSUE_IS_IN_FUTURE": "Date of issue cannot be in the future",
+      "EXPIRY_IS_REQUIRED": "Select the passport expiry date",
+      "EXPIRY_IS_TOO_SOON": "Passport must stay valid for at least 6 more months",
+      "PLACE_OF_ISSUE_IS_REQUIRED": "Select place of issue",
+      "EDUCATION_IS_TOO_SMALL": "Enter your education",
+      "SPECIALITY_IS_TOO_SMALL": "Enter your speciality",
+      "PLACE_OF_EDUCATION_IS_TOO_SMALL": "Enter your place of education",
+      "PLACE_OF_WORK_IS_TOO_SMALL": "Enter your place of work",
+      "POSITION_IS_TOO_SMALL": "Enter your position",
+      "EXPERIENCE_IS_INVALID": "Experience must be a number between 0 and 70"
+    }
   },
   "Flight": {
     "title": "Book a Flight"
@@ -214,7 +387,15 @@
     "selectPlaceholder": "Select option",
     "loading": "Loading...",
     "search": "Search",
-    "notFound": "Nothing found"
+    "notFound": "Nothing found",
+    "comingSoon": "Coming soon",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "back": "Back",
+    "removeFile": "Remove file",
+    "page": "Page {number}",
+    "upload": "Upload",
+    "replace": "Replace"
   },
   "Errors": {
     "phoneRequired": "Enter your phone number",
@@ -416,7 +597,6 @@
       "VERIFY_EMAIL_FAILED": "Could not verify the code, try again",
       "COMPLETE_REGISTRATION_FAILED": "Could not complete registration, try again",
       "EMAIL_ALREADY_EXISTS": "This email is already registered"
-
     }
   }
 }
