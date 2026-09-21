@@ -10,6 +10,7 @@ import type {
   Partner,
   Speaker,
   Contact,
+  HeroBanner,
   SiteSettings,
   Sponsor,
   StatCounter,
@@ -410,5 +411,58 @@ export async function getSiteContacts(
     phones: phones.length ? phones : CONTACTS_FALLBACK.phones,
     emails: emails.length ? emails : CONTACTS_FALLBACK.emails,
     partnerUrl: settings?.partnerUrl ?? CONTACTS_FALLBACK.partnerUrl,
+  };
+}
+
+export type HeroModel = {
+  image: string | null;
+  title: string;
+  date: string;
+  location: string;
+  /** ISO string; null hides the countdown. */
+  eventStartsAt: string | null;
+};
+
+/**
+ * The hero is the first thing on the page, so a content API hiccup must not
+ * leave it headless — these are the values the site shipped with. `image: null`
+ * makes the component fall back to the bundled photo.
+ */
+const HERO_FALLBACK: Record<Locale, HeroModel> = {
+  en: {
+    image: null,
+    title: "International Transport & Transit Corridors Conference 2026",
+    date: "24 - 26 November 2026",
+    location: "Ashgabat, Turkmenistan",
+    eventStartsAt: null,
+  },
+  ru: {
+    image: null,
+    title:
+      "Международная конференция по транспортным и транзитным коридорам 2026",
+    date: "24 - 26 ноября 2026",
+    location: "Ашхабад, Туркменистан",
+    eventStartsAt: null,
+  },
+  tk: {
+    image: null,
+    title: "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
+    date: "2026-njy ýylyň 24-26-njy noýabry",
+    location: "Aşgabat, Türkmenistan",
+    eventStartsAt: null,
+  },
+};
+
+export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
+  const hero = await safeContentGet<HeroBanner>("hero");
+
+  if (!hero) return HERO_FALLBACK[locale];
+
+  return {
+    image: hero.image?.url ?? null,
+    title: localized(hero, "title", locale),
+    date: localized(hero, "date", locale),
+    location: localized(hero, "location", locale),
+    eventStartsAt: hero.eventStartsAt,
   };
 }

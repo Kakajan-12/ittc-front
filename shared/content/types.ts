@@ -187,6 +187,22 @@ export type SiteSettings = {
   partnerUrl: string;
 };
 
+/** The hero block on the home page; one record. */
+export type HeroBanner = {
+  id: number;
+  image: MediaFile | null;
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  dateEn: string;
+  dateRu: string;
+  dateTk: string;
+  locationEn: string;
+  locationRu: string;
+  locationTk: string;
+  eventStartsAt: string | null;
+};
+
 export type ContactType = "PHONE" | "EMAIL";
 
 /** Phones and e-mails; the footer lists them, the header takes the first. */
