@@ -3,6 +3,12 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
+/**
+ * Only a fallback for resolving the platform's image host below. The code calls
+ * the registration API at its absolute URL (see shared/api/config.ts), so there
+ * is no same-origin /api proxy — one would relay another project's backend
+ * under this domain.
+ */
 const API_PROXY_TARGET =
   process.env.API_PROXY_TARGET ?? "https://api.event.oguzforum.com";
 
@@ -35,14 +41,6 @@ function pattern(url: URL, pathname: string) {
 
 const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${API_PROXY_TARGET}/:path*`,
-      },
-    ];
-  },
   images: {
     // Remote images are resized and re-encoded on demand; uploads arrive from
     // the CMS at arbitrary sizes and nothing here should ship a 12 MP original.
