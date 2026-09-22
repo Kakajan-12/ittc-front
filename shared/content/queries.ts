@@ -473,7 +473,8 @@ export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
 
 export type BrochureModel = {
   id: number;
-  title: string;
+  /** Пусто, если редактор не стал придумывать название — страница подставит своё. */
+  title: string | null;
   description: string | null;
   /** Direct link to the PDF. */
   url: string;
@@ -512,7 +513,7 @@ export async function getBrochure(locale: Locale): Promise<BrochureModel | null>
 
   return {
     id: item.id,
-    title: localized(item, "title", locale),
+    title: localized(item, "title", locale).trim() || null,
     description: localizedOrNull(item, "description", locale),
     url: item.file!.url,
     cover: item.coverImage?.url ?? null,

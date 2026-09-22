@@ -30,7 +30,7 @@ export default async function BrochurePage({ params }: PageProps) {
             {brochure.cover ? (
               <Image
                 src={brochure.cover}
-                alt={brochure.title}
+                alt={brochure.title ?? t("title")}
                 width={320}
                 height={452}
                 className="h-auto w-56 rounded shadow-lg lg:w-72"
@@ -38,7 +38,7 @@ export default async function BrochurePage({ params }: PageProps) {
             ) : null}
 
             <h2 className="text-2xl font-bold font-roboto text-brand-dark-gray lg:text-3xl">
-              {brochure.title}
+              {brochure.title ?? t("title")}
             </h2>
 
             {brochure.description ? (
