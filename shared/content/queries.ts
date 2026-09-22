@@ -471,14 +471,11 @@ export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
 
 // -- brochure ----------------------------------------------------------------
 
+/** На сайте брошюра только скачивается, поэтому здесь лишь ссылка и язык. */
 export type BrochureModel = {
   id: number;
-  /** Пусто, если редактор не стал придумывать название — страница подставит своё. */
-  title: string | null;
-  description: string | null;
   /** Direct link to the PDF. */
   url: string;
-  cover: string | null;
   /** Язык самого файла — он может отличаться от языка страницы. */
   locale: BrochureLocale;
 };
@@ -511,12 +508,5 @@ export async function getBrochure(locale: Locale): Promise<BrochureModel | null>
     withFile.find((brochure) => brochure.locale === "EN") ??
     withFile[0];
 
-  return {
-    id: item.id,
-    title: localized(item, "title", locale).trim() || null,
-    description: localizedOrNull(item, "description", locale),
-    url: item.file!.url,
-    cover: item.coverImage?.url ?? null,
-    locale: item.locale,
-  };
+  return { id: item.id, url: item.file!.url, locale: item.locale };
 }

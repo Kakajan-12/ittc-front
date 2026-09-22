@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { FiDownload } from "react-icons/fi";
 
@@ -26,27 +25,7 @@ export default async function BrochurePage({ params }: PageProps) {
 
       <div className="px-4 py-15 lg:px-10 lg:py-20">
         {brochure ? (
-          <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-            {brochure.cover ? (
-              <Image
-                src={brochure.cover}
-                alt={brochure.title ?? t("title")}
-                width={320}
-                height={452}
-                className="h-auto w-56 rounded shadow-lg lg:w-72"
-              />
-            ) : null}
-
-            <h2 className="text-2xl font-bold font-roboto text-brand-dark-gray lg:text-3xl">
-              {brochure.title ?? t("title")}
-            </h2>
-
-            {brochure.description ? (
-              <p className="text-base leading-relaxed text-brand-gray">
-                {brochure.description}
-              </p>
-            ) : null}
-
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
             {isFallback ? (
               <p className="text-sm text-brand-gray">{t("fallbackNote")}</p>
             ) : null}
