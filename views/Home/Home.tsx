@@ -27,6 +27,8 @@ export type HomeProps = {
   hero: HeroModel;
   /** PDF брошюры на языке страницы; null — в CMS её ещё нет. */
   brochureUrl: string | null;
+  /** PDF путеводителя на языке страницы; null — в CMS его ещё нет. */
+  travelGuideUrl: string | null;
   stats: StatModel[];
   sponsors: SponsorModel[];
   speakers: SpeakerModel[];
@@ -37,6 +39,7 @@ export type HomeProps = {
 function Home({
   hero,
   brochureUrl,
+  travelGuideUrl,
   stats,
   sponsors,
   speakers,
@@ -57,11 +60,16 @@ function Home({
     brochureUrl
       ? { key: "brochure", action: () => window.open(brochureUrl, "_blank") }
       : { key: "brochure", href: "/brochure" },
-    {
-      key: "travel-guide",
-      action: () =>
-        window.open("/documents/ITTC_Travel accommodation.pdf", "_blank"),
-    },
+    // Как и брошюра, приходит из CMS. Пока файла нет — кнопки тоже нет:
+    // отдельной страницы у путеводителя не существует, вести некуда.
+    ...(travelGuideUrl
+      ? [
+          {
+            key: "travel-guide",
+            action: () => window.open(travelGuideUrl, "_blank"),
+          },
+        ]
+      : []),
     { key: "faq", href: "/faq" },
   ] as const;
 

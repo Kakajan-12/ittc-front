@@ -17,10 +17,11 @@ export default async function HomePage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
 
-  const [hero, brochure, stats, sponsors, speakers, news, partners] =
+  const [hero, brochure, travelGuide, stats, sponsors, speakers, news, partners] =
     await Promise.all([
       getHeroBanner(locale),
       getBrochure(locale),
+      getBrochure(locale, "TRAVEL_GUIDE"),
       getStats(locale),
       getSponsors(locale),
       getSpeakers(locale),
@@ -32,6 +33,7 @@ export default async function HomePage({ params }: PageProps) {
     <Home
       hero={hero}
       brochureUrl={brochure?.url ?? null}
+      travelGuideUrl={travelGuide?.url ?? null}
       stats={stats}
       sponsors={sponsors}
       speakers={speakers}

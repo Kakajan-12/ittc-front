@@ -10,6 +10,7 @@ import type {
   Partner,
   Speaker,
   Brochure,
+  BrochureKind,
   BrochureLocale,
   Contact,
   HeroBanner,
@@ -491,14 +492,19 @@ const BROCHURE_LOCALE: Record<Locale, BrochureLocale> = {
  * русский, а если нет и его — первая опубликованная: кнопка «Брошюра» должна
  * вести к документу всегда, а не исчезать.
  */
-export async function getBrochure(locale: Locale): Promise<BrochureModel | null> {
+export async function getBrochure(
+  locale: Locale,
+  kind: BrochureKind = "BROCHURE",
+): Promise<BrochureModel | null> {
   const items = await safeContentList<Brochure>("brochures", {
     limit: 20,
     orderBy: "order",
     orderDirection: "asc",
   });
 
-  const withFile = items.filter((item) => item.file?.url);
+  const withFile = items.filter(
+    (item) => item.file?.url && item.kind === kind,
+  );
 
   if (!withFile.length) return null;
 
