@@ -488,8 +488,8 @@ const BROCHURE_LOCALE: Record<Locale, BrochureLocale> = {
 
 /**
  * Брошюра на языке страницы. Если на нужном языке файла ещё нет, отдаётся
- * английский, а если нет и его — первая опубликованная: кнопка «Брошюра»
- * должна вести к документу всегда, а не исчезать.
+ * русский, а если нет и его — первая опубликованная: кнопка «Брошюра» должна
+ * вести к документу всегда, а не исчезать.
  */
 export async function getBrochure(locale: Locale): Promise<BrochureModel | null> {
   const items = await safeContentList<Brochure>("brochures", {
@@ -505,7 +505,7 @@ export async function getBrochure(locale: Locale): Promise<BrochureModel | null>
   const wanted = BROCHURE_LOCALE[locale];
   const item =
     withFile.find((brochure) => brochure.locale === wanted) ??
-    withFile.find((brochure) => brochure.locale === "EN") ??
+    withFile.find((brochure) => brochure.locale === "RU") ??
     withFile[0];
 
   return { id: item.id, url: item.file!.url, locale: item.locale };
