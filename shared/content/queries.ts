@@ -9,6 +9,8 @@ import type {
   News,
   Partner,
   Speaker,
+  Brochure,
+  BrochureLocale,
   Contact,
   HeroBanner,
   SiteSettings,
@@ -464,5 +466,56 @@ export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
     date: localized(hero, "date", locale),
     location: localized(hero, "location", locale),
     eventStartsAt: hero.eventStartsAt,
+  };
+}
+
+// -- brochure ----------------------------------------------------------------
+
+export type BrochureModel = {
+  id: number;
+  title: string;
+  description: string | null;
+  /** Direct link to the PDF. */
+  url: string;
+  cover: string | null;
+  /** Язык самого файла — он может отличаться от языка страницы. */
+  locale: BrochureLocale;
+};
+
+const BROCHURE_LOCALE: Record<Locale, BrochureLocale> = {
+  en: "EN",
+  ru: "RU",
+  tk: "TK",
+};
+
+/**
+ * Брошюра на языке страницы. Если на нужном языке файла ещё нет, отдаётся
+ * английский, а если нет и его — первая опубликованная: кнопка «Брошюра»
+ * должна вести к документу всегда, а не исчезать.
+ */
+export async function getBrochure(locale: Locale): Promise<BrochureModel | null> {
+  const items = await safeContentList<Brochure>("brochures", {
+    limit: 20,
+    orderBy: "order",
+    orderDirection: "asc",
+  });
+
+  const withFile = items.filter((item) => item.file?.url);
+
+  if (!withFile.length) return null;
+
+  const wanted = BROCHURE_LOCALE[locale];
+  const item =
+    withFile.find((brochure) => brochure.locale === wanted) ??
+    withFile.find((brochure) => brochure.locale === "EN") ??
+    withFile[0];
+
+  return {
+    id: item.id,
+    title: localized(item, "title", locale),
+    description: localizedOrNull(item, "description", locale),
+    url: item.file!.url,
+    cover: item.coverImage?.url ?? null,
+    locale: item.locale,
   };
 }

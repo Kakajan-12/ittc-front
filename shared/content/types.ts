@@ -203,6 +203,22 @@ export type HeroBanner = {
   eventStartsAt: string | null;
 };
 
+export type BrochureLocale = "EN" | "RU" | "TK";
+
+/** Одна брошюра на язык; файл всегда PDF. */
+export type Brochure = Entity & {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  descriptionEn: string | null;
+  descriptionRu: string | null;
+  descriptionTk: string | null;
+  locale: BrochureLocale;
+  file: MediaFile | null;
+  coverImage: MediaFile | null;
+  order: number;
+};
+
 export type ContactType = "PHONE" | "EMAIL";
 
 /** Phones and e-mails; the footer lists them, the header takes the first. */

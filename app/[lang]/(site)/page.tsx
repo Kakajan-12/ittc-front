@@ -1,6 +1,7 @@
 import Home from "@/views/Home/Home";
 import { toLocale } from "@/shared/content/localize";
 import {
+  getBrochure,
   getHeroBanner,
   getNews,
   getPartners,
@@ -16,18 +17,21 @@ export default async function HomePage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
 
-  const [hero, stats, sponsors, speakers, news, partners] = await Promise.all([
-    getHeroBanner(locale),
-    getStats(locale),
-    getSponsors(locale),
-    getSpeakers(locale),
-    getNews(locale, 3),
-    getPartners(locale),
-  ]);
+  const [hero, brochure, stats, sponsors, speakers, news, partners] =
+    await Promise.all([
+      getHeroBanner(locale),
+      getBrochure(locale),
+      getStats(locale),
+      getSponsors(locale),
+      getSpeakers(locale),
+      getNews(locale, 3),
+      getPartners(locale),
+    ]);
 
   return (
     <Home
       hero={hero}
+      brochureUrl={brochure?.url ?? null}
       stats={stats}
       sponsors={sponsors}
       speakers={speakers}

@@ -112,7 +112,10 @@
     }
   },
   "Brochure": {
-    "title": "Broşýura"
+    "title": "Broşýura",
+    "download": "PDF ýükle",
+    "empty": "Broşýura heniz çap edilmedi",
+    "fallbackNote": "Siziň diliňizdäki broşýura taýýarlanýar — başga dildäki nusgasy elýeterli."
   },
   "Visa": {
     "title": "Wiza almak üçin ýüz tutmak",

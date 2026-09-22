@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { SkeletonImage } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { GoArrowUpRight } from "react-icons/go";
@@ -13,7 +13,6 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
-import { T_LOCALE } from "@/shared/lib/types";
 import type {
   HeroModel,
   NewsCardModel,
@@ -26,6 +25,8 @@ import type {
 /** Content is fetched by the page (a server component) and passed in. */
 export type HomeProps = {
   hero: HeroModel;
+  /** PDF брошюры на языке страницы; null — в CMS её ещё нет. */
+  brochureUrl: string | null;
   stats: StatModel[];
   sponsors: SponsorModel[];
   speakers: SpeakerModel[];
@@ -33,13 +34,16 @@ export type HomeProps = {
   partners: PartnerModel[];
 };
 
-function Home({ hero, stats, sponsors, speakers, news, partners }: HomeProps) {
+function Home({
+  hero,
+  brochureUrl,
+  stats,
+  sponsors,
+  speakers,
+  news,
+  partners,
+}: HomeProps) {
   const t = useTranslations("Hero");
-  const locale = useLocale() as T_LOCALE;
-  const brochurePath =
-    locale === "ru" || locale === "tk"
-      ? "/documents/Brochure ITTC 2026 ру 001.pdf"
-      : "/documents/Brochure ITTC 2026 eng 01.pdf";
   const actions: Array<{
     key: string;
     href?: string;
@@ -48,7 +52,11 @@ function Home({ hero, stats, sponsors, speakers, news, partners }: HomeProps) {
   }> = [
     { key: "register", href: "/register", mobileOnly: true },
     { key: "agenda", href: "/agenda" },
-    { key: "brochure", action: () => window.open(brochurePath, "_blank") },
+    // Файл приходит из CMS; пока его там нет — ведём на страницу брошюры,
+    // она объяснит, что документ ещё не опубликован.
+    brochureUrl
+      ? { key: "brochure", action: () => window.open(brochureUrl, "_blank") }
+      : { key: "brochure", href: "/brochure" },
     {
       key: "travel-guide",
       action: () =>
