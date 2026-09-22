@@ -81,12 +81,16 @@ export default function FaqView({ items }: { items: FaqModel[] }) {
                   <AccordionItem
                     key={item.id}
                     value={`faq-${item.id}`}
-                    className="overflow-hidden rounded shadow-faq w-full p-4 lg:p-8"
+                    className="overflow-hidden rounded shadow-faq w-full"
                   >
-                    <AccordionTrigger className="text-base md:text-lg font-roboto font-semibold [&>svg]:size-6 [&>svg]:text-black">
+                    {/* Отступы держит кнопка, а не карточка: иначе нажатие
+                        рядом с текстом — всё ещё внутри блока — не срабатывало.
+                        Раскрытая карточка убирает нижний отступ кнопки, чтобы
+                        расстояние до ответа осталось прежним. */}
+                    <AccordionTrigger className="cursor-pointer p-4 pb-4 text-base md:text-lg font-roboto font-semibold data-[state=open]:pb-0 lg:p-8 lg:data-[state=open]:pb-0 [&>svg]:size-6 [&>svg]:text-black">
                       {item.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-base font-normal leading-relaxed text-brand-gray [&_a]:text-brand-blue [&_a]:underline [&_p]:mt-2">
+                    <AccordionContent className="px-4 pb-4 text-base font-normal leading-relaxed text-brand-gray lg:px-8 lg:pb-8 [&_a]:text-brand-blue [&_a]:underline [&_p]:mt-2">
                       <div dangerouslySetInnerHTML={{ __html: item.answer }} />
                     </AccordionContent>
                   </AccordionItem>
