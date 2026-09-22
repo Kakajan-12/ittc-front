@@ -5,6 +5,7 @@ import {
   getHeroBanner,
   getNews,
   getPartners,
+  getResultsTitle,
   getSpeakers,
   getSponsors,
   getStats,
@@ -17,23 +18,34 @@ export default async function HomePage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
 
-  const [hero, brochure, travelGuide, stats, sponsors, speakers, news, partners] =
-    await Promise.all([
-      getHeroBanner(locale),
-      getBrochure(locale),
-      getBrochure(locale, "TRAVEL_GUIDE"),
-      getStats(locale),
-      getSponsors(locale),
-      getSpeakers(locale),
-      getNews(locale, 3),
-      getPartners(locale),
-    ]);
+  const [
+    hero,
+    brochure,
+    travelGuide,
+    resultsTitle,
+    stats,
+    sponsors,
+    speakers,
+    news,
+    partners,
+  ] = await Promise.all([
+    getHeroBanner(locale),
+    getBrochure(locale),
+    getBrochure(locale, "TRAVEL_GUIDE"),
+    getResultsTitle(locale),
+    getStats(locale),
+    getSponsors(locale),
+    getSpeakers(locale),
+    getNews(locale, 3),
+    getPartners(locale),
+  ]);
 
   return (
     <Home
       hero={hero}
       brochureUrl={brochure?.url ?? null}
       travelGuideUrl={travelGuide?.url ?? null}
+      resultsTitle={resultsTitle}
       stats={stats}
       sponsors={sponsors}
       speakers={speakers}

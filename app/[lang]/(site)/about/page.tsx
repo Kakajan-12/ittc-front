@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import PageHeading from "@/shared/ui/PageHeading";
 import Results from "@/views/Home/Results";
 import { toLocale } from "@/shared/content/localize";
-import { getStats } from "@/shared/content/queries";
+import { getResultsTitle, getStats } from "@/shared/content/queries";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import { FaPlay } from "react-icons/fa";
 import { SkeletonImage } from "@/components/ui/Skeleton";
@@ -22,7 +22,10 @@ async function AboutPage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
   const t = await getTranslations({ locale, namespace: "About" });
-  const stats = await getStats(locale);
+  const [stats, resultsTitle] = await Promise.all([
+    getStats(locale),
+    getResultsTitle(locale),
+  ]);
 
   return (
     <main className="flex flex-col">
@@ -61,7 +64,7 @@ async function AboutPage({ params }: PageProps) {
             </button>
           </div>
         </div>
-        <Results stats={stats} className=" hidden lg:block" />
+        <Results stats={stats} title={resultsTitle} className=" hidden lg:block" />
         <SectionHeading
           title={t("section.title")}
           className="px-4 lg:px-10 mt-4 lg:mt-18 text-3xl font-bold font-roboto"

@@ -185,6 +185,9 @@ export type AgendaPhase = Entity & {
 export type SiteSettings = {
   id: number;
   partnerUrl: string;
+  resultsTitleEn: string;
+  resultsTitleRu: string;
+  resultsTitleTk: string;
 };
 
 /** The hero block on the home page; one record. */

@@ -29,6 +29,7 @@ export type HomeProps = {
   brochureUrl: string | null;
   /** PDF путеводителя на языке страницы; null — в CMS его ещё нет. */
   travelGuideUrl: string | null;
+  resultsTitle: string | null;
   stats: StatModel[];
   sponsors: SponsorModel[];
   speakers: SpeakerModel[];
@@ -40,6 +41,7 @@ function Home({
   hero,
   brochureUrl,
   travelGuideUrl,
+  resultsTitle,
   stats,
   sponsors,
   speakers,
@@ -143,7 +145,7 @@ function Home({
         />
       </div>
       <About />
-      <Results stats={stats} />
+      <Results stats={stats} title={resultsTitle} />
       <Sponsorship />
       <Sponsors sponsors={sponsors} />
       <Speakers speakers={speakers} />

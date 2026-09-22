@@ -516,3 +516,13 @@ export async function getBrochure(
 
   return { id: item.id, url: item.file!.url, locale: item.locale };
 }
+
+/**
+ * Заголовок блока с цифрами. Пусто — значит контент-API недоступен, и блок
+ * подставит строку из переводов.
+ */
+export async function getResultsTitle(locale: Locale): Promise<string | null> {
+  const settings = await safeContentGet<SiteSettings>("settings");
+
+  return settings ? localized(settings, "resultsTitle", locale) : null;
+}
