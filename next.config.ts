@@ -41,6 +41,8 @@ function pattern(url: URL, pathname: string) {
 
 const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
+  // Заголовок X-Powered-By называет сканерам используемый фреймворк и версию.
+  poweredByHeader: false,
   images: {
     // Remote images are resized and re-encoded on demand; uploads arrive from
     // the CMS at arbitrary sizes and nothing here should ship a 12 MP original.

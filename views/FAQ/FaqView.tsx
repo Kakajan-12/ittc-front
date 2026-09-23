@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import type { FaqModel } from "@/shared/content/queries";
+import { sanitizeHtml } from "@/shared/content/sanitize";
 
 /** Answers are HTML from the admin panel, so searching works on plain text. */
 const stripTags = (value: string) => value.replace(/<[^>]*>/g, " ");
@@ -91,7 +92,7 @@ export default function FaqView({ items }: { items: FaqModel[] }) {
                       {item.question}
                     </AccordionTrigger>
                     <AccordionContent className="px-4 pb-4 text-base font-normal leading-relaxed text-brand-gray lg:px-8 lg:pb-8 [&_a]:text-brand-blue [&_a]:underline [&_p]:mt-2">
-                      <div dangerouslySetInnerHTML={{ __html: item.answer }} />
+                      <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.answer) }} />
                     </AccordionContent>
                   </AccordionItem>
                 ))}
