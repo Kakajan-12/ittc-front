@@ -6,7 +6,7 @@ import {
   getNews,
   getOrganizers,
   getPartners,
-  getResultsTitle,
+  getSectionTitles,
   getSpeakers,
   getSponsors,
   getStats,
@@ -23,7 +23,7 @@ export default async function HomePage({ params }: PageProps) {
     hero,
     brochure,
     travelGuide,
-    resultsTitle,
+    titles,
     organizers,
     stats,
     sponsors,
@@ -34,7 +34,7 @@ export default async function HomePage({ params }: PageProps) {
     getHeroBanner(locale),
     getBrochure(locale),
     getBrochure(locale, "TRAVEL_GUIDE"),
-    getResultsTitle(locale),
+    getSectionTitles(locale),
     getOrganizers(locale),
     getStats(locale),
     getSponsors(locale),
@@ -48,7 +48,8 @@ export default async function HomePage({ params }: PageProps) {
       hero={hero}
       brochureUrl={brochure?.url ?? null}
       travelGuideUrl={travelGuide?.url ?? null}
-      resultsTitle={resultsTitle}
+      resultsTitle={titles.results}
+      sponsorsTitle={titles.sponsors}
       organizers={organizers}
       stats={stats}
       sponsors={sponsors}

@@ -532,12 +532,26 @@ export async function getBrochure(
   return { id: item.id, url: item.file!.url, locale: item.locale };
 }
 
+/** Заголовки секций, в которых стоит год: их правят раз в год из админки. */
+export type SectionTitles = {
+  /** Блок с цифрами на главной и на «О мероприятии». */
+  results: string | null;
+  /** Блок логотипов спонсоров на главной. */
+  sponsors: string | null;
+};
+
 /**
- * Заголовок блока с цифрами. Пусто — значит контент-API недоступен, и блок
- * подставит строку из переводов.
+ * Оба заголовка приходят одним запросом — они лежат в одной записи настроек.
+ * null означает, что контент-API недоступен: блок подставит строку из
+ * переводов и не останется без шапки.
  */
-export async function getResultsTitle(locale: Locale): Promise<string | null> {
+export async function getSectionTitles(locale: Locale): Promise<SectionTitles> {
   const settings = await safeContentGet<SiteSettings>("settings");
 
-  return settings ? localized(settings, "resultsTitle", locale) : null;
+  if (!settings) return { results: null, sponsors: null };
+
+  return {
+    results: localized(settings, "resultsTitle", locale),
+    sponsors: localized(settings, "sponsorsTitle", locale),
+  };
 }

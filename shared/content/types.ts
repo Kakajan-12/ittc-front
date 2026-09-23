@@ -192,6 +192,9 @@ export type SiteSettings = {
   resultsTitleEn: string;
   resultsTitleRu: string;
   resultsTitleTk: string;
+  sponsorsTitleEn: string;
+  sponsorsTitleRu: string;
+  sponsorsTitleTk: string;
 };
 
 /** The hero block on the home page; one record. */
