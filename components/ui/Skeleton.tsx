@@ -46,10 +46,32 @@ function SkeletonImage({
   const [isLoaded, setIsLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // onLoad не срабатывает для уже закэшированных картинок — ловим это через ref.
-  // При смене src сбрасываем состояние, чтобы снова показать скелетон.
+  // Полагаться на onLoad от React недостаточно: если картинка успевает
+  // загрузиться до гидратации (кеш браузера, разметка из SSR), событие проходит
+  // мимо — и скелетон остаётся поверх готового изображения навсегда. Поэтому
+  // сначала спрашиваем сам элемент, а если он ещё грузится — подписываемся
+  // нативно. onError снимает скелетон тоже: пустое место честнее вечной заглушки.
   useEffect(() => {
-    setIsLoaded(imgRef.current?.complete ?? false);
+    const node = imgRef.current;
+
+    if (!node) return;
+
+    if (node.complete && node.naturalWidth > 0) {
+      setIsLoaded(true);
+      return;
+    }
+
+    setIsLoaded(false);
+
+    const done = () => setIsLoaded(true);
+
+    node.addEventListener("load", done);
+    node.addEventListener("error", done);
+
+    return () => {
+      node.removeEventListener("load", done);
+      node.removeEventListener("error", done);
+    };
   }, [src]);
 
   // src ещё не пришёл (например, данные грузятся) — next/image требует непустой src.

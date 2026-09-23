@@ -5,8 +5,9 @@ import { SkeletonImage } from "@/components/ui/Skeleton";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Button from "@/shared/ui/Button";
 import Organizers from "./Organizers";
+import type { PartnerModel } from "@/shared/content/queries";
 
-function About() {
+function About({ organizers }: { organizers: PartnerModel[] }) {
   const t = useTranslations("About");
 
   return (
@@ -42,7 +43,7 @@ function About() {
             </button>
           </div>
         </div>
-        <Organizers />
+        <Organizers organizers={organizers} />
       </div>
     </section>
   );

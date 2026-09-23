@@ -8,6 +8,7 @@ import type {
   FaqItem,
   News,
   Partner,
+  PartnerKind,
   Speaker,
   Brochure,
   BrochureKind,
@@ -203,20 +204,34 @@ export async function getSponsors(locale: Locale): Promise<SponsorModel[]> {
   }));
 }
 
-export async function getPartners(locale: Locale): Promise<PartnerModel[]> {
+/**
+ * Партнёры для бегущей строки на главной; организаторы — та же сущность с
+ * другим видом, их читает `getOrganizers`.
+ */
+export async function getPartners(
+  locale: Locale,
+  kind: PartnerKind = "PARTNER",
+): Promise<PartnerModel[]> {
   const items = await safeContentList<Partner>("partners", {
     limit: 100,
     orderBy: "order",
     orderDirection: "asc",
   });
 
-  return items.map((partner) => ({
-    id: partner.id,
-    name: localized(partner, "name", locale),
-    category: partner.category,
-    logo: partner.logo?.url ?? null,
-    website: partner.website,
-  }));
+  return items
+    .filter((partner) => partner.kind === kind)
+    .map((partner) => ({
+      id: partner.id,
+      name: localized(partner, "name", locale),
+      category: partner.category,
+      logo: partner.logo?.url ?? null,
+      website: partner.website,
+    }));
+}
+
+/** Логотипы в блоке «Организаторы и официальные партнёры». */
+export function getOrganizers(locale: Locale): Promise<PartnerModel[]> {
+  return getPartners(locale, "ORGANIZER");
 }
 
 // -- faq & stats -------------------------------------------------------------

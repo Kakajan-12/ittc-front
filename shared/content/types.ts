@@ -81,10 +81,14 @@ export type Sponsor = Entity & {
   order: number;
 };
 
+/** Партнёры и организаторы — одна сущность, различаются видом. */
+export type PartnerKind = "PARTNER" | "ORGANIZER";
+
 export type Partner = Entity & {
   nameEn: string;
   nameRu: string;
   nameTk: string;
+  kind: PartnerKind;
   category: "MEDIA" | "KNOWLEDGE" | "STRATEGIC" | "TECHNOLOGY" | "OTHER";
   logo: MediaFile | null;
   website: string | null;
