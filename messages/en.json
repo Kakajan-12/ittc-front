@@ -18,9 +18,6 @@
     "sponsors": "Sponsors",
     "support": "Official Support",
     "faq": "FAQ",
-    "travel": "Travel & Accommodation Guide",
-    "flight": "Book a Flight",
-    "hotel": "Book a Hotel",
     "news": "News",
     "register": "Register",
     "login": "Login",
@@ -150,12 +147,6 @@
     "placeholder": "Search questions",
     "noResults": "No questions found for \"{query}\".",
     "clear": "Clear search"
-  },
-  "Flight": {
-    "title": "Book a Flight"
-  },
-  "Hotel": {
-    "title": "Book a Hotel"
   },
   "News": {
     "title": "News",

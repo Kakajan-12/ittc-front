@@ -18,9 +18,6 @@
     "sponsors": "Hemaýatkärler",
     "support": "Resmi goldaw",
     "faq": "FAQ",
-    "travel": "Syýahat we ýaşaýyş jaý gollanmasy",
-    "flight": "Uçar biletini bron etmek",
-    "hotel": "Myhmanhana bron etmek",
     "news": "Habarlar",
     "register": "Hasaba durmak",
     "login": "Giriş",
@@ -115,12 +112,6 @@
     "download": "PDF ýükle",
     "empty": "Broşýura heniz çap edilmedi",
     "fallbackNote": "Siziň diliňizdäki broşýura taýýarlanýar — başga dildäki nusgasy elýeterli."
-  },
-  "Flight": {
-    "title": "Uçar biletini bron etmek"
-  },
-  "Hotel": {
-    "title": "Myhmanhana bron etmek"
   },
   "Support": {
     "title": "Resmi goldaw"

@@ -57,14 +57,6 @@ export default function NavBar({
         { label: t("faq"), href: "/faq" },
       ],
     },
-    {
-      key: "travel",
-      label: t("travel"),
-      children: [
-        { label: t("flight"), href: "#" },
-        { label: t("hotel"), href: "#" },
-      ],
-    },
     { key: "news", label: t("news"), href: "/news" },
   ];
 
