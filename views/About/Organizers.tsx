@@ -39,10 +39,6 @@ function Organizers({ organizers }: { organizers: PartnerModel[] }) {
                   {organizer.name}
                 </p>
               </div>
-
-              <p className="relative block lg:hidden group-hover:hidden z-10 text-center text-xs text-brand-gray lg:text-sm">
-                {organizer.name}
-              </p>
             </a>
           </li>
         ))}
