@@ -34,11 +34,18 @@ function Organizers({ organizers }: { organizers: PartnerModel[] }) {
                   />
                 ) : null}
               </div>
-              <div className="absolute bottom-0 left-0 right-0 hidden group-hover:flex items-end justify-center h-fit bg-black/45 rounded-t backdrop-blur-sm z-10 p-2">
+              {/* Название показывается по-разному: на десктопе — накладкой при
+                  наведении, на узких экранах — строкой под логотипом, потому
+                  что наведения там нет. Обе подписи не пересекаются. */}
+              <div className="absolute bottom-0 left-0 right-0 hidden lg:group-hover:flex items-end justify-center h-fit bg-black/45 rounded-t backdrop-blur-sm z-10 p-2">
                 <p className="text-center text-sm text-white lg:text-sm">
                   {organizer.name}
                 </p>
               </div>
+
+              <p className="relative z-10 block lg:hidden text-center text-xs text-brand-gray">
+                {organizer.name}
+              </p>
             </a>
           </li>
         ))}
