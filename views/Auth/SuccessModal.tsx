@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 interface SuccessModalProps {
   open: boolean;
   onClose: () => void;
-  /** Extra line under the text — the visa form shows the application reference */
+  /** Extra line under the text — e.g. a reference number */
   details?: string;
   /** Без затемнения — фон под модалкой остаётся чистым (экран регистрации) */
   plainBackdrop?: boolean;

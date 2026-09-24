@@ -3,7 +3,7 @@
  *
  *  - `NEXT_PUBLIC_BACKEND_URL`     — the registration platform (packages,
  *    promocodes, payment, participant accounts). Owned by another team.
- *  - `NEXT_PUBLIC_CONTENT_API_URL` — ittc-back: site content, visa applications
+ *  - `NEXT_PUBLIC_CONTENT_API_URL` — ittc-back: site content
  *    and participant services.
  *
  * Keep them apart: the registration client in `shared/api` must stay pointed at

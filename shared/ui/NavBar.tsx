@@ -61,7 +61,6 @@ export default function NavBar({
       key: "travel",
       label: t("travel"),
       children: [
-        { label: t("visa"), href: "#" },
         { label: t("flight"), href: "#" },
         { label: t("hotel"), href: "#" },
       ],
