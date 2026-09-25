@@ -62,6 +62,7 @@ export default function NavBar({
       label: t("travel"),
       // Разделов пока нет: ссылки-заглушки "#" показываются под замком.
       children: [
+        { label: t("visa"), href: "#" },
         { label: t("flight"), href: "#" },
         { label: t("hotel"), href: "#" },
       ],
