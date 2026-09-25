@@ -1,4 +1,5 @@
 import { safeContentGet, safeContentList } from "./client";
+import { CONTENT_API_URL } from "./config";
 import { formatDayAndMonth, formatFullDate, formatTime } from "./format";
 import { localized, localizedOrNull, type Locale } from "./localize";
 import type {
@@ -490,7 +491,10 @@ export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
 /** На сайте брошюра только скачивается, поэтому здесь лишь ссылка и язык. */
 export type BrochureModel = {
   id: number;
-  /** Direct link to the PDF. */
+  /**
+   * Ссылка для кнопки «Скачать». Ведёт не прямо на PDF, а на API: там
+   * скачивание засчитывается, и API перенаправляет на сам файл.
+   */
   url: string;
   /** Язык самого файла — он может отличаться от языка страницы. */
   locale: BrochureLocale;
@@ -529,7 +533,11 @@ export async function getBrochure(
     withFile.find((brochure) => brochure.locale === "RU") ??
     withFile[0];
 
-  return { id: item.id, url: item.file!.url, locale: item.locale };
+  return {
+    id: item.id,
+    url: `${CONTENT_API_URL}/brochures/${item.id}/download`,
+    locale: item.locale,
+  };
 }
 
 /** Заголовки секций, в которых стоит год: их правят раз в год из админки. */

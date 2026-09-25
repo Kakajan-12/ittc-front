@@ -3,11 +3,6 @@
     "title": "ITTC",
     "description": "International Transport & Transit Corridors Conference"
   },
-  "Header": {
-    "ru": "RU",
-    "tk": "TK",
-    "en": "EN"
-  },
   "Navbar": {
     "logoAlt": "ITTC 2026 — International Conference & Expo",
     "home": "Home",
@@ -15,7 +10,6 @@
     "about": "About The Event",
     "agenda": "Agenda",
     "speakers": "Speakers",
-    "sponsors": "Sponsors",
     "support": "Official Support",
     "faq": "FAQ",
     "news": "News",
@@ -95,7 +89,6 @@
     "daysCount": "{count} Days",
     "day": "Day {number}",
     "sponsoredBy": "Sponsored by:",
-    "sessionHost": "Session host:",
     "view": "View details",
     "hide": "Hide",
     "keynote": "Keynote",
@@ -117,12 +110,7 @@
     "title": "Official Support"
   },
   "Results": {
-    "title": "ITTC 2025 Results",
-    "speakers": "Speakers",
-    "delegates": "Delegates",
-    "countries": "Countries",
-    "sponsors": "Sponsors",
-    "sessions": "Main Sessions"
+    "title": "ITTC 2025 Results"
   },
   "Organizers": {
     "title": "Organizers & Official Supporters"
@@ -151,10 +139,7 @@
   "News": {
     "title": "News",
     "more": "View all news",
-    "tag": "#Official news",
     "details": "More details",
-    "sampleTitle": "Turkmenistan's Capital Day is celebrated with festive events and an international exhibition",
-    "sampleDate": "10 June, 2026",
     "placeholder": "Search news",
     "clear": "Clear search",
     "back": "Back to News",
@@ -205,10 +190,7 @@
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "back": "Back",
-    "removeFile": "Remove file",
-    "page": "Page {number}",
-    "upload": "Upload",
-    "replace": "Replace"
+    "page": "Page {number}"
   },
   "Errors": {
     "phoneRequired": "Enter your phone number",

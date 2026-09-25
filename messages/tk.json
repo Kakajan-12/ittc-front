@@ -3,11 +3,6 @@
     "title": "Ittc 2026",
     "description": "ITTC 2026 halkara maslahat we sergi barada."
   },
-  "Header": {
-    "ru": "RU",
-    "tk": "TK",
-    "en": "EN"
-  },
   "Navbar": {
     "logoAlt": "ITTC 2026 — Halkara maslahat we sergi",
     "home": "Baş sahypa",
@@ -15,7 +10,6 @@
     "about": "Çäre barada",
     "agenda": "Meýilnama",
     "speakers": "Çykyş edýänler",
-    "sponsors": "Hemaýatkärler",
     "support": "Resmi goldaw",
     "faq": "FAQ",
     "news": "Habarlar",
@@ -95,7 +89,6 @@
     "daysCount": "{count} gün",
     "day": "{number}-nji gün",
     "sponsoredBy": "Hemaýatkär:",
-    "sessionHost": "Sessiýanyň guramaçysy:",
     "view": "Jikme-jik",
     "hide": "Gizle",
     "keynote": "Esasy çykyş",
@@ -117,12 +110,7 @@
     "title": "Resmi goldaw"
   },
   "Results": {
-    "title": "ITTC 2025 netijeleri",
-    "speakers": "Çykyş edýänler",
-    "delegates": "Wekiller",
-    "countries": "Ýurtlar",
-    "sponsors": "Hemaýatkärler",
-    "sessions": "Esasy mejlisler"
+    "title": "ITTC 2025 netijeleri"
   },
   "Organizers": {
     "title": "Guramaçylar we resmi hemaýatkärler"
@@ -151,10 +139,7 @@
   "News": {
     "title": "Habarlar",
     "more": "Ähli habarlar",
-    "tag": "#Resmi habarlar",
     "details": "Giňişleýin",
-    "sampleTitle": "Türkmenistanyň paýtagt güni baýramçylyk çäreleri we halkara sergisi bilen bellenilýär",
-    "sampleDate": "10 iýun, 2026",
     "placeholder": "Habarlary gözle",
     "noResults": "\"{query}\" boýunça habar tapylmady.",
     "clear": "Gözlegi arassala",
@@ -205,10 +190,7 @@
     "previousPage": "Öňki sahypa",
     "nextPage": "Indiki sahypa",
     "back": "Yza",
-    "removeFile": "Faýly aýyrmak",
-    "page": "{number}-nji sahypa",
-    "upload": "Ýükle",
-    "replace": "Çalyş"
+    "page": "{number}-nji sahypa"
   },
   "Errors": {
     "phoneRequired": "Telefon belgiňizi giriziň",
