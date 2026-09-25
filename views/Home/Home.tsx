@@ -55,29 +55,26 @@ function Home({
   const t = useTranslations("Hero");
   const actions: Array<{
     key: string;
-    href?: string;
+    href: string;
+    /** PDF из CMS — открывается в новой вкладке обычной ссылкой. */
+    external?: boolean;
+    /** Только пока шапка в мобильном виде: там кнопки регистрации нет. */
     mobileOnly?: boolean;
-    action?: () => void;
   }> = [
     { key: "register", href: "/register", mobileOnly: true },
     { key: "agenda", href: "/agenda" },
     // Файл приходит из CMS; пока его там нет — ведём на страницу брошюры,
     // она объяснит, что документ ещё не опубликован.
     brochureUrl
-      ? { key: "brochure", action: () => window.open(brochureUrl, "_blank") }
+      ? { key: "brochure", href: brochureUrl, external: true }
       : { key: "brochure", href: "/brochure" },
     // Как и брошюра, приходит из CMS. Пока файла нет — кнопки тоже нет:
     // отдельной страницы у путеводителя не существует, вести некуда.
     ...(travelGuideUrl
-      ? [
-          {
-            key: "travel-guide",
-            action: () => window.open(travelGuideUrl, "_blank"),
-          },
-        ]
+      ? [{ key: "travel-guide", href: travelGuideUrl, external: true }]
       : []),
     { key: "faq", href: "/faq" },
-  ] as const;
+  ];
 
   /** Nothing is set in the CMS yet — fall back to the photo in the build. */
   const bannerSrc = hero.image ?? "/main.jpg";
@@ -110,33 +107,33 @@ function Home({
               </p>
 
               <div className="mt-8 flex flex-wrap flex-col content-start gap-2 lg:gap-4 h-66">
-                {actions.map((i) => {
-                  if (!!i.action) {
-                    return (
-                      <div
-                        key={i.key}
-                        onClick={i.action}
-                        className={cn(
-                          "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 py-2.5 text-base transition cursor-pointer hover:border-brand-blue hover:bg-brand-blue/20",
-                          "mobileOnly" in i && "md:hidden",
-                        )}
-                      >
-                        {t(i.key)}
-                        <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    );
-                  }
-                  return (
-                    <Link
-                      key={i.key}
-                      href={i.href ?? ""}
-                      className={cn(
-                        "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 px-8 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
-                        "mobileOnly" in i && "md:hidden",
-                      )}
-                    >
-                      {t(i.key)}
+                {actions.map((action) => {
+                  const className = cn(
+                    "group flex items-center justify-center gap-2 rounded border border-brand-blue w-56 px-4 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                    action.mobileOnly && "nav:hidden",
+                  );
+                  const content = (
+                    <>
+                      {t(action.key)}
                       <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </>
+                  );
+
+                  // PDF живёт на API, а не на сайте, поэтому обычная ссылка,
+                  // а не Link: локаль к адресу приставлять не нужно.
+                  return action.external ? (
+                    <a
+                      key={action.key}
+                      href={action.href}
+                      target="_blank"
+                      rel="noopener"
+                      className={className}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <Link key={action.key} href={action.href} className={className}>
+                      {content}
                     </Link>
                   );
                 })}
