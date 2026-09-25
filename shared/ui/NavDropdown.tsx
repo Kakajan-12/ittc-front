@@ -59,13 +59,15 @@ export default function NavDropdown({
         />
       </button>
       {open ? (
-        <div className="absolute left-0 top-full z-50 w-full rounded bg-white/95 py-2 shadow-xl">
+        // Ширина — по самому длинному пункту, но не уже кнопки: у «О мероприятии»
+        // кнопка короткая, а русские и туркменские пункты под ней длинные.
+        <div className="absolute left-0 top-full z-50 w-max min-w-full rounded bg-white/95 py-2 shadow-xl">
           {item.children?.map((child) => (
             <Link
               key={`${child.label}-${child.href}`}
               href={child.href}
               onClick={() => setOpen(false)}
-              className=" px-4 py-2 text-sm flex items-center justify-between gap-2 transition-colors hover:translate-x-1 group"
+              className="px-4 py-2 text-sm flex items-center justify-between gap-4 whitespace-nowrap transition-colors hover:translate-x-1 group"
             >
               <span className=" text-black group-hover:text-brand-blue">
                 {child.label}
