@@ -86,7 +86,7 @@ export default function NavBar({
             priority
           />
         </Link>
-        <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex">
+        <div className="hidden items-center nav:gap-2 lg:gap-4 xl:gap-8 nav:flex">
           {items.map((item) =>
             item.children ? (
               <NavDropdown key={item.key} item={item} scrolled={darkText} />
@@ -94,7 +94,7 @@ export default function NavBar({
               <Link
                 key={item.key}
                 href={item.href}
-                className={`py-1 lg:py-2 text-sm lg:text-lg transition-colors ${
+                className={`py-1 lg:py-2 text-sm xl:text-lg transition-colors ${
                   darkText
                     ? "text-brand-gray hover:text-brand-blue"
                     : "text-white hover:text-white/80"
@@ -106,7 +106,7 @@ export default function NavBar({
           )}
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden nav:flex items-center gap-2">
           <Link
             href={portalLoginUrl(locale)}
             className={`flex h-10 items-center justify-center rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
@@ -131,7 +131,7 @@ export default function NavBar({
           onClick={() => setMenuOpen(true)}
           aria-label={t("openMenu")}
           aria-expanded={menuOpen}
-          className=" flex items-center justify-center rounded bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 md:hidden"
+          className=" flex items-center justify-center rounded bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 nav:hidden"
         >
           <FiMenu className="size-5" />
         </button>

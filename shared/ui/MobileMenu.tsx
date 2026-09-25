@@ -37,7 +37,7 @@ export default function MobileMenu({
   }, [open]);
 
   return (
-    <div className="md:hidden" aria-hidden={!open}>
+    <div className="nav:hidden" aria-hidden={!open}>
       <div
         onClick={onClose}
         className={`fixed inset-0 z-80 bg-black/40 transition-opacity duration-300 ${
