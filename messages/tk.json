@@ -107,8 +107,7 @@
   "Brochure": {
     "title": "Broşýura",
     "download": "PDF ýükle",
-    "empty": "Broşýura heniz çap edilmedi",
-    "fallbackNote": "Siziň diliňizdäki broşýura taýýarlanýar — başga dildäki nusgasy elýeterli."
+    "empty": "Broşýura heniz çap edilmedi"
   },
   "Support": {
     "title": "Resmi goldaw",

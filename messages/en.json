@@ -107,8 +107,7 @@
   "Brochure": {
     "title": "Brochure",
     "download": "Download PDF",
-    "empty": "The brochure is not published yet",
-    "fallbackNote": "A brochure in your language is in preparation — another language is available."
+    "empty": "The brochure is not published yet"
   },
   "Support": {
     "title": "Official Support",

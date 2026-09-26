@@ -8,16 +8,11 @@ import { getBrochure } from "@/shared/content/queries";
 
 type PageProps = { params: Promise<{ lang: string }> };
 
-const LOCALE_OF: Record<string, string> = { EN: "en", RU: "ru", TK: "tk" };
-
 export default async function BrochurePage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
   const t = await getTranslations({ locale, namespace: "Brochure" });
   const brochure = await getBrochure(locale);
-
-  // Файл нашёлся, но на другом языке — стоит предупредить, а не молчать.
-  const isFallback = brochure !== null && LOCALE_OF[brochure.locale] !== locale;
 
   return (
     <main>
@@ -26,10 +21,6 @@ export default async function BrochurePage({ params }: PageProps) {
       <div className="px-4 py-15 lg:px-10 lg:py-20">
         {brochure ? (
           <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
-            {isFallback ? (
-              <p className="text-sm text-brand-gray">{t("fallbackNote")}</p>
-            ) : null}
-
             <a
               href={brochure.url}
               target="_blank"
