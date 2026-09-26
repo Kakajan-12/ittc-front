@@ -31,12 +31,6 @@ export default async function OfficialSupportPage({ params }: PageProps) {
           <p className="text-center text-lg text-brand-gray">{t("empty")}</p>
         ) : (
           <div className="mx-auto flex max-w-[802px] flex-col items-center gap-4">
-            {letter.isFallback && (
-              <p className="text-center text-sm text-brand-gray">
-                {t("fallbackNote")}
-              </p>
-            )}
-
             {letter.isPdf ? (
               <>
                 <object

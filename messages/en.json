@@ -114,8 +114,7 @@
     "title": "Official Support",
     "empty": "The letter will be published soon.",
     "download": "Download the letter",
-    "open": "Open full size",
-    "fallbackNote": "The letter in your language is not published yet — showing another version."
+    "open": "Open full size"
   },
   "Results": {
     "title": "ITTC 2025 Results"

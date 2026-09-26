@@ -608,8 +608,6 @@ export type SupportLetterModel = {
   /** Прямая ссылка на файл: картинку показываем на странице, PDF встраиваем. */
   url: string;
   isPdf: boolean;
-  /** Письма на языке страницы нет — показано другое (обычно английское). */
-  isFallback: boolean;
 };
 
 /**
@@ -640,7 +638,6 @@ export async function getSupportLetter(
   return {
     url: item.file!.url,
     isPdf: item.file!.mimeType === "application/pdf",
-    isFallback: item.locale !== wanted,
   };
 }
 
