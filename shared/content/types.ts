@@ -225,7 +225,7 @@ export type HeroBanner = {
 export type BrochureLocale = "EN" | "RU" | "TK";
 
 /** Брошюра и путеводитель — одна сущность, различаются видом. */
-export type BrochureKind = "BROCHURE" | "TRAVEL_GUIDE";
+export type BrochureKind = "BROCHURE" | "TRAVEL_GUIDE" | "SUPPORT_LETTER";
 
 /** Одна брошюра на язык; файл всегда PDF. */
 export type Brochure = Entity & {

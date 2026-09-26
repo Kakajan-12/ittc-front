@@ -604,6 +604,46 @@ export async function getBrochure(
   };
 }
 
+export type SupportLetterModel = {
+  /** Прямая ссылка на файл: картинку показываем на странице, PDF встраиваем. */
+  url: string;
+  isPdf: boolean;
+  /** Письма на языке страницы нет — показано другое (обычно английское). */
+  isFallback: boolean;
+};
+
+/**
+ * Письмо официальной поддержки на языке страницы. Если его нет — английское:
+ * приглашение пишут прежде всего на английском, а не на русском, как брошюры.
+ */
+export async function getSupportLetter(
+  locale: Locale,
+): Promise<SupportLetterModel | null> {
+  const items = await safeContentList<Brochure>("brochures", {
+    limit: 20,
+    orderBy: "order",
+    orderDirection: "asc",
+  });
+
+  const letters = items.filter(
+    (item) => item.kind === "SUPPORT_LETTER" && item.file?.url,
+  );
+
+  if (!letters.length) return null;
+
+  const wanted = BROCHURE_LOCALE[locale];
+  const item =
+    letters.find((letter) => letter.locale === wanted) ??
+    letters.find((letter) => letter.locale === "EN") ??
+    letters[0];
+
+  return {
+    url: item.file!.url,
+    isPdf: item.file!.mimeType === "application/pdf",
+    isFallback: item.locale !== wanted,
+  };
+}
+
 /** Заголовки секций, в которых стоит год: их правят раз в год из админки. */
 export type SectionTitles = {
   /** Блок с цифрами на главной и на «О мероприятии». */

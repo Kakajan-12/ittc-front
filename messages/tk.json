@@ -111,7 +111,11 @@
     "fallbackNote": "Siziň diliňizdäki broşýura taýýarlanýar — başga dildäki nusgasy elýeterli."
   },
   "Support": {
-    "title": "Resmi goldaw"
+    "title": "Resmi goldaw",
+    "empty": "Hat ýakyn wagtda ýerleşdiriler.",
+    "download": "Haty ýükläp almak",
+    "open": "Doly ölçegde açmak",
+    "fallbackNote": "Hat türkmen dilinde entek ýerleşdirilmedi — iňlis dilindäki görnüşi görkezilýär."
   },
   "Results": {
     "title": "ITTC 2025 netijeleri"
