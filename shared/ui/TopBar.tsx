@@ -16,7 +16,11 @@ export default function TopBar({
       <header className="h-11.5">
         <Header menuOpen={menuOpen} contacts={contacts} />
       </header>
-      <NavBar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <NavBar
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        travel={contacts.travel}
+      />
     </>
   );
 }

@@ -204,6 +204,9 @@ export type SiteSettings = {
   sponsorsTitleEn: string;
   sponsorsTitleRu: string;
   sponsorsTitleTk: string;
+  visaUrl: string | null;
+  flightUrl: string | null;
+  hotelUrl: string | null;
 };
 
 /** The hero block on the home page; one record. */

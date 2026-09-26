@@ -62,21 +62,42 @@ export default function NavDropdown({
         // Ширина — по самому длинному пункту, но не уже кнопки: у «О мероприятии»
         // кнопка короткая, а русские и туркменские пункты под ней длинные.
         <div className="absolute left-0 top-full z-50 w-max min-w-full rounded bg-white/95 py-2 shadow-xl">
-          {item.children?.map((child) => (
-            <Link
-              key={`${child.label}-${child.href}`}
-              href={child.href}
-              onClick={() => setOpen(false)}
-              className="px-4 py-2 text-sm flex items-center justify-between gap-4 whitespace-nowrap transition-colors hover:translate-x-1 group"
-            >
-              <span className=" text-black group-hover:text-brand-blue">
-                {child.label}
-              </span>
-              {child.href === "#" ? (
-                <IoLockClosedOutline size={16} className="text-gray-400" />
-              ) : null}
-            </Link>
-          ))}
+          {item.children?.map((child) => {
+            const className =
+              "px-4 py-2 text-sm flex items-center justify-between gap-4 whitespace-nowrap transition-colors hover:translate-x-1 group";
+            const content = (
+              <>
+                <span className=" text-black group-hover:text-brand-blue">
+                  {child.label}
+                </span>
+                {child.href === "#" ? (
+                  <IoLockClosedOutline size={16} className="text-gray-400" />
+                ) : null}
+              </>
+            );
+
+            return child.external ? (
+              <a
+                key={`${child.label}-${child.href}`}
+                href={child.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className={className}
+              >
+                {content}
+              </a>
+            ) : (
+              <Link
+                key={`${child.label}-${child.href}`}
+                href={child.href}
+                onClick={() => setOpen(false)}
+                className={className}
+              >
+                {content}
+              </Link>
+            );
+          })}
         </div>
       ) : null}
     </div>

@@ -519,6 +519,11 @@ export type SiteContactsModel = {
   /** Соцсети в подвале, из админки; иконку подвал выбирает по `network`. */
   socials: SocialLinkModel[];
   partnerUrl: string;
+  /**
+   * Меню «Путеводитель по поездке и размещению»: внешние платформы.
+   * null — адреса нет, пункт под замком.
+   */
+  travel: { visa: string | null; flight: string | null; hotel: string | null };
 };
 
 /**
@@ -552,6 +557,7 @@ const CONTACTS_FALLBACK: SiteContactsModel = {
     },
   ],
   partnerUrl: "https://oguzforum.com",
+  travel: { visa: null, flight: null, hotel: null },
 };
 
 /** `tel:` ignores spaces and dashes; browsers dial what is left. */
@@ -601,6 +607,11 @@ export async function getSiteContacts(
     // сбой API уже отсёк ранний возврат с запасными значениями выше.
     socials: socials.map(({ id, network, url }) => ({ id, network, url })),
     partnerUrl: settings?.partnerUrl ?? CONTACTS_FALLBACK.partnerUrl,
+    travel: {
+      visa: settings?.visaUrl ?? null,
+      flight: settings?.flightUrl ?? null,
+      hotel: settings?.hotelUrl ?? null,
+    },
   };
 }
 

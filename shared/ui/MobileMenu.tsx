@@ -100,28 +100,43 @@ export default function MobileMenu({
                             active ? "bg-brand-blue" : "bg-brand-blue/40"
                           }`}
                         />
-                        <Link
-                          href={child.href}
-                          onClick={onClose}
-                          aria-current={active ? "page" : undefined}
-                          className="text-base transition w-full flex items-center justify-between hover:text-brand-blue group"
-                        >
-                          <span
-                            className={
-                              active
-                                ? "font-semibold text-brand-blue"
-                                : "text-black group-hover:text-brand-blue"
-                            }
+                        {child.external ? (
+                          // Внешняя платформа — в новой вкладке.
+                          <a
+                            href={child.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={onClose}
+                            className="text-base transition w-full flex items-center justify-between hover:text-brand-blue group"
                           >
-                            {child.label}
-                          </span>
-                          {child.href === "#" ? (
-                            <IoLockClosedOutline
-                              size={16}
-                              className="text-gray-400"
-                            />
-                          ) : null}
-                        </Link>
+                            <span className="text-black group-hover:text-brand-blue">
+                              {child.label}
+                            </span>
+                          </a>
+                        ) : (
+                          <Link
+                            href={child.href}
+                            onClick={onClose}
+                            aria-current={active ? "page" : undefined}
+                            className="text-base transition w-full flex items-center justify-between hover:text-brand-blue group"
+                          >
+                            <span
+                              className={
+                                active
+                                  ? "font-semibold text-brand-blue"
+                                  : "text-black group-hover:text-brand-blue"
+                              }
+                            >
+                              {child.label}
+                            </span>
+                            {child.href === "#" ? (
+                              <IoLockClosedOutline
+                                size={16}
+                                className="text-gray-400"
+                              />
+                            ) : null}
+                          </Link>
+                        )}
                       </li>
                     );
                   })}

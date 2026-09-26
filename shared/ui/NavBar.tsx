@@ -6,9 +6,15 @@ import { FiMenu } from "react-icons/fi";
 import { Link, usePathname } from "@/i18n/navigation";
 import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
+import type { SiteContactsModel } from "@/shared/content/queries";
 import { portalLoginUrl } from "@/shared/config/portal";
 
-export type NavChild = { label: string; href: string };
+export type NavChild = {
+  label: string;
+  href: string;
+  /** Внешняя платформа: обычная ссылка в новой вкладке, без локали в адресе. */
+  external?: boolean;
+};
 
 /**
  * Пункт меню — либо ссылка, либо группа. У группы нет href: её заголовок по ТЗ
@@ -23,9 +29,11 @@ export type NavItem =
 export default function NavBar({
   menuOpen,
   setMenuOpen,
+  travel,
 }: {
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;
+  travel: SiteContactsModel["travel"];
 }) {
   const t = useTranslations("Navbar");
   const locale = useLocale();
@@ -60,12 +68,15 @@ export default function NavBar({
     {
       key: "travel",
       label: t("travel"),
-      // Разделов пока нет: ссылки-заглушки "#" показываются под замком.
+      // Адреса внешних платформ задаются в админке («Настройки сайта»).
+      // Пока адреса нет, пункт — заглушка "#" под замком.
       children: [
-        { label: t("visa"), href: "#" },
-        { label: t("flight"), href: "#" },
-        { label: t("hotel"), href: "#" },
-      ],
+        { label: t("visa"), url: travel.visa },
+        { label: t("flight"), url: travel.flight },
+        { label: t("hotel"), url: travel.hotel },
+      ].map(({ label, url }) =>
+        url ? { label, href: url, external: true } : { label, href: "#" },
+      ),
     },
     { key: "news", label: t("news"), href: "/news" },
   ];
