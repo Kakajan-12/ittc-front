@@ -14,14 +14,17 @@ function Organizers({ organizers }: { organizers: PartnerModel[] }) {
     <div className="mt-15 lg:mt-18">
       <SectionHeading title={t("title")} />
 
-      <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 justify-items-start gap-3 lg:gap-5">
+      {/* Карточка занимает ячейку целиком: с фиксированной шириной она то
+          прижималась влево (в две колонки справа оставалось до 130px пустоты),
+          то оказывалась шире ячейки и наезжала на соседнюю. */}
+      <ul className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 lg:gap-5">
         {organizers.map((organizer) => (
-          <li key={organizer.id} className="flex flex-col items-center gap-2 ">
+          <li key={organizer.id} className="flex flex-col gap-2">
             <a
               href={organizer.website ?? "#"}
               target="_blank"
               rel="noopener"
-              className="sponsorShadow group relative flex flex-col h-42 w-40 lg:w-54 xl:w-48 2xl:w-50 rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm"
+              className="sponsorShadow group relative flex flex-col h-42 w-full rounded bg-white p-2 transition hover:border-brand-blue/40 hover:shadow-sm"
             >
               <div className="relative h-full w-full">
                 {organizer.logo ? (
