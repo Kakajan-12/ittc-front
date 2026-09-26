@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { FiChevronLeft, FiChevronRight, FiSearch, FiX } from "react-icons/fi";
+import { Link, useRouter } from "@/i18n/navigation";
 import PageHeading from "@/shared/ui/PageHeading";
 import NewsCard from "@/views/News/NewsCard";
+import { useDebouncedValue } from "@/shared/lib/useDebouncedValue";
 import type { NewsCardModel } from "@/shared/content/queries";
-
-const PER_PAGE = 8;
 
 function getPageList(current: number, total: number): (number | "dots")[] {
   if (total <= 4) return Array.from({ length: total }, (_, i) => i + 1);
@@ -21,38 +21,52 @@ function getPageList(current: number, total: number): (number | "dots")[] {
   return pages;
 }
 
+const PAGE_BUTTON =
+  "flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue";
+
 /**
- * Search and pagination run over the list the server already fetched — the
- * archive is small enough that a round trip per keystroke would be wasteful.
+ * Список новостей. Страницу и поиск считает API: сюда приходят только
+ * новости текущей страницы. Номер страницы и запрос живут в адресе
+ * (`/news?page=2&q=…`), поэтому страницу можно открыть по ссылке, а кнопки
+ * пагинации — обычные ссылки.
  */
-export default function NewsListView({ news }: { news: NewsCardModel[] }) {
+export default function NewsListView({
+  news,
+  page,
+  pageCount,
+  query,
+}: {
+  news: NewsCardModel[];
+  page: number;
+  pageCount: number;
+  query: string;
+}) {
   const t = useTranslations("News");
   const tCommon = useTranslations("Common");
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const topRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return news;
-    return news.filter(
-      (item) =>
-        item.title.toLowerCase().includes(q) ||
-        item.excerpt.toLowerCase().includes(q),
-    );
-  }, [query, news]);
+  const [input, setInput] = useState(query);
+  const debounced = useDebouncedValue(input, 400);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-  const currentPage = Math.min(page, totalPages);
-  const visible = filtered.slice(
-    (currentPage - 1) * PER_PAGE,
-    currentPage * PER_PAGE,
-  );
+  // Запрос уходит, когда пользователь перестал печатать; новый поиск
+  // всегда начинается с первой страницы.
+  useEffect(() => {
+    const next = debounced.trim();
+    if (next === query.trim()) return;
 
-  const goTo = (p: number) => {
-    setPage(Math.min(Math.max(1, p), totalPages));
-    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+    startTransition(() => {
+      router.replace(
+        { pathname: "/news", query: next ? { q: next } : {} },
+        { scroll: false },
+      );
+    });
+  }, [debounced, query, router]);
+
+  const hrefFor = (p: number) => ({
+    pathname: "/news" as const,
+    query: { ...(p > 1 ? { page: p } : {}), ...(query ? { q: query } : {}) },
+  });
 
   return (
     <main>
@@ -61,7 +75,7 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
         crumbs={[{ label: t("title") }]}
         image="/news.webp"
       />
-      <div ref={topRef} className="px-4 lg:px-10 py-15 lg:py-20 scroll-mt-24">
+      <div className="px-4 lg:px-10 py-15 lg:py-20 scroll-mt-24">
         <label
           htmlFor="search"
           className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
@@ -70,21 +84,15 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
             id="search"
             type="search"
             placeholder={t("placeholder")}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setPage(1);
-            }}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
             className="h-full min-h-0 min-w-0 flex-1 bg-transparent py-0 outline-none placeholder:text-[#ABB7C2] [&::-webkit-search-cancel-button]:appearance-none"
           />
-          {query.trim() ? (
+          {input.trim() ? (
             <button
               type="button"
               aria-label={t("clear")}
-              onClick={() => {
-                setQuery("");
-                setPage(1);
-              }}
+              onClick={() => setInput("")}
               className="flex shrink-0 items-center text-brand-blue transition-colors hover:text-brand-blue-dark"
             >
               <FiX className="size-5" aria-hidden />
@@ -95,40 +103,49 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
             </span>
           )}
         </label>
-        {visible.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-10">
-            {visible.map((item) => (
-              <NewsCard
-                key={item.id}
-                id={`news-${item.id}`}
-                tag={item.tag}
-                title={item.title}
-                date={item.date}
-                image={item.image}
-                href={`/news/${item.slug}`}
-                more={t("details")}
-              />
-            ))}
-          </div>
-        ) : (
-          <p className="mt-10 text-brand-gray">
-            {t("noResults", { query: query.trim() })}
-          </p>
-        )}
 
-        {totalPages > 1 && (
-          <div className="mt-10 flex items-center justify-center gap-2">
-            <button
-              type="button"
-              onClick={() => goTo(currentPage - 1)}
-              disabled={currentPage === 1}
-              aria-label={tCommon("previousPage")}
-              className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <FiChevronLeft size={18} />
-            </button>
+        <div
+          aria-busy={isPending}
+          className={`transition-opacity ${isPending ? "opacity-50" : ""}`}
+        >
+          {news.length > 0 ? (
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-10">
+              {news.map((item) => (
+                <NewsCard
+                  key={item.id}
+                  id={`news-${item.id}`}
+                  tag={item.tag}
+                  title={item.title}
+                  date={item.date}
+                  image={item.image}
+                  href={`/news/${item.slug}`}
+                  more={t("details")}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="mt-10 text-brand-gray">
+              {t("noResults", { query })}
+            </p>
+          )}
+        </div>
 
-            {getPageList(currentPage, totalPages).map((p, i) =>
+        {pageCount > 1 && (
+          <nav
+            aria-label={t("title")}
+            className="mt-10 flex items-center justify-center gap-2"
+          >
+            {page > 1 ? (
+              <Link href={hrefFor(page - 1)} aria-label={tCommon("previousPage")} className={PAGE_BUTTON}>
+                <FiChevronLeft size={18} />
+              </Link>
+            ) : (
+              <span aria-hidden className={`${PAGE_BUTTON} cursor-not-allowed opacity-40`}>
+                <FiChevronLeft size={18} />
+              </span>
+            )}
+
+            {getPageList(page, pageCount).map((p, i) =>
               p === "dots" ? (
                 <span
                   key={`dots-${i}`}
@@ -137,33 +154,32 @@ export default function NewsListView({ news }: { news: NewsCardModel[] }) {
                   …
                 </span>
               ) : (
-                <button
+                <Link
                   key={p}
-                  type="button"
+                  href={hrefFor(p)}
                   aria-label={tCommon("page", { number: p })}
-                  aria-current={p === currentPage ? "page" : undefined}
-                  onClick={() => goTo(p)}
-                  className={`size-9 rounded-sm border text-sm font-medium transition-colors ${
-                    p === currentPage
+                  aria-current={p === page ? "page" : undefined}
+                  className={`flex size-9 items-center justify-center rounded-sm border text-sm font-medium transition-colors ${
+                    p === page
                       ? "border-brand-blue bg-brand-blue text-white"
                       : "border-[#ABB7C2] text-brand-gray hover:border-brand-blue hover:text-brand-blue"
                   }`}
                 >
                   {p}
-                </button>
+                </Link>
               ),
             )}
 
-            <button
-              type="button"
-              onClick={() => goTo(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              aria-label={tCommon("nextPage")}
-              className="flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <FiChevronRight size={18} />
-            </button>
-          </div>
+            {page < pageCount ? (
+              <Link href={hrefFor(page + 1)} aria-label={tCommon("nextPage")} className={PAGE_BUTTON}>
+                <FiChevronRight size={18} />
+              </Link>
+            ) : (
+              <span aria-hidden className={`${PAGE_BUTTON} cursor-not-allowed opacity-40`}>
+                <FiChevronRight size={18} />
+              </span>
+            )}
+          </nav>
         )}
       </div>
     </main>

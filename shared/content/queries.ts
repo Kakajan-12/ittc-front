@@ -1,4 +1,4 @@
-import { safeContentGet, safeContentList } from "./client";
+import { contentList, safeContentGet, safeContentList } from "./client";
 import { CONTENT_API_URL } from "./config";
 import { formatDayAndMonth, formatFullDate, formatTime } from "./format";
 import { localized, localizedOrNull, type Locale } from "./localize";
@@ -141,6 +141,58 @@ function toNewsCard(item: News, locale: Locale): NewsCardModel {
     date: formatFullDate(item.publishedAt, locale),
     image: item.coverImage?.url ?? null,
   };
+}
+
+/** Новостей на одной странице списка /news. */
+export const NEWS_PAGE_SIZE = 12;
+
+const NEWS_LOCALE_SUFFIX: Record<Locale, "En" | "Ru" | "Tk"> = {
+  en: "En",
+  ru: "Ru",
+  tk: "Tk",
+};
+
+export type NewsPageModel = {
+  items: NewsCardModel[];
+  /** Сколько всего новостей подходит — из API, для числа страниц. */
+  total: number;
+  pageCount: number;
+};
+
+/**
+ * Одна страница списка новостей. Делит на страницы и ищет API: сайт
+ * получает ровно NEWS_PAGE_SIZE новостей нужной страницы и общее число.
+ * Поиск — по заголовку и анонсу на языке страницы.
+ */
+export async function getNewsPage(
+  locale: Locale,
+  page: number,
+  query: string,
+): Promise<NewsPageModel> {
+  const suffix = NEWS_LOCALE_SUFFIX[locale];
+  const search = query.trim();
+
+  try {
+    const { items, total } = await contentList<News>("news", {
+      offset: (page - 1) * NEWS_PAGE_SIZE,
+      limit: NEWS_PAGE_SIZE,
+      orderBy: "publishedAt",
+      orderDirection: "desc",
+      ...(search
+        ? { search, searchFields: [`title${suffix}`, `excerpt${suffix}`] }
+        : {}),
+    });
+
+    return {
+      items: items.map((item) => toNewsCard(item, locale)),
+      total,
+      pageCount: Math.max(1, Math.ceil(total / NEWS_PAGE_SIZE)),
+    };
+  } catch (error) {
+    // Как и остальные разделы: сбой API не роняет страницу.
+    console.error("[content] news page failed:", (error as Error).message);
+    return { items: [], total: 0, pageCount: 1 };
+  }
 }
 
 export async function getNews(
