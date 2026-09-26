@@ -17,6 +17,8 @@ import type {
   BrochureKind,
   BrochureLocale,
   Contact,
+  SocialLink,
+  SocialNetwork,
   HeroBanner,
   SiteSettings,
   Sponsor,
@@ -430,9 +432,13 @@ export type ContactModel = {
   label: string | null;
 };
 
+export type SocialLinkModel = { id: number; network: SocialNetwork; url: string };
+
 export type SiteContactsModel = {
   phones: ContactModel[];
   emails: ContactModel[];
+  /** Соцсети в подвале, из админки; иконку подвал выбирает по `network`. */
+  socials: SocialLinkModel[];
   partnerUrl: string;
 };
 
@@ -450,6 +456,20 @@ const CONTACTS_FALLBACK: SiteContactsModel = {
       value: "info@oguzforum.com",
       href: "mailto:info@oguzforum.com",
       label: null,
+    },
+  ],
+  socials: [
+    { id: 0, network: "TELEGRAM", url: "https://t.me/Oguz_forum_expo" },
+    { id: 0, network: "WHATSAPP", url: "https://wa.me/99361480080" },
+    {
+      id: 0,
+      network: "INSTAGRAM",
+      url: "https://www.instagram.com/oguzforumexpo?igsh=eWhxMDR1c3JmanVz",
+    },
+    {
+      id: 0,
+      network: "LINKEDIN",
+      url: "https://tm.linkedin.com/company/hi-tech-turkmenistan",
     },
   ],
   partnerUrl: "https://oguzforum.com",
@@ -475,13 +495,18 @@ function toContactModel(contact: Contact, locale: Locale): ContactModel {
 export async function getSiteContacts(
   locale: Locale,
 ): Promise<SiteContactsModel> {
-  const [contacts, settings] = await Promise.all([
+  const [contacts, settings, socials] = await Promise.all([
     safeContentList<Contact>("contacts", {
       limit: 50,
       orderBy: "order",
       orderDirection: "asc",
     }),
     safeContentGet<SiteSettings>("settings"),
+    safeContentList<SocialLink>("social-links", {
+      limit: 20,
+      orderBy: "order",
+      orderDirection: "asc",
+    }),
   ]);
 
   if (!contacts.length && !settings) return CONTACTS_FALLBACK;
@@ -493,6 +518,9 @@ export async function getSiteContacts(
   return {
     phones: phones.length ? phones : CONTACTS_FALLBACK.phones,
     emails: emails.length ? emails : CONTACTS_FALLBACK.emails,
+    // Пустой список — решение редактора (всё снято с публикации), а не сбой:
+    // сбой API уже отсёк ранний возврат с запасными значениями выше.
+    socials: socials.map(({ id, network, url }) => ({ id, network, url })),
     partnerUrl: settings?.partnerUrl ?? CONTACTS_FALLBACK.partnerUrl,
   };
 }

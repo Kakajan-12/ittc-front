@@ -1,37 +1,36 @@
 import React from "react";
 import { LuMail, LuPhone } from "react-icons/lu";
 import { PiTelegramLogo } from "react-icons/pi";
-import { FaWhatsapp, FaInstagram } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTiktok,
+  FaWhatsapp,
+  FaXTwitter,
+  FaYoutube,
+} from "react-icons/fa6";
 import { SlSocialLinkedin } from "react-icons/sl";
-// import { FiLinkedin } from "react-icons/fi";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { SiteContactsModel } from "@/shared/content/queries";
+import type { SocialNetwork } from "@/shared/content/types";
 import FooterAccordion from "@/shared/ui/FooterAccordion";
 
-const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
-  {
-    label: "Telegram",
-    href: "https://t.me/Oguz_forum_expo",
-    icon: <PiTelegramLogo />,
-  },
-  {
-    label: "WhatsApp",
-    href: "https://wa.me/99361480080",
-    icon: <FaWhatsapp />,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/oguzforumexpo?igsh=eWhxMDR1c3JmanVz",
-    icon: <FaInstagram />,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://tm.linkedin.com/company/hi-tech-turkmenistan",
-    icon: <SlSocialLinkedin />,
-  },
-];
+/** Иконка и подпись по сети; сами ссылки приходят из админки. */
+const SOCIAL_META: Record<
+  SocialNetwork,
+  { label: string; icon: React.ReactNode }
+> = {
+  TELEGRAM: { label: "Telegram", icon: <PiTelegramLogo /> },
+  WHATSAPP: { label: "WhatsApp", icon: <FaWhatsapp /> },
+  INSTAGRAM: { label: "Instagram", icon: <FaInstagram /> },
+  LINKEDIN: { label: "LinkedIn", icon: <SlSocialLinkedin /> },
+  FACEBOOK: { label: "Facebook", icon: <FaFacebookF /> },
+  YOUTUBE: { label: "YouTube", icon: <FaYoutube /> },
+  X: { label: "X", icon: <FaXTwitter /> },
+  TIKTOK: { label: "TikTok", icon: <FaTiktok /> },
+};
 
 type FooterLinkItem = { label: string; href: string; icon?: React.ReactNode };
 type FooterLinkConfig = {
@@ -133,21 +132,23 @@ export default function Footer({
             <div className="flex flex-col items-start justify-between h-full gap-7 lg:gap-9">
               <Image src="/logo.svg" alt="Oguz Forum" width={248} height={60} />
 
-              <ul className="flex items-center gap-4">
-                {SOCIALS.map(({ label, href, icon }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      aria-label={label}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="grid size-10 place-items-center rounded-full bg-white text-2xl text-brand-blue-dark transition hover:bg-white/80"
-                    >
-                      {icon}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              {contacts.socials.length > 0 && (
+                <ul className="flex flex-wrap items-center gap-4">
+                  {contacts.socials.map(({ id, network, url }) => (
+                    <li key={`${network}-${id}-${url}`}>
+                      <a
+                        href={url}
+                        aria-label={SOCIAL_META[network].label}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="grid size-10 place-items-center rounded-full bg-white text-2xl text-brand-blue-dark transition hover:bg-white/80"
+                      >
+                        {SOCIAL_META[network].icon}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
           <div className="hidden md:flex flex-col gap-6 md:gap-10 lg:gap-30 md:flex-row justify-center">

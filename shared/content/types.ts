@@ -244,6 +244,22 @@ export type Brochure = Entity & {
 
 export type ContactType = "PHONE" | "EMAIL";
 
+export type SocialNetwork =
+  | "TELEGRAM"
+  | "WHATSAPP"
+  | "INSTAGRAM"
+  | "LINKEDIN"
+  | "FACEBOOK"
+  | "YOUTUBE"
+  | "X"
+  | "TIKTOK";
+
+export type SocialLink = Entity & {
+  network: SocialNetwork;
+  url: string;
+  order: number;
+};
+
 /** Phones and e-mails; the footer lists them, the header takes the first. */
 export type Contact = Entity & {
   type: ContactType;
