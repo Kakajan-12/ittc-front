@@ -11,7 +11,7 @@
     "agenda": "Meýilnama",
     "speakers": "Çykyş edýänler",
     "support": "Resmi goldaw",
-    "faq": "FAQ",
+    "faq": "Sowallar",
     "travel": "Syýahat we ýerleşiş boýunça gollanma",
     "visa": "Wiza almak üçin ýüz tutmak",
     "flight": "Uçar biletini bron etmek",
@@ -132,7 +132,17 @@
     "more": "Ähli çykyş edýänleriň barada giňişleýin maglumat",
     "placeholder": "Çykyş edýäniň gözlegi",
     "noResults": "\"{query}\" boýunça çykyş edýän tapylmady.",
-    "clear": "Gözlegi arassala"
+    "clear": "Gözlegi arassala",
+    "back": "Ähli çykyş edýänler",
+    "notFound": "Çykyş edýän tapylmady.",
+    "keynote": "Esasy çykyş edýän",
+    "sessions": "Maksatnamadaky çykyşlar",
+    "agenda": "Doly maksatnama",
+    "role": {
+      "KEYNOTE": "Esasy çykyş",
+      "MODERATOR": "Moderator",
+      "SPEAKER": "Çykyş edýän"
+    }
   },
   "Faq": {
     "title": "Sowallar",
@@ -166,7 +176,7 @@
     "news": "Habarlar",
     "support": "Resmi goldaw",
     "register": "Hasaba durmak",
-    "faq": "FAQ",
+    "faq": "Sowallar",
     "info": "Mazmuny",
     "links": "Peýdaly ssylkalar",
     "contact": "Kontaktlar",

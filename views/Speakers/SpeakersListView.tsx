@@ -87,6 +87,7 @@ export default function SpeakersListView({
                 name={speaker.name}
                 description={speaker.description}
                 image={speaker.image ?? undefined}
+                href={`/speakers/${speaker.slug}`}
               />
             ))}
           </div>

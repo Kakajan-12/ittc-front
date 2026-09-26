@@ -46,7 +46,15 @@ export type News = Entity & {
   viewCount: number;
 };
 
+export type Country = Entity & {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  code: string;
+};
+
 export type Speaker = Entity & {
+  slug: string;
   fullNameEn: string;
   fullNameRu: string;
   fullNameTk: string;
@@ -60,6 +68,7 @@ export type Speaker = Entity & {
   bioRu: string | null;
   bioTk: string | null;
   photo: MediaFile | null;
+  country?: Country | null;
   isKeynote: boolean;
   order: number;
 };
@@ -243,4 +252,14 @@ export type Contact = Entity & {
   labelRu: string | null;
   labelTk: string | null;
   order: number;
+};
+
+/** `GET /speakers/slug/:slug` — спикер и сессии программы, где он выступает. */
+export type SpeakerDetail = Speaker & {
+  sessions: Array<
+    Omit<AgendaSession, "participants" | "sponsors"> & {
+      role: SessionRole;
+      day: Omit<AgendaDay, "sessions"> & { phase: { key: string } };
+    }
+  >;
 };

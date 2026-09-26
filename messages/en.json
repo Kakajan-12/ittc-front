@@ -132,7 +132,17 @@
     "more": "View all speakers",
     "placeholder": "Search speaker",
     "noResults": "No speakers found for \"{query}\".",
-    "clear": "Clear search"
+    "clear": "Clear search",
+    "back": "All speakers",
+    "notFound": "Speaker not found.",
+    "keynote": "Keynote speaker",
+    "sessions": "Sessions",
+    "agenda": "Full agenda",
+    "role": {
+      "KEYNOTE": "Keynote",
+      "MODERATOR": "Moderator",
+      "SPEAKER": "Speaker"
+    }
   },
   "Faq": {
     "title": "FAQ",

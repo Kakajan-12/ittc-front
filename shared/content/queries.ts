@@ -10,7 +10,9 @@ import type {
   News,
   Partner,
   PartnerKind,
+  SessionRole,
   Speaker,
+  SpeakerDetail,
   Brochure,
   BrochureKind,
   BrochureLocale,
@@ -47,6 +49,7 @@ export type NewsArticleModel = NewsCardModel & {
 
 export type SpeakerModel = {
   id: number;
+  slug: string;
   name: string;
   description: string;
   image: string | null;
@@ -179,12 +182,73 @@ export async function getSpeakers(locale: Locale): Promise<SpeakerModel[]> {
 
   return items.map((speaker) => ({
     id: speaker.id,
+    slug: speaker.slug,
     name: localized(speaker, "fullName", locale),
     description:
       localized(speaker, "position", locale) ||
       localized(speaker, "company", locale),
     image: speaker.photo?.url ?? null,
   }));
+}
+
+export type SpeakerSessionModel = {
+  id: number;
+  title: string;
+  role: SessionRole;
+  /** "24 ноября 2026 г." */
+  date: string;
+  /** "09:00 – 10:30" */
+  time: string;
+  room: string | null;
+};
+
+export type SpeakerDetailModel = SpeakerModel & {
+  position: string | null;
+  company: string | null;
+  country: string | null;
+  /** HTML из редактора админки. */
+  bio: string | null;
+  isKeynote: boolean;
+  sessions: SpeakerSessionModel[];
+};
+
+/** Страница спикера. `null` — такого спикера нет или он не опубликован. */
+export async function getSpeaker(
+  slug: string,
+  locale: Locale,
+): Promise<SpeakerDetailModel | null> {
+  const item = await safeContentGet<SpeakerDetail>(
+    `speakers/slug/${encodeURIComponent(slug)}`,
+  );
+
+  if (!item) return null;
+
+  const position = localizedOrNull(item, "position", locale);
+  const company = localizedOrNull(item, "company", locale);
+
+  return {
+    id: item.id,
+    slug: item.slug,
+    name: localized(item, "fullName", locale),
+    description: position || company || "",
+    image: item.photo?.url ?? null,
+    position,
+    company,
+    country: item.country ? localized(item.country, "title", locale) : null,
+    bio: localizedOrNull(item, "bio", locale),
+    isKeynote: item.isKeynote,
+    sessions: (item.sessions ?? []).map((session) => ({
+      id: session.id,
+      title: localized(session, "title", locale),
+      role: session.role,
+      date: formatFullDate(session.day.date, locale),
+      time: [session.startTime, session.endTime]
+        .filter(Boolean)
+        .map((value) => formatTime(value, locale))
+        .join(" – "),
+      room: localizedOrNull(session, "room", locale),
+    })),
+  };
 }
 
 // -- sponsors & partners -----------------------------------------------------

@@ -73,6 +73,7 @@ function Speakers({ speakers }: { speakers: SpeakerModel[] }) {
               name={speaker.name}
               description={speaker.description}
               image={speaker.image ?? undefined}
+              href={`/speakers/${speaker.slug}`}
             />
           ))}
         </div>
@@ -94,6 +95,7 @@ function Speakers({ speakers }: { speakers: SpeakerModel[] }) {
                   name={speaker.name}
                   description={speaker.description}
                   image={speaker.image ?? undefined}
+                  href={`/speakers/${speaker.slug}`}
                 />
               </div>
             ))}
