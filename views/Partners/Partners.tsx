@@ -85,13 +85,19 @@ function Partners({ partners }: { partners: PartnerModel[] }) {
                           />
                         )}
                       </div>
-                      <div className="border-t border-[#C3D1D9] py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
-                        {labelParts.map((part, index) => (
-                          <Fragment key={index}>
-                            {index > 0 && <br />}
-                            {part}
-                          </Fragment>
-                        ))}
+                      {/* Место под две строки у всех карточек: иначе подпись,
+                          которая переносится («Информационный партнёр»),
+                          делала свою карточку выше соседних. */}
+                      <div className="flex min-h-19 items-center justify-center border-t border-[#C3D1D9] px-2 py-3 text-center font-roboto text-lg leading-6 text-brand-gray">
+                        {/* Обёртка нужна: внутри flex <br> не переносит строку. */}
+                        <span>
+                          {labelParts.map((part, index) => (
+                            <Fragment key={index}>
+                              {index > 0 && <br />}
+                              {part}
+                            </Fragment>
+                          ))}
+                        </span>
                       </div>
                     </div>
                   </div>
