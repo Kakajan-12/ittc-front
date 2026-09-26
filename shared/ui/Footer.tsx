@@ -178,8 +178,10 @@ export default function Footer({
             />
           </div>
         </div>
-        <div className="hidden lg:flex flex-row justify-between items-center border-t border-white/40 py-3">
-          <div className="flex gap-3.5 text-sm font-normal text-white">
+        {/* Один блок на все ширины: ссылки, под ними копирайт и Hebent. На
+            десктопе — в строку, как раньше; на мобильном тот же порядок. */}
+        <div className="flex flex-col gap-3 border-t border-white/40 py-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-2 text-xs font-normal text-white sm:flex-row sm:flex-wrap sm:gap-x-3.5 lg:text-sm">
             <Link
               href="/terms"
               className="transition-colors hover:text-white/70"
@@ -199,39 +201,11 @@ export default function Footer({
               {t("cookie")}
             </Link>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-white text-sm font-normal">
+          <div className="flex items-center justify-between gap-4 lg:justify-start">
+            <span className="text-xs font-normal text-white lg:text-sm">
               © {new Date().getFullYear()}, {t("copyright")}
             </span>
             <Image src="/hebent.svg" alt="Hebent" width={72} height={18} />
-          </div>
-        </div>
-        <div className="flex lg:hidden flex-col justify-between items-start gap-2 border-t border-white/40 py-3">
-          <span className="text-white text-xs font-normal">
-            © {new Date().getFullYear()}, {t("copyright")}
-          </span>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3.5 text-xs font-normal text-white">
-            <Link
-              href="/terms"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("terms")}
-            </Link>
-            <Link
-              href="/privacy"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("privacy")}
-            </Link>
-            <Link
-              href="/cookie"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("cookie")}
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Image src="/hebent.svg" alt="Hebent" width={88} height={22} />
           </div>
         </div>
       </div>
