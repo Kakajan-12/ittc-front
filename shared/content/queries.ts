@@ -39,7 +39,6 @@ export type NewsCardModel = {
   id: number;
   slug: string;
   title: string;
-  excerpt: string;
   tag: string;
   date: string;
   image: string | null;
@@ -47,7 +46,33 @@ export type NewsCardModel = {
 
 export type NewsArticleModel = NewsCardModel & {
   content: string;
+  /** Для поисковиков и превью ссылки: начало текста, без разметки. */
+  description: string;
 };
+
+/**
+ * Первые ~160 символов текста без HTML, обрезанные по слову. Краткого
+ * описания у новости больше нет, поэтому описание страницы берётся из текста.
+ */
+function describe(html: string, max = 160): string {
+  const text = html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (text.length <= max) return text;
+
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[\s,.;:!?–—-]+$/, "")}…`;
+}
 
 export type SpeakerModel = {
   id: number;
@@ -136,7 +161,6 @@ function toNewsCard(item: News, locale: Locale): NewsCardModel {
     id: item.id,
     slug: item.slug,
     title: localized(item, "title", locale),
-    excerpt: localized(item, "excerpt", locale),
     tag: item.tag ? `#${localized(item.tag, "title", locale)}` : "",
     date: formatFullDate(item.publishedAt, locale),
     image: item.coverImage?.url ?? null,
@@ -162,7 +186,7 @@ export type NewsPageModel = {
 /**
  * Одна страница списка новостей. Делит на страницы и ищет API: сайт
  * получает ровно NEWS_PAGE_SIZE новостей нужной страницы и общее число.
- * Поиск — по заголовку и анонсу на языке страницы.
+ * Поиск — по заголовку на языке страницы.
  */
 export async function getNewsPage(
   locale: Locale,
@@ -179,7 +203,7 @@ export async function getNewsPage(
       orderBy: "publishedAt",
       orderDirection: "desc",
       ...(search
-        ? { search, searchFields: [`title${suffix}`, `excerpt${suffix}`] }
+        ? { search, searchFields: [`title${suffix}`] }
         : {}),
     });
 
@@ -219,9 +243,12 @@ export async function getNewsArticle(
 
   if (!item) return null;
 
+  const content = localized(item, "content", locale);
+
   return {
     ...toNewsCard(item, locale),
-    content: localized(item, "content", locale),
+    content,
+    description: describe(content),
   };
 }
 
