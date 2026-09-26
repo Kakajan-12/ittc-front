@@ -109,7 +109,7 @@ function Home({
               <div className="mt-8 flex flex-wrap flex-col content-start gap-2 lg:gap-4 h-66">
                 {actions.map((action) => {
                   const className = cn(
-                    "group flex items-center justify-center gap-2 rounded border border-brand-blue w-56 px-4 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                    "group flex items-center justify-center gap-2 rounded border border-brand-blue w-50 px-4 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
                     action.mobileOnly && "nav:hidden",
                   );
                   const content = (
