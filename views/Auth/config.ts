@@ -69,6 +69,7 @@ export const STORAGE_KEYS = {
   payment: "ittc.auth.payment",
   promoApplied: "ittc.auth.promoApplied.v2",
   draftId: "ittc.auth.draftId",
+  otpRevId: "ittc.auth.otpRevId",
   draftPersonal: "ittc.auth.draftPersonal",
   draftCompany: "ittc.auth.draftCompany",
   draftPackages: "ittc.auth.draftPackages",

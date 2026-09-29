@@ -52,10 +52,10 @@ export default function RegisterLayout({
         <Image
           src="/logoOguz.svg"
           alt="logo"
-          width={220}
-          height={80}
-          style={{ width: "auto", height: "auto" }}
-          className="brightness-0 invert object-contain"
+          width={200}
+          height={50}
+          // style={{ width: "auto", height: "auto" }}
+          className="h-16 w-auto brightness-0 invert object-contain"
           priority
         />
       </a>

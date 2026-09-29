@@ -15,6 +15,7 @@ import {
 
 import {
   // COMPLETE_REGISTRATION_REQUEST,
+  RESEND_OTP,
   SEND_OTP,
   VERIFY_OTP,
 } from "./api";
@@ -42,7 +43,10 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const draftId = id ?? storedDraftId;
 
   const [code, setCode] = useState<string[]>(initialCode);
-  const [revId, setRevId] = useState<number | null>(null);
+  const [revId, setRevId] = usePersistentState<number | null>(
+    STORAGE_KEYS.otpRevId,
+    null,
+  );
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
   const email = useRegistrationDraft()?.email ?? "";
@@ -71,6 +75,24 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
     onSuccess: (data) => {
       setRevId(data.revId);
+      setCode(initialCode());
+      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
+    },
+  });
+
+  const resendMutation = useMutation({
+    mutationFn: async (payload: { lang: "en" }) => {
+      if (!revId) {
+        throw new Error(VERIFICATION_ERROR_CODE.SEND_EMAIL_FAILED);
+      }
+
+      return RESEND_OTP({
+        payload: { ...payload, revId },
+      });
+    },
+
+    onSuccess: (data) => {
+      if (data?.revId) setRevId(data.revId);
       setCode(initialCode());
       setResendCountdown(RESEND_COUNTDOWN_SECONDS);
     },
@@ -128,12 +150,40 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   }, [sendMutation, t]);
 
   const handleResend = useCallback(async (): Promise<boolean> => {
-    if (resendCountdown > 0 || sendMutation.isPending) {
+    if (
+      resendCountdown > 0 ||
+      sendMutation.isPending ||
+      resendMutation.isPending
+    ) {
       return false;
     }
 
-    return sendCode();
-  }, [resendCountdown, sendMutation.isPending, sendCode]);
+    // Без revId переотправлять нечего — запрашиваем код заново
+    if (!revId) {
+      return sendCode();
+    }
+
+    try {
+      setError("");
+
+      await resendMutation.mutateAsync({ lang: "en" });
+
+      return true;
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(
+          isErrorCode(error.message)
+            ? getErrorMessage({
+                t,
+                errorCode: error.message,
+              })
+            : error.message,
+        );
+      }
+
+      return false;
+    }
+  }, [resendCountdown, sendMutation.isPending, resendMutation, revId, sendCode, t]);
 
   const handleSubmit = useCallback(async (): Promise<boolean> => {
     try {
@@ -195,7 +245,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     handleResend,
     handleSubmit,
 
-    isResending: sendMutation.isPending,
+    isResending: sendMutation.isPending || resendMutation.isPending,
     resendCountdown,
 
     isSubmitting: verifyMutation.isPending,

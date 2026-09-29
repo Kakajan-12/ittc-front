@@ -77,7 +77,7 @@ export default function VerificationStep({
       </button>
 
       {/* На бэкенде не разрешено отправлять ОТП на почту дважды, надо ли добавлять */}
-      {/* {resendCountdown === 0 && (
+      {resendCountdown === 0 && (
         <p className="font-nexa-regular text-sm text-white">
           {t("noCode")}{" "}
           <button
@@ -89,7 +89,7 @@ export default function VerificationStep({
             {isResending ? t("resending") : t("resend")}
           </button>
         </p>
-      )} */}
+      )}
     </form>
   );
 }

@@ -134,12 +134,24 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         throw result.error;
       }
 
-      const emailExists = await API_V2.PERSONAL_STEP.CHECK_MAIL(
-        result.data.email,
-      );
+      const { emailExists, phoneNumberExists } =
+        await API_V2.PERSONAL_STEP.CHECK_MAIL(
+          result.data.email,
+          result.data.phoneNumber,
+        );
+
+      if (emailExists && phoneNumberExists) {
+        setError(t("EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST"));
+        return false;
+      }
 
       if (emailExists) {
         setError(t("EMAIL_ALREADY_EXISTS"));
+        return false;
+      }
+
+      if (phoneNumberExists) {
+        setError(t("PHONE_NUMBER_ALREADY_EXISTS"));
         return false;
       }
 
