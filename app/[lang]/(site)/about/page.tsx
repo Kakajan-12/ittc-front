@@ -2,18 +2,18 @@ import { getTranslations } from "next-intl/server";
 import PageHeading from "@/shared/ui/PageHeading";
 import Results from "@/views/Home/Results";
 import { toLocale } from "@/shared/content/localize";
-import { getStats } from "@/shared/content/queries";
+import { getSectionTitles, getStats } from "@/shared/content/queries";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import { FaPlay } from "react-icons/fa";
 import { SkeletonImage } from "@/components/ui/Skeleton";
-import card1 from "@/public/about/1.svg";
-import card2 from "@/public/about/2.svg";
-import card3 from "@/public/about/3.svg";
-import card4 from "@/public/about/4.svg";
-import card5 from "@/public/about/5.svg";
-import card6 from "@/public/about/6.svg";
-import card7 from "@/public/about/7.svg";
-import card8 from "@/public/about/8.svg";
+import card1 from "@/public/about/1.webp";
+import card2 from "@/public/about/2.webp";
+import card3 from "@/public/about/3.webp";
+import card4 from "@/public/about/4.webp";
+import card5 from "@/public/about/5.webp";
+import card6 from "@/public/about/6.webp";
+import card7 from "@/public/about/7.webp";
+import card8 from "@/public/about/8.webp";
 import SectionCard from "@/views/About/SectionCard";
 
 type PageProps = { params: Promise<{ lang: string }> };
@@ -22,13 +22,15 @@ async function AboutPage({ params }: PageProps) {
   const { lang } = await params;
   const locale = toLocale(lang);
   const t = await getTranslations({ locale, namespace: "About" });
-  const stats = await getStats(locale);
+  const [stats, titles] = await Promise.all([
+    getStats(locale),
+    getSectionTitles(locale),
+  ]);
 
   return (
     <main className="flex flex-col">
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/about/main.jpg"
       />
@@ -62,7 +64,7 @@ async function AboutPage({ params }: PageProps) {
             </button>
           </div>
         </div>
-        <Results stats={stats} className=" hidden lg:block" />
+        <Results stats={stats} title={titles.results} className=" hidden lg:block" />
         <SectionHeading
           title={t("section.title")}
           className="px-4 lg:px-10 mt-4 lg:mt-18 text-3xl font-bold font-roboto"

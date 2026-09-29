@@ -7,9 +7,12 @@ import type { StatModel } from "@/shared/content/queries";
 
 function Results({
   stats,
+  title,
   className,
 }: {
   stats: StatModel[];
+  /** Из CMS; null — контент-API недоступен, берём строку из переводов. */
+  title: string | null;
   className?: string;
 }) {
   const t = useTranslations("Results");
@@ -25,7 +28,7 @@ function Results({
       />
 
       <div className={`px-4 lg:px-10 relative py-15 lg:py-20 z-0 ${className}`}>
-        <SectionHeading title={t("title")} />
+        <SectionHeading title={title ?? t("title")} />
 
         <dl className="mt-8 grid grid-cols-2 gap-x-3 lg:gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
           {stats.map((stat) => (

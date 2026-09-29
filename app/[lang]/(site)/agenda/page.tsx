@@ -17,7 +17,6 @@ export default async function AgendaPage({ params }: PageProps) {
     <main>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/agenda.webp"
         objectPosition="top"

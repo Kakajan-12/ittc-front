@@ -1,31 +1,42 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { FiMenu } from "react-icons/fi";
 import { Link, usePathname } from "@/i18n/navigation";
 import NavDropdown from "@/shared/ui/NavDropdown";
 import MobileMenu from "@/shared/ui/MobileMenu";
-import { LockIcon } from "./LockIcon";
-import { Tooltip } from "antd";
-import { IoLockClosedOutline } from "react-icons/io5";
+import type { SiteContactsModel } from "@/shared/content/queries";
+import { portalLoginUrl } from "@/shared/config/portal";
 
-export type NavItem = {
-  key: string;
+export type NavChild = {
   label: string;
   href: string;
-  children?: { label: string; href: string }[];
+  /** Внешняя платформа: обычная ссылка в новой вкладке, без локали в адресе. */
+  external?: boolean;
 };
+
+/**
+ * Пункт меню — либо ссылка, либо группа. У группы нет href: её заголовок по ТЗ
+ * не кликабельный, он только раскрывает вложенный список. Отсутствие поля не
+ * даёт снова превратить заголовок в ссылку — в том числе на несуществующий
+ * маршрут, как было с "/travel".
+ */
+export type NavItem =
+  | { key: string; label: string; href: string; children?: undefined }
+  | { key: string; label: string; children: NavChild[] };
 
 export default function NavBar({
   menuOpen,
   setMenuOpen,
+  travel,
 }: {
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;
+  travel: SiteContactsModel["travel"];
 }) {
   const t = useTranslations("Navbar");
-  const tGlobal = useTranslations();
+  const locale = useLocale();
 
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -46,7 +57,6 @@ export default function NavBar({
     {
       key: "about",
       label: t("about"),
-      href: "/about",
       children: [
         { label: t("about"), href: "/about" },
         { label: t("agenda"), href: "/agenda" },
@@ -58,12 +68,15 @@ export default function NavBar({
     {
       key: "travel",
       label: t("travel"),
-      href: "/travel",
+      // Адреса внешних платформ задаются в админке («Настройки сайта»).
+      // Пока адреса нет, пункт — заглушка "#" под замком.
       children: [
-        { label: t("visa"), href: "#" },
-        { label: t("flight"), href: "#" },
-        { label: t("hotel"), href: "#" },
-      ],
+        { label: t("visa"), url: travel.visa },
+        { label: t("flight"), url: travel.flight },
+        { label: t("hotel"), url: travel.hotel },
+      ].map(({ label, url }) =>
+        url ? { label, href: url, external: true } : { label, href: "#" },
+      ),
     },
     { key: "news", label: t("news"), href: "/news" },
   ];
@@ -84,7 +97,7 @@ export default function NavBar({
             priority
           />
         </Link>
-        <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex">
+        <div className="hidden items-center nav:gap-2 lg:gap-4 xl:gap-8 nav:flex">
           {items.map((item) =>
             item.children ? (
               <NavDropdown key={item.key} item={item} scrolled={darkText} />
@@ -92,7 +105,7 @@ export default function NavBar({
               <Link
                 key={item.key}
                 href={item.href}
-                className={`py-1 lg:py-2 text-sm lg:text-lg transition-colors ${
+                className={`py-1 lg:py-2 text-sm xl:text-lg transition-colors ${
                   darkText
                     ? "text-brand-gray hover:text-brand-blue"
                     : "text-white hover:text-white/80"
@@ -104,33 +117,17 @@ export default function NavBar({
           )}
         </div>
 
-        {/* <div className="hidden items-center md:gap-2 lg:gap-4 xl:gap-8 md:flex"> */}
-
-        <div className="hidden md:flex items-center gap-2">
-          <Tooltip title={t("comingSoon")}>
-            <span>
-              <Link
-                href="http://104.207.74.50:3001"
-                aria-disabled="true"
-                tabIndex={-1}
-                className={`pointer-events-none flex h-10 items-center justify-center gap-2 rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
-                  darkText
-                    ? "border-brand-gray text-brand-gray"
-                    : "border-white text-white"
-                }`}
-              >
-                <div className="flex justify-center items-center mb-1 gap-2">
-                  <LockIcon
-                    width={15}
-                    height={15}
-                    color={darkText ? "black" : "white"}
-                  />
-
-                  <span className="leading-none mt-1">{t("login")}</span>
-                </div>
-              </Link>
-            </span>
-          </Tooltip>
+        <div className="hidden nav:flex items-center gap-2">
+          <Link
+            href={portalLoginUrl(locale)}
+            className={`flex h-10 items-center justify-center rounded border px-3 text-sm font-normal transition sm:px-4 lg:px-5 lg:text-base ${
+              darkText
+                ? "border-brand-gray text-brand-gray hover:bg-brand-gray/10"
+                : "border-white text-white hover:bg-white/15"
+            }`}
+          >
+            <span className="leading-none">{t("login")}</span>
+          </Link>
 
           <Link
             href="/register"
@@ -140,44 +137,12 @@ export default function NavBar({
           </Link>
         </div>
 
-        {/* <div className="flex items-center gap-1">
-            <Tooltip title={t("comingSoon")}>
-              <span>
-                <Link
-                  href="http://104.207.74.50:3001"
-                  aria-disabled="true"
-                  tabIndex={-1}
-                  className={`pointer-events-none h-10 flex items-center gap-2 rounded border px-3 py-1.5 text-sm font-normal transition lg:px-5 lg:py-2.5 lg:text-base ${
-                    darkText
-                      ? "border-brand-gray text-brand-gray"
-                      : "border-white text-white"
-                  }`}
-                >
-                  <LockIcon
-                    width={15}
-                    height={15}
-                    color={darkText ? "black" : "white"}
-                  />
-                  <span className="leading-none! bg-red-200">{t("login")}</span>
-                </Link>
-              </span>
-            </Tooltip>
-
-            <Link
-              href="/register"
-              className="rounded bg-brand-blue px-3 h-10 py-1.5 lg:px-5 lg:py-2.5 text-sm lg:text-base font-normal text-white transition hover:bg-brand-blue/85"
-            >
-              {t("register")}
-            </Link>
-          </div> */}
-        {/* </div> */}
-
         <button
           type="button"
           onClick={() => setMenuOpen(true)}
           aria-label={t("openMenu")}
           aria-expanded={menuOpen}
-          className=" flex items-center justify-center rounded bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 md:hidden"
+          className=" flex items-center justify-center rounded bg-brand-blue p-2.5 text-white transition hover:bg-brand-blue/85 nav:hidden"
         >
           <FiMenu className="size-5" />
         </button>

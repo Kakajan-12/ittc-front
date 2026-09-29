@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import Image, { type ImageProps } from "next/image";
 
 export default function SectionCard({
   number,
@@ -13,7 +13,8 @@ export default function SectionCard({
   category: string;
   title: string;
   description: string;
-  image: string;
+  /** Statically imported, so next/image knows the real dimensions. */
+  image: ImageProps["src"];
   smaller?: boolean;
 }) {
   return (

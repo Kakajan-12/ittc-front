@@ -39,7 +39,6 @@ export default function SpeakersListView({
     <main>
       <PageHeading
         title={t("title")}
-        homeLabel="Home"
         crumbs={[{ label: t("title") }]}
         image="/speakers.jpg"
         objectPosition="top"
@@ -88,6 +87,7 @@ export default function SpeakersListView({
                 name={speaker.name}
                 description={speaker.description}
                 image={speaker.image ?? undefined}
+                href={`/speakers/${speaker.slug}`}
               />
             ))}
           </div>

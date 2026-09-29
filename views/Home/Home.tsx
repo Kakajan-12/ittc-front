@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { SkeletonImage } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { GoArrowUpRight } from "react-icons/go";
@@ -13,12 +13,8 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
-import { useQuery } from "@tanstack/react-query";
-import { EVENT_QUERY_KEYS } from "@/shared/event/query-keys";
-import { EVENTS } from "@/shared/event/api";
-import { getLocalizedTitle, getMediaUrl } from "@/shared/lib/helpers";
-import { T_LOCALE } from "@/shared/lib/types";
 import type {
+  HeroModel,
   NewsCardModel,
   PartnerModel,
   SpeakerModel,
@@ -28,6 +24,14 @@ import type {
 
 /** Content is fetched by the page (a server component) and passed in. */
 export type HomeProps = {
+  hero: HeroModel;
+  /** PDF брошюры на языке страницы; null — в CMS её ещё нет. */
+  brochureUrl: string | null;
+  /** PDF путеводителя на языке страницы; null — в CMS его ещё нет. */
+  travelGuideUrl: string | null;
+  resultsTitle: string | null;
+  sponsorsTitle: string | null;
+  organizers: PartnerModel[];
   stats: StatModel[];
   sponsors: SponsorModel[];
   speakers: SpeakerModel[];
@@ -35,37 +39,45 @@ export type HomeProps = {
   partners: PartnerModel[];
 };
 
-function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
+function Home({
+  hero,
+  brochureUrl,
+  travelGuideUrl,
+  resultsTitle,
+  sponsorsTitle,
+  organizers,
+  stats,
+  sponsors,
+  speakers,
+  news,
+  partners,
+}: HomeProps) {
   const t = useTranslations("Hero");
-  const locale = useLocale() as T_LOCALE;
-  const brochurePath =
-    locale === "ru" || locale === "tk"
-      ? "/documents/Brochure ITTC 2026 ру 001.pdf"
-      : "/documents/Brochure ITTC 2026 eng 01.pdf";
   const actions: Array<{
     key: string;
-    href?: string;
+    href: string;
+    /** PDF из CMS — открывается в новой вкладке обычной ссылкой. */
+    external?: boolean;
+    /** Только пока шапка в мобильном виде: там кнопки регистрации нет. */
     mobileOnly?: boolean;
-    action?: () => void;
   }> = [
     { key: "register", href: "/register", mobileOnly: true },
     { key: "agenda", href: "/agenda" },
-    { key: "brochure", action: () => window.open(brochurePath, "_blank") },
-    {
-      key: "travel-guide",
-      action: () =>
-        window.open("/documents/ITTC_Travel accommodation.pdf", "_blank"),
-    },
+    // Файл приходит из CMS; пока его там нет — ведём на страницу брошюры,
+    // она объяснит, что документ ещё не опубликован.
+    brochureUrl
+      ? { key: "brochure", href: brochureUrl, external: true }
+      : { key: "brochure", href: "/brochure" },
+    // Как и брошюра, приходит из CMS. Пока файла нет — кнопки тоже нет:
+    // отдельной страницы у путеводителя не существует, вести некуда.
+    ...(travelGuideUrl
+      ? [{ key: "travel-guide", href: travelGuideUrl, external: true }]
+      : []),
     { key: "faq", href: "/faq" },
-  ] as const;
+  ];
 
-  /** Hero banner, title and countdown come from the registration platform. */
-  const { data: eventData } = useQuery({
-    queryKey: [EVENT_QUERY_KEYS.GET_BY_ID],
-    queryFn: () => EVENTS.GET(1),
-  });
-
-  const bannerSrc = getMediaUrl(eventData?.bannerImage) || "/main.jpg";
+  /** Nothing is set in the CMS yet — fall back to the photo in the build. */
+  const bannerSrc = hero.image ?? "/main.jpg";
 
   return (
     <>
@@ -85,50 +97,43 @@ function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
           <div className="px-4 lg:px-10 py-24 lg:py-30">
             <div className="max-w-2xl lg:max-w-3xl 2xl:max-w-4xl">
               <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
-                {eventData
-                  ? getLocalizedTitle({
-                      titleEn: eventData.titleEn,
-                      titleRu: eventData.titleRu,
-                      titleTk: eventData.titleTk,
-                      locale,
-                    })
-                  : t("title")}
+                {hero.title}
               </h1>
 
               <p className="mt-1 flex flex-wrap items-center gap-1 lg:gap-3 text-base lg:text-lg text-white/90 font-roboto">
-                <span>{t("date")}</span>
+                <span>{hero.date}</span>
                 <span className="text-white hidden lg:block">|</span>
-                <span>{t("location")}</span>
+                <span>{hero.location}</span>
               </p>
 
               <div className="mt-8 flex flex-wrap flex-col content-start gap-2 lg:gap-4 h-66">
-                {actions.map((i) => {
-                  if (!!i.action) {
-                    return (
-                      <div
-                        key={i.key}
-                        onClick={i.action}
-                        className={cn(
-                          "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 py-2.5 text-base transition cursor-pointer hover:border-brand-blue hover:bg-brand-blue/20",
-                          "mobileOnly" in i && "md:hidden",
-                        )}
-                      >
-                        {t(i.key)}
-                        <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </div>
-                    );
-                  }
-                  return (
-                    <Link
-                      key={i.key}
-                      href={i.href ?? ""}
-                      className={cn(
-                        "group flex items-center justify-center gap-2 rounded border border-brand-blue w-35 lg:w-44 px-8 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
-                        "mobileOnly" in i && "md:hidden",
-                      )}
-                    >
-                      {t(i.key)}
+                {actions.map((action) => {
+                  const className = cn(
+                    "group flex items-center justify-center gap-2 rounded border border-brand-blue w-50 px-4 py-2.5 text-base transition hover:border-brand-blue hover:bg-brand-blue/20",
+                    action.mobileOnly && "nav:hidden",
+                  );
+                  const content = (
+                    <>
+                      {t(action.key)}
                       <GoArrowUpRight className="size-5 text-brand-blue shrink-0 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    </>
+                  );
+
+                  // PDF живёт на API, а не на сайте, поэтому обычная ссылка,
+                  // а не Link: локаль к адресу приставлять не нужно.
+                  return action.external ? (
+                    <a
+                      key={action.key}
+                      href={action.href}
+                      target="_blank"
+                      rel="noopener"
+                      className={className}
+                    >
+                      {content}
+                    </a>
+                  ) : (
+                    <Link key={action.key} href={action.href} className={className}>
+                      {content}
                     </Link>
                   );
                 })}
@@ -137,15 +142,13 @@ function Home({ stats, sponsors, speakers, news, partners }: HomeProps) {
           </div>
         </section>
         <Timer
-          eventsStart={
-            eventData?.eventStartsAt ? new Date(eventData.eventStartsAt) : null
-          }
+          eventsStart={hero.eventStartsAt ? new Date(hero.eventStartsAt) : null}
         />
       </div>
-      <About />
-      <Results stats={stats} />
+      <About organizers={organizers} />
+      <Results stats={stats} title={resultsTitle} />
       <Sponsorship />
-      <Sponsors sponsors={sponsors} />
+      <Sponsors sponsors={sponsors} title={sponsorsTitle} />
       <Speakers speakers={speakers} />
       <News news={news} />
       <Partners partners={partners} />

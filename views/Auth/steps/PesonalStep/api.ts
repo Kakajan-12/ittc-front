@@ -5,27 +5,40 @@ import {
 } from "@/shared/api_v2/crud";
 import { RegistrationDraft } from "../../types";
 import { HTTP } from "@/shared/api_v2/http";
+import { API_BASE } from "@/shared/api/config";
 
-const BASE_URL = `https://api.event.oguzforum.com/api/v1`;
+const BASE_URL = API_BASE;
 
 export const PERSONAL_STEP = {
   ...createCrudApi<RegistrationDraft>({
     resource: "registrationDraft",
   }),
-  CHECK_MAIL: async (mail: string): Promise<boolean> => {
+
+  CHECK_MAIL: async (
+    mail: string,
+    phoneNumber: string,
+  ): Promise<{ emailExists: boolean; phoneNumberExists: boolean }> => {
     const res = await HTTP.POST<
-      T_API_RESPONSE<{ exists: boolean }> | T_API_ERROR
+      | T_API_RESPONSE<{
+          email?: { exists: boolean };
+          phoneNumber?: { exists: boolean };
+        }>
+      | T_API_ERROR
     >({
       url: `${BASE_URL}/user/checkMail`,
       body: {
         fields: {
           email: mail,
+          phoneNumber: phoneNumber,
         },
       },
     });
 
     if (res.statusCode === 200 && res.data?.success) {
-      return res.data.data.exists;
+      return {
+        emailExists: !!res.data.data.email?.exists,
+        phoneNumberExists: !!res.data.data.phoneNumber?.exists,
+      };
     }
 
     if (res.statusCode === 200 && res.data && !res.data.success) {

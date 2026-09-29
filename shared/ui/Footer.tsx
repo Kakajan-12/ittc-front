@@ -1,36 +1,36 @@
 import React from "react";
 import { LuMail, LuPhone } from "react-icons/lu";
 import { PiTelegramLogo } from "react-icons/pi";
-import { FaWhatsapp, FaInstagram } from "react-icons/fa6";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTiktok,
+  FaWhatsapp,
+  FaXTwitter,
+  FaYoutube,
+} from "react-icons/fa6";
 import { SlSocialLinkedin } from "react-icons/sl";
-// import { FiLinkedin } from "react-icons/fi";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import type { SiteContactsModel } from "@/shared/content/queries";
+import type { SocialNetwork } from "@/shared/content/types";
 import FooterAccordion from "@/shared/ui/FooterAccordion";
 
-const SOCIALS: { label: string; href: string; icon: React.ReactNode }[] = [
-  {
-    label: "Telegram",
-    href: "https://t.me/Oguz_forum_expo",
-    icon: <PiTelegramLogo />,
-  },
-  {
-    label: "WhatsApp",
-    href: "https://wa.me/99361480080",
-    icon: <FaWhatsapp />,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/oguzforumexpo?igsh=eWhxMDR1c3JmanVz",
-    icon: <FaInstagram />,
-  },
-  {
-    label: "LinkedIn",
-    href: "https://tm.linkedin.com/company/hi-tech-turkmenistan",
-    icon: <SlSocialLinkedin />,
-  },
-];
+/** Иконка и подпись по сети; сами ссылки приходят из админки. */
+const SOCIAL_META: Record<
+  SocialNetwork,
+  { label: string; icon: React.ReactNode }
+> = {
+  TELEGRAM: { label: "Telegram", icon: <PiTelegramLogo /> },
+  WHATSAPP: { label: "WhatsApp", icon: <FaWhatsapp /> },
+  INSTAGRAM: { label: "Instagram", icon: <FaInstagram /> },
+  LINKEDIN: { label: "LinkedIn", icon: <SlSocialLinkedin /> },
+  FACEBOOK: { label: "Facebook", icon: <FaFacebookF /> },
+  YOUTUBE: { label: "YouTube", icon: <FaYoutube /> },
+  X: { label: "X", icon: <FaXTwitter /> },
+  TIKTOK: { label: "TikTok", icon: <FaTiktok /> },
+};
 
 type FooterLinkItem = { label: string; href: string; icon?: React.ReactNode };
 type FooterLinkConfig = {
@@ -40,7 +40,11 @@ type FooterLinkConfig = {
   icon?: React.ReactNode;
 };
 
-const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
+type FooterSectionConfig = { titleKey: string; links: FooterLinkConfig[] };
+
+/** Contacts come from the admin panel, the rest are routes that live in code. */
+function buildSections(contacts: SiteContactsModel): FooterSectionConfig[] {
+  return [
   {
     titleKey: "info",
     links: [
@@ -61,19 +65,21 @@ const SECTIONS: { titleKey: string; links: FooterLinkConfig[] }[] = [
   {
     titleKey: "contact",
     links: [
-      {
-        label: "+99361 480 080",
-        href: "tel:+99361 480 080",
+      // Every configured contact, not just the one the header has room for.
+      ...contacts.phones.map((phone) => ({
+        label: phone.label ? `${phone.label}: ${phone.value}` : phone.value,
+        href: phone.href,
         icon: <LuPhone />,
-      },
-      {
-        label: "info@oguzforum.com",
-        href: "mailto:info@oguzforum.com",
+      })),
+      ...contacts.emails.map((email) => ({
+        label: email.label ? `${email.label}: ${email.value}` : email.value,
+        href: email.href,
         icon: <LuMail />,
-      },
+      })),
     ],
   },
-];
+  ];
+}
 
 function FooterLink({ href, label, icon }: FooterLinkItem) {
   return (
@@ -106,8 +112,13 @@ function FooterSection({
   );
 }
 
-export default function Footer() {
+export default function Footer({
+  contacts,
+}: {
+  contacts: SiteContactsModel;
+}) {
   const t = useTranslations("Footer");
+  const sections = buildSections(contacts);
   return (
     <footer className="bg-gradient-footer relative bg-brand-blue-dark font-proxima-nova">
       <div className="absolute inset-0 bg-linear-to-r from-transparent via-brand-blue-dark/60 to-brand-blue-dark z-20" />
@@ -121,25 +132,27 @@ export default function Footer() {
             <div className="flex flex-col items-start justify-between h-full gap-7 lg:gap-9">
               <Image src="/logo.svg" alt="Oguz Forum" width={248} height={60} />
 
-              <ul className="flex items-center gap-4">
-                {SOCIALS.map(({ label, href, icon }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      aria-label={label}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="grid size-10 place-items-center rounded-full bg-white text-2xl text-brand-blue-dark transition hover:bg-white/80"
-                    >
-                      {icon}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              {contacts.socials.length > 0 && (
+                <ul className="flex flex-wrap items-center gap-4">
+                  {contacts.socials.map(({ id, network, url }) => (
+                    <li key={`${network}-${id}-${url}`}>
+                      <a
+                        href={url}
+                        aria-label={SOCIAL_META[network].label}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="grid size-10 place-items-center rounded-full bg-white text-2xl text-brand-blue-dark transition hover:bg-white/80"
+                      >
+                        {SOCIAL_META[network].icon}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
           <div className="hidden md:flex flex-col gap-6 md:gap-10 lg:gap-30 md:flex-row justify-center">
-            {SECTIONS.map((section) => (
+            {sections.map((section) => (
               <FooterSection
                 key={section.titleKey}
                 title={t(section.titleKey)}
@@ -154,7 +167,7 @@ export default function Footer() {
 
           <div className="md:hidden">
             <FooterAccordion
-              sections={SECTIONS.map((section) => ({
+              sections={sections.map((section) => ({
                 key: section.titleKey,
                 title: t(section.titleKey),
                 links: section.links.map((link) => ({
@@ -166,8 +179,10 @@ export default function Footer() {
             />
           </div>
         </div>
-        <div className="hidden lg:flex flex-row justify-between items-center border-t border-white/40 py-3">
-          <div className="flex gap-3.5 text-sm font-normal text-white">
+        {/* Один блок на все ширины: ссылки, под ними копирайт и Hebent. На
+            десктопе — в строку, как раньше; на мобильном тот же порядок. */}
+        <div className="flex flex-col gap-3 border-t border-white/40 py-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-2 text-xs font-normal text-white sm:flex-row sm:flex-wrap sm:gap-x-3.5 lg:text-sm">
             <Link
               href="/terms"
               className="transition-colors hover:text-white/70"
@@ -187,39 +202,11 @@ export default function Footer() {
               {t("cookie")}
             </Link>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="text-white text-sm font-normal">
+          <div className="flex items-center justify-between gap-4 lg:justify-start">
+            <span className="text-xs font-normal text-white lg:text-sm">
               © {new Date().getFullYear()}, {t("copyright")}
             </span>
             <Image src="/hebent.svg" alt="Hebent" width={72} height={18} />
-          </div>
-        </div>
-        <div className="flex lg:hidden flex-col justify-between items-start gap-2 border-t border-white/40 py-3">
-          <span className="text-white text-xs font-normal">
-            © {new Date().getFullYear()}, {t("copyright")}
-          </span>
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3.5 text-xs font-normal text-white">
-            <Link
-              href="/terms"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("terms")}
-            </Link>
-            <Link
-              href="/privacy"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("privacy")}
-            </Link>
-            <Link
-              href="/cookie"
-              className="transition-colors hover:text-white/70"
-            >
-              {t("cookie")}
-            </Link>
-          </div>
-          <div className="flex items-center gap-4">
-            <Image src="/hebent.svg" alt="Hebent" width={88} height={22} />
           </div>
         </div>
       </div>

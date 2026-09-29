@@ -46,7 +46,15 @@ export type News = Entity & {
   viewCount: number;
 };
 
+export type Country = Entity & {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  code: string;
+};
+
 export type Speaker = Entity & {
+  slug: string;
   fullNameEn: string;
   fullNameRu: string;
   fullNameTk: string;
@@ -60,6 +68,7 @@ export type Speaker = Entity & {
   bioRu: string | null;
   bioTk: string | null;
   photo: MediaFile | null;
+  country?: Country | null;
   isKeynote: boolean;
   order: number;
 };
@@ -81,10 +90,14 @@ export type Sponsor = Entity & {
   order: number;
 };
 
+/** Партнёры и организаторы — одна сущность, различаются видом. */
+export type PartnerKind = "PARTNER" | "ORGANIZER";
+
 export type Partner = Entity & {
   nameEn: string;
   nameRu: string;
   nameTk: string;
+  kind: PartnerKind;
   category: "MEDIA" | "KNOWLEDGE" | "STRATEGIC" | "TECHNOLOGY" | "OTHER";
   logo: MediaFile | null;
   website: string | null;
@@ -179,4 +192,93 @@ export type AgendaPhase = Entity & {
   titleTk: string;
   days: AgendaDay[];
   order: number;
+};
+
+/** Site-wide values that cannot repeat; one record, not localised. */
+export type SiteSettings = {
+  id: number;
+  partnerUrl: string;
+  resultsTitleEn: string;
+  resultsTitleRu: string;
+  resultsTitleTk: string;
+  sponsorsTitleEn: string;
+  sponsorsTitleRu: string;
+  sponsorsTitleTk: string;
+  visaUrl: string | null;
+  flightUrl: string | null;
+  hotelUrl: string | null;
+};
+
+/** The hero block on the home page; one record. */
+export type HeroBanner = {
+  id: number;
+  image: MediaFile | null;
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  dateEn: string;
+  dateRu: string;
+  dateTk: string;
+  locationEn: string;
+  locationRu: string;
+  locationTk: string;
+  eventStartsAt: string | null;
+};
+
+export type BrochureLocale = "EN" | "RU" | "TK";
+
+/** Брошюра и путеводитель — одна сущность, различаются видом. */
+export type BrochureKind = "BROCHURE" | "TRAVEL_GUIDE" | "SUPPORT_LETTER";
+
+/** Одна брошюра на язык; файл всегда PDF. */
+export type Brochure = Entity & {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  descriptionEn: string | null;
+  descriptionRu: string | null;
+  descriptionTk: string | null;
+  kind: BrochureKind;
+  locale: BrochureLocale;
+  file: MediaFile | null;
+  coverImage: MediaFile | null;
+  order: number;
+};
+
+export type ContactType = "PHONE" | "EMAIL";
+
+export type SocialNetwork =
+  | "TELEGRAM"
+  | "WHATSAPP"
+  | "INSTAGRAM"
+  | "LINKEDIN"
+  | "FACEBOOK"
+  | "YOUTUBE"
+  | "X"
+  | "TIKTOK";
+
+export type SocialLink = Entity & {
+  network: SocialNetwork;
+  url: string;
+  order: number;
+};
+
+/** Phones and e-mails; the footer lists them, the header takes the first. */
+export type Contact = Entity & {
+  type: ContactType;
+  value: string;
+  labelEn: string | null;
+  labelRu: string | null;
+  labelTk: string | null;
+  order: number;
+};
+
+/** `GET /speakers/slug/:slug` — спикер и сессии программы, где он выступает. */
+export type SpeakerDetail = Speaker & {
+  sessions: Array<
+    Omit<AgendaSession, "participants" | "sponsors"> & {
+      role: SessionRole;
+      day: Omit<AgendaDay, "sessions"> & { phase: { key: string } };
+    }
+  >;
 };

@@ -29,6 +29,13 @@ function Timer({ eventsStart }: DateProps) {
     getServerSnapshot,
   );
 
+  // Дату отсчёта можно очистить в админке — тогда блока нет вовсе.
+  if (!eventsStart) return null;
+
+  // total === null только на сервере: там обратный отсчёт не посчитать, и
+  // разметка уезжает с нулями, которые клиент сразу заменяет настоящими.
+  const started = total !== null && total <= 0;
+
   const units = [
     {
       key: "days",
@@ -62,17 +69,24 @@ function Timer({ eventsStart }: DateProps) {
       />
 
       <div className="relative z-30 flex h-full items-center justify-center gap-6 px-5 py-6 text-white sm:gap-12 sm:px-10 md:px-15 lg:gap-30">
-        {units.map(({ key, value, pad }) => (
-          <div key={key} className="flex flex-col items-center gap-3">
-            <span className="font-capitana text-3xl font-bold leading-none tabular-nums sm:text-4xl lg:text-5xl">
-              {String(value ?? 0).padStart(pad, "0")}
-            </span>
+        {started ? (
+          // Досчитали — вместо нулей название события.
+          <span className="font-capitana px-8 text-3xl font-bold leading-none sm:px-16 sm:text-4xl lg:px-24 lg:text-5xl">
+            {t("started")}
+          </span>
+        ) : (
+          units.map(({ key, value, pad }) => (
+            <div key={key} className="flex flex-col items-center gap-3">
+              <span className="font-capitana text-3xl font-bold leading-none tabular-nums sm:text-4xl lg:text-5xl">
+                {String(value ?? 0).padStart(pad, "0")}
+              </span>
 
-            <span className="font-roboto text-xs font-medium text-white/70 sm:text-base">
-              {t(key)}
-            </span>
-          </div>
-        ))}
+              <span className="font-roboto text-xs font-medium text-white/70 sm:text-base">
+                {t(key)}
+              </span>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

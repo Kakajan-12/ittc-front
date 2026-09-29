@@ -7,6 +7,7 @@ import { SkeletonImage } from "@/components/ui/Skeleton";
 import { IoIosArrowBack } from "react-icons/io";
 import { toLocale } from "@/shared/content/localize";
 import { getNews, getNewsArticle } from "@/shared/content/queries";
+import { sanitizeHtml } from "@/shared/content/sanitize";
 
 type PageProps = { params: Promise<{ lang: string; slug: string }> };
 
@@ -20,10 +21,10 @@ export async function generateMetadata({
 
   return {
     title: article.title,
-    description: article.excerpt,
+    description: article.description,
     openGraph: {
       title: article.title,
-      description: article.excerpt,
+      description: article.description,
       images: article.image ? [article.image] : undefined,
     },
   };
@@ -96,7 +97,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Body is HTML written in the admin panel. */}
           <div
             className="prose-news text-base font-normal text-brand-dark-gray [&_a]:text-brand-blue [&_a]:underline [&_h2]:mt-6 [&_h2]:text-xl [&_h2]:font-semibold [&_p]:mt-3 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }}
           />
         </div>
       </div>

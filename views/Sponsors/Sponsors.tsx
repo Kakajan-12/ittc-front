@@ -14,7 +14,14 @@ function formatSponsorName(name: string) {
     .filter(Boolean);
 }
 
-function Sponsors({ sponsors }: { sponsors: SponsorModel[] }) {
+function Sponsors({
+  sponsors,
+  title,
+}: {
+  sponsors: SponsorModel[];
+  /** Из CMS; null — контент-API недоступен, берём строку из переводов. */
+  title: string | null;
+}) {
   const t = useTranslations("Sponsors");
   const containerRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
@@ -50,7 +57,7 @@ function Sponsors({ sponsors }: { sponsors: SponsorModel[] }) {
 
   return (
     <section className="px-4 lg:px-10 overflow-hidden">
-      <SectionHeading title={t("title")} />
+      <SectionHeading title={title ?? t("title")} />
       <div
         ref={containerRef}
         className="w-full overflow-hidden sm:mt-3 lg:mt-8"

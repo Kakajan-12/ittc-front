@@ -7,11 +7,9 @@ import { routing } from "@/i18n/routing";
 import { GrLanguage } from "react-icons/gr";
 export default function LangSwitcher({
   registration,
-  isOpen,
   className,
 }: {
   registration?: boolean;
-  isOpen?: boolean;
   className?: string;
 }) {
   const locale = useLocale();
@@ -65,22 +63,25 @@ export default function LangSwitcher({
       </button>
       {open ? (
         <div
-          className={`absolute top-full left-0 right-0 z-100 mt-2 overflow-hidden rounded cursor-pointer ${
+          className={`absolute top-9 left-0 right-0 z-100 overflow-hidden space-y-2 rounded ${
             registration
               ? "glass bg-white/15 py-1 w-17"
-              : " bg-white/90 py-2 w-fit shadow-lg backdrop-blur-sm"
+              : " bg-white/90 w-fit shadow-lg backdrop-blur-sm"
           }`}
         >
           {routing.locales
             .filter((loc) => loc !== locale)
             .map((loc, i, arr) => (
-              <div key={loc} className="px-3">
+              <div key={loc}>
+                {/* Padding and hover live on the button so the highlighted area
+                    is exactly the clickable one, and one element owns both the
+                    background and the text colour. */}
                 <button
                   type="button"
-                  className={`block w-full text-center transition-colors py-1 text-base ${
+                  className={`block w-full cursor-pointer px-3 py-1 text-center text-base transition-colors ${
                     registration
-                      ? `leading-none text-white hover:text-white/80 ${i > 0 ? "pt-2" : ""}`
-                      : ` ${isOpen ? "text-black hover:text-white hover:bg-brand-blue" : "text-black hover:bg-white"}`
+                      ? `leading-none text-white hover:bg-white/20 ${i > 0 ? "mt-1" : ""}`
+                      : "text-black hover:bg-brand-blue hover:text-white"
                   }`}
                   onClick={() => switchLocale(loc)}
                 >

@@ -105,6 +105,13 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Шапка переходит в мобильный вид уже этой ширины: русские пункты меню
+   длинные и до 880px переносятся на вторую строку. Точки перелома живут в
+   обычном @theme — из @theme inline Tailwind вариант не создаёт. */
+@theme {
+  --breakpoint-nav: 55rem;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

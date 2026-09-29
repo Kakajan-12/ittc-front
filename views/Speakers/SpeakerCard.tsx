@@ -2,6 +2,7 @@ import { type StaticImageData } from "next/image";
 import { Fragment } from "react";
 import { cn } from "@/lib/utils";
 import { SkeletonImage } from "@/components/ui/Skeleton";
+import { Link } from "@/i18n/navigation";
 
 function formatSpeakerName(name: string) {
   return name
@@ -15,18 +16,21 @@ function SpeakerCard({
   name,
   description,
   image,
+  href,
   className,
 }: {
   id: string;
   name: string;
   description: string;
   image?: string | StaticImageData;
+  /** Страница спикера; без неё карточка не кликабельна. */
+  href?: string;
   className?: string;
 }) {
   const nameParts = formatSpeakerName(name);
   const nameAlt = nameParts.join(" ");
 
-  return (
+  const card = (
     <article
       id={id}
       className={cn(
@@ -60,6 +64,17 @@ function SpeakerCard({
         </p>
       </div>
     </article>
+  );
+
+  if (!href) return card;
+
+  return (
+    <Link
+      href={href}
+      className="group block h-full rounded transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-brand-blue [&_h3]:transition-colors [&_h3]:group-hover:text-brand-blue"
+    >
+      {card}
+    </Link>
   );
 }
 export default SpeakerCard;

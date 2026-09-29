@@ -3,11 +3,6 @@
     "title": "Ittc 2026",
     "description": "ITTC 2026 halkara maslahat we sergi barada."
   },
-  "Header": {
-    "ru": "RU",
-    "tk": "TK",
-    "en": "EN"
-  },
   "Navbar": {
     "logoAlt": "ITTC 2026 — Halkara maslahat we sergi",
     "home": "Baş sahypa",
@@ -15,22 +10,19 @@
     "about": "Çäre barada",
     "agenda": "Meýilnama",
     "speakers": "Çykyş edýänler",
-    "sponsors": "Hemaýatkärler",
     "support": "Resmi goldaw",
-    "faq": "FAQ",
-    "travel": "Syýahat we ýaşaýyş jaý gollanmasy",
+    "faq": "Sowallar",
+    "travel": "Syýahat we ýerleşiş boýunça gollanma",
     "visa": "Wiza almak üçin ýüz tutmak",
     "flight": "Uçar biletini bron etmek",
     "hotel": "Myhmanhana bron etmek",
     "news": "Habarlar",
     "register": "Hasaba durmak",
     "login": "Giriş",
-    "comingSoon": "Ýakyn wagtda"
+    "breadcrumb": "Nawigasiýa zynjyry",
+    "closeMenu": "Menýuny ýapmak"
   },
   "Hero": {
-    "title": "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
-    "date": "2026-njy ýylyň 24-26-njy noýabry",
-    "location": "Aşgabat, Türkmenistan",
     "agenda": "Maksatnama",
     "organizers": "Guramaçylar",
     "sponsors": "Hemaýatkärler",
@@ -43,7 +35,8 @@
     "days": "Gün",
     "hours": "Sagat",
     "minutes": "Minut",
-    "seconds": "Sekunt"
+    "seconds": "Sekunt",
+    "started": "ITTC 2026"
   },
   "About": {
     "title": "Çäre barada",
@@ -100,7 +93,6 @@
     "daysCount": "{count} gün",
     "day": "{number}-nji gün",
     "sponsoredBy": "Hemaýatkär:",
-    "sessionHost": "Sessiýanyň guramaçysy:",
     "view": "Jikme-jik",
     "hide": "Gizle",
     "keynote": "Esasy çykyş",
@@ -113,37 +105,21 @@
     }
   },
   "Brochure": {
-    "title": "Broşýura"
-  },
-  "Visa": {
-    "title": "Wiza almak üçin ýüz tutmak"
-  },
-  "Flight": {
-    "title": "Uçar biletini bron etmek"
-  },
-  "Hotel": {
-    "title": "Myhmanhana bron etmek"
+    "title": "Broşýura",
+    "download": "PDF ýükle",
+    "empty": "Broşýura heniz çap edilmedi"
   },
   "Support": {
-    "title": "Resmi goldaw"
+    "title": "Resmi goldaw",
+    "empty": "Hat ýakyn wagtda ýerleşdiriler.",
+    "download": "Haty ýükläp almak",
+    "open": "Doly ölçegde açmak"
   },
   "Results": {
-    "title": "ITTC 2025 netijeleri",
-    "speakers": "Çykyş edýänler",
-    "delegates": "Wekiller",
-    "countries": "Ýurtlar",
-    "sponsors": "Hemaýatkärler",
-    "sessions": "Esasy mejlisler"
+    "title": "ITTC 2025 netijeleri"
   },
   "Organizers": {
-    "title": "Guramaçylar we resmi hemaýatkärler",
-    "logo1": "Türkmenistanyň Awtomobil ulaglary ministrligi",
-    "logo2": "Türkmenistanyň Demir ýol ulaglary ministrligi",
-    "logo3": "«Türkmenhowaýollary» Döwlet gullugy",
-    "logo4": "Türkmenistanyň Deňiz we derýa ulaglary döwlet gullugy",
-    "logo5": "Türkmenistanyň Ulag-logistika merkezi",
-    "logo6": "Türkmenistanyň Söwda-senagat edarasy",
-    "logo7": "Oguz Forum we Expo"
+    "title": "Guramaçylar we resmi hemaýatkärler"
   },
   "Sponsorship": {
     "title": "Hemaýatkärlik mümkinçilikleri",
@@ -158,22 +134,28 @@
     "more": "Ähli çykyş edýänleriň barada giňişleýin maglumat",
     "placeholder": "Çykyş edýäniň gözlegi",
     "noResults": "\"{query}\" boýunça çykyş edýän tapylmady.",
-    "clear": "Gözlegi arassala"
+    "clear": "Gözlegi arassala",
+    "back": "Ähli çykyş edýänler",
+    "notFound": "Çykyş edýän tapylmady.",
+    "keynote": "Esasy çykyş edýän",
+    "sessions": "Maksatnamadaky çykyşlar",
+    "agenda": "Doly maksatnama",
+    "role": {
+      "KEYNOTE": "Esasy çykyş",
+      "MODERATOR": "Moderator",
+      "SPEAKER": "Çykyş edýän"
+    }
   },
   "Faq": {
     "title": "Sowallar",
     "placeholder": "Sowallary gözle",
     "noResults": "\"{query}\" boýunça sowal tapylmady.",
-    "clear": "Gözlegi arassala",
-    "view": "Giňişleýin"
+    "clear": "Gözlegi arassala"
   },
   "News": {
     "title": "Habarlar",
     "more": "Ähli habarlar",
-    "tag": "#Resmi habarlar",
     "details": "Giňişleýin",
-    "sampleTitle": "Türkmenistanyň paýtagt güni baýramçylyk çäreleri we halkara sergisi bilen bellenilýär",
-    "sampleDate": "10 iýun, 2026",
     "placeholder": "Habarlary gözle",
     "noResults": "\"{query}\" boýunça habar tapylmady.",
     "clear": "Gözlegi arassala",
@@ -196,7 +178,7 @@
     "news": "Habarlar",
     "support": "Resmi goldaw",
     "register": "Hasaba durmak",
-    "faq": "FAQ",
+    "faq": "Sowallar",
     "info": "Mazmuny",
     "links": "Peýdaly ssylkalar",
     "contact": "Kontaktlar",
@@ -219,7 +201,12 @@
     "selectPlaceholder": "Saýlaň",
     "loading": "Ýüklenýär...",
     "search": "Gözleg",
-    "notFound": "Hiç zat tapylmady"
+    "notFound": "Hiç zat tapylmady",
+    "comingSoon": "Ýakynda",
+    "previousPage": "Öňki sahypa",
+    "nextPage": "Indiki sahypa",
+    "back": "Yza",
+    "page": "{number}-nji sahypa"
   },
   "Errors": {
     "phoneRequired": "Telefon belgiňizi giriziň",
@@ -275,7 +262,9 @@
       "terms": "Men <terms>ulanyş şertlerini</terms> we <privacy>gizlinlik syýasatyny</privacy> kabul edýärin",
       "next": "Indiki",
       "sending": "Iberilýär...",
-      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy",
+      "PHONE_NUMBER_ALREADY_EXISTS": "Bu telefon belgisi eýýäm hasaba alyndy",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Bu elektron poçta salgysy we telefon belgisi eýýäm hasaba alyndy"
     },
     "company": {
       "companyName": "Kompaniýanyň ady",
@@ -420,7 +409,9 @@
       "SEND_EMAIL_FAILED": "Kody ugratmak başartmady, gaýtadan synanyşyň",
       "VERIFY_EMAIL_FAILED": "Kody barlamak başartmady, gaýtadan synanyşyň",
       "COMPLETE_REGISTRATION_FAILED": "Hasaba almany tamamlamak başartmady, gaýtadan synanyşyň",
-      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy"
+      "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy",
+      "PHONE_NUMBER_ALREADY_EXISTS": "Bu telefon belgisi eýýäm hasaba alyndy",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Bu elektron poçta salgysy we telefon belgisi eýýäm hasaba alyndy"
     }
   }
 }
