@@ -1,6 +1,12 @@
 ````
 Да. Сейчас **первый шаг регистрации** — это создание `RegistrationDraft` только с personal info.
 
+поменять местами транспорт жд
+жд первый и ittc oguz
+
+
+
+
 ### Step 1 — Personal info
 
 ```ts

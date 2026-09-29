@@ -425,7 +425,9 @@
       "terms": "Я принимаю <terms>условия использования</terms> и <privacy>политику конфиденциальности</privacy>",
       "next": "Далее",
       "sending": "Отправка...",
-      "EMAIL_ALREADY_EXISTS": "Эта почта уже зарегистрирована"
+      "EMAIL_ALREADY_EXISTS": "Эта почта уже зарегистрирована",
+      "PHONE_NUMBER_ALREADY_EXISTS": "Этот номер телефона уже зарегистрирован",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Эта почта и номер телефона уже зарегистрированы"
     },
     "company": {
       "companyName": "Название компании",
@@ -573,7 +575,9 @@
       "SEND_EMAIL_FAILED": "Не удалось отправить код, попробуйте ещё раз",
       "VERIFY_EMAIL_FAILED": "Не удалось проверить код, попробуйте ещё раз",
       "COMPLETE_REGISTRATION_FAILED": "Не удалось завершить регистрацию, попробуйте ещё раз",
-      "EMAIL_ALREADY_EXISTS": "Эта почта уже зарегистрирована"
+      "EMAIL_ALREADY_EXISTS": "Эта почта уже зарегистрирована",
+      "PHONE_NUMBER_ALREADY_EXISTS": "Этот номер телефона уже зарегистрирован",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Эта почта и номер телефона уже зарегистрированы"
     }
   }
 }
