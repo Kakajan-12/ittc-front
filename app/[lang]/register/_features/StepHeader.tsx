@@ -10,7 +10,7 @@ export default function StepHeader() {
   const t = useTranslations("Common");
   return (
     <>
-      <div className="flex justify-between w-full pt-8 items-start">
+      <div className="flex justify-between w-full pt-4 items-start">
         <div className="">
           <button
             type="button"

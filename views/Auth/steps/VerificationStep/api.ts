@@ -34,6 +34,27 @@ export const SEND_OTP = async ({
   }
 };
 
+export const RESEND_OTP = async ({
+  payload,
+}: {
+  payload: { revId: number; lang: "ru" | "tk" | "en" };
+}) => {
+  const res = await HTTP.POST<T_API_RESPONSE<T_SEND_OTP> | T_API_ERROR>({
+    url: `${BASE_URL}/${RESOURCE}/resendOtp`,
+    body: {
+      fields: payload,
+    },
+  });
+
+  if (res.statusCode === 200 && !!res.data && res.data.success) {
+    return res.data.data;
+  } else if (!!res.data && res.statusCode === 200 && !res.data.success) {
+    throw new Error(res.data.errorCode);
+  } else {
+    throw new Error("UNKNOWN_ERROR");
+  }
+};
+
 export const VERIFY_OTP = async ({
   draftId,
   payload,
