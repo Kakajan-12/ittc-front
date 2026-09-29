@@ -262,7 +262,9 @@
       "positionPlaceholder": "Position",
       "next": "Next",
       "sending": "Sending...",
-      "EMAIL_ALREADY_EXISTS": "This email is already registered"
+      "EMAIL_ALREADY_EXISTS": "This email is already registered",
+      "PHONE_NUMBER_ALREADY_EXISTS": "This phone number is already registered",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "This email and phone number are already registered"
     },
     "company": {
       "companyName": "Company name",
@@ -407,7 +409,9 @@
       "SEND_EMAIL_FAILED": "Could not send the code, try again",
       "VERIFY_EMAIL_FAILED": "Could not verify the code, try again",
       "COMPLETE_REGISTRATION_FAILED": "Could not complete registration, try again",
-      "EMAIL_ALREADY_EXISTS": "This email is already registered"
+      "EMAIL_ALREADY_EXISTS": "This email is already registered",
+      "PHONE_NUMBER_ALREADY_EXISTS": "This phone number is already registered",
+      "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "This email and phone number are already registered"
     }
   }
 }
