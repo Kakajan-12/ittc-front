@@ -76,10 +76,13 @@ export default function VerificationStep({
         {isSubmitting ? t("verifying") : t("verify")}
       </button>
 
-      {/* На бэкенде не разрешено отправлять ОТП на почту дважды, надо ли добавлять */}
-      {resendCountdown === 0 && (
-        <p className="font-nexa-regular text-sm text-white">
-          {t("noCode")}{" "}
+      <p className="font-nexa-regular text-sm text-white">
+        {t("noCode")}{" "}
+        {resendCountdown > 0 ? (
+          <span className="text-gray-400">
+            {t("resendIn", { seconds: resendCountdown })}
+          </span>
+        ) : (
           <button
             type="button"
             onClick={() => void handleResend()}
@@ -88,8 +91,8 @@ export default function VerificationStep({
           >
             {isResending ? t("resending") : t("resend")}
           </button>
-        </p>
-      )}
+        )}
+      </p>
     </form>
   );
 }

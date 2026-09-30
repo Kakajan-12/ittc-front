@@ -7,11 +7,7 @@ import {
   clearPersisted,
   usePersistentState,
 } from "@/shared/lib/usePersistentState";
-import {
-  OTP_LENGTH,
-  RESEND_COUNTDOWN_SECONDS,
-  STORAGE_KEYS,
-} from "@/views/Auth/config";
+import { OTP_LENGTH, STORAGE_KEYS } from "@/views/Auth/config";
 
 import {
   // COMPLETE_REGISTRATION_REQUEST,
@@ -20,7 +16,7 @@ import {
   VERIFY_OTP,
 } from "./api";
 
-import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
+import { T_COMPLETED_REGISTRATION, T_SEND_OTP, T_VERIFY_EMAIL } from "./type";
 
 import { verificationSchema } from "./validation";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
@@ -47,19 +43,38 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     STORAGE_KEYS.otpRevId,
     null,
   );
+  const [nextResendAt, setNextResendAt] = useState<number | null>(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
   const email = useRegistrationDraft()?.email ?? "";
 
   useEffect(() => {
-    if (resendCountdown <= 0) return;
+    if (!nextResendAt) return;
 
-    const timer = setTimeout(() => {
-      setResendCountdown((value) => value - 1);
+    const tick = () => {
+      const seconds = Math.max(
+        0,
+        Math.ceil((nextResendAt - Date.now()) / 1000),
+      );
+      setResendCountdown(seconds);
+      return seconds;
+    };
+
+    if (tick() === 0) return;
+
+    const timer = setInterval(() => {
+      if (tick() === 0) clearInterval(timer);
     }, 1000);
 
-    return () => clearTimeout(timer);
-  }, [resendCountdown]);
+    return () => clearInterval(timer);
+  }, [nextResendAt]);
+
+  const applyOtpResponse = (data?: T_SEND_OTP) => {
+    if (data?.revId) setRevId(data.revId);
+    const next = data?.nextResendAt ? Date.parse(data.nextResendAt) : NaN;
+    setNextResendAt(Number.isNaN(next) ? null : next);
+    setCode(initialCode());
+  };
 
   const sendMutation = useMutation({
     mutationFn: async (payload: { email: string; lang: "en" }) => {
@@ -73,11 +88,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
       });
     },
 
-    onSuccess: (data) => {
-      setRevId(data.revId);
-      setCode(initialCode());
-      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
-    },
+    onSuccess: applyOtpResponse,
   });
 
   const resendMutation = useMutation({
@@ -91,11 +102,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
       });
     },
 
-    onSuccess: (data) => {
-      if (data?.revId) setRevId(data.revId);
-      setCode(initialCode());
-      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
-    },
+    onSuccess: applyOtpResponse,
   });
 
   const verifyMutation = useMutation({
@@ -157,8 +164,6 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     ) {
       return false;
     }
-
-    // Без revId переотправлять нечего — запрашиваем код заново
     if (!revId) {
       return sendCode();
     }
@@ -183,7 +188,14 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [resendCountdown, sendMutation.isPending, resendMutation, revId, sendCode, t]);
+  }, [
+    resendCountdown,
+    sendMutation.isPending,
+    resendMutation,
+    revId,
+    sendCode,
+    t,
+  ]);
 
   const handleSubmit = useCallback(async (): Promise<boolean> => {
     try {

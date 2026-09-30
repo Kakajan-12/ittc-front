@@ -358,6 +358,7 @@
       "verifying": "Barlanýar...",
       "noCode": "Kod gelmedimi?",
       "resend": "Gaýtadan ibermek",
+      "resendIn": "{seconds} sekuntdan gaýtadan ibermek",
       "resending": "Iberilýär...",
       "error-otp": "Tassyklaýyş kody nädogry"
     },

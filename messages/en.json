@@ -358,6 +358,7 @@
       "verifying": "Verifying...",
       "noCode": "Didn't receive a code?",
       "resend": "Resend",
+      "resendIn": "Resend in {seconds} s",
       "resending": "Sending...",
       "error-otp": "Incorrect verification code"
     },
