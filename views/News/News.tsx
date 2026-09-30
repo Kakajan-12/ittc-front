@@ -18,7 +18,7 @@ function News({ news }: { news: NewsCardModel[] }) {
           <Button text={t("more")} href="/news" className="hidden lg:flex" />
         </div>
 
-        <div className="lg:mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="lg:mt-8 grid grid-cols-1 gap-5 lg:grid-cols-3">
           {news.slice(0, 3).map((item) => (
             <NewsCard
               key={item.id}
