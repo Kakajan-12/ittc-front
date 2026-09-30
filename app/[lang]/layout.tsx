@@ -46,8 +46,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     <html lang={lang} className={`h-full antialiased ${roboto.variable}`}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon.svg" type="image/svg+xml" />
+        {/* iPhone берёт иконку главного экрана только из PNG: SVG он
+            игнорирует и рисует букву. */}
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
       </head>
       <body className="min-h-full flex flex-col">
         <QueryProviders>
