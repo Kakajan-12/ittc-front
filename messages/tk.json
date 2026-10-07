@@ -360,12 +360,18 @@
       "resend": "Gaýtadan ibermek",
       "resendIn": "{seconds} sekuntdan gaýtadan ibermek",
       "resending": "Iberilýär...",
-      "error-otp": "Tassyklaýyş kody nädogry"
+      "error-otp": "Tassyklaýyş kody nädogry",
+      "titlePhone": "Telefonyňyzy tassyklaň",
+      "hintPhone": "Telefonyňyza iberilen tassyklama kodyny giriziň",
+      "verifyPhone": "Telefony tassyklamak",
+      "or": "ýa-da",
+      "sendToPhone": "Kody telefona ibermek",
+      "sendToEmail": "Kody emaile ibermek"
     },
     "success": {
       "title": "Arza iberildi",
       "text": "ITTC 2026-a hasaba durandygyňyz üçin sag boluň. Hasaba alyş ID-ňiz we parolyňyz bilen tassyklaýyş hatyny e-poçtaňyza alarsyňyz",
-      "close": "Ýapmak"
+      "close": "Tassyklaň"
     },
     "termsModal": {
       "title": "Ulanyş şertleri we gizlinlik syýasaty",

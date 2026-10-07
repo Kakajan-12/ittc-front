@@ -51,7 +51,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
             }
           : {},
       });
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     },
   });
@@ -162,7 +162,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
               fontFamily: "inherit",
               fontSize: 16,
               opacity: 0.8,
-              fontWeight:300
+              fontWeight: 300,
             },
             suffix: {
               color: "#97b4d1",

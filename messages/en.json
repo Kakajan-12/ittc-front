@@ -360,12 +360,18 @@
       "resend": "Resend",
       "resendIn": "Resend in {seconds} s",
       "resending": "Sending...",
-      "error-otp": "Incorrect verification code"
+      "error-otp": "Incorrect verification code",
+      "titlePhone": "Verify your phone",
+      "hintPhone": "Enter the verification code sent to your phone",
+      "verifyPhone": "Verify phone",
+      "or": "or",
+      "sendToPhone": "Send a code to phone",
+      "sendToEmail": "Send a code to email"
     },
     "success": {
       "title": "Your request has been sent",
       "text": "Thank you for registering for ITTC 2026. You will receive a confirmation email with your Registration ID and password",
-      "close": "Ok"
+      "close": "Confirm"
     },
     "termsModal": {
       "title": "Terms of Use and Privacy Policy",
