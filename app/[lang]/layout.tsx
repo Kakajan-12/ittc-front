@@ -33,6 +33,13 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Google Analytics 4 (тег Google). Только в продакшен-сборке: локальная
+ * разработка не должна попадать в статистику.
+ */
+const GA_ID = "G-ZHLF8ZRVL3";
+const GA_ENABLED = process.env.NODE_ENV === "production";
+
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { lang } = await params;
 
@@ -49,6 +56,24 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         {/* iPhone берёт иконку главного экрана только из PNG: SVG он
             игнорирует и рисует букву. */}
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        {GA_ENABLED && (
+          <>
+            {/* Google tag (gtag.js) — как выдал Google, в <head> каждой
+                страницы. Скрипт асинхронный и отрисовку не задерживает. */}
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="min-h-full flex flex-col">
         <QueryProviders>
