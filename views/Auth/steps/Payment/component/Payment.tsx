@@ -267,7 +267,9 @@ export default function PaymentForm() {
             </p>
           )}
           {promoError && (
-            <p className="font-nexa text-sm text-[#DE7A7A]">{t('invalidPromo')}</p>
+            <p className="font-nexa text-sm text-[#DE7A7A]">
+              {t("invalidPromo")}
+            </p>
           )}
         </div>
         {!isEventPackagesLoading && eventPackages && (
@@ -356,7 +358,7 @@ export default function PaymentForm() {
               name="payment-method"
               value={selectedPaymentMethodId ?? null}
               onChange={(e: RadioChangeEvent) => {
-                console.log(e.target.value);
+                // console.log(e.target.value);
                 setSelectedPaymentMethodId(e.target.value);
               }}
               className="flex w-full flex-col gap-3"

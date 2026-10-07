@@ -1,5 +1,10 @@
 import { type T_API_RESPONSE } from "@/shared/api/crud";
-import { T_COMPLETED_REGISTRATION, T_SEND_OTP, T_VERIFY_EMAIL } from "./type";
+import {
+  T_COMPLETED_REGISTRATION,
+  T_SEND_OTP,
+  T_SEND_OTP_PAYLOAD,
+  T_VERIFY_EMAIL,
+} from "./type";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
 import { HTTP } from "@/shared/api_v2/http";
 import { T_API_ERROR } from "@/shared/api_v2/crud";
@@ -8,12 +13,22 @@ import { API_BASE } from "@/shared/api/config";
 const BASE_URL = API_BASE;
 const RESOURCE = "registrationDraft";
 
+// {
+//   "fields": {
+//    "registrationDraftId" : 251,
+//    "isEmail": false,
+//    "email" : "abdullayevj.1603+jjjjj@gmail.com",
+//    "phoneNumber" : "99364806141",
+//    "lang" : "tk"
+//   }
+//  }
+
 export const SEND_OTP = async ({
   draftId,
   payload,
 }: {
   draftId: number;
-  payload: { email: string; lang: "ru" | "tk" | "en" };
+  payload: T_SEND_OTP_PAYLOAD;
 }) => {
   const res = await HTTP.POST<T_API_RESPONSE<T_SEND_OTP> | T_API_ERROR>({
     url: `${BASE_URL}/${RESOURCE}/sendOtp`,

@@ -51,7 +51,6 @@ export type Step = {
 // export type RegistrationFormData = typeof INITIAL_FORM_DATA;
 
 export const OTP_LENGTH = 6;
-export const RESEND_COUNTDOWN_SECONDS = 60;
 
 export const EVENT_ID = Number(process.env.NEXT_PUBLIC_EVENT_ID ?? 1);
 

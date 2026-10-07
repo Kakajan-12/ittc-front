@@ -1,10 +1,23 @@
 import { T_Package } from "../../Packages/type";
 import { RegistrationDraft } from "../../types";
 
+export type T_SEND_OTP_PAYLOAD = { lang: "ru" | "tk" | "en" } & (
+  | { isEmail: true; email: string }
+  | { isEmail: false; phoneNumber: string }
+);
+
 export type T_SEND_OTP = {
   revId: number;
-  emaul: string;
+  email: string;
+  expiresAt: string;
+  nextResendAt: string;
+  attempts: number;
+  maxAttempts: number;
+  resendCount: number;
+  maxResendCount: number;
 };
+
+export type T_OTP_CHANNEL = "email" | "phone";
 
 export type T_VERIFY_EMAIL = {
   revId: number;
