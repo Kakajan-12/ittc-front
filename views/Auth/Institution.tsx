@@ -1,130 +1,80 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "@/i18n/navigation";
-import { CONTENT_API_URL } from "@/shared/content/config";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
+import { localizedTitle } from "@/shared/lib/localization";
+import { getMediaUrl } from "@/shared/lib/helpers";
 import { STORAGE_KEYS } from "./config";
+import { useInstitutions } from "./steps/Institution/hook";
+import type { T_INSTITUTE } from "./steps/Institution/type";
 
 /**
- * Учреждение, от которого идёт регистрация. Учреждения — это организаторы,
- * отмеченные в админке «Учреждение в регистрации». Выбор обязателен и
- * делается на экране /register/institution перед «Личными данными»; QR-код
- * учреждения (/register?org=<id>) выбирает его сразу. Выбор хранится в
- * sessionStorage, как и остальные шаги, и уходит на платформу вместе с
- * личными данными.
+ * Учреждение, от которого идёт регистрация. Справочник учреждений ведёт
+ * платформа (/api/v1/institution). Выбор обязателен и делается на экране
+ * /register/institution перед «Личными данными»; QR-код учреждения
+ * (/register?org=<id>) выбирает его сразу. Выбор хранится в sessionStorage,
+ * как и остальные шаги, и уходит на платформу вместе с личными данными.
  */
 
-/** id организатора или «Другое / не от учреждения». */
+/** id учреждения или «Другое / не от учреждения». */
 export type InstitutionChoice = number | "other";
 
-type Partner = {
-  id: number;
-  nameEn: string;
-  nameRu: string;
-  nameTk: string;
-  logo: { url: string } | null;
-};
-
-export type InstitutionOption = { id: number; name: string; nameEn: string; logo: string | null };
-
-function localizedName(partner: Partner, locale: string) {
-  return locale === "ru" ? partner.nameRu : locale === "tk" ? partner.nameTk : partner.nameEn;
-}
-
-async function apiGet<T>(path: string): Promise<T | null> {
-  const response = await fetch(`${CONTENT_API_URL}/${path}`);
-  if (!response.ok) return null;
-  const body = await response.json();
-  return body?.success ? (body.data as T) : null;
-}
-
 export function useInstitutionChoice() {
-  return usePersistentState<InstitutionChoice | null>(STORAGE_KEYS.institution, null);
-}
-
-/** Список учреждений для экрана выбора — опубликованные, по порядку. */
-export function useInstitutions() {
-  const locale = useLocale();
-  const filters = encodeURIComponent(
-    JSON.stringify([
-      { field: "kind", op: "eq", val: "ORGANIZER" },
-      { field: "isInstitution", op: "eq", val: true },
-    ]),
+  return usePersistentState<InstitutionChoice | null>(
+    STORAGE_KEYS.institution,
+    null,
   );
-
-  return useQuery({
-    queryKey: ["institutions", locale],
-    staleTime: 5 * 60 * 1000,
-    queryFn: async (): Promise<InstitutionOption[]> => {
-      const data = await apiGet<{ items: Partner[] }>(
-        `partners?limit=50&orderBy=order&orderDirection=asc&filters=${filters}`,
-      );
-      return (data?.items ?? []).map((partner) => ({
-        id: partner.id,
-        name: localizedName(partner, locale),
-        nameEn: partner.nameEn,
-        logo: partner.logo?.url ?? null,
-      }));
-    },
-  });
 }
 
-/** Выбранное учреждение: само учреждение, «Другое» или ничего не выбрано. */
 export function useInstitution():
-  | { kind: "institution"; option: InstitutionOption }
+  | { kind: "institution"; id: number; option: T_INSTITUTE | null }
   | { kind: "other" }
   | null {
-  const locale = useLocale();
   const [choice] = useInstitutionChoice();
-  const id = typeof choice === "number" ? choice : null;
-
-  const { data } = useQuery({
-    queryKey: ["institution", id, locale],
-    enabled: id !== null,
-    staleTime: 5 * 60 * 1000,
-    queryFn: async (): Promise<InstitutionOption | null> => {
-      const partner = await apiGet<Partner & { isInstitution?: boolean }>(`partners/${id}`);
-      if (!partner || !partner.isInstitution) return null;
-      return {
-        id: partner.id,
-        name: localizedName(partner, locale),
-        nameEn: partner.nameEn,
-        logo: partner.logo?.url ?? null,
-      };
-    },
-  });
+  const { data: institutions } = useInstitutions();
 
   if (choice === "other") return { kind: "other" };
-  if (data) return { kind: "institution", option: data };
-  return null;
+  if (typeof choice !== "number") return null;
+
+  const option = institutions?.find((item) => item.id === choice) ?? null;
+  // Список загружен, а учреждения в нём нет — выбор устарел.
+  if (institutions && !option) return null;
+
+  return { kind: "institution", id: choice, option };
 }
 
 /** Поля для платформы: какое учреждение выбрано. */
 export function institutionFields(
   institution: ReturnType<typeof useInstitution>,
-): { institutionId?: number | null; institutionName?: string } {
+): { institutionId?: number | null } {
   if (!institution) return {};
-  if (institution.kind === "other") return { institutionId: null, institutionName: "Other" };
-  return { institutionId: institution.option.id, institutionName: institution.option.nameEn };
+  return {
+    institutionId: institution.kind === "other" ? null : institution.id,
+  };
 }
 
 /** Плашка в начале «Личных данных»: выбранное учреждение и ссылка «Изменить». */
 export function InstitutionBanner() {
   const t = useTranslations("Registration");
+  const locale = useLocale();
   const institution = useInstitution();
 
   if (!institution) return null;
 
   const option = institution.kind === "institution" ? institution.option : null;
+  // Учреждение выбрано, но список ещё не пришёл — показывать пока нечего.
+  if (institution.kind === "institution" && !option) return null;
+
+  // Платформа отдаёт логотип как путь без хоста (/api/v1/media/…).
+  const logo = getMediaUrl(option?.logo);
 
   return (
     <div className="mb-4 flex items-center gap-3 rounded border border-white/30 bg-white/10 px-4 py-3">
-      {option?.logo && (
-        // eslint-disable-next-line @next/next/no-img-element -- логотип из CMS, мелкий
+      {logo && (
+        // eslint-disable-next-line @next/next/no-img-element -- логотип из платформы, мелкий
         <img
-          src={option.logo}
+          src={logo}
           alt=""
           width={40}
           height={40}
@@ -132,9 +82,11 @@ export function InstitutionBanner() {
         />
       )}
       <div className="min-w-0 flex-1">
-        <p className="text-xs uppercase tracking-wide text-white/70">{t("institution")}</p>
+        <p className="text-xs uppercase tracking-wide text-white/70">
+          {t("institution")}
+        </p>
         <p className="text-base font-medium text-white">
-          {option ? option.name : t("institutionOther")}
+          {option ? localizedTitle(option, locale) : t("institutionOther")}
         </p>
       </div>
       <Link

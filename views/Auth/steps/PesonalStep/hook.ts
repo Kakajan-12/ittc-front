@@ -169,8 +169,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
-        // Учреждение, выбранное перед личными данными. Платформа сохранит
-        // поля, когда их добавят у неё в схему; до тех пор молча отбрасывает.
+        // Учреждение, выбранное перед личными данными.
         ...institutionFields(institution),
       };
 

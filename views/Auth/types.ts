@@ -45,4 +45,5 @@ export type RegistrationDraft = T_ENTITY & {
     updatedAt: Date;
   };
   emailVerified?: boolean;
+  institutionId?: number | null;
 };
