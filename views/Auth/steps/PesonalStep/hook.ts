@@ -4,7 +4,7 @@ import { _Translator, useTranslations } from "next-intl";
 import { ZodError } from "zod";
 
 import { PersonalStepRequest, personalStepSchema } from "./validation";
-import { useInstitution } from "@/views/Auth/Institution";
+import { institutionFields, useInstitution } from "@/views/Auth/Institution";
 import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
@@ -158,7 +158,8 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         return false;
       }
 
-      const payload: PersonalStepRequest & { institutionCode?: string } = {
+      const payload: PersonalStepRequest &
+        ReturnType<typeof institutionFields> = {
         firstName: result.data.firstName,
         lastName: result.data.lastName,
         patronymicName: result.data.patronymicName,
@@ -168,9 +169,9 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
-        // Регистрация по QR-коду учреждения. Платформа сохранит поле, когда
-        // его добавят у неё в схему; до тех пор она его молча отбрасывает.
-        ...(institution ? { institutionCode: institution.code } : {}),
+        // Учреждение, выбранное перед личными данными. Платформа сохранит
+        // поля, когда их добавят у неё в схему; до тех пор молча отбрасывает.
+        ...institutionFields(institution),
       };
 
       if (draftId) {

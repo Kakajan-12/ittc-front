@@ -1,14 +1,19 @@
-import { API_V2 } from "@/shared/api_v2";
 import { redirect } from "next/navigation";
 
 type T_PROPS = {
-  params: Promise<{
-    lang: string;
-    id: string;
-  }>;
+  params: Promise<{ lang: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-export default async function Page({ params }: T_PROPS) {
+/**
+ * Регистрация начинается с выбора учреждения. QR-код учреждения ведёт сюда
+ * с `?org=<id>` — параметр передаётся дальше, и экран выбора отмечает его сам.
+ */
+export default async function Page({ params, searchParams }: T_PROPS) {
   const { lang } = await params;
-  redirect(`/${lang}/register/personal-info`);
+  const org = (await searchParams).org;
+  const value = Array.isArray(org) ? org[0] : org;
+  const query = value && /^\d+$/.test(value) ? `?org=${value}` : "";
+
+  redirect(`/${lang}/register/institution${query}`);
 }

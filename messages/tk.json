@@ -420,6 +420,11 @@
       "PHONE_NUMBER_ALREADY_EXISTS": "Bu telefon belgisi eýýäm hasaba alyndy",
       "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Bu elektron poçta salgysy we telefon belgisi eýýäm hasaba alyndy"
     },
-    "institution": "Hasaba alyş guramasy"
+    "institution": "Hasaba alyş guramasy",
+    "institutionTitle": "Haýsy edaradan hasaba alynýarsyňyz?",
+    "institutionHint": "Edarany saýlaň. Özbaşdak ýa-da başga guramadan hasaba alynýan bolsaňyz, «Başga» saýlaň.",
+    "institutionOther": "Başga / edarasyz",
+    "institutionNext": "Indiki",
+    "institutionChange": "Üýtgetmek"
   }
 }
