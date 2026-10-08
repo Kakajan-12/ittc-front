@@ -419,6 +419,7 @@
       "EMAIL_ALREADY_EXISTS": "Эта почта уже зарегистрирована",
       "PHONE_NUMBER_ALREADY_EXISTS": "Этот номер телефона уже зарегистрирован",
       "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Эта почта и номер телефона уже зарегистрированы"
-    }
+    },
+    "institution": "Регистрация от учреждения"
   }
 }

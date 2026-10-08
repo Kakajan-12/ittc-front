@@ -68,6 +68,8 @@ export const STORAGE_KEYS = {
   payment: "ittc.auth.payment",
   promoApplied: "ittc.auth.promoApplied.v2",
   draftId: "ittc.auth.draftId",
+  /** Код учреждения из ссылки QR (?org=…) */
+  institution: "ittc.auth.institution",
   otpRevId: "ittc.auth.otpRevId",
   draftPersonal: "ittc.auth.draftPersonal",
   draftCompany: "ittc.auth.draftCompany",

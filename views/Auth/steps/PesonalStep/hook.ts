@@ -4,6 +4,7 @@ import { _Translator, useTranslations } from "next-intl";
 import { ZodError } from "zod";
 
 import { PersonalStepRequest, personalStepSchema } from "./validation";
+import { useInstitution } from "@/views/Auth/Institution";
 import { PERSONAL_STEP_ERROR_CODE } from "./errorCodes";
 import { getErrorMessage } from "./dictionary";
 import { usePersistentState } from "@/shared/lib/usePersistentState";
@@ -99,6 +100,8 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
     setPersonalForm((prev) => (isPristine(prev) ? fromDraft(draft) : prev));
   }, [draft, draftId, setPersonalForm]);
 
+  const institution = useInstitution();
+
   const createMutation = useMutation({
     mutationFn: async (data: PersonalStepRequest) =>
       await API_V2.PERSONAL_STEP.CREATE(data),
@@ -155,7 +158,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         return false;
       }
 
-      const payload: PersonalStepRequest = {
+      const payload: PersonalStepRequest & { institutionCode?: string } = {
         firstName: result.data.firstName,
         lastName: result.data.lastName,
         patronymicName: result.data.patronymicName,
@@ -165,6 +168,9 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
         privacyPolicyAccepted: result.data.privacyPolicyAccepted,
         termsAndConditionsAccepted: result.data.termsAndConditionsAccepted,
         eventId: result.data.eventId,
+        // Регистрация по QR-коду учреждения. Платформа сохранит поле, когда
+        // его добавят у неё в схему; до тех пор она его молча отбрасывает.
+        ...(institution ? { institutionCode: institution.code } : {}),
       };
 
       if (draftId) {
@@ -192,7 +198,7 @@ export function usePersonalStepForm({ t, id }: UsePersonalStepFormProps) {
 
       return false;
     }
-  }, [draftId, personalForm, editMutation, createMutation, t]);
+  }, [draftId, personalForm, editMutation, createMutation, t, institution]);
 
   const isSubmitting = createMutation.isPending || editMutation.isPending;
 

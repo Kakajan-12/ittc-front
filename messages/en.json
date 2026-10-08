@@ -419,6 +419,7 @@
       "EMAIL_ALREADY_EXISTS": "This email is already registered",
       "PHONE_NUMBER_ALREADY_EXISTS": "This phone number is already registered",
       "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "This email and phone number are already registered"
-    }
+    },
+    "institution": "Registering via"
   }
 }

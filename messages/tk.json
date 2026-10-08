@@ -419,6 +419,7 @@
       "EMAIL_ALREADY_EXISTS": "Bu elektron poçta salgysy eýýäm hasaba alyndy",
       "PHONE_NUMBER_ALREADY_EXISTS": "Bu telefon belgisi eýýäm hasaba alyndy",
       "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "Bu elektron poçta salgysy we telefon belgisi eýýäm hasaba alyndy"
-    }
+    },
+    "institution": "Hasaba alyş guramasy"
   }
 }
