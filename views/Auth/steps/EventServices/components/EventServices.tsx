@@ -260,7 +260,7 @@ export default function EventServices() {
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto scrollbar-none">
         <div className="glass-btn shrink-0 rounded bg-white/10 p-3">
           <ConfigProvider
             theme={{

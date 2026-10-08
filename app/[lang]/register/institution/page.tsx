@@ -83,7 +83,7 @@ export default function InstitutionStep() {
       <h2 className="text-lg font-semibold">{t("institutionTitle")}</h2>
       <p className="mt-1 text-sm text-white/70">{t("institutionHint")}</p>
 
-      <ul role="radiogroup" aria-label={t("institutionTitle")} className="mt-4 flex min-h-0 flex-col gap-2 overflow-y-auto">
+      <ul role="radiogroup" aria-label={t("institutionTitle")} className="mt-4 flex min-h-0 flex-col gap-2 overflow-y-auto scrollbar-none">
         {isLoading ? (
           <li className="text-sm text-white/70">…</li>
         ) : (

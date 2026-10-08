@@ -171,6 +171,18 @@
   background-image: var(--gradient-registration);
 }
 
+/* Прокрутка остаётся, полоса скролла не рисуется. Расширяет встроенную
+   scrollbar-none (у неё только scrollbar-width) фолбэком для Safari < 18.2
+   и Chrome < 121, где scrollbar-width не поддерживается */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Эффект стекла: подложка + кромка света сверху + бордер + тень */
 @utility glass {
   position: relative;
