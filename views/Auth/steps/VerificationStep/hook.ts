@@ -7,11 +7,7 @@ import {
   clearPersisted,
   usePersistentState,
 } from "@/shared/lib/usePersistentState";
-import {
-  OTP_LENGTH,
-  RESEND_COUNTDOWN_SECONDS,
-  STORAGE_KEYS,
-} from "@/views/Auth/config";
+import { OTP_LENGTH, STORAGE_KEYS } from "@/views/Auth/config";
 
 import {
   // COMPLETE_REGISTRATION_REQUEST,
@@ -20,7 +16,12 @@ import {
   VERIFY_OTP,
 } from "./api";
 
-import { T_COMPLETED_REGISTRATION, T_VERIFY_EMAIL } from "./type";
+import {
+  T_OTP_CHANNEL,
+  T_SEND_OTP,
+  T_SEND_OTP_PAYLOAD,
+  T_VERIFY_EMAIL,
+} from "./type";
 
 import { verificationSchema } from "./validation";
 import { VERIFICATION_ERROR_CODE } from "./errorCodes";
@@ -47,22 +48,45 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     STORAGE_KEYS.otpRevId,
     null,
   );
+  const [nextResendAt, setNextResendAt] = useState<number | null>(null);
   const [resendCountdown, setResendCountdown] = useState(0);
   const [error, setError] = useState("");
-  const email = useRegistrationDraft()?.email ?? "";
+  const [isSwitchingChannel, setIsSwitchingChannel] = useState(false);
+  const [channel, setChannel] = useState<T_OTP_CHANNEL>("email");
+  const draft = useRegistrationDraft();
+  const email = draft?.email ?? "";
+  const phoneNumber = draft?.phoneNumber ?? "";
 
   useEffect(() => {
-    if (resendCountdown <= 0) return;
+    if (!nextResendAt) return;
 
-    const timer = setTimeout(() => {
-      setResendCountdown((value) => value - 1);
+    const tick = () => {
+      const seconds = Math.max(
+        0,
+        Math.ceil((nextResendAt - Date.now()) / 1000),
+      );
+      setResendCountdown(seconds);
+      return seconds;
+    };
+
+    if (tick() === 0) return;
+
+    const timer = setInterval(() => {
+      if (tick() === 0) clearInterval(timer);
     }, 1000);
 
-    return () => clearTimeout(timer);
-  }, [resendCountdown]);
+    return () => clearInterval(timer);
+  }, [nextResendAt]);
+
+  const applyOtpResponse = (data?: T_SEND_OTP) => {
+    if (data?.revId) setRevId(data.revId);
+    const next = data?.nextResendAt ? Date.parse(data.nextResendAt) : NaN;
+    setNextResendAt(Number.isNaN(next) ? null : next);
+    setCode(initialCode());
+  };
 
   const sendMutation = useMutation({
-    mutationFn: async (payload: { email: string; lang: "en" }) => {
+    mutationFn: async (payload: T_SEND_OTP_PAYLOAD) => {
       if (!draftId) {
         throw new Error(VERIFICATION_ERROR_CODE.DRAFT_IS_REQUIRED);
       }
@@ -73,11 +97,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
       });
     },
 
-    onSuccess: (data) => {
-      setRevId(data.revId);
-      setCode(initialCode());
-      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
-    },
+    onSuccess: applyOtpResponse,
   });
 
   const resendMutation = useMutation({
@@ -91,11 +111,7 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
       });
     },
 
-    onSuccess: (data) => {
-      if (data?.revId) setRevId(data.revId);
-      setCode(initialCode());
-      setResendCountdown(RESEND_COUNTDOWN_SECONDS);
-    },
+    onSuccess: applyOtpResponse,
   });
 
   const verifyMutation = useMutation({
@@ -126,28 +142,35 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   //   },
   // });
 
-  const sendCode = useCallback(async (): Promise<boolean> => {
-    try {
-      setError("");
+  const sendCode = useCallback(
+    async (target: T_OTP_CHANNEL = "email"): Promise<boolean> => {
+      try {
+        setError("");
 
-      await sendMutation.mutateAsync({ email, lang: "en" });
-
-      return true;
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(
-          isErrorCode(error.message)
-            ? getErrorMessage({
-                t,
-                errorCode: error.message,
-              })
-            : error.message,
+        await sendMutation.mutateAsync(
+          target === "email"
+            ? { isEmail: true, email, lang: "en" }
+            : { isEmail: false, phoneNumber, lang: "en" },
         );
-      }
 
-      return false;
-    }
-  }, [sendMutation, t]);
+        return true;
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(
+            isErrorCode(error.message)
+              ? getErrorMessage({
+                  t,
+                  errorCode: error.message,
+                })
+              : error.message,
+          );
+        }
+
+        return false;
+      }
+    },
+    [sendMutation, email, phoneNumber, t],
+  );
 
   const handleResend = useCallback(async (): Promise<boolean> => {
     if (
@@ -157,10 +180,8 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
     ) {
       return false;
     }
-
-    // Без revId переотправлять нечего — запрашиваем код заново
     if (!revId) {
-      return sendCode();
+      return sendCode(channel);
     }
 
     try {
@@ -183,7 +204,40 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
 
       return false;
     }
-  }, [resendCountdown, sendMutation.isPending, resendMutation, revId, sendCode, t]);
+  }, [
+    resendCountdown,
+    sendMutation.isPending,
+    resendMutation,
+    revId,
+    sendCode,
+    channel,
+    t,
+  ]);
+
+  const handleSwitchChannel = useCallback(async (): Promise<boolean> => {
+    // Смена канала — это новый sendOtp по тому же драфту, поэтому на неё
+    // действует тот же nextResendAt, что и на повторную отправку
+    if (isSwitchingChannel) {
+      return false;
+    }
+
+    const target = channel === "email" ? "phone" : "email";
+
+    setChannel(target);
+    setIsSwitchingChannel(true);
+    try {
+      return await sendCode(target);
+    } finally {
+      setIsSwitchingChannel(false);
+    }
+  }, [
+    isSwitchingChannel,
+    resendCountdown,
+    sendMutation.isPending,
+    resendMutation.isPending,
+    sendCode,
+    channel,
+  ]);
 
   const handleSubmit = useCallback(async (): Promise<boolean> => {
     try {
@@ -237,12 +291,16 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   return {
     draftId,
     email,
+    phoneNumber,
+    channel,
 
     code,
     setCode,
 
     sendCode,
     handleResend,
+    handleSwitchChannel,
+    isSwitchingChannel,
     handleSubmit,
 
     isResending: sendMutation.isPending || resendMutation.isPending,

@@ -33,6 +33,14 @@ export async function generateMetadata({
   };
 }
 
+/**
+ * Счётчики — Google Analytics 4 и LinkedIn Insight Tag. Только в
+ * продакшен-сборке: локальная разработка не должна попадать в статистику.
+ */
+const ANALYTICS_ENABLED = process.env.NODE_ENV === "production";
+const GA_ID = "G-ZHLF8ZRVL3";
+const LINKEDIN_PARTNER_ID = "11016025";
+
 export default async function LocaleLayout({ children, params }: LayoutProps) {
   const { lang } = await params;
 
@@ -49,6 +57,24 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         {/* iPhone берёт иконку главного экрана только из PNG: SVG он
             игнорирует и рисует букву. */}
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        {ANALYTICS_ENABLED && (
+          <>
+            {/* Google tag (gtag.js) — как выдал Google, в <head> каждой
+                страницы. Скрипт асинхронный и отрисовку не задерживает. */}
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="min-h-full flex flex-col">
         <QueryProviders>
@@ -62,6 +88,44 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             </NextIntlClientProvider>
           </AntProviders>
         </QueryProviders>
+
+        {ANALYTICS_ENABLED && (
+          <>
+            {/* LinkedIn Insight Tag — как выдал LinkedIn, в конце <body>.
+                Сам загрузчик подгружает insight.min.js асинхронно. */}
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `_linkedin_partner_id = "${LINKEDIN_PARTNER_ID}";
+window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+window._linkedin_data_partner_ids.push(_linkedin_partner_id);`,
+              }}
+            />
+            <script
+              type="text/javascript"
+              dangerouslySetInnerHTML={{
+                __html: `(function(l) {
+if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+window.lintrk.q=[]}
+var s = document.getElementsByTagName("script")[0];
+var b = document.createElement("script");
+b.type = "text/javascript";b.async = true;
+b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+s.parentNode.insertBefore(b, s);})(window.lintrk);`,
+              }}
+            />
+            <noscript>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                alt=""
+                src={`https://px.ads.linkedin.com/collect/?pid=${LINKEDIN_PARTNER_ID}&fmt=gif`}
+              />
+            </noscript>
+          </>
+        )}
       </body>
     </html>
   );

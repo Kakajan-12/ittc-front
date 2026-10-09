@@ -39,7 +39,7 @@ export default function PersonalStepForm({
 
   return (
     <div className="flex min-h-0 h-full w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto pt-2.5 pr-1">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scrollbar-none pt-2.5">
         <Field
           id="name"
           label={t("name")}

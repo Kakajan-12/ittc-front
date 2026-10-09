@@ -51,7 +51,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
             }
           : {},
       });
-      console.log(res.rows);
+      // console.log(res.rows);
       return res.rows;
     },
   });
@@ -78,7 +78,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto pt-2.5 pr-1">
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scrollbar-none pt-2.5">
         <Field
           id="organization-name"
           label={t("companyName")}
@@ -162,7 +162,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
               fontFamily: "inherit",
               fontSize: 16,
               opacity: 0.8,
-              fontWeight:300
+              fontWeight: 300,
             },
             suffix: {
               color: "#97b4d1",

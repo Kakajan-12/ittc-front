@@ -69,7 +69,7 @@ overflow: hidden; */
     <RegistrationContainerContext.Provider
       value={{ showSuccess, setShowSuccess }}
     >
-      <div className="flex w-full justify-between lg:w-1/2 lg:pr-8 lg:py-8 items-start">
+      <div className="flex w-full justify-between lg:w-1/2 lg:pr-8 lg:py-8 items-start scrollbar-none">
         <div className="relative lg:glass lg:min-h-0 flex h-full overflow-hidden min-h-0 w-full flex-col gap-4 rounded-none lg:rounded-2xl px-4 pb-6">
           <StepHeader />
           <div className="flex flex-col gap-5 w-full items-center justify-center">

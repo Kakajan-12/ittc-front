@@ -358,13 +358,20 @@
       "verifying": "Verifying...",
       "noCode": "Didn't receive a code?",
       "resend": "Resend",
+      "resendIn": "Resend in {seconds} s",
       "resending": "Sending...",
-      "error-otp": "Incorrect verification code"
+      "error-otp": "Incorrect verification code",
+      "titlePhone": "Verify your phone",
+      "hintPhone": "Enter the verification code sent to your phone",
+      "verifyPhone": "Verify phone",
+      "or": "or",
+      "sendToPhone": "Send a code to phone",
+      "sendToEmail": "Send a code to email"
     },
     "success": {
       "title": "Your request has been sent",
       "text": "Thank you for registering for ITTC 2026. You will receive a confirmation email with your Registration ID and password",
-      "close": "Ok"
+      "close": "Confirm"
     },
     "termsModal": {
       "title": "Terms of Use and Privacy Policy",
@@ -412,6 +419,12 @@
       "EMAIL_ALREADY_EXISTS": "This email is already registered",
       "PHONE_NUMBER_ALREADY_EXISTS": "This phone number is already registered",
       "EMAIL_AND_PHONE_NUMBER_ALREADY_EXIST": "This email and phone number are already registered"
-    }
+    },
+    "institution": "Registering via",
+    "institutionTitle": "Which institution are you registering with?",
+    "institutionHint": "Choose an institution. If you are registering on your own or with another organisation, choose “Other”.",
+    "institutionOther": "Other / not via an institution",
+    "institutionNext": "Next",
+    "institutionChange": "Change"
   }
 }

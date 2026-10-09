@@ -51,7 +51,6 @@ export type Step = {
 // export type RegistrationFormData = typeof INITIAL_FORM_DATA;
 
 export const OTP_LENGTH = 6;
-export const RESEND_COUNTDOWN_SECONDS = 60;
 
 export const EVENT_ID = Number(process.env.NEXT_PUBLIC_EVENT_ID ?? 1);
 
@@ -69,6 +68,8 @@ export const STORAGE_KEYS = {
   payment: "ittc.auth.payment",
   promoApplied: "ittc.auth.promoApplied.v2",
   draftId: "ittc.auth.draftId",
+  /** Код учреждения из ссылки QR (?org=…) */
+  institution: "ittc.auth.institution",
   otpRevId: "ittc.auth.otpRevId",
   draftPersonal: "ittc.auth.draftPersonal",
   draftCompany: "ittc.auth.draftCompany",
