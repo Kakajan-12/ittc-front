@@ -6,14 +6,17 @@ type T_PROPS = {
 };
 
 /**
- * Регистрация начинается с выбора учреждения. QR-код учреждения ведёт сюда
- * с `?org=<id>` — параметр передаётся дальше, и экран выбора отмечает его сам.
+ * Регистрация начинается с выбора учреждения. Ссылка учреждения
+ * (`/register?institutionId=<id>`, в старых QR-кодах — `?org=<id>`) передаёт
+ * его дальше: экран выбора отмечает его сам и сразу ведёт на «Личные данные».
  */
 export default async function Page({ params, searchParams }: T_PROPS) {
   const { lang } = await params;
-  const org = (await searchParams).org;
-  const value = Array.isArray(org) ? org[0] : org;
-  const query = value && /^\d+$/.test(value) ? `?org=${value}` : "";
+  const query = await searchParams;
+  const raw = query.institutionId ?? query.org;
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const forward =
+    value && /^\d+$/.test(value) ? `?institutionId=${value}` : "";
 
-  redirect(`/${lang}/register/institution${query}`);
+  redirect(`/${lang}/register/institution${forward}`);
 }

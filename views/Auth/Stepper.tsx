@@ -23,7 +23,11 @@ export default function Stepper({ steps }: StepperProps) {
 
   const currentStep = currentPath.split("/")[2];
 
-  const currentStepIndex = steps.findIndex((step) => step.link === currentStep);
+  // На экране успеха все шаги считаются пройденными.
+  const currentStepIndex =
+    currentStep === "success"
+      ? steps.length
+      : steps.findIndex((step) => step.link === currentStep);
   // shrink-0
   return (
     <div className="flex shrink-0 justify-center items-center gap-1 sm:px-12 xl:px-20">

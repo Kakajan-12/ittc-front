@@ -68,9 +68,11 @@ export const STORAGE_KEYS = {
   payment: "ittc.auth.payment",
   promoApplied: "ittc.auth.promoApplied.v2",
   draftId: "ittc.auth.draftId",
-  /** Код учреждения из ссылки QR (?org=…) */
+  /** Выбранное учреждение (в т.ч. из ссылки ?institutionId=…) */
   institution: "ittc.auth.institution",
   otpRevId: "ittc.auth.otpRevId",
+  /** Индекс самого дальнего открытого шага регистрации */
+  reachedStep: "ittc.auth.reachedStep",
   draftPersonal: "ittc.auth.draftPersonal",
   draftCompany: "ittc.auth.draftCompany",
   draftPackages: "ittc.auth.draftPackages",

@@ -1,20 +1,20 @@
 "use client";
 import VerificationStep from "@/views/Auth/steps/VerificationStep/components/VerificationStep";
-import SuccessModal from "@/views/Auth/SuccessModal";
 import { useRouter } from "@/i18n/navigation";
-import { useRegistrationContainer } from "../_features/RegistartionConatiner";
+import { unlockStep } from "@/views/Auth/progress";
 
 export default function VerificationPage() {
-  const { showSuccess, setShowSuccess } = useRegistrationContainer();
   const router = useRouter();
-
-  if (showSuccess) {
-    return <SuccessModal inline open onClose={() => router.push("/")} />;
-  }
 
   return (
     <div>
-      <VerificationStep onCompleted={() => setShowSuccess(true)} />
+      {/* replace — чтобы «назад» с экрана успеха не возвращал к вводу кода */}
+      <VerificationStep
+        onCompleted={() => {
+          unlockStep("success");
+          router.replace("/register/success");
+        }}
+      />
     </div>
   );
 }

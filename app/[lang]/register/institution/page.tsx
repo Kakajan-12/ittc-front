@@ -4,26 +4,26 @@ import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import {
-  type InstitutionChoice,
+  personalInfoHref,
+  readInstitutionParam,
   useInstitutionChoice,
 } from "@/views/Auth/Institution";
 import { useInstitutions } from "@/views/Auth/steps/Institution/hook";
+import { unlockStep } from "@/views/Auth/progress";
 import { localizedTitle } from "@/shared/lib/localization";
 import { getMediaUrl } from "@/shared/lib/helpers";
 
 /**
  * Первый экран регистрации: от какого учреждения участник. Выбор обязателен,
- * для иностранных делегатов и всех остальных есть «Другое». QR-код
- * учреждения (/register?org=<id>) выбирает его сам и сразу ведёт дальше.
+ * «Другое» приходит из справочника как обычное учреждение. QR-код
+ * учреждения (/register?institutionId=<id>) выбирает его сам и сразу ведёт дальше.
  */
 export default function InstitutionStep() {
   const t = useTranslations("Registration");
   const locale = useLocale();
   const router = useRouter();
   const [stored, setStored] = useInstitutionChoice();
-  // Сохранённый выбор появляется только после гидратации, поэтому он —
-  // запасное значение, а не начальное состояние.
-  const [picked, setPicked] = useState<InstitutionChoice | null>(null);
+  const [picked, setPicked] = useState<number | null>(null);
   const selected = picked ?? stored;
   const { data: institutions, isLoading } = useInstitutions();
 
@@ -31,25 +31,23 @@ export default function InstitutionStep() {
   useEffect(() => {
     if (!institutions) return;
 
-    const org = Number(new URLSearchParams(window.location.search).get("org"));
+    const org = readInstitutionParam();
 
-    if (org && institutions.some((item) => item.id === org)) {
+    if (org !== null && institutions.some((item) => item.id === org)) {
       setStored(org);
-      router.replace("/register/personal-info");
+      unlockStep("personal-info");
+      router.replace(personalInfoHref(org));
     }
   }, [institutions, setStored, router]);
 
   const proceed = () => {
     if (selected === null) return;
     setStored(selected);
-    router.push("/register/personal-info");
+    unlockStep("personal-info");
+    router.push(personalInfoHref(selected));
   };
 
-  const option = (
-    value: InstitutionChoice,
-    label: string,
-    logo?: string | null,
-  ) => {
+  const option = (value: number, label: string, logo?: string | null) => {
     const active = selected === value;
 
     return (
@@ -105,8 +103,6 @@ export default function InstitutionStep() {
           <li className="text-sm text-white/70">…</li>
         ) : (
           (institutions ?? []).map((item) =>
-            // Платформа отдаёт логотип как путь без хоста (/api/v1/media/…),
-            // в браузере он ушёл бы на домен сайта.
             option(
               item.id,
               localizedTitle(item, locale),
@@ -114,7 +110,6 @@ export default function InstitutionStep() {
             ),
           )
         )}
-        {option("other", t("institutionOther"))}
       </ul>
 
       <button
