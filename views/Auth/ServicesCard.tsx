@@ -12,6 +12,8 @@ import { T_EVENT_PACKAGE_FEE } from "../PackageFees/type";
 
 interface ServicesCardProps {
   feesMap: { [k: string]: T_EVENT_PACKAGE_FEE };
+  /** Открыт тип пакетов «Делегат» — вместо сбора показываем «для одного делегата» */
+  isDelegate?: boolean;
   service: EventPackages;
   selectedPackages: Record<
     string,
@@ -36,6 +38,7 @@ const MAX_QUANTITY = 99;
 
 export default function ServicesCard({
   feesMap,
+  isDelegate = false,
   service,
   selectedPackages,
   setSelectedPackages,
@@ -151,13 +154,18 @@ export default function ServicesCard({
             <span className="text-[10px]">{currency}</span>
           </p>
 
-          {!!service.eventPackageFeeId ? (
+          {isDelegate ? (
+            <p className="font-nexa text-[10px] text-[#9D9D9D]">
+              {t("card.perDelegate")}
+            </p>
+          ) : !!service.eventPackageFeeId ? (
             <div className="flex gap-2 items-center ">
               {feesMap &&
                 service.eventPackageFeeId in feesMap &&
                 feesMap[service.eventPackageFeeId] && (
                   <p className="font-nexa text-[10px] text-[#9D9D9D]">
-                    +{localizedTitle(feesMap[service.eventPackageFeeId], locale)}
+                    +
+                    {localizedTitle(feesMap[service.eventPackageFeeId], locale)}
                   </p>
                 )}
             </div>

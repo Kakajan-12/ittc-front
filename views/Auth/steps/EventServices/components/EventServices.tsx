@@ -148,6 +148,12 @@ export default function EventServices() {
     restoredPackage?.eventPackageTypeId ??
     eventPackageTypes?.[0]?.id;
 
+  // У типа нет отдельного кода, поэтому «Делегата» узнаём по английскому названию
+  const isDelegateType = !!eventPackageTypes
+    ?.find((type) => type.id === selectedTypeId)
+    ?.titleEn?.toLowerCase()
+    .includes("delegate");
+
   const {
     data: eventPackageList,
     isLoading: isEventPackageListLoading,
@@ -333,6 +339,7 @@ export default function EventServices() {
           {eventPackageList?.map((pkg) => (
             <ServicesCard
               feesMap={feesMap}
+              isDelegate={isDelegateType}
               key={pkg.id}
               service={pkg}
               selectedPackages={selectedPackages}
