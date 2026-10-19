@@ -7,10 +7,7 @@ export default function SponsorshipPage() {
   const tCommon = useTranslations("Common");
   return (
     <main>
-      <PageHeading
-        title={t("title")}
-        crumbs={[{ label: t("title") }]}
-      />
+      <PageHeading title={t("title")} crumbs={[{ label: t("title") }]} />
       <div className="my-8 flex items-center justify-center min-h-100 text-brand-gray">
         <div className="text-base lg:text-2xl font-normal px-4 lg:px-10 flex flex-col gap-2">
           Sponsorship provides an opportunity to position your brand in front of
@@ -86,7 +83,7 @@ export default function SponsorshipPage() {
                 href="tel:+99361480090"
                 className="text-brand-blue underline-offset-4 hover:underline"
               >
-                +993 61 48 00 90
+                +993 61 48 00 80
               </a>
             </p>
           </div>

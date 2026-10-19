@@ -19,6 +19,7 @@ import { EVENT_SERVICES_ERROR_CODE } from "../errorCodes";
 import { getErrorMessage } from "../dictionary";
 import { ZodError } from "zod";
 import { useRouter } from "next/navigation";
+import { unlockStep } from "@/views/Auth/progress";
 import { API_V2 } from "@/shared/api_v2";
 import { PRINT } from "@/shared/lib/helpers";
 import { EVENT_SERVICE_STEP_REQUEST } from "../api";
@@ -146,6 +147,12 @@ export default function EventServices() {
     packageType?.id ??
     restoredPackage?.eventPackageTypeId ??
     eventPackageTypes?.[0]?.id;
+
+  // У типа нет отдельного кода, поэтому «Делегата» узнаём по английскому названию
+  const isDelegateType = !!eventPackageTypes
+    ?.find((type) => type.id === selectedTypeId)
+    ?.titleEn?.toLowerCase()
+    .includes("delegate");
 
   const {
     data: eventPackageList,
@@ -332,6 +339,7 @@ export default function EventServices() {
           {eventPackageList?.map((pkg) => (
             <ServicesCard
               feesMap={feesMap}
+              isDelegate={isDelegateType}
               key={pkg.id}
               service={pkg}
               selectedPackages={selectedPackages}
@@ -376,6 +384,7 @@ export default function EventServices() {
             const ok = await handleSubmit();
 
             if (ok) {
+              unlockStep("payment");
               router.push("payment");
             }
           }}

@@ -300,7 +300,7 @@
         "allFeatures": "Смотреть все возможности +{count}",
         "registrationFee": "+{amount} {currency} регистрационный сбор",
         "feeShort": "+{amount} {currency} сбор",
-        "perDelegate": "за 1 делегата",
+        "perDelegate": "для 1 делегата",
         "decrease": "Уменьшить: {title}",
         "increase": "Увеличить: {title}"
       },
@@ -423,7 +423,6 @@
     "institution": "Регистрация от учреждения",
     "institutionTitle": "От какого учреждения вы регистрируетесь?",
     "institutionHint": "Выберите учреждение. Если вы регистрируетесь самостоятельно или от другой организации — выберите «Другое».",
-    "institutionOther": "Другое / не от учреждения",
     "institutionNext": "Далее",
     "institutionChange": "Изменить"
   }

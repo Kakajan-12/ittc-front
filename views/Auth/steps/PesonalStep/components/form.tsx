@@ -5,6 +5,7 @@ import Field from "@/shared/ui/Field";
 import PhoneInput from "@/shared/ui/PhoneInput";
 import { usePersonalStepForm } from "../hook";
 import { useRouter } from "next/navigation";
+import { unlockStep } from "@/views/Auth/progress";
 import { useErrorText } from "@/shared/lib/errorText";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_V2 } from "@/shared/api_v2";
@@ -165,6 +166,7 @@ export default function PersonalStepForm({
           const ok = await handleSubmit();
 
           if (ok) {
+            unlockStep("organization-info");
             router.push("organization-info");
           }
         }}

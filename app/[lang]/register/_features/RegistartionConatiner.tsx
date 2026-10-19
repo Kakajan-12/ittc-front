@@ -1,32 +1,13 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useState } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../../public/logo.svg";
 import Stepper, { T_REGISTARTION_STEP } from "@/views/Auth/Stepper";
 import StepHeader from "./StepHeader";
+import StepGuard from "./StepGuard";
 import { useTranslations } from "next-intl";
-
-type RegistrationContainerContextValue = {
-  showSuccess: boolean;
-  setShowSuccess: (show: boolean) => void;
-};
-
-const RegistrationContainerContext =
-  createContext<RegistrationContainerContextValue | null>(null);
-
-export function useRegistrationContainer() {
-  const context = useContext(RegistrationContainerContext);
-
-  if (!context) {
-    throw new Error(
-      "useRegistrationContainer must be used inside RegistrationContainer",
-    );
-  }
-
-  return context;
-}
 
 export default function RegistrationContainer({
   children,
@@ -34,7 +15,6 @@ export default function RegistrationContainer({
   children: ReactNode;
 }) {
   const t = useTranslations("Registration");
-  const [showSuccess, setShowSuccess] = useState(false);
   const steps: T_REGISTARTION_STEP[] = [
     {
       key: "PERSONAL_INFO",
@@ -66,9 +46,7 @@ export default function RegistrationContainer({
 min-height: 0%;
 overflow: hidden; */
   return (
-    <RegistrationContainerContext.Provider
-      value={{ showSuccess, setShowSuccess }}
-    >
+    <>
       <div className="flex w-full justify-between lg:w-1/2 lg:pr-8 lg:py-8 items-start scrollbar-none">
         <div className="relative lg:glass lg:min-h-0 flex h-full overflow-hidden min-h-0 w-full flex-col gap-4 rounded-none lg:rounded-2xl px-4 pb-6">
           <StepHeader />
@@ -90,10 +68,10 @@ overflow: hidden; */
           <Stepper steps={steps} />
           <div className="flex min-h-0 flex-1 flex-col w-full sm:px-12 xl:px-20">
             <span className="border-b border-[#05518B]/80"></span>
-            {children}
+            <StepGuard>{children}</StepGuard>
           </div>
         </div>
       </div>
-    </RegistrationContainerContext.Provider>
+    </>
   );
 }

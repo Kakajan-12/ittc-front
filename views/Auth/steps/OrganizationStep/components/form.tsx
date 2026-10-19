@@ -8,6 +8,7 @@ import { localizedTitle } from "@/shared/lib/localization";
 import { useOrganizationStepForm } from "../hook";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { unlockStep } from "@/views/Auth/progress";
 import { API_V2 } from "@/shared/api_v2";
 import { T_LOCALE } from "@/shared/lib/types";
 import { Select as CountrySelect } from "antd";
@@ -250,6 +251,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
           const ok = await handleSubmit();
 
           if (ok) {
+            unlockStep("services");
             router.push("services");
           }
         }}

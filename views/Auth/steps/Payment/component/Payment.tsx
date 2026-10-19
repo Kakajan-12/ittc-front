@@ -17,6 +17,7 @@ import { formatPrice } from "@/views/Auth/servicesData";
 // import { T_Promocode } from "@/views/Auth/Promocodes/type";
 import { usePayment } from "../hook";
 import { useRouter } from "next/navigation";
+import { unlockStep } from "@/views/Auth/progress";
 import { API_V2 } from "@/shared/api_v2";
 import { T_PAYMENT } from "../type";
 
@@ -408,6 +409,7 @@ export default function PaymentForm() {
           const ok = await handleSubmit();
 
           if (ok) {
+            unlockStep("verification");
             router.push("verification");
           }
         }}

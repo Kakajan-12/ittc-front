@@ -9,65 +9,59 @@ import { STORAGE_KEYS } from "./config";
 import { useInstitutions } from "./steps/Institution/hook";
 import type { T_INSTITUTE } from "./steps/Institution/type";
 
-/**
- * Учреждение, от которого идёт регистрация. Справочник учреждений ведёт
- * платформа (/api/v1/institution). Выбор обязателен и делается на экране
- * /register/institution перед «Личными данными»; QR-код учреждения
- * (/register?org=<id>) выбирает его сразу. Выбор хранится в sessionStorage,
- * как и остальные шаги, и уходит на платформу вместе с личными данными.
- */
+export const INSTITUTION_PARAM = "institutionId";
 
-/** id учреждения или «Другое / не от учреждения». */
-export type InstitutionChoice = number | "other";
+export function readInstitutionParam(): number | null {
+  const value = new URLSearchParams(window.location.search).get(
+    INSTITUTION_PARAM,
+  );
+  return value && /^\d+$/.test(value) ? Number(value) : null;
+}
+
+/** «Личные данные» с выбранным учреждением в ссылке */
+export function personalInfoHref(institutionId: number) {
+  return `/register/personal-info?${INSTITUTION_PARAM}=${institutionId}`;
+}
 
 export function useInstitutionChoice() {
-  return usePersistentState<InstitutionChoice | null>(
+  const [stored, setStored] = usePersistentState<number | null>(
     STORAGE_KEYS.institution,
     null,
   );
+  return [typeof stored === "number" ? stored : null, setStored] as const;
 }
 
-export function useInstitution():
-  | { kind: "institution"; id: number; option: T_INSTITUTE | null }
-  | { kind: "other" }
-  | null {
+export function useInstitution(): {
+  id: number;
+  option: T_INSTITUTE | null;
+} | null {
   const [choice] = useInstitutionChoice();
   const { data: institutions } = useInstitutions();
 
-  if (choice === "other") return { kind: "other" };
-  if (typeof choice !== "number") return null;
+  if (choice === null) return null;
 
   const option = institutions?.find((item) => item.id === choice) ?? null;
-  // Список загружен, а учреждения в нём нет — выбор устарел.
   if (institutions && !option) return null;
 
-  return { kind: "institution", id: choice, option };
+  return { id: choice, option };
 }
 
 /** Поля для платформы: какое учреждение выбрано. */
 export function institutionFields(
   institution: ReturnType<typeof useInstitution>,
-): { institutionId?: number | null } {
-  if (!institution) return {};
-  return {
-    institutionId: institution.kind === "other" ? null : institution.id,
-  };
+): { institutionId?: number } {
+  return institution ? { institutionId: institution.id } : {};
 }
 
-/** Плашка в начале «Личных данных»: выбранное учреждение и ссылка «Изменить». */
 export function InstitutionBanner() {
   const t = useTranslations("Registration");
   const locale = useLocale();
   const institution = useInstitution();
 
-  if (!institution) return null;
+  const option = institution?.option;
+  if (!option) return null;
 
-  const option = institution.kind === "institution" ? institution.option : null;
-  // Учреждение выбрано, но список ещё не пришёл — показывать пока нечего.
-  if (institution.kind === "institution" && !option) return null;
-
-  // Платформа отдаёт логотип как путь без хоста (/api/v1/media/…).
-  const logo = getMediaUrl(option?.logo);
+  const logo = getMediaUrl(option.logo);
 
   return (
     <div className="mb-4 flex items-center gap-3 rounded border border-white/30 bg-white/10 px-4 py-3">
@@ -86,7 +80,7 @@ export function InstitutionBanner() {
           {t("institution")}
         </p>
         <p className="text-base font-medium text-white">
-          {option ? localizedTitle(option, locale) : t("institutionOther")}
+          {localizedTitle(option, locale)}
         </p>
       </div>
       <Link
