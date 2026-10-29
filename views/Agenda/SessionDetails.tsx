@@ -1,128 +1,71 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
-
-import type {
-  SessionModel,
-  SessionPersonModel,
-} from "@/shared/content/queries";
+import { useLocale, useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Scrollbar from "@/shared/ui/Scrollbar";
 import SpeakerCard from "../Speakers/SpeakerCard";
+import { T_AGENDA } from "./type";
+import { localizedTitle } from "@/shared/helpers";
+import { T_LOCALE } from "@/shared/lib/types";
 
-type SessionDetailsData = NonNullable<SessionModel["details"]>;
+// prettier-ignore
+const CARD_WRAP = "w-full shrink-0 snap-start sm:w-[calc(50%-0.375rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5625rem)] xl:w-[calc(20%-0.6rem)]";
 
-const CARD_WRAP =
-  "w-full shrink-0 snap-start sm:w-[calc(50%-0.375rem)] md:w-[calc(33.333%-0.5rem)] lg:w-[calc(25%-0.5625rem)] xl:w-[calc(20%-0.6rem)]";
+// prettier-ignore
+const sortBySortOrder = <T extends { sortOrder: number }>(items: T[] | null | undefined) => [...(items ?? [])].sort((a, b) => a.sortOrder - b.sortOrder);
 
-function PersonCard({ person }: { person: SessionPersonModel }) {
-  return (
-    <SpeakerCard
-      id={`person-${person.id}`}
-      name={person.name}
-      description={person.description}
-      image={person.image ?? undefined}
-      className="w-full"
-    />
-  );
-}
-
-function PeopleCarousel({
-  title,
-  people,
-}: {
-  title: string;
-  people: SessionPersonModel[];
-}) {
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  return (
-    <div className="flex flex-col gap-6">
-      <SectionHeading
-        title={title}
-        className="mb-0 text-lg lg:text-lg xl:text-lg"
-      />
-      <div
-        ref={trackRef}
-        className="flex gap-3 snap-x snap-mandatory overflow-x-auto scroll-smooth p-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
-      >
-        {people.map((person) => (
-          <div key={person.id} className={CARD_WRAP}>
-            <PersonCard person={person} />
-          </div>
-        ))}
-      </div>
-
-      <Scrollbar targetRef={trackRef} className="mx-auto mt-2 max-w-sm" />
-    </div>
-  );
-}
-
-function PeopleGroup({
-  label,
-  people,
-}: {
-  label: string;
-  people: SessionPersonModel[];
-}) {
-  return (
-    <div className="flex flex-col gap-6">
-      <SectionHeading
-        title={label}
-        className="mb-0 gap-2 text-lg lg:text-lg xl:text-lg"
-      />
-      <div className="flex flex-col gap-3">
-        {people.map((person) => (
-          <PersonCard key={person.id} person={person} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SessionDetails({
-  details,
-  onHide,
-}: {
-  details: SessionDetailsData;
-  onHide: () => void;
-}) {
+// prettier-ignore
+function SessionDetails({details }: { readonly details: {moderatorId:number | null, speakers: T_AGENDA.ENTRY.SPEAKER[];  descriptions: { descriptionEn?: string | null;  descriptionRu?: string | null; descriptionTk?: string | null }};}) {
   const t = useTranslations("Agenda");
-  const { description, keynote, moderators, speakers } = details;
+  const locale = useLocale() as T_LOCALE;
+  const trackSpeakersRef = useRef<HTMLDivElement>(null);
+  const { speakers, descriptions, moderatorId } = details;
+
+  // prettier-ignore
+  const sortedSpeakers = sortBySortOrder(speakers).sort((a, b) => Number(b.id === moderatorId) - Number(a.id === moderatorId));
+  const description = localizedTitle({ titleEn: descriptions.descriptionEn, titleRu: descriptions.descriptionRu, titleTk: descriptions.descriptionTk, locale});
 
   return (
-    <div className="flex flex-col gap-8 pt-10">
-      {description ? (
-        <p className="max-w-4xl text-base leading-6 font-roboto">
-          {description}
-        </p>
-      ) : null}
+    <div className="flex flex-col gap-8">
 
-      {keynote.length || moderators.length ? (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {keynote.length ? (
-            <PeopleGroup label={t("keynote")} people={keynote} />
-          ) : null}
-          {moderators.length ? (
-            <PeopleGroup label={t("moderator")} people={moderators} />
-          ) : null}
-        </div>
-      ) : null}
+      {description ? (
+  <p className="max-w-4xl whitespace-normal wrap-break-word text-base leading-6 font-roboto">
+    {description}
+  </p>
+) : null}
 
       {speakers.length ? (
-        <PeopleCarousel title={t("speakers")} people={speakers} />
-      ) : null}
+        <div className="flex flex-col gap-6">
+          {/* prettier-ignore */}
+          <SectionHeading title={t("speakers")} className="mb-0 text-lg lg:text-lg xl:text-lg"/>
+          <div
+            ref={trackSpeakersRef}
+            className="flex gap-3 snap-x snap-mandatory overflow-x-auto scroll-smooth p-1 scrollbar-none [&::-webkit-scrollbar]:hidden"
+          >
 
-      <div className="flex justify-center lg:justify-end">
-        <button
-          type="button"
-          onClick={onHide}
-          className="rounded bg-brand-blue w-full lg:w-fit lg:px-6 py-2 text-base font-normal text-white transition hover:bg-brand-blue/90"
-        >
-          {t("hide")}
-        </button>
-      </div>
+            {sortedSpeakers.map((person) => {
+              const fullName = `${person.firstName} ${person.lastName} ${person.patronymicName}`;
+
+              return (
+                <div key={person.id} className={CARD_WRAP}>
+                  <SpeakerCard
+                    id={`person-${person.id}`}
+                    name={fullName}
+                    description={""}
+                    image={person.avatar ?? undefined}
+                    className="w-full"
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          {/* prettier-ignore */}
+          <Scrollbar targetRef={trackSpeakersRef} className="mx-auto mt-2 max-w-sm"/>
+        </div>
+      ) :  null}
+
     </div>
   );
 }

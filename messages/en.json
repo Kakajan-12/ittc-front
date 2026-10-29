@@ -425,5 +425,19 @@
     "institutionHint": "Choose an institution. If you are registering on your own or with another organisation, choose “Other”.",
     "institutionNext": "Next",
     "institutionChange": "Change"
+  },
+  "month": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
   }
 }
