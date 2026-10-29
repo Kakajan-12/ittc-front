@@ -1,3 +1,4 @@
+import { AGENDA } from "@/views/Agenda/api";
 import { EVENT_PACKAGES } from "@/views/Auth/EventPackages/api";
 import { EVENT_PACKAGE_TYPES } from "@/views/Auth/EventPackageTypes/api";
 import { PACKAGES } from "@/views/Auth/Packages/api";
@@ -6,7 +7,6 @@ import { INSTITUTION_STEP } from "@/views/Auth/steps/Institution/api";
 import { ORGANIZATION_STEP } from "@/views/Auth/steps/OrganizationStep/api";
 import { PAYMENT } from "@/views/Auth/steps/Payment/api";
 import { PERSONAL_STEP } from "@/views/Auth/steps/PesonalStep/api";
-import { SEND_OTP, VERIFY_OTP } from "@/views/Auth/steps/VerificationStep/api";
 import { COUNTRIES } from "@/views/Countries/api";
 import { EVENT_PACKAGE_FEES } from "@/views/PackageFees/api";
 
@@ -16,14 +16,10 @@ export const API_V2 = {
   PERSONAL_STEP,
   ORGANIZATION_STEP,
   EVENT_PACKAGE_FEES,
-  // PROMOCODE,
+  AGENDA,
   EVENT_PACKAGES,
-  // EVENT_SERVICES,
   PACKAGES,
   PAYMONT_METHOD,
   PAYMENT,
   INSTITUTION_STEP,
-
-  // SEND_OTP,
-  // VERIFY_OTP,
 };

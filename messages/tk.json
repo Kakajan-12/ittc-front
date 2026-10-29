@@ -425,5 +425,19 @@
     "institutionHint": "Edarany saýlaň. Özbaşdak ýa-da başga guramadan hasaba alynýan bolsaňyz, «Başga» saýlaň.",
     "institutionNext": "Indiki",
     "institutionChange": "Üýtgetmek"
+  },
+  "month": {
+    "january": "ýanwar",
+    "february": "fewral",
+    "march": "mart",
+    "april": "aprel",
+    "may": "maý",
+    "june": "iýun",
+    "july": "iýul",
+    "august": "awgust",
+    "september": "sentýabr",
+    "october": "oktýabr",
+    "november": "noýabr",
+    "december": "dekabr"
   }
 }
