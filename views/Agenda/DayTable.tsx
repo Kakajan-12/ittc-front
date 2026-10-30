@@ -160,13 +160,13 @@ function SessionTime({ entry }: { readonly entry: AgendaEntry }) {
     new Date(value).toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: "UTC",
+      timeZone: "Asia/Ashgabat",
     });
 
   return (
     <div className="flex flex-col">
       <span className="block lg:inline">{formatTime(entry.startAt)}</span>
-      <span className="block lg:inline text-gray-400">
+      <span className="block text-gray-400 lg:inline">
         {formatTime(entry.endAt)}
       </span>
     </div>
