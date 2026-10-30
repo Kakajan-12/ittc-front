@@ -11,37 +11,25 @@ import Notes from "./icons/Notes";
 import People from "./icons/People";
 import Star from "./icons/Star";
 
+// Единый размер для всех иконок: svg-атрибуты width/height перекрываются классом
+const ICON_SIZE = "size-5 shrink-0 md:size-6";
+
 // prettier-ignore
 export default function SessionIcon({sessionType}: { readonly sessionType: T_AGENDA.ENTRY.TYPE}) {
+  const props = { className: ICON_SIZE };
 
   switch (sessionType) {
-    case "REGISTRATION":return <ContactBook />;
-    case "TRANSFER": return <People/>
-    case "EXHIBITION": return <Location/>
-    case "CEREMONY": return <Location/>
-    case "SESSION": return <Microphone/>
-    case "BREAK": return <Coffee />;
-    case "LUNCH": return <ForkAndKnife/>
-    case "NETWORKING": return <Location/>
-    case "VIP_TOUR": return <Location/>
-    case "WORKSHOP": return <Location/>
-    case "OTHER": return <Location/>
-    case "CITY_TOUR": return <Location/>
-    case "OPENING": return <Star/>
-    case "COFFEE_BREAK": return <Coffee />;
-    case "MEETING": return <Handshake/>
-    case "DINNER": return <GlassOfWine/>
-    case "CLOSING": return <Cup/>
-    case "CONTRACT_SIGNING_CEREMONY": return <Notes/>
-    case "BOAT_EXCURSION": return <Location/>
-    default : return <Location/>
-
+    case "REGISTRATION": return <ContactBook {...props} />;
+    case "TRANSFER": return <People {...props} />;
+    case "SESSION": return <Microphone {...props} />;
+    case "BREAK": return <Coffee {...props} />;
+    case "LUNCH": return <ForkAndKnife {...props} />;
+    case "OPENING": return <Star {...props} />;
+    case "COFFEE_BREAK": return <Coffee {...props} />;
+    case "MEETING": return <Handshake {...props} />;
+    case "DINNER": return <GlassOfWine {...props} />;
+    case "CLOSING": return <Cup {...props} />;
+    case "CONTRACT_SIGNING_CEREMONY": return <Notes {...props} />;
+    default: return <Location {...props} />;
   }
-
-
-
-
-
-
-
 }
