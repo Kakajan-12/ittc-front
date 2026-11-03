@@ -1,5 +1,8 @@
 import { T_ENTITY } from "@/shared/api/types";
 
+// Admins enter agenda dates in Turkmenistan time; the API stores them in UTC
+export const AGENDA_TIME_ZONE = "Asia/Ashgabat";
+
 export const AGENDA_ENTRY_TYPES = [
   "REGISTRATION",
   "TRANSFER",

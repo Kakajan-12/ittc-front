@@ -9,6 +9,7 @@ import { API_V2 } from "@/shared/api_v2";
 import { localizedTitle } from "@/shared/helpers";
 import { T_LOCALE } from "@/shared/lib/types";
 import DayTable from "./DayTable";
+import { AGENDA_TIME_ZONE } from "./type";
 import { Spin } from "antd";
 
 function Agenda() {
@@ -69,17 +70,20 @@ function Agenda() {
         date: new Date(day.startAt).toLocaleDateString(locale, {
           day: "numeric",
           month: "long",
-          timeZone: "UTC",
+          timeZone: AGENDA_TIME_ZONE,
         }),
       })),
     [days, locale],
   );
 
-  const formatDayDate = (date: string, locale: string) => {
+  const formatDayDate = (date: string | Date, locale: string) => {
     const parsedDate = new Date(date);
-    const day = parsedDate.getUTCDate();
+    const day = parsedDate.toLocaleString("en", {
+      day: "numeric",
+      timeZone: AGENDA_TIME_ZONE,
+    });
     const month = t(
-      `month.${parsedDate.toLocaleString("en", { month: "long", timeZone: "UTC" }).toLowerCase()}`,
+      `month.${parsedDate.toLocaleString("en", { month: "long", timeZone: AGENDA_TIME_ZONE }).toLowerCase()}`,
     );
 
     return locale === "en" ? `${month} ${day}` : `${day} ${month}`;
@@ -112,20 +116,7 @@ function Agenda() {
       >
         <TabsList className="flex h-auto w-full flex-wrap justify-start gap-4 overflow-x-auto rounded-none bg-transparent p-0 group-data-horizontal/tabs:h-auto lg:flex-nowrap">
           {daysWithMetadata.map((day) => {
-            const date = new Date(day.startAt);
-            const month = date
-              .toLocaleString("en", {
-                month: "long",
-                timeZone: "UTC",
-              })
-              .toLowerCase();
-
-            const dayNumber = date.getUTCDate();
-            const monthName = t(`month.${month}`);
-            const formattedDate =
-              locale === "en"
-                ? `${monthName} ${dayNumber}`
-                : `${dayNumber} ${monthName}`;
+            const formattedDate = formatDayDate(day.startAt, locale);
             const title = localizedTitle({ ...day, locale });
 
             return (

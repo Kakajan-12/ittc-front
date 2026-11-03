@@ -11,7 +11,7 @@ import SessionDetails, {
   getSessionDescription,
   sortBySortOrder,
 } from "./SessionDetails";
-import { T_AGENDA } from "./type";
+import { AGENDA_TIME_ZONE, T_AGENDA } from "./type";
 import { localizedTitle } from "@/shared/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { API_V2 } from "@/shared/api_v2";
@@ -160,7 +160,7 @@ function SessionTime({ entry }: { readonly entry: AgendaEntry }) {
     new Date(value).toLocaleTimeString("en-GB", {
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: "Asia/Ashgabat",
+      timeZone: AGENDA_TIME_ZONE,
     });
 
   return (
