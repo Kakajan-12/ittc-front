@@ -406,6 +406,7 @@
       "CITY_IS_TOO_BIG": "Şäher iň köp 100 belgiden ybarat bolmaly",
       "POSTAL_CODE_IS_TOO_SMALL": "Poçta indeksi azyndan 2 belgiden ybarat bolmaly",
       "POSTAL_CODE_IS_TOO_BIG": "Poçta indeksi iň köp 20 belgiden ybarat bolmaly",
+      "ORGANIZATION_ALREADY_EXISTS": "Şeýle kompaniýa eýýäm bar",
       "PARTICIPATING_TYPE_IS_REQUIRED": "Gatnaşyk görnüşini saýlaň",
       "PACKAGE_IS_REQUIRED": "Iň bolmanda bir paket saýlaň",
       "PAYMENT_METHOD_IS_REQUIRED": "Töleg usulyny saýlaň",

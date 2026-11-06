@@ -406,6 +406,7 @@
       "CITY_IS_TOO_BIG": "Город должен содержать не более 100 символов",
       "POSTAL_CODE_IS_TOO_SMALL": "Почтовый индекс должен содержать не менее 2 символов",
       "POSTAL_CODE_IS_TOO_BIG": "Почтовый индекс должен содержать не более 20 символов",
+      "ORGANIZATION_ALREADY_EXISTS": "Такая компания уже существует",
       "PARTICIPATING_TYPE_IS_REQUIRED": "Выберите тип участия",
       "PACKAGE_IS_REQUIRED": "Выберите хотя бы один пакет",
       "PAYMENT_METHOD_IS_REQUIRED": "Выберите способ оплаты",

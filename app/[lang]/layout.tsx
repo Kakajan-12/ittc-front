@@ -3,16 +3,28 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { Roboto } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import QueryProviders from "@/providers/query";
 import AntProviders from "@/providers/antDesign";
 import AuthStorageCleanup from "@/views/Auth/AuthStorageCleanup";
 import AuthInitializer from "@/views/Auth/AuthInitializer";
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+/**
+ * Roboto лежит в репозитории, а не тянется через next/font/google: Google
+ * Fonts время от времени отдаёт ссылки вида /l/font?kit=…&skey=…, на которых
+ * Turbopack падает с «next/font/google queries have exactly one entry», и
+ * сборка на сервере рушится (vercel/next.js#99114; исправление пока только
+ * в канарейке 16.5). Файлы — статические Roboto v51 с fonts.gstatic.com,
+ * каждый покрывает латиницу, расширенную латиницу и кириллицу, поэтому
+ * одного файла на начертание хватает для en, ru и tk.
+ */
+const roboto = localFont({
+  src: [
+    { path: "../fonts/roboto/Roboto-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/roboto/Roboto-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/roboto/Roboto-Bold.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-roboto",
 });
 

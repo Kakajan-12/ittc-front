@@ -17,7 +17,6 @@ export default async function OfficialSupportPage({ params }: PageProps) {
   const locale = toLocale(lang);
   const t = await getTranslations({ locale, namespace: "Support" });
   const letter = await getSupportLetter(locale);
-
   return (
     <main className="flex flex-col">
       <PageHeading
@@ -40,7 +39,12 @@ export default async function OfficialSupportPage({ params }: PageProps) {
                   className="aspect-[1/1.414] w-full rounded shadow-sm"
                 >
                   {/* Телефоны часто не умеют встраивать PDF — тогда ссылка. */}
-                  <a href={letter.url} target="_blank" rel="noopener" className="text-brand-blue underline">
+                  <a
+                    href={letter.url}
+                    target="_blank"
+                    rel="noopener"
+                    className="text-brand-blue underline"
+                  >
                     {t("open")}
                   </a>
                 </object>

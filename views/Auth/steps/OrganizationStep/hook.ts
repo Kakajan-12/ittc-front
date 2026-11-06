@@ -114,6 +114,20 @@ export function useOrganizationStepForm({
       if (!result.success) {
         throw result.error;
       }
+      const { exists } = await API_V2.ORGANIZATION_STEP.CHECK_ORGANIZATION(
+        result.data.organizationName,
+      );
+
+      if (exists) {
+        setError(
+          getErrorMessage({
+            t,
+            errorCode: ORGANIZATION_STEP_ERROR_CODE.ORGANIZATION_ALREADY_EXISTS,
+          }),
+        );
+        return false;
+      }
+
       const website = result.data.website;
 
       const payload: OrganizationStepRequest = {

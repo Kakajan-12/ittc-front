@@ -406,6 +406,7 @@
       "CITY_IS_TOO_BIG": "City must be at most 100 characters",
       "POSTAL_CODE_IS_TOO_SMALL": "Postal code must be at least 2 characters",
       "POSTAL_CODE_IS_TOO_BIG": "Postal code must be at most 20 characters",
+      "ORGANIZATION_ALREADY_EXISTS": "An organization with this name already exists",
       "PARTICIPATING_TYPE_IS_REQUIRED": "Select participating type",
       "PACKAGE_IS_REQUIRED": "Select at least one package",
       "PAYMENT_METHOD_IS_REQUIRED": "Select a payment method",
