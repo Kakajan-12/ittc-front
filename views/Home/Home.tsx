@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { SkeletonImage } from "@/components/ui/Skeleton";
 import { cn } from "@/lib/utils";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "@/i18n/navigation";
@@ -13,6 +12,7 @@ import Speakers from "@/views/Speakers/Speakers";
 import News from "@/views/News/News";
 import Partners from "../Partners/Partners";
 import Timer from "./Timer";
+import HeroBackground from "./HeroBackground";
 import type {
   HeroModel,
   NewsCardModel,
@@ -76,37 +76,14 @@ function Home({
     { key: "faq", href: "/faq" },
   ];
 
-  /** Nothing is set in the CMS yet — fall back to the photo in the build. */
-  const bannerSrc = hero.image ?? "/main.jpg";
-
   return (
     <>
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
-          {hero.video ? (
-            // Фон без звука и по кругу; пока видео грузится, виден постер.
-            <video
-              src={hero.video}
-              poster="/main.jpg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              aria-hidden
-              className="absolute inset-0 -z-10 size-full object-cover object-center"
-            />
-          ) : (
-            <SkeletonImage
-              src={bannerSrc}
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="-z-10 object-cover object-center"
-              skeletonClassName="-z-10"
-            />
-          )}
+          <HeroBackground
+            desktop={hero.background}
+            mobile={hero.mobileBackground}
+          />
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
           <div className="px-4 lg:px-10 py-24 lg:py-30">

@@ -213,6 +213,8 @@ export type SiteSettings = {
 export type HeroBanner = {
   id: number;
   image: MediaFile | null;
+  /** Фон для телефонов; null — телефоны получают `image`. */
+  mobileImage?: MediaFile | null;
   titleEn: string;
   titleRu: string;
   titleTk: string;

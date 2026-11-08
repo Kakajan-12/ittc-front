@@ -20,6 +20,7 @@ import type {
   SocialLink,
   SocialNetwork,
   HeroBanner,
+  MediaFile,
   SiteSettings,
   Sponsor,
   StatCounter,
@@ -615,10 +616,14 @@ export async function getSiteContacts(
   };
 }
 
+/** Фон баннера: фото или видео из CMS. */
+export type HeroMedia = { url: string; kind: "image" | "video" };
+
 export type HeroModel = {
-  image: string | null;
-  /** Фоновое видео вместо фото; приходит из того же поля CMS. */
-  video: string | null;
+  /** Фон для ПК; null — фото из сборки сайта. */
+  background: HeroMedia | null;
+  /** Фон для телефонов; null — тот же, что для ПК. */
+  mobileBackground: HeroMedia | null;
   title: string;
   date: string;
   location: string;
@@ -628,21 +633,21 @@ export type HeroModel = {
 
 /**
  * The hero is the first thing on the page, so a content API hiccup must not
- * leave it headless — these are the values the site shipped with. `image: null`
- * makes the component fall back to the bundled photo.
+ * leave it headless — these are the values the site shipped with. `background:
+ * null` makes the component fall back to the bundled photo.
  */
 const HERO_FALLBACK: Record<Locale, HeroModel> = {
   en: {
-    image: null,
-    video: null,
+    background: null,
+    mobileBackground: null,
     title: "International Transport & Transit Corridors Conference 2026",
     date: "24 - 26 November 2026",
     location: "Ashgabat, Turkmenistan",
     eventStartsAt: null,
   },
   ru: {
-    image: null,
-    video: null,
+    background: null,
+    mobileBackground: null,
     title:
       "Международная конференция по транспортным и транзитным коридорам 2026",
     date: "24 - 26 ноября 2026",
@@ -650,8 +655,8 @@ const HERO_FALLBACK: Record<Locale, HeroModel> = {
     eventStartsAt: null,
   },
   tk: {
-    image: null,
-    video: null,
+    background: null,
+    mobileBackground: null,
     title: "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
     date: "2026-njy ýylyň 24-26-njy noýabry",
     location: "Aşgabat, Türkmenistan",
@@ -659,15 +664,23 @@ const HERO_FALLBACK: Record<Locale, HeroModel> = {
   },
 };
 
+function heroMedia(file: MediaFile | null | undefined): HeroMedia | null {
+  if (!file) return null;
+
+  return {
+    url: file.url,
+    kind: file.mimeType.startsWith("video/") ? "video" : "image",
+  };
+}
+
 export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
   const hero = await safeContentGet<HeroBanner>("hero");
 
   if (!hero) return HERO_FALLBACK[locale];
 
   return {
-    ...(hero.image?.mimeType.startsWith("video/")
-      ? { image: null, video: hero.image.url }
-      : { image: hero.image?.url ?? null, video: null }),
+    background: heroMedia(hero.image),
+    mobileBackground: heroMedia(hero.mobileImage),
     title: localized(hero, "title", locale),
     date: localized(hero, "date", locale),
     location: localized(hero, "location", locale),
