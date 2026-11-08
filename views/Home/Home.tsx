@@ -83,15 +83,30 @@ function Home({
     <>
       <div className="relative">
         <section className="relative isolate flex items-center overflow-hidden text-white min-h-[90vh] lg:min-h-[95vh]">
-          <SkeletonImage
-            src={bannerSrc}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="-z-10 object-cover object-center"
-            skeletonClassName="-z-10"
-          />
+          {hero.video ? (
+            // Фон без звука и по кругу; пока видео грузится, виден постер.
+            <video
+              src={hero.video}
+              poster="/main.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              aria-hidden
+              className="absolute inset-0 -z-10 size-full object-cover object-center"
+            />
+          ) : (
+            <SkeletonImage
+              src={bannerSrc}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="-z-10 object-cover object-center"
+              skeletonClassName="-z-10"
+            />
+          )}
           <div className="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
           <div className="px-4 lg:px-10 py-24 lg:py-30">

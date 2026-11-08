@@ -617,6 +617,8 @@ export async function getSiteContacts(
 
 export type HeroModel = {
   image: string | null;
+  /** Фоновое видео вместо фото; приходит из того же поля CMS. */
+  video: string | null;
   title: string;
   date: string;
   location: string;
@@ -632,6 +634,7 @@ export type HeroModel = {
 const HERO_FALLBACK: Record<Locale, HeroModel> = {
   en: {
     image: null,
+    video: null,
     title: "International Transport & Transit Corridors Conference 2026",
     date: "24 - 26 November 2026",
     location: "Ashgabat, Turkmenistan",
@@ -639,6 +642,7 @@ const HERO_FALLBACK: Record<Locale, HeroModel> = {
   },
   ru: {
     image: null,
+    video: null,
     title:
       "Международная конференция по транспортным и транзитным коридорам 2026",
     date: "24 - 26 ноября 2026",
@@ -647,6 +651,7 @@ const HERO_FALLBACK: Record<Locale, HeroModel> = {
   },
   tk: {
     image: null,
+    video: null,
     title: "Halkara ulag we üstaşyr geçelgeleri maslahaty 2026",
     date: "2026-njy ýylyň 24-26-njy noýabry",
     location: "Aşgabat, Türkmenistan",
@@ -660,7 +665,9 @@ export async function getHeroBanner(locale: Locale): Promise<HeroModel> {
   if (!hero) return HERO_FALLBACK[locale];
 
   return {
-    image: hero.image?.url ?? null,
+    ...(hero.image?.mimeType.startsWith("video/")
+      ? { image: null, video: hero.image.url }
+      : { image: hero.image?.url ?? null, video: null }),
     title: localized(hero, "title", locale),
     date: localized(hero, "date", locale),
     location: localized(hero, "location", locale),

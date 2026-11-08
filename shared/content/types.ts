@@ -9,7 +9,7 @@ export type Entity = {
 };
 
 export type MediaFile = Entity & {
-  kind: "IMAGE" | "DOCUMENT" | "OTHER";
+  kind: "IMAGE" | "DOCUMENT" | "VIDEO" | "OTHER";
   filename: string;
   originalName: string;
   mimeType: string;
