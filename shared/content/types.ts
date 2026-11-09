@@ -9,7 +9,7 @@ export type Entity = {
 };
 
 export type MediaFile = Entity & {
-  kind: "IMAGE" | "DOCUMENT" | "OTHER";
+  kind: "IMAGE" | "DOCUMENT" | "VIDEO" | "OTHER";
   filename: string;
   originalName: string;
   mimeType: string;
@@ -213,6 +213,8 @@ export type SiteSettings = {
 export type HeroBanner = {
   id: number;
   image: MediaFile | null;
+  /** Фон для телефонов; null — телефоны получают `image`. */
+  mobileImage?: MediaFile | null;
   titleEn: string;
   titleRu: string;
   titleTk: string;

@@ -21,7 +21,8 @@ function SpeakerCard({
 }: {
   id: string;
   name: string;
-  description: string;
+  /** Без описания блок не рендерится. */
+  description?: string;
   image?: string | StaticImageData;
   /** Страница спикера; без неё карточка не кликабельна. */
   href?: string;
@@ -59,9 +60,11 @@ function SpeakerCard({
             </Fragment>
           ))}
         </h3>
-        <p className="text-sm leading-5 lg:text-base lg:leading-6 line-clamp-3 min-h-15 lg:min-h-18">
-          {description}
-        </p>
+        {description !== undefined && (
+          <p className="text-sm leading-5 lg:text-base lg:leading-6 line-clamp-3 min-h-15 lg:min-h-18">
+            {description}
+          </p>
+        )}
       </div>
     </article>
   );

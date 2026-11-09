@@ -8,6 +8,7 @@ import { IoIosPin } from "react-icons/io";
 import type { AgendaDayModel } from "@/shared/content/queries";
 import SessionIcon from "./SessionIcon";
 import SessionDetails from "./SessionDetails";
+import { LocateIcon } from "lucide-react";
 
 function CardLogos({ label, logos }: { label: string; logos: string[] }) {
   return (
@@ -46,7 +47,7 @@ function DayCards({ day }: { day: AgendaDayModel }) {
             className="relative rounded bg-white px-4 pt-8.5 pb-4 shadow-faq"
           >
             <span className="absolute -top-6 left-5 flex size-12 items-center justify-center rounded-full border-2 border-[#C3D1D9] bg-white text-brand-blue">
-              <SessionIcon icon={session.icon} className="size-6" />
+              <LocateIcon />
             </span>
 
             <p className="text-lg font-semibold font-roboto">
@@ -67,13 +68,6 @@ function DayCards({ day }: { day: AgendaDayModel }) {
 
             {session.sponsors.length ? (
               <CardLogos label={t("sponsoredBy")} logos={session.sponsors} />
-            ) : null}
-
-            {session.details && isOpen ? (
-              <SessionDetails
-                details={session.details}
-                onHide={() => setOpenSession(null)}
-              />
             ) : null}
 
             {session.details && !isOpen ? (
