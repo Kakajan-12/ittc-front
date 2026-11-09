@@ -9,6 +9,8 @@ import { unlockStep } from "@/views/Auth/progress";
 import { useErrorText } from "@/shared/lib/errorText";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { API_V2 } from "@/shared/api_v2";
+import ButtonSpinner from "@/shared/ui/ButtonSpinner";
+import { usePendingAction } from "@/shared/lib/usePendingAction";
 
 interface PersonalStepProps {
   onShowTerms: () => void;
@@ -22,6 +24,7 @@ export default function PersonalStepForm({
   const t = useTranslations("Registration.personal");
   const tErrors = useTranslations("Registration.errors");
   const router = useRouter();
+  const { isPending, run } = usePendingAction();
   const errorText = useErrorText();
 
   const {
@@ -30,7 +33,6 @@ export default function PersonalStepForm({
     // isLoading,
     personalForm,
     handleSubmit,
-    isSubmitting,
     error,
   } = usePersonalStepForm({ t: tErrors });
 
@@ -161,18 +163,23 @@ export default function PersonalStepForm({
       </div>
 
       <button
-        disabled={isSubmitting}
-        onClick={async () => {
-          const ok = await handleSubmit();
+        disabled={isPending}
+        onClick={() =>
+          run(async () => {
+            const ok = await handleSubmit();
 
-          if (ok) {
-            unlockStep("organization-info");
-            router.push("organization-info");
-          }
-        }}
-        className="shrink-0 mt-5 h-12 rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
+            if (ok) {
+              unlockStep("organization-info");
+              router.push("organization-info");
+            }
+
+            return ok;
+          })
+        }
+        className="flex items-center justify-center gap-2 shrink-0 mt-5 h-12 rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? t("sending") : t("next")}
+        {isPending && <ButtonSpinner />}
+        {isPending ? t("sending") : t("next")}
       </button>
     </div>
   );

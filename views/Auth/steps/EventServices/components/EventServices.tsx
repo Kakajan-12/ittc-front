@@ -23,6 +23,8 @@ import { unlockStep } from "@/views/Auth/progress";
 import { API_V2 } from "@/shared/api_v2";
 import { PRINT } from "@/shared/lib/helpers";
 import { EVENT_SERVICE_STEP_REQUEST } from "../api";
+import ButtonSpinner from "@/shared/ui/ButtonSpinner";
+import { usePendingAction } from "@/shared/lib/usePendingAction";
 
 export default function EventServices() {
   const t = useTranslations("Registration.services");
@@ -30,6 +32,7 @@ export default function EventServices() {
   const tErrors = useTranslations("Registration.errors");
   const locale = useLocale();
   const router = useRouter();
+  const { isPending, run } = usePendingAction();
 
   // Через `sessionStorage`: выбор переживает переход на другой шаг и смену
   // языка, поэтому при возврате назад пакеты остаются отмеченными
@@ -380,20 +383,25 @@ export default function EventServices() {
         )}
 
         <button
-          onClick={async () => {
-            const ok = await handleSubmit();
+          onClick={() =>
+            run(async () => {
+              const ok = await handleSubmit();
 
-            if (ok) {
-              unlockStep("payment");
-              router.push("payment");
-            }
-          }}
-          disabled={
-            nextMutation.isPending || !Object.values(selectedPackages).length
+              if (ok) {
+                unlockStep("payment");
+                router.push("payment");
+              }
+
+              return ok;
+            })
           }
-          className="mt-4 h-12 w-full rounded bg-[#0071BB] font-nexa-bold text-base font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
+          disabled={
+            isPending || !Object.values(selectedPackages).length
+          }
+          className="flex items-center justify-center gap-2 mt-4 h-12 w-full rounded bg-[#0071BB] font-nexa-bold text-base font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {nextMutation.isPending ? t("sending") : t("next")}
+          {isPending && <ButtonSpinner />}
+          {isPending ? t("sending") : t("next")}
         </button>
       </div>
     </div>

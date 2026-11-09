@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import OtpInput from "@/shared/ui/OtpInput";
 import { OTP_LENGTH } from "../../../config";
 import { useVerificationStep } from "../hook";
+import ButtonSpinner from "@/shared/ui/ButtonSpinner";
 
 interface VerificationStepProps {
   id?: number;
@@ -81,8 +82,9 @@ export default function VerificationStep({
       <button
         type="submit"
         disabled={code.join("").length !== OTP_LENGTH || isSubmitting}
-        className="h-12 w-full rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
+        className="flex items-center justify-center gap-2 h-12 w-full rounded bg-[#0071BB] font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
       >
+        {isSubmitting && <ButtonSpinner />}
         {isSubmitting ? t("verifying") : t(isEmail ? "verify" : "verifyPhone")}
       </button>
 

@@ -13,6 +13,8 @@ import { API_V2 } from "@/shared/api_v2";
 import { T_LOCALE } from "@/shared/lib/types";
 import { Select as CountrySelect } from "antd";
 import Select from "@/shared/ui/Select";
+import ButtonSpinner from "@/shared/ui/ButtonSpinner";
+import { usePendingAction } from "@/shared/lib/usePendingAction";
 
 interface OrganizationStepProps {
   id?: number;
@@ -22,6 +24,7 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
   const t = useTranslations("Registration.company");
   const tErrors = useTranslations("Registration.errors");
   const router = useRouter();
+  const { isPending, run } = usePendingAction();
   const tCommon = useTranslations("Common");
   const locale = useLocale();
   const [countryQuery, setCountryQuery] = useState("");
@@ -61,7 +64,6 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
     organizationForm,
     setOrganizationForm,
     handleSubmit,
-    isSubmitting,
     error,
   } = useOrganizationStepForm({
     t: tErrors,
@@ -246,18 +248,23 @@ export default function OrganizationStepForm({ id }: OrganizationStepProps) {
       )}
 
       <button
-        disabled={isSubmitting}
-        onClick={async () => {
-          const ok = await handleSubmit();
+        disabled={isPending}
+        onClick={() =>
+          run(async () => {
+            const ok = await handleSubmit();
 
-          if (ok) {
-            unlockStep("services");
-            router.push("services");
-          }
-        }}
-        className="mt-5 h-12 shrink-0 rounded bg-[#0071BB] text-base font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
+            if (ok) {
+              unlockStep("services");
+              router.push("services");
+            }
+
+            return ok;
+          })
+        }
+        className="flex items-center justify-center gap-2 mt-5 h-12 shrink-0 rounded bg-[#0071BB] text-base font-nexa-bold font-bold text-white transition-colors hover:bg-[#0071BB]/80 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? t("sending") : t("next")}
+        {isPending && <ButtonSpinner />}
+        {isPending ? t("sending") : t("next")}
       </button>
     </div>
   );
