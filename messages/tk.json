@@ -440,5 +440,16 @@
     "october": "oktýabr",
     "november": "noýabr",
     "december": "dekabr"
+  },
+  "NotFound": {
+    "title": "Sahypa tapylmady",
+    "text": "Sahypa göçürilen ýa-da pozulan bolmagy mümkin, ýa-da salgy ýalňyş ýazyldy.",
+    "home": "Baş sahypa"
+  },
+  "ErrorPage": {
+    "title": "Näsazlyk ýüze çykdy",
+    "text": "Sahypany ýükläp bolmady. Biraz soňra gaýtadan synanyşyň.",
+    "retry": "Gaýtadan synanyşmak",
+    "home": "Baş sahypa"
   }
 }

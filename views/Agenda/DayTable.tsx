@@ -11,13 +11,13 @@ import SessionDetails, {
   getSessionDescription,
   sortBySortOrder,
 } from "./SessionDetails";
-import { AGENDA_TIME_ZONE, T_AGENDA } from "./type";
+import { AGENDA_TIME_ZONE, T_AGENDA_DAY, T_AGENDA_ENTRY } from "./type";
 import { localizedTitle } from "@/shared/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { API_V2 } from "@/shared/api_v2";
 
-type AgendaEntry = T_AGENDA.ENTRY.FIELDS;
-type AgendaDay = T_AGENDA.DAY.FIELDS & { entries: AgendaEntry[] };
+type AgendaEntry = T_AGENDA_ENTRY;
+type AgendaDay = T_AGENDA_DAY & { entries: AgendaEntry[] };
 
 function DayTable({ day }: { readonly day: AgendaDay }) {
   const locale = useLocale() as T_LOCALE;

@@ -17,10 +17,10 @@ export default async function SiteLayout({
   const contacts = await getSiteContacts(toLocale(lang));
 
   return (
-    <main className="flex-1">
+    <>
       <TopBar contacts={contacts} />
-      {children}
+      <main className="flex-1">{children}</main>
       <Footer contacts={contacts} />
-    </main>
+    </>
   );
 }

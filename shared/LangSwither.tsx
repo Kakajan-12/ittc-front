@@ -63,10 +63,10 @@ export default function LangSwitcher({
       </button>
       {open ? (
         <div
-          className={`absolute top-9 left-0 right-0 z-100 overflow-hidden space-y-2 rounded ${
+          className={`absolute left-1/2 -translate-x-1/2 z-100 overflow-hidden space-y-2 rounded ${
             registration
-              ? "glass bg-white/15 py-1 w-17"
-              : " bg-white/90 w-fit shadow-lg backdrop-blur-sm"
+              ? "glass bg-white/15 py-1 w-17 top-11"
+              : " bg-white/90 w-12 shadow-lg backdrop-blur-sm top-9"
           }`}
         >
           {routing.locales
@@ -78,7 +78,7 @@ export default function LangSwitcher({
                     background and the text colour. */}
                 <button
                   type="button"
-                  className={`block w-full cursor-pointer px-3 py-1 text-center text-base transition-colors ${
+                  className={`block w-full cursor-pointer px-0 py-1 text-center text-base transition-colors ${
                     registration
                       ? `leading-none text-white hover:bg-white/20 ${i > 0 ? "mt-1" : ""}`
                       : "text-black hover:bg-brand-blue hover:text-white"

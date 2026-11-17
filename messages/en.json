@@ -440,5 +440,16 @@
     "october": "October",
     "november": "November",
     "december": "December"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "The page may have been moved or deleted, or the address was typed incorrectly.",
+    "home": "Go to homepage"
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "text": "We couldn't load this page. Please try again in a moment.",
+    "retry": "Try again",
+    "home": "Go to homepage"
   }
 }

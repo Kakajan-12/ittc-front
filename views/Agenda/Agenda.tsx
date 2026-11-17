@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { IoCalendarOutline } from "react-icons/io5";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ import { Spin } from "antd";
 function Agenda() {
   const t = useTranslations();
   const locale = useLocale() as T_LOCALE;
-  const [currentDayId, setCurrentDayId] = useState<number>();
+  const [selectedDayId, setSelectedDayId] = useState<number>();
 
   const daysQuery = useQuery({
     queryKey: ["get_agenda_v2", "days"],
@@ -27,21 +27,18 @@ function Agenda() {
     queryFn: async () => API_V2.AGENDA.ENTRY.LIST({ offset: 0, limit: 999 }),
   });
 
-  const days = daysQuery.data?.rows ?? [];
-  const entries = entriesQuery.data?.rows ?? [];
+  const days = useMemo(() => daysQuery.data?.rows ?? [], [daysQuery.data]);
+  const entries = useMemo(
+    () => entriesQuery.data?.rows ?? [],
+    [entriesQuery.data],
+  );
 
-  useEffect(() => {
-    if (!days.length) {
-      setCurrentDayId(undefined);
-      return;
-    }
-
-    setCurrentDayId((currentId) =>
-      currentId !== undefined && days.some((day) => day.id === currentId)
-        ? currentId
-        : days[0].id,
-    );
-  }, [days]);
+  // Derived during render instead of synced via an effect: fall back to the
+  // first day when nothing is selected yet or the selected day disappeared.
+  const currentDayId =
+    selectedDayId !== undefined && days.some((day) => day.id === selectedDayId)
+      ? selectedDayId
+      : days[0]?.id;
 
   const entriesByDay = useMemo(() => {
     const grouped = new Map<number, typeof entries>();
@@ -111,7 +108,7 @@ function Agenda() {
     <section className="px-4 py-10 lg:px-10 lg:py-16">
       <Tabs
         value={currentDayId === undefined ? undefined : String(currentDayId)}
-        onValueChange={(value) => setCurrentDayId(Number(value))}
+        onValueChange={(value) => setSelectedDayId(Number(value))}
         className="gap-8"
       >
         <TabsList className="flex h-auto w-full flex-wrap justify-start gap-4 overflow-x-auto rounded-none bg-transparent p-0 group-data-horizontal/tabs:h-auto lg:flex-nowrap">

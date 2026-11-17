@@ -41,9 +41,9 @@ export default function PageHeading({
       <div className="absolute inset-0 z-10 bg-linear-to-r from-black/75 via-black/55 to-black/25" />
 
       <div className="relative z-20 px-4 pb-10 lg:px-10 lg:pb-36">
-        <h2 className="text-4xl font-bold text-white font-roboto lg:text-5xl">
+        <h1 className="text-4xl font-bold text-white font-roboto lg:text-5xl">
           {title}
-        </h2>
+        </h1>
 
         <nav aria-label={t("breadcrumb")} className="mt-1 lg:mt-3">
           <ol className="flex flex-wrap items-center gap-3.5 font-roboto text-sm text-white lg:text-base">

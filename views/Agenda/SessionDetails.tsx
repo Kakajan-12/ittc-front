@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import SectionHeading from "@/shared/ui/SectionHeading";
 import Scrollbar from "@/shared/ui/Scrollbar";
 import SpeakerCard from "../Speakers/SpeakerCard";
-import { T_AGENDA } from "./type";
+import { T_AGENDA_ENTRY, T_AGENDA_SPEAKER } from "./type";
 import { localizedTitle } from "@/shared/helpers";
 import { T_LOCALE } from "@/shared/lib/types";
 
@@ -19,10 +19,10 @@ const HEADING_CLASS = "mb-0 text-lg lg:text-lg xl:text-lg";
 export const sortBySortOrder = <T extends { sortOrder: number }>(items: T[] | null | undefined) => [...(items ?? [])].sort((a, b) => a.sortOrder - b.sortOrder);
 
 // prettier-ignore
-export const getSessionDescription = (entry: Pick<T_AGENDA.ENTRY.FIELDS, "descriptionEn" | "descriptionRu" | "descriptionTk">, locale: T_LOCALE) =>
+export const getSessionDescription = (entry: Pick<T_AGENDA_ENTRY, "descriptionEn" | "descriptionRu" | "descriptionTk">, locale: T_LOCALE) =>
   localizedTitle({ titleEn: entry.descriptionEn, titleRu: entry.descriptionRu, titleTk: entry.descriptionTk, locale });
 
-function PersonCard({ person }: { readonly person: T_AGENDA.ENTRY.SPEAKER }) {
+function PersonCard({ person }: { readonly person: T_AGENDA_SPEAKER }) {
   // prettier-ignore
   const fullName = [person.firstName, person.lastName, person.patronymicName].filter(Boolean).join(" ");
 
@@ -39,7 +39,7 @@ function PersonCard({ person }: { readonly person: T_AGENDA.ENTRY.SPEAKER }) {
 }
 
 // prettier-ignore
-function SessionDetails({ entry }: { readonly entry: T_AGENDA.ENTRY.FIELDS }) {
+function SessionDetails({ entry }: { readonly entry: T_AGENDA_ENTRY }) {
   const t = useTranslations("Agenda");
   const locale = useLocale() as T_LOCALE;
   const trackSpeakersRef = useRef<HTMLDivElement>(null);

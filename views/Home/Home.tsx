@@ -88,7 +88,7 @@ function Home({
 
           <div className="px-4 lg:px-10 py-24 lg:py-30">
             <div className="max-w-2xl lg:max-w-3xl 2xl:max-w-4xl">
-              <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold font-roboto leading-tight sm:text-5xl lg:text-[50px]">
                 {hero.title}
               </h1>
 
@@ -124,7 +124,11 @@ function Home({
                       {content}
                     </a>
                   ) : (
-                    <Link key={action.key} href={action.href} className={className}>
+                    <Link
+                      key={action.key}
+                      href={action.href}
+                      className={className}
+                    >
                       {content}
                     </Link>
                   );

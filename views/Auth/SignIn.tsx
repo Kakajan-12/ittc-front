@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
-import Field from "@/shared/ui/Field";
-import { useErrorText } from "@/shared/lib/errorText";
-import { usePersistentState } from "@/shared/lib/usePersistentState";
-import { STORAGE_KEYS } from "./config";
+// import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+// import Field from "@/shared/ui/Field";
+// import { useErrorText } from "@/shared/lib/errorText";
+// import { usePersistentState } from "@/shared/lib/usePersistentState";
+// import { STORAGE_KEYS } from "./config";
 
 export interface SignInValues {
   registrationId: string;
@@ -23,12 +23,12 @@ export interface SignInValues {
 // const REGISTRATION_ID_PATTERN = /^[A-Za-z]{3}-\d{4}-[A-Za-z0-9]{4,}$/;
 
 export default function SignIn() {
-// {
-//   // onSubmit,
-//   // onForgotId,
-//   // isPending = false,
-//   // errorMessage,
-// }: SignInProps,
+  // {
+  //   // onSubmit,
+  //   // onForgotId,
+  //   // isPending = false,
+  //   // errorMessage,
+  // }: SignInProps,
   const t = useTranslations("Registration.signIn");
   // const errorText = useErrorText();
   // ID переживает смену языка, пароль — нет: его в хранилище не кладём

@@ -1,6 +1,6 @@
 import { type T_API_RESPONSE } from "@/shared/api/crud";
 import {
-  T_COMPLETED_REGISTRATION,
+  // T_COMPLETED_REGISTRATION,
   T_SEND_OTP,
   T_SEND_OTP_PAYLOAD,
   T_VERIFY_EMAIL,
@@ -123,35 +123,35 @@ function toRequestError(
   return new Error(fallbackError);
 }
 
-async function postToDraft<T>({
-  draftId,
+// async function postToDraft<T>({
+//   draftId,
 
-  path,
+//   path,
 
-  body,
+//   body,
 
-  fallbackError,
-}: {
-  draftId: number;
+//   fallbackError,
+// }: {
+//   draftId: number;
 
-  path: string;
+//   path: string;
 
-  body: unknown;
+//   body: unknown;
 
-  fallbackError: VERIFICATION_ERROR_CODE;
-}): Promise<T> {
-  const res = await HTTP.POST<T_API_RESPONSE<T>>({
-    url: `${BASE_URL}/${RESOURCE}/${path}`,
+//   fallbackError: VERIFICATION_ERROR_CODE;
+// }): Promise<T> {
+//   const res = await HTTP.POST<T_API_RESPONSE<T>>({
+//     url: `${BASE_URL}/${RESOURCE}/${path}`,
 
-    body,
-  });
+//     body,
+//   });
 
-  if ((res.statusCode === 200 || res.statusCode === 201) && res.data?.success) {
-    return res.data.data;
-  }
+//   if ((res.statusCode === 200 || res.statusCode === 201) && res.data?.success) {
+//     return res.data.data;
+//   }
 
-  throw toRequestError(res.data, fallbackError);
-}
+//   throw toRequestError(res.data, fallbackError);
+// }
 
 // export const SEND_EMAIL_REQUEST = ({ draftId }: { draftId: number }) =>
 //   postToDraft<RegistrationDraft>({

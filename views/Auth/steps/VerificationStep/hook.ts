@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { _Translator } from "next-intl";
 
 import {
-  clearPersisted,
+  // clearPersisted,
   usePersistentState,
 } from "@/shared/lib/usePersistentState";
 import { OTP_LENGTH, STORAGE_KEYS } from "@/views/Auth/config";
@@ -217,7 +217,12 @@ export function useVerificationStep({ t, id }: UseVerificationStepProps) {
   const handleSwitchChannel = useCallback(async (): Promise<boolean> => {
     // Смена канала — это новый sendOtp по тому же драфту, поэтому на неё
     // действует тот же nextResendAt, что и на повторную отправку
-    if (isSwitchingChannel) {
+    if (
+      isSwitchingChannel ||
+      resendCountdown > 0 ||
+      sendMutation.isPending ||
+      resendMutation.isPending
+    ) {
       return false;
     }
 

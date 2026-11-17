@@ -4,7 +4,7 @@ import ContactBook from "./icons/ContactBook";
 import Cup from "./icons/Cup";
 import ForkAndKnife from "./icons/ForkAndKnife";
 import GlassOfWine from "./icons/GlassOfWine";
-import { T_AGENDA } from "./type";
+import { T_AGENDA_ENTRY_TYPE } from "./type";
 import Location from "./icons/Location";
 import Microphone from "./icons/Microphone";
 import Notes from "./icons/Notes";
@@ -15,7 +15,7 @@ import Star from "./icons/Star";
 const ICON_SIZE = "size-5 shrink-0 md:size-6";
 
 // prettier-ignore
-export default function SessionIcon({sessionType}: { readonly sessionType: T_AGENDA.ENTRY.TYPE}) {
+export default function SessionIcon({sessionType}: { readonly sessionType: T_AGENDA_ENTRY_TYPE}) {
   const props = { className: ICON_SIZE };
 
   switch (sessionType) {

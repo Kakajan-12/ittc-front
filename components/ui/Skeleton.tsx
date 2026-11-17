@@ -82,6 +82,7 @@ function SkeletonImage({
       {...props}
       src={src}
       ref={imgRef}
+      alt="image"
       fill={fill}
       className={cn(
         "transition-opacity duration-300",

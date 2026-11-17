@@ -39,15 +39,17 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   if (!article) {
     return (
-      <section className="bg-white px-4 lg:px-10 pt-28 pb-16 lg:pt-32">
+      <section className="bg-white px-4 lg:px-10 pt-28 pb-16 lg:pt-32 min-h-screen flex flex-col">
         <Link
           href="/news"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 transition-colors hover:text-[#1268B3]"
+          className="self-start inline-flex items-center gap-2 text-sm font-medium text-gray-700 transition-colors hover:text-[#1268B3]"
         >
           <IoIosArrowBack className="size-4" />
           {t("back")}
         </Link>
-        <p className="mt-8 text-brand-gray">{t("noResults", { query: "" })}</p>
+        <p className="flex flex-1 items-center justify-center text-center text-brand-gray">
+          {t("noResults", { query: "" })}
+        </p>
       </section>
     );
   }

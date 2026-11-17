@@ -24,7 +24,11 @@ function Header({
       }`}
     >
       <div className="px-4 lg:px-10 py-1 header-content flex justify-between items-center text-white h-full">
-        <a href={contacts.partnerUrl} target="_blank" className="header-logo h-full w-fit py-1">
+        <a
+          href={contacts.partnerUrl}
+          target="_blank"
+          className="header-logo h-full w-fit py-1"
+        >
           <Image
             src="/logoOguz.svg"
             alt="Oguz Forum & Expo"
@@ -54,7 +58,7 @@ function Header({
                 <p className="pt-1">{email.value}</p>
               </a>
             </li>
-            <li className=" flex items-center gap-2 z-50">
+            <li className=" flex items-center gap-2 z-50 w-10">
               <LangSwitcher />
             </li>
           </ul>

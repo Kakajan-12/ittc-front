@@ -115,8 +115,8 @@ export default function VerificationStep({
       <button
         type="button"
         onClick={() => void handleSwitchChannel()}
-        // disabled={isSwitchingChannel}
-        className="flex items-center gap-3 font-nexa-regular text-sm text-white"
+        disabled={isSwitchingChannel || isResending || resendCountdown > 0}
+        className="flex items-center gap-3 font-nexa-regular text-sm text-white disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isEmail ? (
           <Image src="/message.svg" alt="" width={20} height={20} />

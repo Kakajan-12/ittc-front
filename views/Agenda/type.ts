@@ -26,85 +26,89 @@ export const AGENDA_ENTRY_TYPES = [
   "BOAT_EXCURSION",
 ] as const;
 
-export namespace T_AGENDA {
-  export namespace DAY {
-    export type FIELDS = T_ENTITY & {
-      eventId: number;
-      startAt: Date;
-      endAt: Date;
-      titleRu: string | null;
-      titleEn: string | null;
-      titleTk: string | null;
-    };
+// ---------- Day ----------
 
-    export type CREATE_FIELDS = Omit<FIELDS, "id" | "createdAt" | "updatedAt">;
-    export type UPDATE_FIELDS = Omit<FIELDS, "id" | "createdAt" | "updatedAt">;
-  }
+export type T_AGENDA_DAY = T_ENTITY & {
+  eventId: number;
+  startAt: Date;
+  endAt: Date;
+  titleRu: string | null;
+  titleEn: string | null;
+  titleTk: string | null;
+};
 
-  export namespace ENTRY {
-    export type TYPE = (typeof AGENDA_ENTRY_TYPES)[number];
+export type T_AGENDA_DAY_CREATE = Omit<
+  T_AGENDA_DAY,
+  "id" | "createdAt" | "updatedAt"
+>;
+export type T_AGENDA_DAY_UPDATE = T_AGENDA_DAY_CREATE;
 
-    export type SPEAKER = {
-      sortOrder: number;
-      id: number;
-      firstName: string;
-      lastName: string;
-      patronymicName: string | null;
-      avatar: string | null;
-      position: string | null;
-      organizationId: number | null;
-    };
+// ---------- Entry ----------
 
-    export type SPONSOR = {
-      sortOrder: number;
-      id: number;
-      name: string;
-      logo: string | null;
-      iconLink: string | null;
-      webLink: string | null;
-      organizationType: "BUSINESS" | "GOVERNMENT";
-    };
+export type T_AGENDA_ENTRY_TYPE = (typeof AGENDA_ENTRY_TYPES)[number];
 
-    type BASE_FIELDS = {
-      titleEn: string;
-      titleRu: string;
-      titleTk: string;
-      descriptionEn?: string | null;
-      descriptionRu?: string | null;
-      descriptionTk?: string | null;
-      agendaDayId: number;
-      // Sessions may have no room
-      agendaRoomId: number | null;
-      moderatorId: number | null;
-      type: T_AGENDA.ENTRY.TYPE;
-      startAt: string;
-      endAt: string;
-      sortOrder: number;
-    };
+export type T_AGENDA_SPEAKER = {
+  sortOrder: number;
+  id: number;
+  firstName: string;
+  lastName: string;
+  patronymicName: string | null;
+  avatar: string | null;
+  position: string | null;
+  organizationId: number | null;
+};
 
-    export type FIELDS = T_ENTITY &
-      BASE_FIELDS & {
-        speakers: Array<SPEAKER>;
-        sponsors: Array<SPONSOR>;
-      };
+export type T_AGENDA_SPONSOR = {
+  sortOrder: number;
+  id: number;
+  name: string;
+  logo: string | null;
+  iconLink: string | null;
+  webLink: string | null;
+  organizationType: "BUSINESS" | "GOVERNMENT";
+};
 
-    export type CREATE_FIELDS = BASE_FIELDS & {
-      participantIds: Array<number>;
-      sponsorIds: Array<number>; // organizations
-    };
-    export type UPDATE_FIELDS = CREATE_FIELDS;
-  }
+type T_AGENDA_ENTRY_BASE = {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  descriptionEn?: string | null;
+  descriptionRu?: string | null;
+  descriptionTk?: string | null;
+  agendaDayId: number;
+  // Sessions may have no room
+  agendaRoomId: number | null;
+  moderatorId: number | null;
+  type: T_AGENDA_ENTRY_TYPE;
+  startAt: string;
+  endAt: string;
+  sortOrder: number;
+};
 
-  export namespace ROOM {
-    export type FIELDS = T_ENTITY & {
-      titleEn: string;
-      titleRu: string;
-      titleTk: string;
-      locationId: number;
-      capacity: string;
-    };
+export type T_AGENDA_ENTRY = T_ENTITY &
+  T_AGENDA_ENTRY_BASE & {
+    speakers: Array<T_AGENDA_SPEAKER>;
+    sponsors: Array<T_AGENDA_SPONSOR>;
+  };
 
-    export type CREATE_FIELDS = Omit<FIELDS, "id" | "createdAt" | "updatedAt">;
-    export type UPDATE_FIELDS = Omit<FIELDS, "id" | "createdAt" | "updatedAt">;
-  }
-}
+export type T_AGENDA_ENTRY_CREATE = T_AGENDA_ENTRY_BASE & {
+  participantIds: Array<number>;
+  sponsorIds: Array<number>; // organizations
+};
+export type T_AGENDA_ENTRY_UPDATE = T_AGENDA_ENTRY_CREATE;
+
+// ---------- Room ----------
+
+export type T_AGENDA_ROOM = T_ENTITY & {
+  titleEn: string;
+  titleRu: string;
+  titleTk: string;
+  locationId: number;
+  capacity: string;
+};
+
+export type T_AGENDA_ROOM_CREATE = Omit<
+  T_AGENDA_ROOM,
+  "id" | "createdAt" | "updatedAt"
+>;
+export type T_AGENDA_ROOM_UPDATE = T_AGENDA_ROOM_CREATE;
