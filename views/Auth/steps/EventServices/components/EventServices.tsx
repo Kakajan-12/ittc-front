@@ -86,10 +86,14 @@ export default function EventServices() {
   const { data: allEventPackages } = useQuery({
     queryKey: ["eventPackagesAll"],
     queryFn: async () => {
-      const res = await API_V2.EVENT_PACKAGES.LIST({ offset: 0, limit: 100 });
+      const res = await API_V2.EVENT_PACKAGES.LIST({
+        offset: 0,
+        limit: 100,
+        filter: { status: { op: "=", val: "ACTIVE" } },
+      });
       return res.rows;
     },
-  })
+  });
 
   // Пакеты, уже сохранённые в драфте: их подставляем при возврате на шаг,
   // если в этой сессии выбор ещё не делали
@@ -167,6 +171,8 @@ export default function EventServices() {
         offset: 0,
         limit: 100,
         filter: {
+          status: { op: "=", val: "ACTIVE" },
+
           eventPackageTypeId: {
             op: "=",
             val: selectedTypeId,
