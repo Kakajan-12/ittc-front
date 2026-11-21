@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
-import { FiSearch, FiX } from "react-icons/fi";
+import { FiChevronLeft, FiChevronRight, FiSearch, FiX } from "react-icons/fi";
 import PageHeading from "@/shared/ui/PageHeading";
 import SpeakerCard from "@/views/Speakers/SpeakerCard";
 import type { SpeakerModel } from "@/shared/content/queries";
@@ -21,6 +21,9 @@ const COLUMNS: Array<[query: string, columns: number]> = [
 
 /** Около 10–12 карточек: 5×2, 4×3, 3×4, 2×5, на телефоне 10 подряд. */
 const PAGE_SIZE_BY_COLUMNS: Record<number, number> = { 1: 10, 2: 10, 3: 12, 4: 12, 5: 10 };
+
+const PAGE_BUTTON =
+  "flex size-9 items-center justify-center rounded-sm border border-[#ABB7C2] text-brand-gray transition-colors hover:border-brand-blue hover:text-brand-blue disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#ABB7C2] disabled:hover:text-brand-gray";
 
 function subscribe(onChange: () => void) {
   const queries = COLUMNS.map(([query]) => window.matchMedia(query));
@@ -45,6 +48,8 @@ export default function SpeakersListView({
   speakers: SpeakerModel[];
 }) {
   const t = useTranslations("Speakers");
+  const tCommon = useTranslations("Common");
+  const listTop = useRef<HTMLLabelElement>(null);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = usePageSize();
@@ -66,6 +71,20 @@ export default function SpeakersListView({
     currentPage * pageSize,
   );
 
+  // Новая страница карточек — к началу списка, иначе остаёмся внизу у
+  // пагинации. Прокрутка — после отрисовки новой страницы: начатая раньше
+  // плавная прокрутка обрывается, когда React меняет карточки.
+  const scrollPending = useRef(false);
+  const goTo = (p: number) => {
+    scrollPending.current = true;
+    setPage(p);
+  };
+  useEffect(() => {
+    if (!scrollPending.current) return;
+    scrollPending.current = false;
+    listTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [currentPage]);
+
   return (
     <main>
       <PageHeading
@@ -76,8 +95,9 @@ export default function SpeakersListView({
       />
       <div className="px-4 lg:px-10 py-15 lg:py-20">
         <label
+          ref={listTop}
           htmlFor="search"
-          className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
+          className="scroll-mt-32 relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
         >
           <input
             id="search"
@@ -129,16 +149,28 @@ export default function SpeakersListView({
         )}
 
         {pageCount > 1 && (
-          <div className="mt-10 flex justify-center gap-2">
+          <nav
+            aria-label={t("title")}
+            className="mt-10 flex flex-wrap items-center justify-center gap-2"
+          >
+            <button
+              type="button"
+              aria-label={tCommon("previousPage")}
+              disabled={currentPage === 1}
+              onClick={() => goTo(currentPage - 1)}
+              className={PAGE_BUTTON}
+            >
+              <FiChevronLeft size={18} aria-hidden />
+            </button>
             {Array.from({ length: pageCount }).map((_, i) => {
               const p = i + 1;
               return (
                 <button
                   key={p}
                   type="button"
-                  aria-label={`Page ${p}`}
+                  aria-label={tCommon("page", { number: p })}
                   aria-current={p === currentPage ? "page" : undefined}
-                  onClick={() => setPage(p)}
+                  onClick={() => goTo(p)}
                   className={`flex size-9 items-center justify-center rounded-sm border text-sm transition-colors ${
                     p === currentPage
                       ? "border-brand-blue bg-brand-blue text-white"
@@ -149,7 +181,16 @@ export default function SpeakersListView({
                 </button>
               );
             })}
-          </div>
+            <button
+              type="button"
+              aria-label={tCommon("nextPage")}
+              disabled={currentPage === pageCount}
+              onClick={() => goTo(currentPage + 1)}
+              className={PAGE_BUTTON}
+            >
+              <FiChevronRight size={18} aria-hidden />
+            </button>
+          </nav>
         )}
       </div>
     </main>
