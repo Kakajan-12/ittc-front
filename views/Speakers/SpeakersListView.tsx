@@ -1,13 +1,43 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import { FiSearch, FiX } from "react-icons/fi";
 import PageHeading from "@/shared/ui/PageHeading";
 import SpeakerCard from "@/views/Speakers/SpeakerCard";
 import type { SpeakerModel } from "@/shared/content/queries";
 
-const PAGE_SIZE = 8;
+/**
+ * Колонки сетки по брейкпоинтам Tailwind (md, lg, xl, 2xl) — те же, что в
+ * классах сетки ниже. Страница вмещает целое число рядов, поэтому последний
+ * ряд на странице всегда полный (кроме последней страницы списка).
+ */
+const COLUMNS: Array<[query: string, columns: number]> = [
+  ["(min-width: 96rem)", 5],
+  ["(min-width: 80rem)", 4],
+  ["(min-width: 64rem)", 3],
+  ["(min-width: 48rem)", 2],
+];
+
+/** Около 10–12 карточек: 5×2, 4×3, 3×4, 2×5, на телефоне 10 подряд. */
+const PAGE_SIZE_BY_COLUMNS: Record<number, number> = { 1: 10, 2: 10, 3: 12, 4: 12, 5: 10 };
+
+function subscribe(onChange: () => void) {
+  const queries = COLUMNS.map(([query]) => window.matchMedia(query));
+  queries.forEach((query) => query.addEventListener("change", onChange));
+  return () =>
+    queries.forEach((query) => query.removeEventListener("change", onChange));
+}
+
+function currentColumns() {
+  return COLUMNS.find(([query]) => window.matchMedia(query).matches)?.[1] ?? 1;
+}
+
+/** Сколько карточек на странице при текущей ширине; на сервере — для 5 колонок. */
+function usePageSize() {
+  const columns = useSyncExternalStore(subscribe, currentColumns, () => 5);
+  return PAGE_SIZE_BY_COLUMNS[columns];
+}
 
 export default function SpeakersListView({
   speakers,
@@ -17,6 +47,7 @@ export default function SpeakersListView({
   const t = useTranslations("Speakers");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const pageSize = usePageSize();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -28,11 +59,11 @@ export default function SpeakersListView({
     );
   }, [query, speakers]);
 
-  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const currentPage = Math.min(page, pageCount);
   const visible = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
   );
 
   return (

@@ -51,8 +51,9 @@ function SpeakerCard({
         )}
         {/* <div className="absolute inset-0 bg-linear-to-b from-[#C0C0C000] to-[#333333]/50" /> */}
       </div>
-      <div className="relative flex flex-col flex-1 lg:gap-2 p-3 lg:p-4 justify-end items-start h-full text-black">
-        <h3 className="text-base leading-6 lg:text-lg lg:leading-7 font-roboto font-semibold min-h-12 lg:min-h-14">
+      {/* Имя и должность одним шрифтом: раньше должность шла шрифтом страницы (BF). */}
+      <div className="relative flex flex-col flex-1 lg:gap-2 p-3 lg:p-4 justify-end items-start h-full font-roboto text-black">
+        <h3 className="text-base leading-6 lg:text-lg lg:leading-7 font-semibold min-h-12 lg:min-h-14">
           {nameParts.map((part, index) => (
             <Fragment key={index}>
               {index > 0 && <br />}
