@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { FiChevronLeft, FiChevronRight, FiSearch, FiX } from "react-icons/fi";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -63,6 +63,17 @@ export default function NewsListView({
     });
   }, [debounced, query, router]);
 
+  // Новая страница — к началу списка. Next сам не прокручивает: страница
+  // остаётся видна, и он сохраняет позицию, поэтому ссылки с scroll={false},
+  // а прокрутка — здесь, когда пришли новости другой страницы.
+  const listTop = useRef<HTMLLabelElement>(null);
+  const shownPage = useRef(page);
+  useEffect(() => {
+    if (shownPage.current === page) return;
+    shownPage.current = page;
+    listTop.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [page]);
+
   const hrefFor = (p: number) => ({
     pathname: "/news" as const,
     query: { ...(p > 1 ? { page: p } : {}), ...(query ? { q: query } : {}) },
@@ -75,10 +86,11 @@ export default function NewsListView({
         crumbs={[{ label: t("title") }]}
         image="/news.webp"
       />
-      <div className="px-4 lg:px-10 py-15 lg:py-20 scroll-mt-24">
+      <div className="px-4 lg:px-10 py-15 lg:py-20">
         <label
+          ref={listTop}
           htmlFor="search"
-          className="relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
+          className="scroll-mt-32 relative flex h-10 w-full items-center justify-between rounded-sm border border-[#797979] px-3 shadow-sm transition-colors focus-within:border-brand-blue md:w-1/2 cursor-text"
         >
           <input
             id="search"
@@ -136,7 +148,7 @@ export default function NewsListView({
             className="mt-10 flex items-center justify-center gap-2"
           >
             {page > 1 ? (
-              <Link href={hrefFor(page - 1)} aria-label={tCommon("previousPage")} className={PAGE_BUTTON}>
+              <Link href={hrefFor(page - 1)} scroll={false} aria-label={tCommon("previousPage")} className={PAGE_BUTTON}>
                 <FiChevronLeft size={18} />
               </Link>
             ) : (
@@ -157,6 +169,7 @@ export default function NewsListView({
                 <Link
                   key={p}
                   href={hrefFor(p)}
+                  scroll={false}
                   aria-label={tCommon("page", { number: p })}
                   aria-current={p === page ? "page" : undefined}
                   className={`flex size-9 items-center justify-center rounded-sm border text-sm font-medium transition-colors ${
@@ -171,7 +184,7 @@ export default function NewsListView({
             )}
 
             {page < pageCount ? (
-              <Link href={hrefFor(page + 1)} aria-label={tCommon("nextPage")} className={PAGE_BUTTON}>
+              <Link href={hrefFor(page + 1)} scroll={false} aria-label={tCommon("nextPage")} className={PAGE_BUTTON}>
                 <FiChevronRight size={18} />
               </Link>
             ) : (
