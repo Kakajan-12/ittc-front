@@ -255,9 +255,16 @@ export async function getNewsArticle(
 
 // -- speakers ----------------------------------------------------------------
 
-export async function getSpeakers(locale: Locale): Promise<SpeakerModel[]> {
+/** Спикеров в блоке на главной: два ряда при 5 колонках. */
+export const HOME_SPEAKERS = 10;
+
+/** Спикеры в порядке из CMS; `limit` — для главной, без него — все. */
+export async function getSpeakers(
+  locale: Locale,
+  limit = 100,
+): Promise<SpeakerModel[]> {
   const items = await safeContentList<Speaker>("speakers", {
-    limit: 100,
+    limit,
     orderBy: "order",
     orderDirection: "asc",
   });

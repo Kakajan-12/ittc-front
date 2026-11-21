@@ -64,17 +64,23 @@ function Speakers({ speakers }: { speakers: SpeakerModel[] }) {
           />
         </div>
 
-        {/* desktop / tablet grid */}
+        {/* desktop / tablet grid: два полных ряда — 3×2, 4×2, 5×2 */}
         <div className="mt-8 hidden gap-4 lg:grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {speakers.map((speaker) => (
-            <SpeakerCard
+          {speakers.map((speaker, index) => (
+            <div
               key={speaker.id}
-              id={`speaker-${speaker.id}`}
-              name={speaker.name}
-              description={speaker.description}
-              image={speaker.image ?? undefined}
-              href={`/speakers/${speaker.slug}`}
-            />
+              className={
+                index >= 8 ? "hidden 2xl:block" : index >= 6 ? "hidden xl:block" : undefined
+              }
+            >
+              <SpeakerCard
+                id={`speaker-${speaker.id}`}
+                name={speaker.name}
+                description={speaker.description}
+                image={speaker.image ?? undefined}
+                href={`/speakers/${speaker.slug}`}
+              />
+            </div>
           ))}
         </div>
 

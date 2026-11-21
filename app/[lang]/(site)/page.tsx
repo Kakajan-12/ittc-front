@@ -8,6 +8,7 @@ import {
   getPartners,
   getSectionTitles,
   getSpeakers,
+  HOME_SPEAKERS,
   getSponsors,
   getStats,
 } from "@/shared/content/queries";
@@ -38,7 +39,7 @@ export default async function HomePage({ params }: PageProps) {
     getOrganizers(locale),
     getStats(locale),
     getSponsors(locale),
-    getSpeakers(locale),
+    getSpeakers(locale, HOME_SPEAKERS),
     getNews(locale, 3),
     getPartners(locale),
   ]);
