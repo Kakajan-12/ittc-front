@@ -121,7 +121,9 @@ export default function NewsListView({
           className={`transition-opacity ${isPending ? "opacity-50" : ""}`}
         >
           {news.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 mt-10">
+            // Колонок 1/2/3/4 — делители NEWS_PAGE_SIZE (12), поэтому ряды на
+            // странице всегда полные; при 5 колонках выходило 5 + 5 + 2.
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-10">
               {news.map((item) => (
                 <NewsCard
                   key={item.id}

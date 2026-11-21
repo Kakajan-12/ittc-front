@@ -32,16 +32,17 @@ function NewsCard({
             src={image}
             alt=""
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(min-width: 80rem) 25vw, (min-width: 64rem) 33vw, (min-width: 48rem) 50vw, 100vw"
             className="object-cover"
           />
         )}
       </div>
 
-      <div className="flex flex-1 flex-col gap-1 lg:gap-2 p-3">
+      {/* Весь текст карточки одним шрифтом: раньше рубрика, дата и «подробнее» шли шрифтом страницы (BF). */}
+      <div className="flex flex-1 flex-col gap-1 lg:gap-2 p-3 font-roboto">
         <span className="text-sm text-brand-blue-dark/60">{tag}</span>
 
-        <h3 className="line-clamp-2 text-lg lg:text-xl font-roboto">{title}</h3>
+        <h3 className="line-clamp-2 text-lg lg:text-xl">{title}</h3>
 
         <div className="mt-auto flex flex-col lg:pt-2">
           <span className="text-sm text-brand-gray text-left">{date}</span>
